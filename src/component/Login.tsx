@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {useDispatch} from "react-redux";
 import { loginUser } from "../store/userSlice.js";
 import {useNavigate} from "react-router-dom";
@@ -28,7 +28,7 @@ function Login() {
     }
 
 
-    const LoginAction = (e: { preventDefault: () => void; }) => {
+    const LoginAction = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
         if (!id) {
@@ -38,10 +38,10 @@ function Login() {
         }
 
         let body = {
-            username : id
-            , password : password
+           username : id
+         , password : password
         }
-        axios.post("/login", body).then((res) => {
+        await axios.post("/login", body).then((res) => {
             if (res.status === 200) {
                 if(res.data.returnCode === '10000') {
                     const { accessToken } = res.data.token;
