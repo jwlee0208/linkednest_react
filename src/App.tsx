@@ -1,69 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Link, Routes, Route, BrowserRouter} from 'react-router-dom';
-
-import Home from "./component/Home";
-import Login from "./component/Login";
-import Mypage from "./component/Mypage";
-import logo from './logo.svg';
+import { useSelector} from "react-redux";
+// import {RootState} from './reducer';
 import './App.css';
+import Home from './component/Home';
+import Login from './component/Login';
+import Mypage from './component/Mypage';
+import Header from './component/Header';
+import { RootState } from './reducer';
+import { useAppSelect } from './store/index.hooks';
+import { getUserInfo } from './reducer/userSlice';
 
 
-function App() {
+ function App() {
+  
+  // const user = useSelector((state) => state.userSlice);
+  // console.log('user : ' + user.isLogin);
+  // user.accessToken;
+  
+  const userinfo = useAppSelect(getUserInfo);
+  const isLogin = userinfo.isLogin;
+  const accessToken = userinfo.accessToken; //useSelector((state : RootState) => state.userSlice.accessToken);
+  const username = userinfo.username; //useSelector((state : RootState) => state.userSlice.username);
+
+  
+  // useSelector(((state) => state.user.username);
+  console.log('[App] isLogin : ' + isLogin + ", accessToken : " + accessToken + ", username : " + username);
+
   return (
     <BrowserRouter>
-      <header>
-        <Link to="/"><button>Home</button></Link>
-        <Link to="/login"><button>Login</button></Link>
-        <Link to="/mypage"><button>My Page</button></Link>
-      </header>
-      <hr/>
+      <Header isLogin={isLogin} accessToken={accessToken} username={username}/>
       <main>
         <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/mypage' element={<Mypage/>}/>
+          <Route path='/' element={<Home />} />
+          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </main>
     </BrowserRouter>    
-
-
-
-
-
-
-
-
-
-
-
-
-/*     <div className="App">
-      <header className="App-header">
-        <Link to="/">
-          <button>Home</button>    
-        </Link>
-
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <hr/>
-      <main>
-        <Switch>
-          <Route path='/' element={Home}/>
-        </Switch>
-      </main>
-    </div>
- */  );
+  );
 }
 
 export default App;

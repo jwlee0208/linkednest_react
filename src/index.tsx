@@ -4,11 +4,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import store from './store/userSlice.js';
 import axios from 'axios';
+import store from './store';
 
 axios.defaults.baseURL = "http://localhost:9091";
 // axios.defaults.withCredentials = true;
+
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

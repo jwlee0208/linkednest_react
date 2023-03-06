@@ -1,67 +1,56 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {useDispatch} from "react-redux";
-import { loginUser } from "../store/userSlice.js";
-import {useNavigate} from "react-router-dom";
-
-import axios from "axios";
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { asyncLogin, User } from "../reducer/userSlice";
+import { useAppDispatch } from "../store/index.hooks";
 
 function Login() {
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
-    const [id, setId] = useState("");
-    const [password, setPassword] = useState("");
+    const [user, setUser] = useState<User>({username : "", password : "", isLogin : false, accessToken : ""});
 
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
 
-    const inputIdVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('id : ' + e.target.value);
-        setId(e.target.value);
-    }
-
-    const inputPwVal = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        console.log('password : ' + e.target.value);
-        setPassword(e.target.value);
-    }
-
-
-    const LoginAction = async (e: { preventDefault: () => void; }) => {
+    const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
+        console.log('username : ' + e.target.value);
+        setUser({...user, username : e.target.value});
+    }
 
-        if (!id) {
+    const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        console.log('password : ' + e.target.value);
+        setUser({...user, password : e.target.value});
+    }
+
+    const dispatch = useAppDispatch();
+
+    const LoginAction = (e : React.FormEvent) => {
+        e.preventDefault();
+        if (!user.username) {
             return alert('ID를 입력하세요.');
-        } else if (!password) {
+        } else if (!user.password) {
             return alert('Password를 입력하세요.');
         }
 
-        let body = {
-           username : id
-         , password : password
-        }
-        await axios.post("/login", body).then((res) => {
-            if (res.status === 200) {
-                if(res.data.returnCode === '10000') {
-                    const { accessToken } = res.data.token;
-                    // console.log('res.data : ' + res.data.token);
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ${accessToken}';
-                    dispatch(loginUser(res.data));
-                    setMsg("로그인되었습니다.");    
-                    navigate("/");
-                } else {
-                    setMsg("로그인 실패하였습니다.");
-                }
-            }
-        })
+        const res = dispatch(asyncLogin(user));
+        // setUser({...user, user.isLogin : true, user.accessToken : 'asdf'});
+        // dispatch({type : 'LOGIN_USER', payload: user});
+        console.log('[login] res : ' + JSON.stringify(res.arg));
+
+        setMsg("로그인 성공하였습니다.");
+        navigate("/");
         setLoading(true);
     }
 
     useEffect(()=>{
-
+        if (msg) {
+            setTimeout(() => {
+                setMsg("");
+                setLoading(false);
+            }, 1500);
+        }
     }, [msg]);
-
 
     return (
       <div className="Login">
@@ -69,22 +58,19 @@ function Login() {
         <hr/>    
         <form onSubmit={LoginAction}>
             <div>
-                <label htmlFor="email">Email : </label>
-                <input type="email" id="email" onChange={inputIdVal} value={id}/>
+                <label htmlFor="username">Email : </label>
+                <input type="email" id="username" onChange={inputUsernameVal} value={user.username}/>
             </div>
             <div>
                 <label htmlFor="password">Password : </label>
-                <input type="password" id="password" onChange={inputPwVal} value={password}/>
+                <input type="password" id="password" onChange={inputPwVal} value={user.password}/>
             </div>
             <div>
-                <button type="submit">Login</button>        
+                <button type="submit" disabled={loading}>Login</button>        
             </div>
         </form>
       </div>
     );
   }
-
-
-
   export default Login;
   
