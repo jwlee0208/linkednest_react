@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { RootState } from '../../reducer'; 
 
 export interface User {
     username : string;
