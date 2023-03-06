@@ -1,30 +1,20 @@
-import React, { Component } from 'react';
-import {Link, Routes, Route, BrowserRouter} from 'react-router-dom';
-import { useSelector} from "react-redux";
-// import {RootState} from './reducer';
+import React from 'react';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import './App.css';
 import Home from './component/Home';
 import Login from './component/Login';
 import Mypage from './component/Mypage';
 import Header from './component/Header';
-import { RootState } from './reducer';
 import { useAppSelect } from './store/index.hooks';
-import { getUserInfo } from './reducer/userSlice';
+import { getUserInfo } from './store/modules/user';
 
-
- function App() {
-  
-  // const user = useSelector((state) => state.userSlice);
-  // console.log('user : ' + user.isLogin);
-  // user.accessToken;
+function App() {
   
   const userinfo = useAppSelect(getUserInfo);
   const isLogin = userinfo.isLogin;
-  const accessToken = userinfo.accessToken; //useSelector((state : RootState) => state.userSlice.accessToken);
-  const username = userinfo.username; //useSelector((state : RootState) => state.userSlice.username);
+  const accessToken = userinfo.accessToken; 
+  const username = userinfo.username; 
 
-  
-  // useSelector(((state) => state.user.username);
   console.log('[App] isLogin : ' + isLogin + ", accessToken : " + accessToken + ", username : " + username);
 
   return (

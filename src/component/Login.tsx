@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { asyncLogin, User } from "../reducer/userSlice";
+import { asyncLogin, User } from "../store/modules/user";
 import { useAppDispatch } from "../store/index.hooks";
 
 function Login() {
