@@ -29,8 +29,23 @@ axiosInst.interceptors.request.use(
     }
     console.log('request interceptor >> userinfo : ' + userinfo);
     return config;
+  },
+  function (error) {
+    // to-do
+    return Promise.reject(error);
   }
 );
+
+axiosInst.interceptors.response.use(
+  function(response) {
+    // to-do
+    return response;
+  },
+  function(error) {
+    // to-do
+    return Promise.reject(error);
+  }
+)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
