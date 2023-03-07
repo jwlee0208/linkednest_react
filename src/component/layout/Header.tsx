@@ -1,11 +1,8 @@
-import React, { FormEvent, useState } from "react";
-import {Link, Routes, Route, BrowserRouter, Navigate, useNavigate} from 'react-router-dom';
+import React, { FormEvent } from "react";
+import {Link, useNavigate} from 'react-router-dom';
+import { useAppDispatch } from "../../store/index.hooks";
+import { asyncLogout, User } from "../../store/modules/user";
 import logo from './logo.svg';
-// import { logout, User} from "../store/modules/user";
-import { useDispatch } from "react-redux";
-import { useAppDispatch } from "../store/index.hooks";
-import { asyncLogout, User } from "../store/modules/user";
-
 
 type HeaderProps = {
     user : User,
