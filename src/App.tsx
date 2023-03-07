@@ -21,7 +21,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header isLogin={isLogin} accessToken={accessToken} username={username}/>
+      <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}/>
       <main>
         <Routes>
           <Route path='/' element={<Home />} />
