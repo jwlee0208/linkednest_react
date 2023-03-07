@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useAppDispatch } from "../../store/index.hooks";
 import { asyncLogout, User } from "../../store/modules/user";
 import logo from './logo.svg';
+import Button from '@mui/material/Button';
 
 type HeaderProps = {
     user : User,
@@ -30,13 +31,13 @@ function Header({
 
     return (
         <header>
-            <Link to="/"><button>Home<div></div></button></Link>
+            <Link to="/"><Button variant="text">Home<div></div></Button></Link>
             {(isLogin === true) 
                 ? (
-                    <><Link to="/mypage"><button>My Page</button></Link><button onClick={handleLogout}>Logout</button></>    
+                    <><Link to="/mypage"><Button variant="text" >My Page</Button></Link><Button variant="text" onClick={handleLogout}>Logout</Button></>    
                 )
                 : 
-                <Link to="/login"><button>Login<div>{accessToken}</div></button></Link>
+                <Link to="/login"><Button variant="text">Login<div>{accessToken}</div></Button></Link>
             }
         </header>    
     );

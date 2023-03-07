@@ -18,7 +18,7 @@ function Layout() {
         <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo} /><main>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Login />} />
           <Route path='/login' element={<Login />} />
         </Routes>
       </main>
