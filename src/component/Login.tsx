@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { asyncLogin, User } from "../store/modules/user";
 import { useAppDispatch } from "../store/index.hooks";
+import axios from "axios";
 
 function Login() {
+
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User>({username : "", password : "", isLogin : false, accessToken : ""});
