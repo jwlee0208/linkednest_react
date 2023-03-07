@@ -10,31 +10,28 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { ThemeProvider } from '@mui/material';
 import theme from './component/layout/theme';
-import { RootState } from './reducer';
 
 export const axiosInst = axios.create({
   baseURL : "http://localhost:9091",
-  withCredentials : false,
+  headers : {
+    "Content-Type" : "application/json",
+    withCredentials : false
+  },
+  timeout : 3000,
+  
 });
 
 axiosInst.interceptors.request.use(
   function (config) {
+    const userinfo = store.getState().userSlice;
+    if (userinfo.isLogin === true) {
+      config.headers.Authorization = `Bearer ${userinfo.accessToken}`;
+    }
+    console.log('request interceptor >> userinfo : ' + userinfo);
     return config;
   }
 );
 
-/* axios.interceptors.request.use(
-  function (config) {
-    const userinfo = useSelector((state : RootState) => state.userSlice);
-    console.log('interceptor isLogin : ' + userinfo);
-    if (userinfo.isLogin === true) {
-      config.headers['Authorization'] = userinfo.accessToken;
-      config.headers['Content-Type'] = 'application/json; charset:utf-8;'
-    }
-    return config;
-  }
-);
- */
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
