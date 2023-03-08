@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
 import { useAppDispatch } from "../../store/index.hooks";
 import { asyncLogout, User } from "../../store/modules/user";
@@ -9,6 +9,10 @@ import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { AppBar, Avatar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import { RootState } from "../../reducer";
 
 type HeaderProps = {
     user : User,
@@ -28,6 +32,7 @@ function Header({
     [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
+    const [typeId, setTypeId] = useState("0");
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -70,6 +75,14 @@ function Header({
     const handleCloseUserMenu_ = () => {
         setAnchorElUser(null);
     };
+
+    const handleMoveType = (e : SelectChangeEvent) => {
+        // console.log('value : ' + e.target.value);
+        const typeIdVal = e.target.value;
+        navigate('/'+typeIdVal, {
+          state : typeIdVal,
+        });
+    }
 
     return (
         <AppBar position="static">
@@ -128,6 +141,21 @@ function Header({
                     <Typography textAlign="center">{page.menu}</Typography>
                   </MenuItem>
                 ))}
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  label="Type List"
+                  onChange={handleMoveType}
+                  defaultValue="0"
+                >
+                  <MenuItem value={"1"}>1</MenuItem>
+                  <MenuItem value={"2"}>2</MenuItem>
+                  <MenuItem value={"3"}>3</MenuItem>
+                </Select>
+            </FormControl>
+
               </Menu>
             </Box>
             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -149,6 +177,21 @@ function Header({
             >
               TEST PROJECT
             </Typography>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  label="Type List"
+                  onChange={handleMoveType}
+                  defaultValue="0"
+                >
+                  <MenuItem value={"1"}>1</MenuItem>
+                  <MenuItem value={"2"}>2</MenuItem>
+                  <MenuItem value={"3"}>3</MenuItem>
+                </Select>
+            </FormControl>
+
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button

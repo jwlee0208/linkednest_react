@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { asyncLogin, User } from "../store/modules/user";
-import { useAppDispatch } from "../store/index.hooks";
+import { asyncLogin, User } from "../../../store/modules/user";
+import { useAppDispatch } from "../../../store/index.hooks";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
 import { Box, FormControl, Grid } from "@mui/material";

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Provider, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -8,8 +8,7 @@ import axios from 'axios';
 import store from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { Container, CssBaseline, ThemeProvider } from '@mui/material';
-import theme from './component/layout/theme';
+import { Container, CssBaseline } from '@mui/material';
 
 export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",
@@ -59,7 +58,7 @@ root.render(
     <Container>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persist}>
-          <App />
+          <App/>
         </PersistGate>
       </Provider>
     </Container>
