@@ -4,7 +4,7 @@ import { asyncLogin, User } from "../store/modules/user";
 import { useAppDispatch } from "../store/index.hooks";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
-import { Grid } from "@mui/material";
+import { Box, FormControl, Grid } from "@mui/material";
 
 function Login() {
 
@@ -57,23 +57,31 @@ function Login() {
     }, [msg]);
 
     return (
+      <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
       <div className="Login">
         <h2>::: Login :::</h2>
         <hr/>    
         <form onSubmit={LoginAction}>
         <Grid container spacing={3}>
             <Grid container item>
-                <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="email"/> 
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="email" helperText="Please enter your Email"/> 
+                </FormControl>    
             </Grid>
             <Grid container item>
-                <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password"/>
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password"/>
+                </FormControl>    
             </Grid>
             <Grid container item>
-                <Button type="submit" disabled={loading} >Login</Button>
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <Button type="submit" variant="outlined" size="large" disabled={loading}>Login</Button>
+                </FormControl>
             </Grid>
         </Grid>    
         </form>
       </div>
+      </Box>
     );
   }
   export default Login;

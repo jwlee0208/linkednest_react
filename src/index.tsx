@@ -56,7 +56,7 @@ const persist = persistStore(store);
 root.render(
   <React.StrictMode>
     <CssBaseline />
-      <Container fixed>
+      <Container fixed maxWidth="lg" >
     <ThemeProvider theme={theme}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persist}>
