@@ -56,14 +56,12 @@ const persist = persistStore(store);
 root.render(
   <React.StrictMode>
     <CssBaseline />
-      <Container fixed maxWidth="lg" >
-    <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persist}>
-        <App />
-      </PersistGate>
-    </Provider>
-    </ThemeProvider>
+    <Container>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persist}>
+          <App />
+        </PersistGate>
+      </Provider>
     </Container>
   </React.StrictMode>
 );

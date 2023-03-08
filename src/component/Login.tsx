@@ -59,10 +59,8 @@ function Login() {
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
       <div className="Login">
-        <h2>::: Login :::</h2>
-        <hr/>    
         <form onSubmit={LoginAction}>
-        <Grid container spacing={3}>
+        <Grid container>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
                     <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="email" helperText="Please enter your Email"/> 

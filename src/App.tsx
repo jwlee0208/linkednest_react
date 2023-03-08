@@ -6,7 +6,6 @@ import { getUserInfo } from './store/modules/user';
 import Layout from './component/layout/Layout';
 
 function App() {
-  
   return (
     <BrowserRouter>
       <Layout/>

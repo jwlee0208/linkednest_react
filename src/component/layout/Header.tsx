@@ -25,7 +25,7 @@ function Header({
 } : HeaderProps) {
 
     const pages = (isLogin === true) ? [{menu : 'Home', path : '/'}] : 
-    [{menu : 'Home', path : '/'}, {menu : 'Login', path : '/login'}];
+    [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
 
