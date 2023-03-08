@@ -8,10 +8,10 @@ import axios from 'axios';
 import store from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { ThemeProvider } from '@mui/material';
+import { Container, CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './component/layout/theme';
 
-export const axiosInst = axios.create({
+export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",
   headers : {
     "Content-Type" : "application/json",
@@ -21,7 +21,7 @@ export const axiosInst = axios.create({
   
 });
 
-axiosInst.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   function (config) {
     const userinfo = store.getState().userSlice;
     if (userinfo.isLogin === true) {
@@ -36,7 +36,7 @@ axiosInst.interceptors.request.use(
   }
 );
 
-axiosInst.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   function(response) {
     // to-do
     return response;
@@ -55,6 +55,8 @@ const persist = persistStore(store);
 
 root.render(
   <React.StrictMode>
+    <CssBaseline />
+      <Container fixed>
     <ThemeProvider theme={theme}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persist}>
@@ -62,6 +64,7 @@ root.render(
       </PersistGate>
     </Provider>
     </ThemeProvider>
+    </Container>
   </React.StrictMode>
 );
 

@@ -7,13 +7,6 @@ import Layout from './component/layout/Layout';
 
 function App() {
   
-/*   const userinfo = useAppSelect(getUserInfo);
-  const isLogin = userinfo.isLogin;
-  const accessToken = userinfo.accessToken; 
-  const username = userinfo.username; 
-
-  console.log('[App] isLogin : ' + isLogin + ", accessToken : " + accessToken + ", username : " + username);
- */
   return (
     <BrowserRouter>
       <Layout/>

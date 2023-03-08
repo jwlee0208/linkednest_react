@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { asyncLogin, User } from "../store/modules/user";
 import { useAppDispatch } from "../store/index.hooks";
-import axios from "axios";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button"
+import { Grid } from "@mui/material";
 
 function Login() {
 
@@ -59,17 +61,17 @@ function Login() {
         <h2>::: Login :::</h2>
         <hr/>    
         <form onSubmit={LoginAction}>
-            <div>
-                <label htmlFor="username">Email : </label>
-                <input type="email" id="username" onChange={inputUsernameVal} value={user.username}/>
-            </div>
-            <div>
-                <label htmlFor="password">Password : </label>
-                <input type="password" id="password" onChange={inputPwVal} value={user.password}/>
-            </div>
-            <div>
-                <button type="submit" disabled={loading}>Login</button>        
-            </div>
+        <Grid container spacing={3}>
+            <Grid container item>
+                <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="email"/> 
+            </Grid>
+            <Grid container item>
+                <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password"/>
+            </Grid>
+            <Grid container item>
+                <Button type="submit" disabled={loading} >Login</Button>
+            </Grid>
+        </Grid>    
         </form>
       </div>
     );

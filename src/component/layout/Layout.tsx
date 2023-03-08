@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { useAppSelect } from "../../store/index.hooks";
 import { getUserInfo } from "../../store/modules/user";
 import Header from "./Header";
@@ -18,7 +18,7 @@ function Layout() {
         <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo} /><main>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Login />} />
+          <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
           <Route path='/login' element={<Login />} />
         </Routes>
       </main>
