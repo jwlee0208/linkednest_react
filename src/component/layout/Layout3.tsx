@@ -36,7 +36,7 @@ function Layout3() {
           <Grid container spacing={1}>
               <Grid component="article" item xs={12}>
                 <Routes>
-                  <Route path='/:typeId' element={<Home />} />
+                  <Route path='/:typeId' element={<Home bannerHeight="600px"/>} />
                   <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
                   <Route path='/login' element={<Login />} />
                 </Routes>

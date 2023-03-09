@@ -55,7 +55,7 @@ const persist = persistStore(store);
 root.render(
   <React.StrictMode>
     <CssBaseline />
-    <Container>
+    <Container maxWidth={false}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persist}>
           <App/>
