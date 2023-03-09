@@ -13,6 +13,9 @@ import TopBanner from "./TopBanner";
 import App from "../../App";
 
 function Layout2() {
+
+    console.log("layout2>>");
+
     const userinfo = useAppSelect(getUserInfo);
     const isLogin = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
@@ -36,7 +39,7 @@ function Layout2() {
               </Grid>
               <Grid component="article" item xs={8}>
                 <Routes>
-                  <Route path='/:typeId' element={<App/>}/>
+                  {/* <Route path='/:typeId' element={<Navigate replace to="/"/>}/> */}
                   <Route path='/' element={<Home />} />
                   <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
                   <Route path='/login' element={<Login />} />

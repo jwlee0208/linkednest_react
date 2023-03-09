@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from "react-router";
+import { Navigate, Route, Routes, useParams } from "react-router";
 import { useAppSelect } from "../../store/index.hooks";
 import { getUserInfo } from "../../store/modules/user";
 import Header from "./Header";
@@ -11,9 +11,11 @@ import { Grid } from "@mui/material";
 import Navbar from "./Navbar";
 import TopBanner from "./TopBanner";
 import App from "../../App";
-import Layout2 from "./Layout2";
 
-function Layout1() {
+function Layout3() {
+
+    console.log("layout3>>");
+
     const userinfo = useAppSelect(getUserInfo);
     const isLogin = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
@@ -32,16 +34,13 @@ function Layout1() {
             <Navbar/>
           </Grid>
           <Grid container spacing={1}>
-              <Grid component="article" item xs={8}>
+              <Grid component="article" item xs={12}>
                 <Routes>
                   {/* <Route path='/:typeId' element={<Navigate replace to="/"/>}/> */}
                   <Route path='/' element={<Home />} />
                   <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
                   <Route path='/login' element={<Login />} />
                 </Routes>
-            </Grid>
-            <Grid component="aside" item xs={4}>
-              <SideArea isLogin={isLogin} username={username} user={userinfo} />
             </Grid>
           </Grid>
         </Grid>
@@ -52,4 +51,4 @@ function Layout1() {
     )
 }
 
-export default Layout1;
+export default Layout3;

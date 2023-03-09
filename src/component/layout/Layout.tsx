@@ -13,19 +13,27 @@ import TopBanner from "./TopBanner";
 import App from "../../App";
 import Layout2 from "./Layout2";
 import Layout1 from "./Layout1";
+import Layout3 from "./Layout3";
 
 function Layout() {
 
-    let typeId = "0"; 
+    let typeId = "1"; 
     const location = useLocation();
+
+    console.log('layout >> location : ' + location + ", json type : " + JSON.stringify(location));
+
     if (location.state !== null) {
-      typeId = location.state.typeId;
+      typeId = location.state;
     }
     
+    console.log("layout >> typeId : " + typeId + ", equal : " + (typeId === "2"));
 
-    return (
-      (typeId === "2") ? <Layout2/> : <Layout1/>
-    )
+    switch (typeId) {
+      case "1" : return <Layout1/>
+      case "2" : return <Layout2/>
+      case "3" : return <Layout3/>
+      default : return <Layout1/>
+    }
 }
 
 export default Layout;
