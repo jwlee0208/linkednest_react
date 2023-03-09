@@ -141,7 +141,7 @@ function Header({
                     <Typography textAlign="center">{page.menu}</Typography>
                   </MenuItem>
                 ))}
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+{/*             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
@@ -154,7 +154,7 @@ function Header({
                   <MenuItem value={"2"}>2</MenuItem>
                   <MenuItem value={"3"}>3</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl> */}
 
               </Menu>
             </Box>
@@ -177,7 +177,7 @@ function Header({
             >
               TEST PROJECT
             </Typography>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+{/*             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
@@ -191,7 +191,7 @@ function Header({
                   <MenuItem value={"3"}>3</MenuItem>
                 </Select>
             </FormControl>
-
+ */}
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
