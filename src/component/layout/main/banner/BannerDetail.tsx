@@ -3,11 +3,10 @@ import { BannerInfo } from './Banner';
 import Image from 'mui-image';
 
 type BannerProps = {
-    key : number;
     info : BannerInfo;
 };
 
-function BannerDetail({key,info} : BannerProps) {
+function BannerDetail({info} : BannerProps) {
 
     return (
         <Paper title={info.name}>

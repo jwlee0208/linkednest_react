@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { useAppDispatch } from "../../store/index.hooks";
-import { asyncLogout, User } from "../../store/modules/user";
+import { useAppDispatch } from "../../../store/index.hooks";
+import { asyncLogout, User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -12,7 +12,7 @@ import { AppBar, Avatar, Box, Container, IconButton, Menu, MenuItem, Toolbar, To
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-import { RootState } from "../../reducer";
+import { RootState } from "../../../reducer";
 
 type HeaderProps = {
     user : User,

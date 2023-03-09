@@ -32,7 +32,7 @@ function Banners() {
     return (
          <Carousel sx={{m:1}}>
             {
-                banners.bannerInfos.map((bannerInfo, i) => <BannerDetail key={i} info={bannerInfo}/>)
+                banners.bannerInfos.map((bannerInfo, idx) => <BannerDetail key={idx} info={bannerInfo}/>)
             }
         </Carousel>
     )
