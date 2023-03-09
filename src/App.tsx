@@ -9,13 +9,6 @@ import Layout2 from './component/layout/Layout2';
 
 function App() {
 
-
-  // const location = useLocation();
-
-  // console.log('location : ' + location);
-
-  // const {typeId} = useParams();
-
   return (
     <BrowserRouter>
       <Layout/>

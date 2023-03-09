@@ -32,16 +32,16 @@ function Layout1() {
             <Navbar/>
           </Grid>
           <Grid container spacing={1}>
-              <Grid component="article" item xs={8}>
+              <Grid component="article" item xs={9}>
                 <Routes>
                   {/* <Route path='/:typeId' element={<Navigate replace to="/"/>}/> */}
-                  <Route path='/' element={<Home />} />
-                  <Route path='/:typeId' element={<Home />} />
+                  <Route path='/' element={<Home bannerHeight="480px"/>} />
+                  <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
                   <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
                   <Route path='/login' element={<Login />} />
                 </Routes>
             </Grid>
-            <Grid component="aside" item xs={4}>
+            <Grid component="aside" item xs={3}>
               <SideArea isLogin={isLogin} username={username} user={userinfo} />
             </Grid>
           </Grid>
