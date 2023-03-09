@@ -1,19 +1,20 @@
-import { Navigate, Route, Routes, useLocation } from "react-router";
-import { useAppSelect } from "../../store/index.hooks";
-import { getUserInfo } from "../../store/modules/user";
-import Header from "./Header";
-import Home from "./Home";
-import Login from "./user/Login";
-import Mypage from "./user/Mypage";
-import Footer from "./Footer";
-import SideArea from "./SideArea";
+import { Navigate, Route, Routes, useParams } from "react-router";
+import { useAppSelect } from "../../../store/index.hooks";
+import { getUserInfo } from "../../../store/modules/user";
+import Header from "../common/Header";
+import Home from "../common/Home";
+import Login from "../user/Login";
+import Mypage from "../user/Mypage";
+import Footer from "../common/Footer";
+import SideArea from "../common/SideArea";
 import { Grid } from "@mui/material";
-import Navbar from "./Navbar";
-import TopBanner from "./TopBanner";
-import App from "../../App";
-import Layout2 from "./Layout2";
+import Navbar from "../common/Navbar";
+import TopBanner from "../common/TopBanner";
 
-function Layout1() {
+function Layout2() {
+
+    console.log("layout2>>");
+
     const userinfo = useAppSelect(getUserInfo);
     const isLogin = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
@@ -32,17 +33,15 @@ function Layout1() {
             <Navbar/>
           </Grid>
           <Grid container spacing={1}>
+              <Grid component="aside" item xs={3}>
+                <SideArea isLogin={isLogin} username={username} user={userinfo} />
+              </Grid>
               <Grid component="article" item xs={9}>
                 <Routes>
-                  {/* <Route path='/:typeId' element={<Navigate replace to="/"/>}/> */}
-                  <Route path='/' element={<Home bannerHeight="480px"/>} />
                   <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
                   <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
                   <Route path='/login' element={<Login />} />
                 </Routes>
-            </Grid>
-            <Grid component="aside" item xs={3}>
-              <SideArea isLogin={isLogin} username={username} user={userinfo} />
             </Grid>
           </Grid>
         </Grid>
@@ -53,4 +52,4 @@ function Layout1() {
     )
 }
 
-export default Layout1;
+export default Layout2;

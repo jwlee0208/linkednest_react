@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import Banner from "./main/banner/Banner";
-import RecentNotice from "./main/RecentNotice";
-import SiteMap from "./main/SiteMap";
+import Banner from "../main/banner/Banner";
+import RecentNotice from "../main/RecentNotice";
+import SiteMap from "../main/SiteMap";
 type HomeProps = {
   bannerHeight : string,
 }

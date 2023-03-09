@@ -1,8 +1,8 @@
 import { Box, Button, FormControl } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useAppDispatch } from "../../store/index.hooks";
-import { asyncLogout, User } from "../../store/modules/user";
-import Login from "./user/Login";
+import { useAppDispatch } from "../../../store/index.hooks";
+import { asyncLogout, User } from "../../../store/modules/user";
+import Login from "../user/Login";
 
 type SideAreaProps = {
     user : User,

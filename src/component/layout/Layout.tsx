@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
-import Layout2 from "./Layout2";
-import Layout1 from "./Layout1";
-import Layout3 from "./Layout3";
+import Layout2 from "./template/Layout2";
+import Layout1 from "./template/Layout1";
+import Layout3 from "./template/Layout3";
 
 function Layout() {
 

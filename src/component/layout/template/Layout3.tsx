@@ -1,16 +1,14 @@
 import { Navigate, Route, Routes, useParams } from "react-router";
-import { useAppSelect } from "../../store/index.hooks";
-import { getUserInfo } from "../../store/modules/user";
-import Header from "./Header";
-import Home from "./Home";
-import Login from "./user/Login";
-import Mypage from "./user/Mypage";
-import Footer from "./Footer";
-import SideArea from "./SideArea";
+import { useAppSelect } from "../../../store/index.hooks";
+import { getUserInfo } from "../../../store/modules/user";
+import Header from "../common/Header";
+import Home from "../common/Home";
+import Login from "../user/Login";
+import Mypage from "../user/Mypage";
+import Footer from "../common/Footer";
 import { Grid } from "@mui/material";
-import Navbar from "./Navbar";
-import TopBanner from "./TopBanner";
-import App from "../../App";
+import Navbar from "../common/Navbar";
+import TopBanner from "../common/TopBanner";
 
 function Layout3() {
 
