@@ -1,30 +1,34 @@
-import { Route, Routes } from "react-router";
-import { useAppSelect } from "../../store/index.hooks";
-import { getUserInfo } from "../../store/modules/user";
-import Header from "./Header";
-import Home from "./Home";
-import Login from "../Login";
-import Mypage from "../Mypage";
-import Footer from "./Footer";
+import { useLocation } from "react-router";
+import Layout2 from "./Layout2";
+import Layout1 from "./Layout1";
+import Layout3 from "./Layout3";
 
 function Layout() {
-    const userinfo = useAppSelect(getUserInfo);
-    const isLogin = userinfo.isLogin;
-    const accessToken = userinfo.accessToken; 
-    const username = userinfo.username; 
 
-    return (
-        <>
-        <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo} /><main>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/mypage' element={<Mypage />} />
-          <Route path='/login' element={<Login />} />
-        </Routes>
-      </main>
-      <Footer/>
-      </>  
-    )
+    let typeId = undefined; 
+    const location = useLocation();
+
+    console.log('layout >> location : ' + location + ", json type : " + JSON.stringify(location));
+
+    if (location.state !== null) {
+      typeId = location.state;
+    }
+    if (typeId === undefined) {
+      let pathArr = location.pathname.split("/");
+      if (pathArr[1] !== ''){
+        typeId = pathArr[1];
+      }
+      console.log('location.pathname : ' + typeId);
+    }
+    
+    console.log("layout >> typeId : " + typeId + ", equal : " + (typeId === "2"));
+
+    switch (typeId) {
+      case "1" : return <Layout1/>
+      case "2" : return <Layout2/>
+      case "3" : return <Layout3/>
+      default : return <Layout1/>
+    }
 }
 
 export default Layout;

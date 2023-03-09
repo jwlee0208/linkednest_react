@@ -4,7 +4,7 @@ function Mypage() {
           Mypage Area
       </div>
     );
-  }
+}
   
-  export default Mypage;
+export default Mypage;
   
