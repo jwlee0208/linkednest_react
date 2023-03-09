@@ -1,5 +1,6 @@
 import {Paper} from '@mui/material';
 import { BannerInfo } from './Banner';
+import Image from 'mui-image';
 
 type BannerProps = {
     key : number;
@@ -9,8 +10,8 @@ type BannerProps = {
 function BannerDetail({key,info} : BannerProps) {
 
     return (
-        <Paper title={info.name} sx={{align:"center"}}>
-            <img src={info.img} width="800px" height="300px" alt={info.description} title={info.name}/>
+        <Paper title={info.name}>
+            <Image src={info.img} style={{margin:"auto", display:"flex"}}/>
         </Paper>
     )
 }
