@@ -40,7 +40,7 @@ function Layout2() {
               <Grid component="article" item xs={8}>
                 <Routes>
                   {/* <Route path='/:typeId' element={<Navigate replace to="/"/>}/> */}
-                  <Route path='/' element={<Home />} />
+                  <Route path='/:typeId' element={<Home />} />
                   <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
                   <Route path='/login' element={<Login />} />
                 </Routes>

@@ -7,13 +7,13 @@ function Home() {
   return (
     <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, minHeight:"200px" }}>  
     <div className="Home">
-        <Box sx={{height:"200px"}}>
+        <Box borderColor="primary.main" border={1} sx={{mt:1, mb:1, height:"200px"}}>
           <Banner/>
         </Box>
-        <Box sx={{height:"200px"}}>
+        <Box borderColor="secondary.main" border={1} sx={{mt:1, mb:1, height:"200px"}}>
           <RecentNotice/>
         </Box>
-        <Box sx={{height:"200px"}}>
+        <Box borderColor="skyblue" border={1} sx={{mt:1, mb:1, height:"200px"}}>
           <SiteMap/>
         </Box>
     </div>

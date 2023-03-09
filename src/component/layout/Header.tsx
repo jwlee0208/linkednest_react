@@ -32,7 +32,7 @@ function Header({
     [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
-    const [typeId, setTypeId] = useState("0");
+    const [typeId, setTypeId] = useState("1");
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -79,6 +79,7 @@ function Header({
     const handleMoveType = (e : SelectChangeEvent) => {
         // console.log('value : ' + e.target.value);
         const typeIdVal = e.target.value;
+        setTypeId(typeIdVal);
         navigate('/'+typeIdVal, {
           state : typeIdVal,
         });
@@ -141,20 +142,21 @@ function Header({
                     <Typography textAlign="center">{page.menu}</Typography>
                   </MenuItem>
                 ))}
-{/*             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   label="Type List"
                   onChange={handleMoveType}
-                  defaultValue="0"
+                  // defaultValue="1"
+                  value={typeId}
                 >
                   <MenuItem value={"1"}>1</MenuItem>
                   <MenuItem value={"2"}>2</MenuItem>
                   <MenuItem value={"3"}>3</MenuItem>
                 </Select>
-            </FormControl> */}
+            </FormControl>
 
               </Menu>
             </Box>
@@ -177,21 +179,22 @@ function Header({
             >
               TEST PROJECT
             </Typography>
-{/*             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   label="Type List"
                   onChange={handleMoveType}
-                  defaultValue="0"
+                  // defaultValue="1"
+                  value={typeId}
                 >
                   <MenuItem value={"1"}>1</MenuItem>
                   <MenuItem value={"2"}>2</MenuItem>
                   <MenuItem value={"3"}>3</MenuItem>
                 </Select>
             </FormControl>
- */}
+
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
