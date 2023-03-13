@@ -25,31 +25,31 @@ function SideArea({
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
         dispatch(asyncLogout(user));
-        navigate("/"+layoutinfo.typeId);    
+        navigate(`/${layoutinfo.typeId}`);    
     };
     
     return (
-        <Box component="menu">
+        <Box component="menu" sx={{mr:3, overflow: 'hidden'}}>
             <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{minHeight:"200px"}}>
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <Box sx={{ m: 1 }}>
                     Area1
-                </FormControl>
+                </Box>
             </Box>    
             <Box border={1} borderColor="gray" sx={{mt:1, mb:1}}>
                 {isLogin === false ? 
                     <Login/> 
                     : (
-                        <FormControl fullWidth sx={{ m: 2 }}>
+                        <Box sx={{ m: 2 }}>
                             <Box>{username}님<br/>
                             <Button variant="outlined" size="medium" onClick={(e) => handleLogoutAction(e)}>Logout</Button></Box>
-                        </FormControl>    
+                        </Box>    
                     )
                 }  
             </Box>
             <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{mt:1, mb:1, minHeight:"200px"}}>
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <Box sx={{ m: 1 }}>
                     Area3
-                </FormControl>
+                </Box>
             </Box>  
         </Box>
     );

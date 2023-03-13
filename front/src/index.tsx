@@ -56,7 +56,7 @@ root.render(
   <>
     {/* <React.StrictMode> */}
     <CssBaseline />
-    <Container maxWidth={false}>
+    <Container maxWidth={false} disableGutters={true}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persist}>
           <App/>

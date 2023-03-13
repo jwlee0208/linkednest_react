@@ -81,7 +81,7 @@ function Header({
     const handleMoveType = (e : SelectChangeEvent) => {
         e.preventDefault();
         const typeIdVal = e.target.value;
-        navigate('/'+typeIdVal);
+        navigate(`/${typeIdVal}`);
     }
 
     return (
