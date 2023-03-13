@@ -50,7 +50,7 @@ function Layout() {
         document.head.removeChild(baseCss);
         document.head.removeChild(iconCss);
       }
-    }, []);
+    }, [typeId]);
     
     switch (typeId) {
       case "1" : return <Layout1/>
