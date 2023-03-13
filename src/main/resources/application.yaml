@@ -1,0 +1,37 @@
+server:
+  port: 9091
+
+springdoc:
+  show-actuator: true
+  packagesToScan: net.linkednest.www.controller
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+  datasource:
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3306/jwlee0208
+      username: root
+      password: in2299in
+  jpa:
+    show-sql: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+    jdbc:
+      sqlonly: fatal
+      sqltiming: off
+      resultsettable: off
+      audit: off
+      resultset: off
+      connection: fatal
+
