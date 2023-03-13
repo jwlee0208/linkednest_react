@@ -53,7 +53,8 @@ const root = ReactDOM.createRoot(
 const persist = persistStore(store);
 
 root.render(
-  <React.StrictMode>
+  <>
+    {/* <React.StrictMode> */}
     <CssBaseline />
     <Container maxWidth={false}>
       <Provider store={store}>
@@ -62,7 +63,8 @@ root.render(
         </PersistGate>
       </Provider>
     </Container>
-  </React.StrictMode>
+    {/* </React.StrictMode> */}
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

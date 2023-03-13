@@ -11,8 +11,12 @@ import { Grid } from "@mui/material";
 import Navbar from "../common/Navbar";
 import TopBanner from "../common/TopBanner";
 import { getLayoutInfo } from "../../../store/modules/layout";
+import { useEffect } from "react";
 
 function Layout1() {
+
+    console.log("layout1>>");
+
     const userinfo = useAppSelect(getUserInfo);
     const isLogin = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
