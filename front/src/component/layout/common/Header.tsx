@@ -84,8 +84,6 @@ function Header({
         navigate('/'+typeIdVal);
     }
 
-    // const layoutInfo = useAppSelect(getLayoutInfo);
-
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -207,9 +205,8 @@ function Header({
                 </Button>
               ))}
             </Box>
-  
-            <Box sx={{ flexGrow: 0 }}>
-                
+            {(isLogin === true) ? (
+            <Box sx={{ flexGrow: 0 }}>                
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -237,25 +234,22 @@ function Header({
                   </MenuItem>
                 ))}
               </Menu>
-            </Box>
+            </Box>              
+    ) : 
+    (
+      (typeId === "3") ? (
+        <Box sx={{ flexGrow: 0 }}>                
+            <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}}
+              sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
+        </Box>      
+      ) : (
+        <Box sx={{ flexGrow: 0 }}></Box>
+      )                        
+    )
+  }
           </Toolbar>
         </Container>
       </AppBar>
-
-
-
-
-
-/*         <header>
-            <Link href="/" underline="hover"><Button variant="text">Home<div></div></Button></Link>
-            {(isLogin === true) 
-                ? (
-                    <><Link href="/mypage" underline="hover"><Button variant="text" >My Page</Button></Link><Button variant="text" onClick={handleLogout}>Logout</Button></>    
-                )
-                : 
-                <Link href="/login" underline="hover"><Button variant="text">Login<div>{accessToken}</div></Button></Link>
-            }
-        </header>     */
     );
 }
 
