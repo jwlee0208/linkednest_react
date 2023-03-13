@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../reducer'; 
-import { axiosInstance } from '../..';  
+import { axiosInstance } from '../..'; 
 
 export interface User {
     username : string;
@@ -40,17 +40,17 @@ export const getUserInfo = (state : RootState) => state.userSlice;
 
 export const asyncLogout = createAsyncThunk("LOGOUT_USER", async (user : User) => {
         const res = await axiosInstance.post("/logout", user);
-        console.log('asyncLogin res : ' + JSON.stringify(res.data));
+        console.log('[asyncLogout] res : ' + JSON.stringify(res.data));
         return res.data;
     }    
 );
 
 export const asyncLogin = createAsyncThunk("LOGIN_USER", async (user : User) : Promise<User> => {
-        console.log('asyncLogin user : ' + user.username + ", " + user.password);
+        console.log('[asyncLogin] user : ' + user.username + ", " + user.password);
         const res = await axiosInstance.post("/login", user);
-        console.log('asyncLogin res : ' + JSON.stringify(res.data));
+        console.log('[asyncLogin] res : ' + JSON.stringify(res.data));
         return res.data;
     }    
 );
 
-export default userSlice.reducer;
+export default userSlice;

@@ -9,6 +9,7 @@ import Footer from "../common/Footer";
 import { Grid } from "@mui/material";
 import Navbar from "../common/Navbar";
 import TopBanner from "../common/TopBanner";
+import { getLayoutInfo } from "../../../store/modules/layout";
 
 function Layout3() {
 
@@ -19,11 +20,13 @@ function Layout3() {
     const accessToken = userinfo.accessToken; 
     const username = userinfo.username; 
 
+    const layoutinfo = useAppSelect(getLayoutInfo);
+
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo} />
+            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}  typeId={layoutinfo.typeId}/>
           </Grid>
           <Grid>
             <TopBanner/>

@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { useAppDispatch } from "../../../store/index.hooks";
+import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import { asyncLogout, User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
@@ -13,26 +13,28 @@ import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import { RootState } from "../../../reducer";
+import layoutSlice, { getLayoutInfo, Layout_ } from "../../../store/modules/layout";
 
 type HeaderProps = {
     user : User,
-    isLogin : Boolean;
-    username : String;
-    accessToken : String;
+    isLogin : boolean;
+    username : string;
+    accessToken : string;
+    typeId : string;
 };
 
 function Header({
     user,
     isLogin, 
     username, 
-    accessToken
+    accessToken,
+    typeId
 } : HeaderProps) {
 
     const pages = (isLogin === true) ? [{menu : 'Home', path : '/'}] : 
     [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
-    const [typeId, setTypeId] = useState("1");
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -77,12 +79,9 @@ function Header({
     };
 
     const handleMoveType = (e : SelectChangeEvent) => {
-        // console.log('value : ' + e.target.value);
+        e.preventDefault();
         const typeIdVal = e.target.value;
-        setTypeId(typeIdVal);
-        navigate('/'+typeIdVal, {
-          state : typeIdVal,
-        });
+        navigate('/'+typeIdVal);
     }
 
     return (
@@ -206,9 +205,8 @@ function Header({
                 </Button>
               ))}
             </Box>
-  
-            <Box sx={{ flexGrow: 0 }}>
-                
+            {(isLogin === true) ? (
+            <Box sx={{ flexGrow: 0 }}>                
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -236,25 +234,22 @@ function Header({
                   </MenuItem>
                 ))}
               </Menu>
-            </Box>
+            </Box>              
+    ) : 
+    (
+      (typeId === "3") ? (
+        <Box sx={{ flexGrow: 0 }}>                
+            <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}}
+              sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
+        </Box>      
+      ) : (
+        <Box sx={{ flexGrow: 0 }}></Box>
+      )                        
+    )
+  }
           </Toolbar>
         </Container>
       </AppBar>
-
-
-
-
-
-/*         <header>
-            <Link href="/" underline="hover"><Button variant="text">Home<div></div></Button></Link>
-            {(isLogin === true) 
-                ? (
-                    <><Link href="/mypage" underline="hover"><Button variant="text" >My Page</Button></Link><Button variant="text" onClick={handleLogout}>Logout</Button></>    
-                )
-                : 
-                <Link href="/login" underline="hover"><Button variant="text">Login<div>{accessToken}</div></Button></Link>
-            }
-        </header>     */
     );
 }
 

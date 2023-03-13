@@ -1,6 +1,7 @@
 import { Box, Button, FormControl } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useAppDispatch } from "../../../store/index.hooks";
+import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
+import { getLayoutInfo } from "../../../store/modules/layout";
 import { asyncLogout, User } from "../../../store/modules/user";
 import Login from "../user/Login";
 
@@ -19,10 +20,12 @@ function SideArea({
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
+    const layoutinfo = useAppSelect(getLayoutInfo);
+
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
         dispatch(asyncLogout(user));
-        navigate("/");    
+        navigate("/"+layoutinfo.typeId);    
     };
     
     return (
