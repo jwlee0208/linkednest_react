@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../reducer";
 
 export interface Layout_ {
@@ -18,8 +18,16 @@ const layoutSlice = createSlice ({
             state.typeId = action.payload.typeId;
         }        
     },
-    extraReducers : {
+    extraReducers : (builder) => {
+        builder.addCase(setLayoutTypeId.fulfilled, (state, action) => {
+            console.log('setLayoutTypeId >> action.payload : ',JSON.stringify(action.payload));
+            state.typeId = action.payload.typeId;
+        })
     } 
+});
+
+export const setLayoutTypeId = createAsyncThunk("SET_TYPE_ID", async (layout : Layout_) => {
+    return layout;
 });
 
 export const getLayoutInfo = (state : RootState) => state.layoutSlice;
