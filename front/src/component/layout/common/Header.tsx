@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { useAppDispatch } from "../../../store/index.hooks";
+import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import { asyncLogout, User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
@@ -13,26 +13,28 @@ import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import { RootState } from "../../../reducer";
+import layoutSlice, { getLayoutInfo, Layout_ } from "../../../store/modules/layout";
 
 type HeaderProps = {
     user : User,
-    isLogin : Boolean;
-    username : String;
-    accessToken : String;
+    isLogin : boolean;
+    username : string;
+    accessToken : string;
+    typeId : string;
 };
 
 function Header({
     user,
     isLogin, 
     username, 
-    accessToken
+    accessToken,
+    typeId
 } : HeaderProps) {
 
     const pages = (isLogin === true) ? [{menu : 'Home', path : '/'}] : 
     [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
-    const [typeId, setTypeId] = useState("1");
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -77,13 +79,12 @@ function Header({
     };
 
     const handleMoveType = (e : SelectChangeEvent) => {
-        // console.log('value : ' + e.target.value);
+        e.preventDefault();
         const typeIdVal = e.target.value;
-        setTypeId(typeIdVal);
-        navigate('/'+typeIdVal, {
-          state : typeIdVal,
-        });
+        navigate('/'+typeIdVal);
     }
+
+    // const layoutInfo = useAppSelect(getLayoutInfo);
 
     return (
         <AppBar position="static">

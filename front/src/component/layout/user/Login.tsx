@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { asyncLogin, User } from "../../../store/modules/user";
-import { useAppDispatch } from "../../../store/index.hooks";
+import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
 import { Box, FormControl, Grid } from "@mui/material";
+import { getLayoutInfo } from "../../../store/modules/layout";
 
 function Login() {
 
     const navigate = useNavigate();
+
+    const layoutinfo = useAppSelect(getLayoutInfo);
 
     const [user, setUser] = useState<User>({username : "", password : "", isLogin : false, accessToken : ""});
 
@@ -43,7 +46,7 @@ function Login() {
         console.log('[login] res : ' + JSON.stringify(res.arg));
 
         setMsg("로그인 성공하였습니다.");
-        navigate("/");
+        navigate("/"+layoutinfo.typeId);
         setLoading(true);
     }
 
