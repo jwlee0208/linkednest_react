@@ -11,12 +11,15 @@ import net.linkednest.www.dto.user.login.ReqUserLoginDto;
 import net.linkednest.www.dto.user.login.ResUserLoginDto;
 import net.linkednest.www.dto.user.regist.ReqUserRegistDto;
 import net.linkednest.www.dto.user.regist.ResUserRegistDto;
+import org.apache.http.entity.ContentType;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.print.attribute.standard.Media;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,7 +29,7 @@ import java.util.UUID;
 @CrossOrigin(origins = {"http://localhost:3000"})
 public class UserController {
 
-    @PostMapping(value = "/registUser")
+    @PostMapping(value = "/registUser", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "회원 등록"
              , description = "회원 등록 액션입니다."
              , tags = {"User Controller"}
@@ -49,7 +52,7 @@ public class UserController {
         return new ResponseEntity(resUserRegistDto, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "회원 로그인"
             , description = "회원 로그인 액션입니다."
             , tags = {"User Controller"}
