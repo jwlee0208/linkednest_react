@@ -11,6 +11,8 @@ import { Grid } from "@mui/material";
 import Navbar from "../common/Navbar";
 import TopBanner from "../common/TopBanner";
 import { getLayoutInfo } from "../../../store/modules/layout";
+import Hidden from "@mui/material/Hidden";
+import Content from "../common/Content";
 
 function Layout2() {
 
@@ -35,18 +37,23 @@ function Layout2() {
           <Grid component="nav">
             <Navbar/>
           </Grid>
-          <Grid container spacing={1}>
+          <Hidden smUp>
+            <Grid container spacing={1}>
+              <Grid component="article" item xs={12}>
+                <Content isLogin={isLogin}/>
+              </Grid>
+            </Grid>  
+          </Hidden>
+          <Hidden smDown>
+            <Grid container spacing={1}>
               <Grid component="aside" item xs={3}>
                 <SideArea isLogin={isLogin} username={username} user={userinfo} />
               </Grid>
               <Grid component="article" item xs={9}>
-                <Routes>
-                  <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
-                  <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
-                  <Route path='/login' element={<Login />} />
-                </Routes>
+                <Content isLogin={isLogin}/>
+              </Grid>
             </Grid>
-          </Grid>
+          </Hidden>
         </Grid>
         <Grid component="footer">
           <Footer/>

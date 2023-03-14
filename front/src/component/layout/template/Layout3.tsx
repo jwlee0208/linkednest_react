@@ -10,6 +10,7 @@ import { Grid } from "@mui/material";
 import Navbar from "../common/Navbar";
 import TopBanner from "../common/TopBanner";
 import { getLayoutInfo } from "../../../store/modules/layout";
+import Content from "../common/Content";
 
 function Layout3() {
 
@@ -35,12 +36,8 @@ function Layout3() {
             <Navbar/>
           </Grid>
           <Grid container spacing={1}>
-              <Grid component="article" item xs={12}>
-                <Routes>
-                  <Route path='/:typeId' element={<Home bannerHeight="600px"/>} />
-                  <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
-                  <Route path='/login' element={<Login />} />
-                </Routes>
+            <Grid component="article" item xs={12}>
+              <Content isLogin={isLogin}/>
             </Grid>
           </Grid>
         </Grid>

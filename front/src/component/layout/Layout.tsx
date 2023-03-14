@@ -6,8 +6,11 @@ import { useAppDispatch, useAppSelect } from "../../store/index.hooks";
 import { useEffect, useState } from "react";
 import layoutSlice, { getLayoutInfo, Layout_, setLayoutTypeId, } from "../../store/modules/layout";
 import store from "../../store";
+import { makeStyles, useTheme } from "@mui/material/styles";
+
 
 function Layout() {
+
 
     let typeId = ""; 
     const location = useLocation();

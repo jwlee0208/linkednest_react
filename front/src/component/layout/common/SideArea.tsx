@@ -1,4 +1,5 @@
 import { Box, Button, FormControl } from "@mui/material";
+import { styled } from "@mui/system";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import { getLayoutInfo } from "../../../store/modules/layout";
@@ -11,6 +12,7 @@ type SideAreaProps = {
     username : String;
 };
 
+  
 function SideArea({
     user,
     isLogin, 
