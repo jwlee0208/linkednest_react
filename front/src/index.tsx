@@ -1,7 +1,7 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
@@ -9,8 +9,6 @@ import store from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { Container, CssBaseline } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './component/layout/theme';
 
 export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",

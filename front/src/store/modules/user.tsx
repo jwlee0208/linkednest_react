@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../reducer'; 
 import { axiosInstance } from '../..'; 

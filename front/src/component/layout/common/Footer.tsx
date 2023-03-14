@@ -1,4 +1,4 @@
-import { BottomNavigation, Box, FormControl, Grid, Typography } from "@mui/material";
+import { Box, FormControl, Grid, Typography } from "@mui/material";
 
 function Footer() {
     return (

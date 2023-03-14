@@ -12,8 +12,6 @@ import { AppBar, Avatar, Box, Container, IconButton, Menu, MenuItem, Toolbar, To
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-import { RootState } from "../../../reducer";
-import layoutSlice, { getLayoutInfo, Layout_ } from "../../../store/modules/layout";
 
 type HeaderProps = {
     user : User,
