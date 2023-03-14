@@ -6,8 +6,11 @@ import { useAppDispatch, useAppSelect } from "../../store/index.hooks";
 import { useEffect, useState } from "react";
 import layoutSlice, { getLayoutInfo, Layout_, setLayoutTypeId, } from "../../store/modules/layout";
 import store from "../../store";
+import { makeStyles, useTheme } from "@mui/material/styles";
+
 
 function Layout() {
+
 
     let typeId = ""; 
     const location = useLocation();
@@ -37,7 +40,7 @@ function Layout() {
       const baseCss = document.createElement("link");
       // baseCss.crossOrigin = '*';
       baseCss.rel = 'stylesheet';
-      baseCss.href = 'http://localhost:9091/style/layout_'+typeId+'.css';
+      baseCss.href = `http://localhost:9091/style/layout_${typeId}.css`;
       const iconCss = document.createElement("link");
       iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
       iconCss.rel = 'stylesheet';

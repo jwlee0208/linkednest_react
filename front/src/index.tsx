@@ -9,6 +9,8 @@ import store from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { Container, CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './component/layout/theme';
 
 export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",
@@ -55,14 +57,16 @@ const persist = persistStore(store);
 root.render(
   <>
     {/* <React.StrictMode> */}
+    {/* <ThemeProvider theme={theme}> */}
     <CssBaseline />
-    <Container maxWidth={false}>
+    <Container maxWidth={false} disableGutters={true}>  
       <Provider store={store}>
         <PersistGate loading={null} persistor={persist}>
           <App/>
         </PersistGate>
       </Provider>
     </Container>
+    {/* </ThemeProvider> */}
     {/* </React.StrictMode> */}
   </>
 );

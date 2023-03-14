@@ -46,7 +46,7 @@ function Login() {
         console.log('[login] res : ' + JSON.stringify(res.arg));
 
         setMsg("로그인 성공하였습니다.");
-        navigate("/"+layoutinfo.typeId);
+        navigate(`/${layoutinfo.typeId}`);
         setLoading(true);
     }
 

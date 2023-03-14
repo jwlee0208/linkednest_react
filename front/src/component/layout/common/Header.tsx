@@ -81,12 +81,12 @@ function Header({
     const handleMoveType = (e : SelectChangeEvent) => {
         e.preventDefault();
         const typeIdVal = e.target.value;
-        navigate('/'+typeIdVal);
+        navigate(`/${typeIdVal}`);
     }
 
     return (
         <AppBar position="static">
-            <Container maxWidth="xl">
+            <Container maxWidth={false}>
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography

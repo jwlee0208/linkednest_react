@@ -11,9 +11,41 @@ import { Grid } from "@mui/material";
 import Navbar from "../common/Navbar";
 import TopBanner from "../common/TopBanner";
 import { getLayoutInfo } from "../../../store/modules/layout";
-import { useEffect } from "react";
+import { makeStyles, useTheme, styled, Theme, createStyles } from "@mui/material/styles";
+import Hidden from "@mui/material/Hidden";
+import Content from "../common/Content";
+
+/* const Styles = styled('div')(({theme}) => ({
+  [theme.breakpoints.down('lg')] : {
+    flexShrink:0,
+    width : 0,
+    display:"none",
+    //  justifyContent : 'flex-end'
+  }
+}));
+ */
+
 
 function Layout1() {
+  // const {classes} = SideAreaStyle_();
+
+/*   const theme = useTheme();
+
+  const useStyles = makeStyles(theme => ({
+    root : {
+      display : 'flex'
+    },
+    drawerHeader : {
+      display:'flex',
+      alignItems : 'center',
+      padding : theme.spacing(0,1),
+      ...theme.mixins.toolbar,
+      justifyContent : 'flex-end'
+      
+    }
+  }));    
+ */
+
 
     console.log("layout1>>");
 
@@ -25,7 +57,8 @@ function Layout1() {
     const layoutinfo = useAppSelect(getLayoutInfo);
 
     return (
-        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+
+      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}} xs={12} lg={12} md={12}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
             <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo} typeId={layoutinfo.typeId}/>
@@ -36,24 +69,38 @@ function Layout1() {
           <Grid component="nav">
             <Navbar/>
           </Grid>
-          <Grid container spacing={1}>
-              <Grid component="article" item xs={9}>
-                <Routes>
-                  <Route path='/' element={<Home bannerHeight="480px"/>} />
-                  <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
-                  <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
-                  <Route path='/login' element={<Login />} />
-                </Routes>
+          <Hidden smDown>  
+            <Grid container spacing={1} lg={12} md={12}>
+                <Grid component="article" item lg={9} md={9} xs={9}>
+                  <Content isLogin={isLogin}/>
+{/*                     <Routes>
+                      <Route path='/' element={<Home bannerHeight="480px"/>} />
+                      <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
+                      <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
+                      <Route path='/login' element={<Login />} />
+                    </Routes> */}
+                </Grid>
+                <Grid component="aside" item lg={3} md={3} xs={3}>
+                  <SideArea isLogin={isLogin} username={username} user={userinfo} />
+                </Grid>
             </Grid>
-            <Grid component="aside" item xs={3}>
-              <SideArea isLogin={isLogin} username={username} user={userinfo} />
-            </Grid>
-          </Grid>
+          </Hidden>
+          <Hidden smUp>
+            {/* <Grid container spacing={1} lg={12} md={12}> */}
+                <Grid component="article" item lg={12} md={12} xs>
+                  <Content isLogin={isLogin}/>
+                </Grid>
+            {/* </Grid> */}
+
+          </Hidden>
         </Grid>
+
         <Grid component="footer">
           <Footer/>
         </Grid>
-      </Grid>  
+
+      </Grid> 
+
     )
 }
 
