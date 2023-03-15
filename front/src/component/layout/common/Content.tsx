@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router";
 import Login from "../user/Login";
 import Mypage from "../user/Mypage";
+import SignUp from "../user/SignUp";
 import Home from "./Home";
 
 type ContentProps = {
@@ -16,6 +17,7 @@ function Content ({
         <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
         <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
       </Routes>
     )
 }

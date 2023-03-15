@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import { asyncLogout, User } from "../../../store/modules/user";
+import userSlice, { asyncLogout, User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -12,6 +12,7 @@ import { AppBar, Avatar, Box, Container, IconButton, Menu, MenuItem, Toolbar, To
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
+import store from "../../../store";
 
 type HeaderProps = {
     user : User,
@@ -34,12 +35,11 @@ function Header({
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
 
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
  
     const handleLogout = (e : FormEvent) => {
         e.preventDefault();
-        dispatch(asyncLogout(user));
+        store.dispatch(userSlice.actions.logout(user));
         navigate("/");
     }    
 
@@ -64,7 +64,7 @@ function Header({
 
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
-            dispatch(asyncLogout(user));
+            store.dispatch(userSlice.actions.logout(user));
             navigate("/");    
         } else {
             navigate(param);
@@ -238,7 +238,9 @@ function Header({
       (typeId === "3") ? (
         <Box sx={{ flexGrow: 0 }}>                
             <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}}
-              sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
+              sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>
+            <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}}
+              sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>
         </Box>      
       ) : (
         <Box sx={{ flexGrow: 0 }}></Box>

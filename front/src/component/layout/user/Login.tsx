@@ -6,21 +6,21 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
 import { Box, FormControl, Grid } from "@mui/material";
 import { getLayoutInfo } from "../../../store/modules/layout";
+import {encode as base64_encode} from 'base-64';
 
 function Login() {
 
     const navigate = useNavigate();
-
     const layoutinfo = useAppSelect(getLayoutInfo);
 
-    const [user, setUser] = useState<User>({username : "", password : "", isLogin : false, accessToken : ""});
-
+    const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", isLogin : false, nickname : "", email : "", returnCode : 0});
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         console.log('username : ' + e.target.value);
+        
         setUser({...user, username : e.target.value});
     }
 
@@ -40,7 +40,12 @@ function Login() {
             return alert('Password를 입력하세요.');
         }
 
-        const res = dispatch(asyncLogin(user));
+        setUser({...user
+                , username : base64_encode(user.username)
+                , password : base64_encode(user.password)});    
+                console.log('[login] before : ' + JSON.stringify(user));
+
+                const res = dispatch(asyncLogin(user));
         // setUser({...user, user.isLogin : true, user.accessToken : 'asdf'});
         // dispatch({type : 'LOGIN_USER', payload: user});
         console.log('[login] res : ' + JSON.stringify(res.arg));

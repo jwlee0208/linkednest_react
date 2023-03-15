@@ -42,37 +42,40 @@ public class SecurityConfig {
                         CorsConfigurationSource corsConfigurationSource = request -> {
                             CorsConfiguration corsConfiguration = new CorsConfiguration();
                             corsConfiguration.setAllowedOrigins(
-                                    List.of("localhost:3000", "localhost")
+                                    List.of("*")
                             );
                             corsConfiguration.setAllowedMethods(
                                     List.of("*")
                             );
+                            corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type"));
                             return corsConfiguration;
                         };
+                        c.configurationSource(corsConfigurationSource);
                     })
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeHttpRequests()
-                        .requestMatchers("/login", "/registUser", "/logout").permitAll()
+                        .requestMatchers("/login", "/user", "/logout").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
-                        .requestMatchers("/static/**", "/resources/**").permitAll()
+                        .requestMatchers("/static/**", "/resources/**", "/style/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .accessDeniedHandler(new AccessDeniedHandler() {
-                    @Override
-                    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-                        response.setStatus(HttpStatus.SC_FORBIDDEN);
-                        response.setCharacterEncoding("UTF-8");
-                        response.setContentType(ContentType.TEXT_HTML.toString());
-                        response.getWriter().write("Unaccessable User");
-                    }
-                });
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                    .exceptionHandling()
+                    .accessDeniedHandler(new AccessDeniedHandler() {
+                        @Override
+                        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                            response.setStatus(HttpStatus.SC_FORBIDDEN);
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType(ContentType.TEXT_HTML.toString());
+                            response.getWriter().write("Unaccessable User");
+                        }
+                    });
         return httpSecurity.build();
     }
 
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
