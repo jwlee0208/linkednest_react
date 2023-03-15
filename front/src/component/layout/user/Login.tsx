@@ -40,12 +40,11 @@ function Login() {
             return alert('Password를 입력하세요.');
         }
 
-        setUser({...user
-                , username : base64_encode(user.username)
-                , password : base64_encode(user.password)});    
-                console.log('[login] before : ' + JSON.stringify(user));
+        user.username = base64_encode(user.username);
+        user.password = base64_encode(user.password);    
+        console.log('[login] before : ' + JSON.stringify(user));        
 
-                const res = dispatch(asyncLogin(user));
+        const res = dispatch(asyncLogin(user));
         // setUser({...user, user.isLogin : true, user.accessToken : 'asdf'});
         // dispatch({type : 'LOGIN_USER', payload: user});
         console.log('[login] res : ' + JSON.stringify(res.arg));
@@ -71,7 +70,7 @@ function Login() {
         <Grid container>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="email" helperText="Please enter your Email"/> 
+                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your Email"/> 
                 </FormControl>    
             </Grid>
             <Grid container item>

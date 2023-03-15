@@ -94,7 +94,7 @@ function SignUp() {
             </Grid>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <Button type="submit" variant="outlined" size="large">Login</Button>
+                    <Button type="submit" variant="outlined" size="large">Sign Up</Button>
                 </FormControl>
             </Grid>
         </Grid>    

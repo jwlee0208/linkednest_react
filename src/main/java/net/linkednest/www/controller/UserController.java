@@ -107,13 +107,7 @@ public class UserController {
       password
     );
 
-    ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
-    resUserLoginDto.setIsLogin(true);
-    resUserLoginDto.setUsername(username);
-    resUserLoginDto.setAccessToken(UUID.randomUUID().toString());
-    resUserLoginDto.setReturnCode(10000);
-    resUserLoginDto.setReturnMsg("SUCCESS");
-
+    ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto);
     return ResponseEntity.ok(resUserLoginDto);
   }
 

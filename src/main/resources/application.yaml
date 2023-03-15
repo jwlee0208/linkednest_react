@@ -5,6 +5,13 @@ springdoc:
   show-actuator: true
   packagesToScan: net.linkednest.www.controller
 
+jwt:
+  secret:
+    key: QWR@EDDF%$W^%56SDFG#*XCVFGJ%#$%234adfgsdfbcvbsdWERGEFSDFGD!QWR@EDDF%$W^%56SDFG#*XCVFGJ%#$%234adfgsdfbcvbsdWERGEFSDFGD!
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 spring:
   devtools:
     livereload:
@@ -19,15 +26,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
 #      ddl-auto: create
-
-jwt:
-  secret:
-    key: QWR@EDDF%$W^%56SDFG#*XCVFGJ%#$%234adfgsdfbcvbsdWERGEFSDFGD!
-
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
 
 logging:
   level:

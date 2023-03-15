@@ -1,5 +1,6 @@
 package net.linkednest.www.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class Authority {
 
     private String name;
 
+    @JsonBackReference
     @JoinColumn(name = "user")
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
