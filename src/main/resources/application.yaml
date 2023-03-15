@@ -12,11 +12,18 @@ spring:
   datasource:
     hikari:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://localhost:3306/jwlee0208
+      jdbc-url: jdbc:mariadb://localhost:3306/testproj
       username: root
       password: in2299in
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
+#      ddl-auto: create
+
+jwt:
+  secret:
+    key: QWR@EDDF%$W^%56SDFG#*XCVFGJ%#$%234adfgsdfbcvbsdWERGEFSDFGD!
 
 mybatis:
   configuration:
