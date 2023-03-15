@@ -6,21 +6,21 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
 import { Box, FormControl, Grid } from "@mui/material";
 import { getLayoutInfo } from "../../../store/modules/layout";
+import {encode as base64_encode} from 'base-64';
 
 function Login() {
 
     const navigate = useNavigate();
-
     const layoutinfo = useAppSelect(getLayoutInfo);
 
-    const [user, setUser] = useState<User>({username : "", password : "", isLogin : false, accessToken : ""});
-
+    const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", isLogin : false, nickname : "", email : "", returnCode : 0});
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         console.log('username : ' + e.target.value);
+        
         setUser({...user, username : e.target.value});
     }
 
@@ -39,6 +39,10 @@ function Login() {
         } else if (!user.password) {
             return alert('Password를 입력하세요.');
         }
+
+        user.username = base64_encode(user.username);
+        user.password = base64_encode(user.password);    
+        console.log('[login] before : ' + JSON.stringify(user));        
 
         const res = dispatch(asyncLogin(user));
         // setUser({...user, user.isLogin : true, user.accessToken : 'asdf'});
@@ -66,7 +70,7 @@ function Login() {
         <Grid container>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="email" helperText="Please enter your Email"/> 
+                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your Email"/> 
                 </FormControl>    
             </Grid>
             <Grid container item>

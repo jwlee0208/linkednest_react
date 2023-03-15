@@ -1,17 +1,13 @@
-import { Navigate, Route, Routes } from "react-router";
+
 import { useAppSelect } from "../../../store/index.hooks";
 import { getUserInfo } from "../../../store/modules/user";
 import Header from "../common/Header";
-import Home from "../common/Home";
-import Login from "../user/Login";
-import Mypage from "../user/Mypage";
 import Footer from "../common/Footer";
 import SideArea from "../common/SideArea";
 import { Grid } from "@mui/material";
 import Navbar from "../common/Navbar";
 import TopBanner from "../common/TopBanner";
 import { getLayoutInfo } from "../../../store/modules/layout";
-import { makeStyles, useTheme, styled, Theme, createStyles } from "@mui/material/styles";
 import Hidden from "@mui/material/Hidden";
 import Content from "../common/Content";
 
@@ -45,8 +41,6 @@ function Layout1() {
     }
   }));    
  */
-
-
     console.log("layout1>>");
 
     const userinfo = useAppSelect(getUserInfo);
@@ -73,12 +67,6 @@ function Layout1() {
             <Grid container spacing={1} lg={12} md={12}>
                 <Grid component="article" item lg={9} md={9} xs={9}>
                   <Content isLogin={isLogin}/>
-{/*                     <Routes>
-                      <Route path='/' element={<Home bannerHeight="480px"/>} />
-                      <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
-                      <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
-                      <Route path='/login' element={<Login />} />
-                    </Routes> */}
                 </Grid>
                 <Grid component="aside" item lg={3} md={3} xs={3}>
                   <SideArea isLogin={isLogin} username={username} user={userinfo} />
@@ -86,12 +74,9 @@ function Layout1() {
             </Grid>
           </Hidden>
           <Hidden smUp>
-            {/* <Grid container spacing={1} lg={12} md={12}> */}
                 <Grid component="article" item lg={12} md={12} xs>
                   <Content isLogin={isLogin}/>
                 </Grid>
-            {/* </Grid> */}
-
           </Hidden>
         </Grid>
 

@@ -1,12 +1,14 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore, createSerializableStateInvariantMiddleware, getDefaultMiddleware, isPlain } from "@reduxjs/toolkit";
 import rootReducer from "../reducer";
 import logger from 'redux-logger';
+import { isIterable } from "iterable";
+import { serialize } from "v8";
 
 const store = configureStore({
     reducer : rootReducer,
     devTools : true,
     middleware : (getDefaultMiddleware) => getDefaultMiddleware().concat([
-        logger
+      logger
     ]),
 });
 
