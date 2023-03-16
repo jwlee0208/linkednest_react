@@ -1,4 +1,4 @@
-package net.linkednest.www.service.security;
+package net.linkednest.www.service;
 
 import io.netty.handler.codec.base64.Base64Decoder;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,7 @@ public class UserService {
         String userId = new String(Base64.getDecoder().decode(reqUserLoginDto.getUsername()));
         String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
 
-        Optional<User> userOptional = userRepository.findByUserId(userId);
+        Optional<User> userOptional = this.getUser(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 //            String encryptPw = passwordEncoder.encode(password);
@@ -82,5 +82,9 @@ public class UserService {
             resUserLoginDto.setIsLogin(false);
         }
         return resUserLoginDto;
+    }
+
+    public Optional<User> getUser(String userId) {
+        return userRepository.findByUserId(userId);
     }
 }

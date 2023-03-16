@@ -1,6 +1,7 @@
 package net.linkednest.www.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -8,28 +9,25 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import javax.print.attribute.standard.Media;
+import java.util.Optional;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.www.dto.user.ResUserDto;
 import net.linkednest.www.dto.user.login.ReqUserLoginDto;
 import net.linkednest.www.dto.user.login.ResUserLoginDto;
 import net.linkednest.www.dto.user.regist.ReqUserRegistDto;
 import net.linkednest.www.dto.user.regist.ResUserRegistDto;
-import net.linkednest.www.service.security.UserService;
-import org.apache.http.entity.ContentType;
+import net.linkednest.www.entity.User;
+import net.linkednest.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@Controller
+@RestController
 @CrossOrigin(origins = { "http://localhost:3000" })
 public class UserController {
 
@@ -46,12 +44,19 @@ public class UserController {
     tags = { "User Controller" },
     responses = {
       @ApiResponse(
-        responseCode = "200",
+        responseCode = "201",
         description = "회원가입 성공",
         content = @Content(
           schema = @Schema(implementation = ResUserRegistDto.class)
         )
       ),
+      @ApiResponse(
+        responseCode = "200",
+        description = "회원가입 실패",
+        content = @Content(
+          schema = @Schema(implementation = ResUserRegistDto.class)
+        )
+      )
     }
   )
   public ResponseEntity registUser(
@@ -64,12 +69,7 @@ public class UserController {
     String password = reqUserRegistDto.getPassword();
     String nickname = reqUserRegistDto.getNickname();
 
-    log.info(
-      "[registUser] username : {}, password : {}, nickname : {}",
-      username,
-      password,
-      nickname
-    );
+    log.info("[registUser] username : {}, password : {}, nickname : {}", username, password, nickname);
 
     Boolean isSaved = userService.registUser(reqUserRegistDto);
 
@@ -80,6 +80,45 @@ public class UserController {
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
     resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
     return new ResponseEntity(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
+  }
+
+
+  @GetMapping(value = "/user/{userId}")
+  @Operation(
+          summary = "회원 정보 조회",
+          description = "회원 정보 조회 액션입니다.",
+          tags = { "User Controller" },
+          responses = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "회원 정보 조회 성공",
+                          content = @Content(
+                                  schema = @Schema(implementation = ResUserDto.class)
+                          )
+                  ),
+          }
+  )
+  public ResponseEntity getUser(
+          @Parameter(name = "userId",
+                  required = true,
+                  description = "회원 정보 조회 요청 파라미터"
+          ) @PathVariable(name = "userId") String userId
+  ) {
+
+    log.info("[getUser] userId : {}", userId);
+
+    ResUserDto resUserDto = new ResUserDto();
+    Optional<User> userOptional = userService.getUser(userId);
+
+    boolean isExistUser = userOptional.isPresent();
+    if (userOptional.isPresent()) {
+      resUserDto.setUserId(userOptional.get().getUserId());
+      resUserDto.setNickname(userOptional.get().getNickname());
+    }
+    resUserDto.setReturnCode(isExistUser ? 10000 : 50000);
+    resUserDto.setReturnMsg(isExistUser ? "SUCCESS" : "FAIL");
+
+    return new ResponseEntity(resUserDto, HttpStatus.OK);
   }
 
   @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)

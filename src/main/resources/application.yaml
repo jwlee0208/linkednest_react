@@ -13,34 +13,32 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 spring:
+  mvc:
+    static-path-pattern: classpath:/static/**, classpath:/resources/**
   devtools:
     livereload:
       enabled: true
   datasource:
     hikari:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://localhost:3306/testproj
-      # jdbc-url: jdbc:mariadb://localhost:3306/test
+      jdbc-url: jdbc:mariadb://localhost:3306/test
       username: root
-      password : in2299in
-      # password: asdf1234
+      password: asdf1234
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
 
-#      ddl-auto: create
-
 logging:
   level:
     org:
       springframework:
-        web: DEBUG
-    jdbc:
-      sqlonly: fatal
-      sqltiming: off
-      resultsettable: off
-      audit: off
-      resultset: off
-      connection: fatal
+        web: ERROR
+  jdbc:
+    sqlonly: fatal
+    sqltiming: off
+    resultsettable: off
+    audit: off
+    resultset: off
+    connection: fatal
 
