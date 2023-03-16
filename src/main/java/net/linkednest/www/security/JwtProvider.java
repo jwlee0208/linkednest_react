@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.linkednest.www.entity.Authority;
 import net.linkednest.www.service.security.CustomUserDetailService;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,8 @@ import java.security.Key;
 import java.util.Date;
 import java.util.List;
 
+
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
@@ -65,11 +68,15 @@ public class JwtProvider {
 
     // Authorization Header를 통해 인증
     public String resolveToken(HttpServletRequest request) {
+        log.info("[{}.{}] resolveToken : {}", this.getClass().getName(), "validateToken", request.getHeader("Authorization"));
+
         return request.getHeader("Authorization");
     }
 
     // Token 검증
     public boolean validateToken(String token) {
+        log.info("[{}.{}] token : {}, secretKey : {}", this.getClass().getName(), "validateToken", token, secretKey);
+
         try {
             if (!token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
                 return false;
