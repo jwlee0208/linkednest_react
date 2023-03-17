@@ -11,36 +11,8 @@ import { getLayoutInfo } from "../../../store/modules/layout";
 import Hidden from "@mui/material/Hidden";
 import Content from "../common/Content";
 
-/* const Styles = styled('div')(({theme}) => ({
-  [theme.breakpoints.down('lg')] : {
-    flexShrink:0,
-    width : 0,
-    display:"none",
-    //  justifyContent : 'flex-end'
-  }
-}));
- */
-
-
 function Layout1() {
-  // const {classes} = SideAreaStyle_();
 
-/*   const theme = useTheme();
-
-  const useStyles = makeStyles(theme => ({
-    root : {
-      display : 'flex'
-    },
-    drawerHeader : {
-      display:'flex',
-      alignItems : 'center',
-      padding : theme.spacing(0,1),
-      ...theme.mixins.toolbar,
-      justifyContent : 'flex-end'
-      
-    }
-  }));    
- */
     console.log("layout1>>");
 
     const userinfo = useAppSelect(getUserInfo);
@@ -64,28 +36,27 @@ function Layout1() {
             <Navbar/>
           </Grid>
           <Hidden smDown>  
-            <Grid container spacing={1} lg={12} md={12}>
-                <Grid component="article" item lg={9} md={9} xs={9}>
+            <Grid container spacing={1}>
+                <Grid component="article" item xs={9}>
                   <Content isLogin={isLogin}/>
                 </Grid>
-                <Grid component="aside" item lg={3} md={3} xs={3}>
+                <Grid component="aside" item xs={3}>
                   <SideArea isLogin={isLogin} username={username} user={userinfo} />
                 </Grid>
             </Grid>
           </Hidden>
           <Hidden smUp>
-                <Grid component="article" item lg={12} md={12} xs>
-                  <Content isLogin={isLogin}/>
-                </Grid>
+            <Grid container spacing={1}>
+              <Grid component="article" item xs={12}>
+                <Content isLogin={isLogin}/>
+              </Grid>
+            </Grid>  
           </Hidden>
         </Grid>
-
         <Grid component="footer">
           <Footer/>
         </Grid>
-
       </Grid> 
-
     )
 }
 
