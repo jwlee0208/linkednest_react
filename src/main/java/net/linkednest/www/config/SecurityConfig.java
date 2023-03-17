@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -49,17 +50,22 @@ public class SecurityConfig {
                                     List.of("*")
                             );
                             corsConfiguration.setAllowedMethods(
-                                    List.of("*")
+                                    List.of(
+                                              HttpMethod.GET.name()
+                                            , HttpMethod.POST.name()
+                                            , HttpMethod.DELETE.name()
+                                            , HttpMethod.PATCH.name())
                             );
                             corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type"));
                             return corsConfiguration;
                         };
                         c.configurationSource(corsConfigurationSource);
                     })
+
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeHttpRequests()
-                        .requestMatchers("/login", "/user", "/logout").permitAll()  // 무조건 허용할 URL 선언
+                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
                         .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                         .requestMatchers("/static/**", "/resources/**", "/style/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

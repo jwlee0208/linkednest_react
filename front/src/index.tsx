@@ -9,6 +9,8 @@ import store from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { Container, CssBaseline } from '@mui/material';
+import jwtDecode from 'jwt-decode';
+import { Navigate } from 'react-router';
 
 export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",
@@ -20,11 +22,24 @@ export const axiosInstance = axios.create({
   
 });
 
+interface Token{
+  sub : string;
+  iat : number;
+  exp : number;
+}
+
 axiosInstance.interceptors.request.use(
   function (config) {
     const userinfo = store.getState().userSlice;
+    console.log("request interceptor start >>>");
+
     if (userinfo.isLogin === true) {
-      config.headers.Authorization = `Bearer ${userinfo.accessToken}`;
+      let reqAccessToken = userinfo.accessToken;
+      // const decodeAccessToken = jwtDecode<Token>(userinfo.accessToken);
+      // const now = new Date().getTime()/1000;
+      // if (!(now > decodeAccessToken.exp)) {  // expired
+        config.headers.Authorization = `Bearer ${reqAccessToken}`;
+      // }  
     }
     console.log('request interceptor >> userinfo : ' + userinfo);
     return config;
@@ -40,8 +55,35 @@ axiosInstance.interceptors.response.use(
     // to-do
     return response;
   },
-  function(error) {
+  async function(error) {
     // to-do
+    const {config, response : {status}, } = error;
+    const originalReq = config;
+
+    if (status === 401) {
+      const userinfo = store.getState().userSlice;
+      const refreshToken = userinfo.refreshToken;
+      try {
+        const {data} = await axiosInstance({
+          method : 'post',
+          url : '/reIssueToken',
+          data : {refreshToken : refreshToken},
+        });
+        console.log("[interceptor response] return data : " + JSON.stringify(data) + ", returnCode : " + data.returnCode);
+        if (data.returnCode === 10000) {
+          const newAccessToken = data.accessToken;
+          const newRefreshToken = data.refreshToken;
+          userinfo.accessToken = newAccessToken;
+          userinfo.refreshToken = newRefreshToken;
+          originalReq.Authorization = `Bearer ${newAccessToken}`;
+          
+          return await axiosInstance(originalReq);  
+        }
+      } catch (err) {
+        console.log('err : ' + JSON.stringify(err));
+        // new Error(err);
+      }
+    }
     return Promise.reject(error);
   }
 )

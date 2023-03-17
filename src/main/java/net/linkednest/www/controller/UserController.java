@@ -12,18 +12,18 @@ import java.util.Map;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.www.dto.user.ResUserDto;
-import net.linkednest.www.dto.user.login.ReqUserLoginDto;
-import net.linkednest.www.dto.user.login.ResUserLoginDto;
-import net.linkednest.www.dto.user.regist.ReqUserRegistDto;
-import net.linkednest.www.dto.user.regist.ResUserRegistDto;
+import net.linkednest.www.dto.user.ResTokenDto;
+import net.linkednest.www.dto.user.get.ResUserDto;
+import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
+import net.linkednest.www.dto.user.signin.ResUserLoginDto;
+import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
+import net.linkednest.www.dto.user.signup.ResUserRegistDto;
 import net.linkednest.www.entity.User;
 import net.linkednest.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -156,5 +156,11 @@ public class UserController {
     resObj.put("returnCode", "10000");
     resObj.put("isLogin", false);
     return ResponseEntity.ok(resObj);
+  }
+
+  @PostMapping("/reIssueToken")
+  public ResponseEntity reIssueToken(String refreshToken) {
+    ResTokenDto resTokenDto = this.userService.reIssueToken(refreshToken);
+    return ResponseEntity.ok(resTokenDto);
   }
 }

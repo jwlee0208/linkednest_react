@@ -24,21 +24,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = jwtProvider.resolveToken(request);
 
-        log.info("[{}.{}] token : {}", this.getClass().getName(), "doFilterInternal", token);
+        if (request.getMethod().equals("OPTIONS")) {
+            // Http Method : OPTION은 PASS
+        } else {
+            String token = jwtProvider.resolveToken(request);
+            boolean isValidToken = (token != null && jwtProvider.validateToken(token));
+            log.info("[{}.{}] isValidToken : {}", this.getClass().getName(), "doFilterInternal", isValidToken);
+            if (isValidToken) {
+                log.info("[{}.{}] token : {}", this.getClass().getName(), "doFilterInternal", token);
 
-        boolean isValidToken = (token != null && jwtProvider.validateToken(token));
+                // accessToken 확인
+                token = token.split(" ")[1].trim();
+                log.info("[{}.{}] accessToken 확인 : {}", this.getClass().getName(), "doFilterInternal", token);
+                Authentication authentication = jwtProvider.getAuthentication(token);
+                log.info("[{}.{}] isAuthenticated : {}", this.getClass().getName(), "doFilterInternal", authentication.isAuthenticated());
 
-        log.info("[{}.{}] isValidToken : {}", this.getClass().getName(), "doFilterInternal", isValidToken);
-        if (isValidToken) {
-            // accessToken 확인
-            token = token.split(" ")[1].trim();
-            log.info("[{}.{}] accessToken 확인 : {}", this.getClass().getName(), "doFilterInternal", token);
-            Authentication authentication = jwtProvider.getAuthentication(token);
-            log.info("[{}.{}] isAuthenticated : {}", this.getClass().getName(), "doFilterInternal", authentication.isAuthenticated());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
         filterChain.doFilter(request, response);
     }

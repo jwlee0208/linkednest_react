@@ -1,8 +1,8 @@
-package net.linkednest.www.dto.user;
+package net.linkednest.www.dto.user.get;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.Data;
+import net.linkednest.www.dto.CommonResDto;
 
 @Data
 public class ResUserDto extends CommonResDto {

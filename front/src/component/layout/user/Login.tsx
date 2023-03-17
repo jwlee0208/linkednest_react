@@ -13,7 +13,7 @@ function Login() {
     const navigate = useNavigate();
     const layoutinfo = useAppSelect(getLayoutInfo);
 
-    const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", isLogin : false, nickname : "", email : "", returnCode : 0});
+    const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", refreshToken : '', isLogin : false, nickname : "", email : "", returnCode : 0});
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
 

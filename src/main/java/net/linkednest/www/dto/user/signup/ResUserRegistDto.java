@@ -1,8 +1,8 @@
-package net.linkednest.www.dto.user.regist;
+package net.linkednest.www.dto.user.signup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import net.linkednest.www.dto.user.CommonResDto;
+import net.linkednest.www.dto.CommonResDto;
 
 @Data
 public class ResUserRegistDto extends CommonResDto {
