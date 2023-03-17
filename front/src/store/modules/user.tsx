@@ -8,6 +8,7 @@ export interface User {
     nickname : string;
     email : string;
     accessToken : string;
+    refreshToken : string;
     isLogin : boolean;
     returnCode : number;
 }
@@ -18,6 +19,7 @@ const initialState : User = {
     nickname : '',
     email : '',
     accessToken : '',
+    refreshToken : '',
     isLogin : false,
     returnCode : 0,
 };
@@ -29,14 +31,16 @@ const userSlice = createSlice ({
         logout : (state, action) => {
             console.log('[setTypeID] action  : ' + JSON.stringify(action));
             state.accessToken = '';
+            state.refreshToken = '';
             state.email = '';
             state.isLogin = false;
             state.nickname = '';
             state.password = '';
-        }       
+        }, 
     },
     extraReducers : (builder) => {
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
+            console.log("[asyncLogin] action : ", action);
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
                 state.username = action.payload.username;
@@ -46,14 +50,13 @@ const userSlice = createSlice ({
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
             state.accessToken = action.payload.accessToken;
+            state.refreshToken = action.payload.refreshToken;
             state.isLogin = action.payload.isLogin;
             state.username = action.payload.username;
         })
-/*         builder.addCase(asyncLogout.fulfilled, (state, action) => {
-            state.accessToken = "";
-            state.isLogin = action.payload.isLogin;
-            state.username = "";       
-        }) */
+        builder.addCase(asyncGetUser.fulfilled, (state, action) => {
+console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
+        })
     } 
 });
 
@@ -81,5 +84,15 @@ export const asyncSignUp = createAsyncThunk("SIGN_UP", async (user : User) : Pro
         return res.data;
     }    
 );
+
+export const asyncGetUser = createAsyncThunk("GET_USER", async () : Promise<User> => {
+    const res = await axiosInstance.get("user/test01");
+    return res.data;
+});
+
+/* export const reIssueToken = (refreshToken : string) => {
+    const res = axiosInstance.post("/user/reIssueToken", {refreshToken : reIssueToken});
+    return res;
+} */
 
 export default userSlice;

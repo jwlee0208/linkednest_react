@@ -21,6 +21,7 @@
     "base-64": "^1.0.0",
     "immutable": "^4.3.0",
     "iterable": "^6.0.1-beta.5",
+    "jwt-decode": "^3.1.2",
     "mui-image": "^1.0.7",
     "node-sass": "^8.0.0",
     "python2": "^0.0.1",

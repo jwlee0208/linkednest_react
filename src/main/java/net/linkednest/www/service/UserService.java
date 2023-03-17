@@ -1,17 +1,17 @@
 package net.linkednest.www.service;
 
-import io.netty.handler.codec.base64.Base64Decoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.www.dto.user.login.ReqUserLoginDto;
-import net.linkednest.www.dto.user.login.ResUserLoginDto;
-import net.linkednest.www.dto.user.regist.ReqUserRegistDto;
-import net.linkednest.www.dto.user.regist.ResUserRegistDto;
+import net.linkednest.www.dto.user.ResTokenDto;
+import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
+import net.linkednest.www.dto.user.signin.ResUserLoginDto;
+import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.www.entity.Authority;
 import net.linkednest.www.entity.User;
+import net.linkednest.www.entity.UserRefreshToken;
+import net.linkednest.www.repository.UserRefreshTokenRepository;
 import net.linkednest.www.repository.UserRepository;
 import net.linkednest.www.security.JwtProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,8 @@ public class UserService {
 
 
     private final UserRepository userRepository;
+
+    private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -71,6 +73,23 @@ public class UserService {
                 resUserLoginDto.setIsLogin(true);
                 resUserLoginDto.setUsername(user.getUserId());
                 resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles()));
+                Optional<UserRefreshToken> refreshTokenOptional = userRefreshTokenRepository.findByUser(user);
+                String mergeRefreshTokenVal = null;
+                UserRefreshToken refreshTokenObj = null;
+                UserRefreshToken mergedRefreshToken = null;
+                if (!refreshTokenOptional.isPresent()) {
+                    mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getRoles());
+                    refreshTokenObj = new UserRefreshToken();
+                    refreshTokenObj.setUser(user);
+                    refreshTokenObj.setRefreshToken(mergeRefreshTokenVal);
+                    mergedRefreshToken = userRefreshTokenRepository.save(refreshTokenObj);
+                } else {
+                    mergedRefreshToken = refreshTokenOptional.get();
+                }
+
+//                if (mergedRefreshToken != null) {
+                resUserLoginDto.setRefreshToken(mergedRefreshToken.getRefreshToken());
+//                }
             } else {
                 resUserLoginDto.setReturnCode(50001);
                 resUserLoginDto.setReturnMsg("PASSWORD NOT MATCHED");
@@ -86,5 +105,19 @@ public class UserService {
 
     public Optional<User> getUser(String userId) {
         return userRepository.findByUserId(userId);
+    }
+
+    public ResTokenDto reIssueToken(String refreshToken) {
+
+        ResTokenDto resTokenDto = new ResTokenDto();
+        Optional<UserRefreshToken> userRefreshTokenOptional = userRefreshTokenRepository.findByRefreshToken(refreshToken);
+        if (userRefreshTokenOptional.isPresent()) {
+            UserRefreshToken userRefreshToken = userRefreshTokenOptional.get();
+            resTokenDto.setAccessToken(jwtProvider.createToken(userRefreshToken.getUser().getUserId(), userRefreshToken.getUser().getRoles()));
+            resTokenDto.setRefreshToken(refreshToken);
+        }
+        resTokenDto.setReturnCode(userRefreshTokenOptional.isPresent() ? 10000 : 50000);
+        resTokenDto.setReturnMsg(userRefreshTokenOptional.isPresent() ? "SUCCESS" : "FAIL");
+        return resTokenDto;
     }
 }

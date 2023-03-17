@@ -37,4 +37,14 @@ public class User {
         this.roles = role;
         role.stream().forEach(o -> o.setUser(this));
     }
+
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Builder.Default
+    private UserRefreshToken refreshToken;
+
+    public void setRefreshToken(UserRefreshToken userRefreshToken) {
+        this.refreshToken = userRefreshToken;
+    }
+
 }

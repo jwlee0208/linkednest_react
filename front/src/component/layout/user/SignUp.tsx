@@ -13,7 +13,7 @@ function SignUp() {
     const navigate = useNavigate();
     const layoutinfo = useAppSelect(getLayoutInfo);
 
-    const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", isLogin : false, nickname : "", email : "", returnCode : 0});
+    const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", refreshToken : '', isLogin : false, nickname : "", email : "", returnCode : 0});
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
