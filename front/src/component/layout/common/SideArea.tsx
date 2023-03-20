@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import store from "../../../store";
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import { getLayoutInfo } from "../../../store/modules/layout";
-import userSlice, { asyncLogout, User } from "../../../store/modules/user";
+import userSlice, { User } from "../../../store/modules/user";
 import Login from "../user/Login";
 
 type SideAreaProps = {

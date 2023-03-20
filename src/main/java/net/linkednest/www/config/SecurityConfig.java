@@ -1,5 +1,6 @@
 package net.linkednest.www.config;
 
+import io.swagger.v3.oas.models.media.Encoding;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,10 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.www.filter.JwtAuthenticationFilter;
 import net.linkednest.www.security.JwtProvider;
+import org.apache.commons.lang3.CharSet;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +31,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.io.IOException;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
@@ -54,23 +59,30 @@ public class SecurityConfig {
                                               HttpMethod.GET.name()
                                             , HttpMethod.POST.name()
                                             , HttpMethod.DELETE.name()
-                                            , HttpMethod.PATCH.name())
+                                            , HttpMethod.PATCH.name()
+                                    )
                             );
-                            corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type"));
+                            corsConfiguration.setAllowedHeaders(
+                                    List.of(
+                                            HttpHeaders.AUTHORIZATION
+                                            , HttpHeaders.CONTENT_TYPE
+                                    )
+                            );
+                            corsConfiguration.addExposedHeader("REFRESH_TOKEN");
                             return corsConfiguration;
                         };
                         c.configurationSource(corsConfigurationSource);
                     })
-
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeHttpRequests()
-                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
-                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
-                        .requestMatchers("/static/**", "/resources/**", "/style/**").permitAll()
+                        // .requestMatchers("/user/**").authenticated()    // JWT 인증 체크해야할 URL 선언
+//                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
+//                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
+//                        .requestMatchers("/static/**", "/style/**", "/images/**").permitAll()
+                        .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").authenticated()    // JWT 인증 체크해야할 URL 선언
-                        .anyRequest().denyAll()
+                        .anyRequest().permitAll()
                 .and()
                     .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                     .exceptionHandling()
@@ -79,9 +91,9 @@ public class SecurityConfig {
                         public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
                             log.error("[{}.{}] accessDeniedException : {}", this.getClass().getName(), "filterChain", accessDeniedException.getMessage());
                             response.setStatus(HttpStatus.SC_FORBIDDEN);
-                            response.setCharacterEncoding("UTF-8");
+                            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
                             response.setContentType(ContentType.TEXT_HTML.toString());
-                            response.getWriter().write("Unaccessable User");
+                            response.getWriter().write("UNACCESSABLE USER");
                         }
                     })
                     .authenticationEntryPoint(new AuthenticationEntryPoint() {
@@ -89,11 +101,12 @@ public class SecurityConfig {
                         @Override
                         public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
                             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-                            response.setCharacterEncoding("utf-8");
+                            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
                             response.setContentType(ContentType.TEXT_HTML.getMimeType());
-                            response.getWriter().write("Unauthticated User");
+                            response.getWriter().write("UNAUTHENTICATED USER");
                         }
-                    });
+                    })
+                ;
         return httpSecurity.build();
     }
 

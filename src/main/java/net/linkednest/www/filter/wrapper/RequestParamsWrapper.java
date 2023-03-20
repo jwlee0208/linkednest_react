@@ -59,7 +59,6 @@ public class RequestParamsWrapper extends HttpServletRequestWrapper {
 					setParameter(key, String.valueOf(jsonObject.get(key)).replace("\"", "\\\""));
 				}
 				// header setting for CORS
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

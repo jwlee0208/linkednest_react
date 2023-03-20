@@ -10,8 +10,10 @@ public class ResUserLoginDto extends CommonResDto {
     private String username;
     @Schema(description = "인증 토큰", defaultValue = "asdfqwetasd2asdf", name = "accessToken", required = false)
     private String accessToken;
+/*
     @Schema(description = "Refresh Token", required = false)
     private String refreshToken;
+*/
     @Schema(description = "로그인 여부", defaultValue = "true", name = "isLogin", required = true)
     private Boolean isLogin;
 }

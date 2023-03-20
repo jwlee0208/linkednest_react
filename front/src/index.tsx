@@ -35,13 +35,8 @@ axiosInstance.interceptors.request.use(
 
     if (userinfo.isLogin === true) {
       let reqAccessToken = userinfo.accessToken;
-      // const decodeAccessToken = jwtDecode<Token>(userinfo.accessToken);
-      // const now = new Date().getTime()/1000;
-      // if (!(now > decodeAccessToken.exp)) {  // expired
         config.headers.Authorization = `Bearer ${reqAccessToken}`;
-      // }  
     }
-    console.log('request interceptor >> userinfo : ' + userinfo);
     return config;
   },
   function (error) {

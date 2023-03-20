@@ -1,5 +1,6 @@
 package net.linkednest.www.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.www.dto.user.ResTokenDto;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final static String REFRESH_TOKEN = "REFRESH_TOKEN";
 
     private final UserRepository userRepository;
 
@@ -55,7 +57,7 @@ public class UserService {
         return true;
     }
 
-    public ResUserLoginDto login(ReqUserLoginDto reqUserLoginDto) {
+    public ResUserLoginDto login(ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
 
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
 
@@ -86,10 +88,7 @@ public class UserService {
                 } else {
                     mergedRefreshToken = refreshTokenOptional.get();
                 }
-
-//                if (mergedRefreshToken != null) {
-                resUserLoginDto.setRefreshToken(mergedRefreshToken.getRefreshToken());
-//                }
+                response.setHeader(REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
             } else {
                 resUserLoginDto.setReturnCode(50001);
                 resUserLoginDto.setReturnMsg("PASSWORD NOT MATCHED");
