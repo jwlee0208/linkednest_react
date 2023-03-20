@@ -1,6 +1,5 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import userSlice, { User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
@@ -8,7 +7,7 @@ import Link from '@mui/material/Link';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { AppBar, Avatar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, ButtonGroup, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
@@ -30,19 +29,12 @@ function Header({
     typeId
 } : HeaderProps) {
 
-    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'}] : 
-    [{menu : 'Home', path : '/'}];
+    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'},{menu : 'My Page', path : '/mypage'}] : [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
 
     const navigate = useNavigate();
  
-    const handleLogout = (e : FormEvent) => {
-        e.preventDefault();
-        store.dispatch(userSlice.actions.logout(user));
-        navigate("/");
-    }    
-
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -236,11 +228,13 @@ function Header({
     ) : 
     (
       (typeId === "3") ? (
-        <Box sx={{ flexGrow: 0 }}>                
-            <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}}
-              sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>
+        <Box sx={{ flexGrow: 0 }}>        
+          <ButtonGroup>
             <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}}
-              sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>
+              sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
+            <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}}
+              sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
+          </ButtonGroup>        
         </Box>      
       ) : (
         <Box sx={{ flexGrow: 0 }}></Box>
