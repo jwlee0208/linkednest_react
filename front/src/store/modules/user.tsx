@@ -49,6 +49,7 @@ const userSlice = createSlice ({
             }   
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
+// console.log('after login action' + JSON.stringify(action));
             state.accessToken = action.payload.accessToken;
             state.refreshToken = action.payload.refreshToken;
             state.isLogin = action.payload.isLogin;
@@ -62,17 +63,25 @@ console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload))
 
 export const getUserInfo = (state : RootState) => state.userSlice;
 
-export const asyncLogout = createAsyncThunk("LOGOUT_USER", async (user : User) => {
+/* export const asyncLogout = createAsyncThunk("LOGOUT_USER", async (user : User) => {
         const res = await axiosInstance.post("/logout", user);
         console.log('[asyncLogout] res : ' + JSON.stringify(res.data));
         return res.data;
     }    
-);
+); */
 
 export const asyncLogin = createAsyncThunk("LOGIN_USER", async (user : User) : Promise<User> => {
-        console.log('[asyncLogin] user : ' + user.username + ", " + user.password);
+        // console.log('[asyncLogin] user : ' + user.username + ", " + user.password);
         const res = await axiosInstance.post("/login", user);
-        console.log('[asyncLogin] res : ' + JSON.stringify(res.data));
+        // console.log('[asyncLogin] res data(before) : ' + JSON.stringify(res.data));
+        // console.log('[asyncLogin] res refresh_token : ' + res.headers.refresh_token);
+        
+        res.data.refreshToken = res.headers.refresh_token;
+
+        // console.log('[asyncLogin] res data : ' + JSON.stringify(res.data));
+        // console.log('[asyncLogin] res config : ' + JSON.stringify(res.config));
+        // console.log('[asyncLogin] res headers : ' + JSON.stringify(res.headers));
+        // console.log('[asyncLogin] res status : ' + JSON.stringify(res.status));
         return res.data;
     }    
 );

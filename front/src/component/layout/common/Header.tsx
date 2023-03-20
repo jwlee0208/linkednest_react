@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import userSlice, { asyncLogout, User } from "../../../store/modules/user";
+import userSlice, { User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -146,7 +146,7 @@ function Header({
                   id="demo-simple-select-standard"
                   label="Type List"
                   onChange={handleMoveType}
-                  // defaultValue="1"
+                  defaultValue="1"
                   value={typeId}
                 >
                   <MenuItem value={"1"}>1</MenuItem>
@@ -183,7 +183,7 @@ function Header({
                   id="demo-simple-select-standard"
                   label="Type List"
                   onChange={handleMoveType}
-                  // defaultValue="1"
+                  defaultValue="1"
                   value={typeId}
                 >
                   <MenuItem value={"1"}>1</MenuItem>
@@ -207,7 +207,7 @@ function Header({
             <Box sx={{ flexGrow: 0 }}>                
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src="images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.www.dto.user.ResTokenDto;
 import net.linkednest.www.dto.user.get.ResUserDto;
@@ -21,6 +22,7 @@ import net.linkednest.www.dto.user.signup.ResUserRegistDto;
 import net.linkednest.www.entity.User;
 import net.linkednest.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000" })
+//@CrossOrigin(origins = { "http://localhost:3000" })
 public class UserController {
+
 
   @Autowired
   private UserService userService;
@@ -59,7 +62,7 @@ public class UserController {
       )
     }
   )
-  public ResponseEntity registUser(
+  public ResponseEntity<ResUserRegistDto> registUser(
     @RequestBody(
       required = true,
       description = "회원가입 요청 파라미터"
@@ -79,7 +82,7 @@ public class UserController {
     resUserRegistDto.setNickname(nickname);
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
     resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
-    return new ResponseEntity(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
+    return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
   }
 
 
@@ -98,7 +101,7 @@ public class UserController {
                   ),
           }
   )
-  public ResponseEntity getUser(
+  public ResponseEntity<ResUserDto> getUser(
           @Parameter(name = "userId",
                   required = true,
                   description = "회원 정보 조회 요청 파라미터"
@@ -118,7 +121,7 @@ public class UserController {
     resUserDto.setReturnCode(isExistUser ? 10000 : 50000);
     resUserDto.setReturnMsg(isExistUser ? "SUCCESS" : "FAIL");
 
-    return new ResponseEntity(resUserDto, HttpStatus.OK);
+    return ResponseEntity.ok(resUserDto);
   }
 
   @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -136,7 +139,7 @@ public class UserController {
       ),
     }
   )
-  public ResponseEntity login(@RequestBody ReqUserLoginDto reqUserLoginDto) {
+  public ResponseEntity<ResUserLoginDto> login(@RequestBody ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
     String username = reqUserLoginDto.getUsername();
     String password = reqUserLoginDto.getPassword();
 
@@ -146,12 +149,13 @@ public class UserController {
       password
     );
 
-    ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto);
-    return ResponseEntity.ok(resUserLoginDto);
+    ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, response);
+
+    return new ResponseEntity<>(resUserLoginDto, HttpStatus.OK);
   }
 
   @PostMapping(value = "/logout")
-  public ResponseEntity logout(HttpServletRequest request) {
+  public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) {
     Map<String, Object> resObj = new HashMap<>();
     resObj.put("returnCode", "10000");
     resObj.put("isLogin", false);
@@ -159,7 +163,7 @@ public class UserController {
   }
 
   @PostMapping("/reIssueToken")
-  public ResponseEntity reIssueToken(String refreshToken) {
+  public ResponseEntity<ResTokenDto> reIssueToken(String refreshToken) {
     ResTokenDto resTokenDto = this.userService.reIssueToken(refreshToken);
     return ResponseEntity.ok(resTokenDto);
   }

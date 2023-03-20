@@ -1,4 +1,3 @@
-
 import { useAppSelect } from "../../../store/index.hooks";
 import { getUserInfo } from "../../../store/modules/user";
 import Header from "../common/Header";
@@ -23,11 +22,10 @@ function Layout1() {
     const layoutinfo = useAppSelect(getLayoutInfo);
 
     return (
-
-      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}} xs={12} lg={12} md={12}>
+        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo} typeId={layoutinfo.typeId}/>
+            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}  typeId={layoutinfo.typeId}/>
           </Grid>
           <Grid>
             <TopBanner/>
@@ -35,16 +33,6 @@ function Layout1() {
           <Grid component="nav">
             <Navbar/>
           </Grid>
-          <Hidden smDown>  
-            <Grid container spacing={1}>
-                <Grid component="article" item xs={9}>
-                  <Content isLogin={isLogin}/>
-                </Grid>
-                <Grid component="aside" item xs={3}>
-                  <SideArea isLogin={isLogin} username={username} user={userinfo} />
-                </Grid>
-            </Grid>
-          </Hidden>
           <Hidden smUp>
             <Grid container spacing={1}>
               <Grid component="article" item xs={12}>
@@ -52,11 +40,21 @@ function Layout1() {
               </Grid>
             </Grid>  
           </Hidden>
+          <Hidden smDown>
+            <Grid container spacing={1}>
+              <Grid component="article" item xs={9}>
+                <Content isLogin={isLogin}/>
+              </Grid>
+              <Grid component="aside" item xs={3}>
+                <SideArea isLogin={isLogin} username={username} user={userinfo} />
+              </Grid>
+            </Grid>
+          </Hidden>
         </Grid>
         <Grid component="footer">
           <Footer/>
         </Grid>
-      </Grid> 
+      </Grid>  
     )
 }
 
