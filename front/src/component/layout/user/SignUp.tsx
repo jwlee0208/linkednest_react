@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { asyncLogin, User } from "../../../store/modules/user";
+import { asyncLogin, asyncSignUp, User } from "../../../store/modules/user";
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
@@ -8,19 +8,16 @@ import { Box, FormControl, Grid } from "@mui/material";
 import { getLayoutInfo } from "../../../store/modules/layout";
 import {encode as base64_encode} from 'base-64';
 
-function Login() {
+function SignUp() {
 
     const navigate = useNavigate();
     const layoutinfo = useAppSelect(getLayoutInfo);
 
     const [user, setUser] = useState<User>({username : "", password : "", accessToken : "", refreshToken : '', isLogin : false, nickname : "", email : "", returnCode : 0});
-    const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState("");
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('username : ' + e.target.value);
-        
+        console.log('username : ' + e.target.value);        
         setUser({...user, username : e.target.value});
     }
 
@@ -30,47 +27,54 @@ function Login() {
         setUser({...user, password : e.target.value});
     }
 
+    const inputNicknameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        console.log('nickname : ' + e.target.value);        
+        setUser({...user, nickname : e.target.value});
+    }
+
+    const inputEmailVal = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        console.log('email : ' + e.target.value);        
+        setUser({...user, email : e.target.value});
+    }
+
     const dispatch = useAppDispatch();
 
-    const LoginAction = (e : React.FormEvent) => {
+    const SignupAction = (e : React.FormEvent) => {
         e.preventDefault();
         if (!user.username) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
             return alert('Password를 입력하세요.');
+        } else if (!user.email) {
+            return alert('Email을 입력하세요.');
+        } else if (!user.nickname) {
+            return alert('Nickname을 입력하세요.');
         }
 
+        console.log('[signup] before encode : ' + JSON.stringify(user));
+
         user.username = base64_encode(user.username);
-        user.password = base64_encode(user.password);    
-        console.log('[login] before : ' + JSON.stringify(user));        
+        user.password = base64_encode(user.password);        
+        console.log('[signup] after encode : ' + JSON.stringify(user));
 
-        const res = dispatch(asyncLogin(user));
-        // setUser({...user, user.isLogin : true, user.accessToken : 'asdf'});
-        // dispatch({type : 'LOGIN_USER', payload: user});
-        console.log('[login] res : ' + JSON.stringify(res.arg));
-
-        setMsg("로그인 성공하였습니다.");
+        const res = dispatch(asyncSignUp(user));
+        console.log('[signup] res : ' + JSON.stringify(res.arg));
         navigate(`/${layoutinfo.typeId}`);
-        setLoading(true);
     }
 
     useEffect(()=>{
-        if (msg) {
-            setTimeout(() => {
-                setMsg("");
-                setLoading(false);
-            }, 1500);
-        }
-    }, [msg]);
+    }, []);
 
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
-      <div className="Login">
-        <form onSubmit={LoginAction}>
+      <div className="SignUp">
+        <form onSubmit={SignupAction}>
         <Grid container>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your Email"/> 
+                    <TextField id="outlined-basic" label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID"/> 
                 </FormControl>    
             </Grid>
             <Grid container item>
@@ -80,7 +84,17 @@ function Login() {
             </Grid>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <Button type="submit" variant="outlined" size="large" disabled={loading}>Login</Button>
+                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email"/> 
+                </FormControl>    
+            </Grid>
+            <Grid container item>
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <TextField id="outlined-basic" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname"/>
+                </FormControl>    
+            </Grid>
+            <Grid container item>
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <Button type="submit" variant="outlined" size="large">Sign Up</Button>
                 </FormControl>
             </Grid>
         </Grid>    
@@ -89,5 +103,5 @@ function Login() {
       </Box>
     );
   }
-  export default Login;
+  export default SignUp;
   

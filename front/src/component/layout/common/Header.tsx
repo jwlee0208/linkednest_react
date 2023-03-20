@@ -1,19 +1,17 @@
 import React, { FormEvent, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import { asyncLogout, User } from "../../../store/modules/user";
+import userSlice, { User } from "../../../store/modules/user";
 import logo from './logo.svg';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { AppBar, Avatar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, ButtonGroup, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-import { RootState } from "../../../reducer";
-import layoutSlice, { getLayoutInfo, Layout_ } from "../../../store/modules/layout";
+import store from "../../../store";
 
 type HeaderProps = {
     user : User,
@@ -31,20 +29,12 @@ function Header({
     typeId
 } : HeaderProps) {
 
-    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'}] : 
-    [{menu : 'Home', path : '/'}];
+    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'},{menu : 'My Page', path : '/mypage'}] : [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
     
 
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
  
-    const handleLogout = (e : FormEvent) => {
-        e.preventDefault();
-        dispatch(asyncLogout(user));
-        navigate("/");
-    }    
-
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -66,7 +56,7 @@ function Header({
 
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
-            dispatch(asyncLogout(user));
+            store.dispatch(userSlice.actions.logout(user));
             navigate("/");    
         } else {
             navigate(param);
@@ -148,7 +138,7 @@ function Header({
                   id="demo-simple-select-standard"
                   label="Type List"
                   onChange={handleMoveType}
-                  // defaultValue="1"
+                  defaultValue="1"
                   value={typeId}
                 >
                   <MenuItem value={"1"}>1</MenuItem>
@@ -185,7 +175,7 @@ function Header({
                   id="demo-simple-select-standard"
                   label="Type List"
                   onChange={handleMoveType}
-                  // defaultValue="1"
+                  defaultValue="1"
                   value={typeId}
                 >
                   <MenuItem value={"1"}>1</MenuItem>
@@ -209,7 +199,7 @@ function Header({
             <Box sx={{ flexGrow: 0 }}>                
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src="images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -238,9 +228,13 @@ function Header({
     ) : 
     (
       (typeId === "3") ? (
-        <Box sx={{ flexGrow: 0 }}>                
+        <Box sx={{ flexGrow: 0 }}>        
+          <ButtonGroup>
+            <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}}
+              sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
             <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}}
-              sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
+              sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
+          </ButtonGroup>        
         </Box>      
       ) : (
         <Box sx={{ flexGrow: 0 }}></Box>

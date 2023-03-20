@@ -38,9 +38,11 @@ function Layout() {
    
     useEffect(()=>{
       const baseCss = document.createElement("link");
-      // baseCss.crossOrigin = '*';
+      baseCss.crossOrigin = '*';
       baseCss.rel = 'stylesheet';
-      baseCss.href = `http://localhost:9091/style/layout_${typeId}.css`;
+      baseCss.type = "text/css";
+      baseCss.href = `http://localhost:9091/style/layout_${typeId}.scss`;
+      
       const iconCss = document.createElement("link");
       iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
       iconCss.rel = 'stylesheet';

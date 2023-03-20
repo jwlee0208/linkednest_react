@@ -1,9 +1,10 @@
 import { Box, Button, FormControl } from "@mui/material";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router";
+import store from "../../../store";
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
 import { getLayoutInfo } from "../../../store/modules/layout";
-import { asyncLogout, User } from "../../../store/modules/user";
+import userSlice, { User } from "../../../store/modules/user";
 import Login from "../user/Login";
 
 type SideAreaProps = {
@@ -19,14 +20,13 @@ function SideArea({
     username, 
 } : SideAreaProps) {
 
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
     const layoutinfo = useAppSelect(getLayoutInfo);
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
-        dispatch(asyncLogout(user));
+        store.dispatch(userSlice.actions.logout(user));
         navigate(`/${layoutinfo.typeId}`);    
     };
     

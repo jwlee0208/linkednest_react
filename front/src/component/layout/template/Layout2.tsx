@@ -1,10 +1,6 @@
-import { Navigate, Route, Routes, useParams } from "react-router";
 import { useAppSelect } from "../../../store/index.hooks";
 import { getUserInfo } from "../../../store/modules/user";
 import Header from "../common/Header";
-import Home from "../common/Home";
-import Login from "../user/Login";
-import Mypage from "../user/Mypage";
 import Footer from "../common/Footer";
 import SideArea from "../common/SideArea";
 import { Grid } from "@mui/material";
