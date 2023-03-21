@@ -3,6 +3,8 @@ package net.linkednest.www.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.www.common.CommonConstants;
+import net.linkednest.www.common.ResponseCodeMsg;
 import net.linkednest.www.dto.user.ResTokenDto;
 import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
@@ -13,6 +15,7 @@ import net.linkednest.www.entity.UserRefreshToken;
 import net.linkednest.www.repository.UserRefreshTokenRepository;
 import net.linkednest.www.repository.UserRepository;
 import net.linkednest.www.security.JwtProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +27,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
-    private final static String REFRESH_TOKEN = "REFRESH_TOKEN";
 
     private final UserRepository userRepository;
 
@@ -42,6 +43,7 @@ public class UserService {
             newUser.setEmail(userRegistDto.getEmail());
             newUser.setNickname(userRegistDto.getNickname());
             newUser.setPassword(passwordEncoder.encode(new String(Base64.getDecoder().decode(userRegistDto.getPassword()))));
+            newUser.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
             Authority authority = new Authority();
             authority.setName("ROLE_USER");
 
@@ -71,7 +73,7 @@ public class UserService {
             Boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
             if (isMatchedPw) {
                 resUserLoginDto.setReturnCode(10000);
-                resUserLoginDto.setReturnMsg("SUCCESS");
+                resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
                 resUserLoginDto.setIsLogin(true);
                 resUserLoginDto.setUsername(user.getUserId());
                 resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles()));
@@ -88,15 +90,15 @@ public class UserService {
                 } else {
                     mergedRefreshToken = refreshTokenOptional.get();
                 }
-                response.setHeader(REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
+                response.setHeader(CommonConstants.REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
             } else {
-                resUserLoginDto.setReturnCode(50001);
-                resUserLoginDto.setReturnMsg("PASSWORD NOT MATCHED");
+                resUserLoginDto.setReturnCode(20001);
+                resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(20001).getResMsg());
                 resUserLoginDto.setIsLogin(false);
             }
         } else {
-            resUserLoginDto.setReturnCode(50002);
-            resUserLoginDto.setReturnMsg("USER NOT EXIST");
+            resUserLoginDto.setReturnCode(20002);
+            resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(20002).getResMsg());
             resUserLoginDto.setIsLogin(false);
         }
         return resUserLoginDto;
@@ -116,7 +118,7 @@ public class UserService {
             resTokenDto.setRefreshToken(refreshToken);
         }
         resTokenDto.setReturnCode(userRefreshTokenOptional.isPresent() ? 10000 : 50000);
-        resTokenDto.setReturnMsg(userRefreshTokenOptional.isPresent() ? "SUCCESS" : "FAIL");
+        resTokenDto.setReturnMsg(userRefreshTokenOptional.isPresent() ? ResponseCodeMsg.of(10000).getResMsg() : "FAIL");
         return resTokenDto;
     }
 }

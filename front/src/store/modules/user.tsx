@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../reducer'; 
 import { axiosInstance } from '../..'; 
+import {decode as base64_decode} from 'base-64';
+
 
 export interface User {
     username : string;
     password : string;
     nickname : string;
     email : string;
+    introduce : string;
     accessToken : string;
     refreshToken : string;
     isLogin : boolean;
@@ -18,6 +21,7 @@ const initialState : User = {
     password : '',
     nickname : '',
     email : '',
+    introduce : '',
     accessToken : '',
     refreshToken : '',
     isLogin : false,
@@ -43,7 +47,7 @@ const userSlice = createSlice ({
             console.log("[asyncLogin] action : ", action);
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
-                state.username = action.payload.username;
+                state.username = base64_decode(action.payload.username);
                 state.email = action.payload.email;
                 state.nickname = action.payload.nickname;        
             }   

@@ -2,19 +2,17 @@ import { useLocation } from "react-router";
 import Layout2 from "./template/Layout2";
 import Layout1 from "./template/Layout1";
 import Layout3 from "./template/Layout3";
-import { useAppDispatch, useAppSelect } from "../../store/index.hooks";
+import { useAppSelect } from "../../store/index.hooks";
 import { useEffect, useState } from "react";
 import layoutSlice, { getLayoutInfo, Layout_, setLayoutTypeId, } from "../../store/modules/layout";
 import store from "../../store";
-import { makeStyles, useTheme } from "@mui/material/styles";
 
 
 function Layout() {
 
 
-    let typeId = ""; 
+    let typeId = '1'; 
     const location = useLocation();
-    const dispatch = useAppDispatch();
 
     const [layout, setLayout] = useState<Layout_>({typeId : ""});
 
@@ -29,11 +27,7 @@ function Layout() {
 
     if (typeId !== layoutInfo.typeId) {
       setLayout({...layout, typeId : typeId});
-      // const result1 = dispatch(setLayoutTypeId(layout));
-
-      const result1 = store.dispatch(layoutSlice.actions.setTypeId(layout));
-      console.log('result1 : ', result1);
-      
+      store.dispatch(layoutSlice.actions.setTypeId(layout));
     }
    
     useEffect(()=>{
@@ -41,7 +35,7 @@ function Layout() {
       baseCss.crossOrigin = '*';
       baseCss.rel = 'stylesheet';
       baseCss.type = "text/css";
-      baseCss.href = `http://localhost:9091/style/layout_${typeId}.scss`;
+      baseCss.href = `http://localhost:9091/style/layout_${typeId === '' ? '1' : typeId}.scss`;
       
       const iconCss = document.createElement("link");
       iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';

@@ -31,7 +31,8 @@ logging:
   level:
     org:
       springframework:
-        web: ERROR
+        web: DEBUG
+        security: DEBUG
   jdbc:
     sqlonly: fatal
     sqltiming: off
