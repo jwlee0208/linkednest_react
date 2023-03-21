@@ -85,6 +85,30 @@ public class UserController {
     return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
   }
 
+  @PutMapping(value = "/user")
+  public ResponseEntity<ResUserRegistDto> updateUser(
+          @RequestBody(
+                  required = true,
+                  description = "회원정보 수정 요청 파라미터"
+          ) ReqUserRegistDto reqUserRegistDto
+  ) {
+    String username = reqUserRegistDto.getUsername();
+    String password = reqUserRegistDto.getPassword();
+    String nickname = reqUserRegistDto.getNickname();
+    String introduce = reqUserRegistDto.getIntroduce();
+
+    log.info("[updateUser] username : {}, password : {}, nickname : {}, introduce : {}", username, password, nickname, introduce);
+
+    Boolean isSaved = userService.updateUser(reqUserRegistDto);
+
+    ResUserRegistDto resUserRegistDto = new ResUserRegistDto();
+
+    resUserRegistDto.setUsername(username);
+    resUserRegistDto.setNickname(nickname);
+    resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
+    resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
+    return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
+  }
 
   @GetMapping(value = "/user/{userId}")
   @Operation(
@@ -155,6 +179,17 @@ public class UserController {
   }
 
   @PostMapping(value = "/logout")
+  @Operation(
+          summary = "회원 로그아웃",
+          description = "회원 로그아웃 액션입니다.",
+          tags = { "User Controller" },
+          responses = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "회원 로그아웃 성공"
+                  ),
+          }
+  )
   public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) {
     Map<String, Object> resObj = new HashMap<>();
     resObj.put("returnCode", "10000");
@@ -162,6 +197,20 @@ public class UserController {
     return ResponseEntity.ok(resObj);
   }
 
+  @Operation(
+          summary = "회원 액세스 토큰 재발행",
+          description = "회원 액세스 토큰 재발행 액션입니다.",
+          tags = { "User Controller" },
+          responses = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "회원 액세스 토큰 재발행 성공",
+                          content = @Content(
+                                  schema = @Schema(implementation = ResTokenDto.class)
+                          )
+                  ),
+          }
+  )
   @PostMapping("/reIssueToken")
   public ResponseEntity<ResTokenDto> reIssueToken(String refreshToken) {
     ResTokenDto resTokenDto = this.userService.reIssueToken(refreshToken);

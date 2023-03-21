@@ -59,6 +59,29 @@ public class UserService {
         return true;
     }
 
+    public Boolean updateUser(ReqUserRegistDto userRegistDto) {
+        log.info("[{}.{}] updateUser : {}", this.getClass().getName().toString(), "updateUser", userRegistDto.toString());
+        User newUser = new User();
+        String decodedUserId = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
+        try {
+            Optional<User> userOptional = this.getUser(decodedUserId);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                user.setUserId(decodedUserId);
+                user.setEmail(userRegistDto.getEmail());
+                user.setNickname(userRegistDto.getNickname());
+                user.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
+
+                log.info("[{}.{}] before update user : {}", this.getClass().getName(), "updateUser", user);
+
+                userRepository.saveAndFlush(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
     public ResUserLoginDto login(ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
 
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
@@ -77,6 +100,9 @@ public class UserService {
                 resUserLoginDto.setIsLogin(true);
                 resUserLoginDto.setUsername(user.getUserId());
                 resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles()));
+                resUserLoginDto.setEmail(user.getEmail());
+                resUserLoginDto.setIntroduce(user.getIntroduce());
+                resUserLoginDto.setNickname(user.getNickname());
                 Optional<UserRefreshToken> refreshTokenOptional = userRefreshTokenRepository.findByUser(user);
                 String mergeRefreshTokenVal = null;
                 UserRefreshToken refreshTokenObj = null;

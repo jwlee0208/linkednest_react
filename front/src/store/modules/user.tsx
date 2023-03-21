@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../reducer'; 
 import { axiosInstance } from '../..'; 
+import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
-
+import { useAppDispatch } from "../index.hooks";
 
 export interface User {
     username : string;
@@ -47,7 +48,7 @@ const userSlice = createSlice ({
             console.log("[asyncLogin] action : ", action);
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
-                state.username = base64_decode(action.payload.username);
+                state.username = action.payload.username;
                 state.email = action.payload.email;
                 state.nickname = action.payload.nickname;        
             }   
@@ -58,9 +59,12 @@ const userSlice = createSlice ({
             state.refreshToken = action.payload.refreshToken;
             state.isLogin = action.payload.isLogin;
             state.username = action.payload.username;
+            state.email = action.payload.email;
+            state.nickname = action.payload.nickname;
+            state.introduce = action.payload.introduce;
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
-console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
+// console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
         })
     } 
 });
@@ -97,6 +101,15 @@ export const asyncSignUp = createAsyncThunk("SIGN_UP", async (user : User) : Pro
         return res.data;
     }    
 );
+
+export const asyncUserUpdate = createAsyncThunk("USER_UPDATE", async (user : User) : Promise<User> => {
+        console.log('[asyncSignUp] user : ' + JSON.stringify(user));
+        const res = await axiosInstance.put("/user", user);
+        console.log('[asyncSignUp] res : ' + JSON.stringify(res.data));
+        return res.data;
+    }    
+);
+
 
 export const asyncGetUser = createAsyncThunk("GET_USER", async () : Promise<User> => {
     const res = await axiosInstance.get("user/test01");

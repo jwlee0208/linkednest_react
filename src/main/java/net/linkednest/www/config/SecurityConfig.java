@@ -58,6 +58,7 @@ public class SecurityConfig {
                                             , HttpMethod.POST.name()
                                             , HttpMethod.DELETE.name()
                                             , HttpMethod.PATCH.name()
+                                            , HttpMethod.PUT.name()
                                     )
                             );
                             corsConfiguration.setAllowedHeaders(
