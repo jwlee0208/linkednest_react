@@ -1,6 +1,5 @@
 package net.linkednest.www.config;
 
-import io.swagger.v3.oas.models.media.Encoding;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.www.filter.JwtAuthenticationFilter;
 import net.linkednest.www.security.JwtProvider;
-import org.apache.commons.lang3.CharSet;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +17,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -31,7 +29,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.io.IOException;
-import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -47,7 +44,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                     .httpBasic().disable()
-                    .csrf().disable()
+                    .csrf()
+                        .disable()
                     .cors(c -> {
                         CorsConfigurationSource corsConfigurationSource = request -> {
                             CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -68,7 +66,7 @@ public class SecurityConfig {
                                             , HttpHeaders.CONTENT_TYPE
                                     )
                             );
-                            corsConfiguration.addExposedHeader("REFRESH_TOKEN");
+                            corsConfiguration.addExposedHeader("REFRESH_TOKEN");    // response 헤더에 REFRESH_TOKEN 헤더 허용
                             return corsConfiguration;
                         };
                         c.configurationSource(corsConfigurationSource);
@@ -77,9 +75,10 @@ public class SecurityConfig {
                 .and()
                     .authorizeHttpRequests()
                         // .requestMatchers("/user/**").authenticated()    // JWT 인증 체크해야할 URL 선언
-//                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
+                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
 //                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
 //                        .requestMatchers("/static/**", "/style/**", "/images/**").permitAll()
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()

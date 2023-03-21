@@ -17,4 +17,7 @@ public class ReqUserRegistDto {
     private String password;
     @Schema(description = "사용자 닉네임", required = false, example = "nick01")
     private String nickname;
+
+    @Schema(description = "사용자 소개", required = false)
+    private String introduce;
 }
