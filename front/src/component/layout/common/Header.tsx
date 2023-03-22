@@ -29,8 +29,8 @@ function Header({
     typeId
 } : HeaderProps) {
 
-    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'},{menu : 'My Page', path : '/mypage'}] : [{menu : 'Home', path : '/'}];
-    const settings = [{menu : 'My Page', path : '/mypage'}, {menu : 'Logout', path : '/logout'}];
+    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'},{menu : 'My Page', path : `/${typeId}/mypage`}] : [{menu : 'Home', path : '/'}];
+    const settings = [{menu : 'My Page', path : `/${typeId}/mypage`}, {menu : 'Logout', path : '/logout'}];
     
 
     const navigate = useNavigate();
