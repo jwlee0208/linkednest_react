@@ -1,12 +1,12 @@
-package net.linkednest.config;
+package net.linkednest.common.config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.filter.JwtAuthenticationFilter;
-import net.linkednest.security.JwtProvider;
+import net.linkednest.common.filter.JwtAuthenticationFilter;
+import net.linkednest.common.security.JwtProvider;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

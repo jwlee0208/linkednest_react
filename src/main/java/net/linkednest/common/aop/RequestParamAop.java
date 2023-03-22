@@ -1,4 +1,4 @@
-package net.linkednest.aop;
+package net.linkednest.common.aop;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,7 @@ public class RequestParamAop {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
             String controllerName = joinPoint.getSignature().getDeclaringType().getSimpleName();
+
             String methodName = joinPoint.getSignature().getName();
             String requestURI = request.getRequestURI();
             String httpMethod = request.getMethod();

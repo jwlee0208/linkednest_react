@@ -1,4 +1,4 @@
-package net.linkednest.www.common;
+package net.linkednest.common;
 
 import lombok.Getter;
 

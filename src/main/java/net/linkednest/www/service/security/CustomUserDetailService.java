@@ -1,8 +1,8 @@
 package net.linkednest.www.service.security;
 
-import net.linkednest.www.entity.User;
+import net.linkednest.common.entity.User;
 import net.linkednest.www.repository.UserRepository;
-import net.linkednest.www.security.CustomUserDetails;
+import net.linkednest.common.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

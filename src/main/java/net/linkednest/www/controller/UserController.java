@@ -19,10 +19,9 @@ import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
 import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.www.dto.user.signup.ResUserRegistDto;
-import net.linkednest.www.entity.User;
+import net.linkednest.common.entity.User;
 import net.linkednest.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -86,6 +85,28 @@ public class UserController {
   }
 
   @PutMapping(value = "/user")
+  @Operation(
+          summary = "회원 정보 수정",
+          description = "회원 정보 수정 액션입니다.",
+          tags = { "User Controller" },
+          responses = {
+                  @ApiResponse(
+                          responseCode = "201",
+                          description = "회원정보 수정 성공",
+                          content = @Content(
+                                  schema = @Schema(implementation = ResUserRegistDto.class)
+                          )
+                  ),
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "회원정보 수정 실패",
+                          content = @Content(
+                                  schema = @Schema(implementation = ResUserRegistDto.class)
+                          )
+                  )
+          }
+  )
+
   public ResponseEntity<ResUserRegistDto> updateUser(
           @RequestBody(
                   required = true,

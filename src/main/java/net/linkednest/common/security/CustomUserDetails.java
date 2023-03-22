@@ -1,4 +1,4 @@
-package net.linkednest.security;
+package net.linkednest.common.security;
 
 import net.linkednest.common.entity.User;
 import org.springframework.security.core.GrantedAuthority;

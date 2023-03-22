@@ -1,6 +1,5 @@
-package net.linkednest.www;
+package net.linkednest;
 
-import org.apache.catalina.security.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
