@@ -1,4 +1,4 @@
-package net.linkednest.filter.wrapper;
+package net.linkednest.common.filter.wrapper;
 
 
 import jakarta.servlet.ReadListener;

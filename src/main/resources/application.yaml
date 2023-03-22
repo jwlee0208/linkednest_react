@@ -3,7 +3,7 @@ server:
 
 springdoc:
   show-actuator: true
-  packagesToScan: net.linkednest.www.controller
+  packagesToScan: net.linkednest.www.controller, net.linkednest.backoffice.controller
 
 jwt:
   secret:

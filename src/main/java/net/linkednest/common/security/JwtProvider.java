@@ -1,4 +1,4 @@
-package net.linkednest.security;
+package net.linkednest.common.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

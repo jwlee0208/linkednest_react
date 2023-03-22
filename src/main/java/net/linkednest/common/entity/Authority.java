@@ -1,4 +1,4 @@
-package net.linkednest.www.entity;
+package net.linkednest.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package net.linkednest.www.utils;
+package net.linkednest.common.utils;
 
 /**
  * packageName    : kr.co.cobosys.crm.utils

@@ -1,11 +1,11 @@
-package net.linkednest.filter;
+package net.linkednest.common.filter;
 
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.filter.wrapper.RequestParamsWrapper;
+import net.linkednest.common.filter.wrapper.RequestParamsWrapper;
 
 import java.io.IOException;
 

@@ -3,18 +3,18 @@ package net.linkednest.www.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.www.common.CommonConstants;
-import net.linkednest.www.common.ResponseCodeMsg;
+import net.linkednest.common.CommonConstants;
+import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.www.dto.user.ResTokenDto;
 import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
 import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
-import net.linkednest.www.entity.Authority;
-import net.linkednest.www.entity.User;
-import net.linkednest.www.entity.UserRefreshToken;
+import net.linkednest.common.entity.Authority;
+import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.UserRefreshToken;
 import net.linkednest.www.repository.UserRefreshTokenRepository;
 import net.linkednest.www.repository.UserRepository;
-import net.linkednest.www.security.JwtProvider;
+import net.linkednest.common.security.JwtProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class UserService {
     }
 
     public Boolean updateUser(ReqUserRegistDto userRegistDto) {
-        log.info("[{}.{}] updateUser : {}", this.getClass().getName().toString(), "updateUser", userRegistDto.toString());
+        log.info("[{}.{}] updateUser : {}", this.getClass().getName(), "updateUser", userRegistDto.toString());
         User newUser = new User();
         String decodedUserId = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
         try {
