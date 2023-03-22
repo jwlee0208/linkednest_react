@@ -16,20 +16,20 @@ function Mypage() {
   const userinfo = useAppSelect(getUserInfo);
 
   const [user, setUser] = useState<User>({
-      username : userinfo.username
-    , password : ""
-    , introduce : Parser(decodeURI(userinfo.introduce).replaceAll('\\"', '"')).toString() 
-    , accessToken : userinfo.accessToken
-    , refreshToken : userinfo.refreshToken
-    , isLogin : userinfo.isLogin
-    , nickname : userinfo.nickname
-    , email : userinfo.email
-    , returnCode : 0
+      username      : userinfo.username
+    , password      : ""
+    , introduce     : Parser(decodeURI(userinfo.introduce).replaceAll('\\"', '"')).toString() 
+    , accessToken   : userinfo.accessToken
+    , refreshToken  : userinfo.refreshToken
+    , isLogin       : userinfo.isLogin
+    , nickname      : userinfo.nickname
+    , email         : userinfo.email
+    , returnCode    : 0
   });
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const layoutinfo = useAppSelect(getLayoutInfo);
+  const navigate    = useNavigate();
+  const dispatch    = useAppDispatch();
+  const layoutInfo  = useAppSelect(getLayoutInfo);
  
   const modules = useMemo(
     () => ({
@@ -50,12 +50,11 @@ function Mypage() {
         },
     }), []);
 
-
   const MypageAction = (e : React.FormEvent) => {
     e.preventDefault();
     user.username = base64_encode(user.username);
     const res = dispatch(asyncUserUpdate(user));
-    navigate(`/`);
+    navigate(`/${layoutInfo.typeId}`);
   }
 
   const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,19 +100,19 @@ function Mypage() {
               <Grid container item>
                   <FormControl fullWidth sx={{ m: 1 }}>
                       <TextField id="outlined-basic" name="username" label="User ID" variant="filled" color="success" 
-                                onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID"/> 
+                                onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID" disabled/> 
                   </FormControl>    
               </Grid>
               <Grid container item>
                   <FormControl fullWidth sx={{ m: 1 }}>
                       <TextField id="outlined-basic" name="email" label="Email" variant="filled" color="success" 
-                                onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email"/> 
+                                onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email" disabled/> 
                   </FormControl>    
               </Grid>
               <Grid container item>
                   <FormControl fullWidth sx={{ m: 1 }}>
                       <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" 
-                                onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname"/>
+                                onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname" disabled/>
                   </FormControl>    
               </Grid>
               <Grid container item>

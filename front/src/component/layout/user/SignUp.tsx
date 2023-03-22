@@ -1,48 +1,57 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { asyncLogin, asyncSignUp, User } from "../../../store/modules/user";
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button"
-import { Box, FormControl, Grid } from "@mui/material";
+import { asyncSignUp, User } from "../../../store/modules/user";
 import { getLayoutInfo } from "../../../store/modules/layout";
-import {encode as base64_encode} from 'base-64';
+import { encode as base64_encode } from 'base-64';
+import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
+import { Box, FormControl, Grid } from "@mui/material";
+import Button from "@mui/material/Button"
+import TextField from "@mui/material/TextField";
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/react-quill'
+import 'react-quill/dist/react-quill';
 
 function SignUp() {
 
     const navigate = useNavigate();
-    const layoutinfo = useAppSelect(getLayoutInfo);
-
-    const [user, setUser] = useState<User>({username : "", password : "", introduce : "", accessToken : "", refreshToken : '', isLogin : false, nickname : "", email : "", returnCode : 0});
+    const layoutInfo = useAppSelect(getLayoutInfo);
+    const [user, setUser] = useState<User>({
+          username : ""
+        , password : ""
+        , introduce : ""
+        , accessToken : ""
+        , refreshToken : ''
+        , isLogin : false
+        , nickname : ""
+        , email : ""
+        , returnCode : 0
+    });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('username : ' + e.target.value);        
+        // console.log('username : ' + e.target.value);        
         setUser({...user, username : e.target.value});
     }
 
     const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('password : ' + e.target.value);
+        // console.log('password : ' + e.target.value);
         setUser({...user, password : e.target.value});
     }
 
     const inputNicknameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('nickname : ' + e.target.value);        
+        // console.log('nickname : ' + e.target.value);        
         setUser({...user, nickname : e.target.value});
     }
 
     const inputEmailVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('email : ' + e.target.value);        
+        // console.log('email : ' + e.target.value);        
         setUser({...user, email : e.target.value});
     }
 
     function inputIntroduceVal (value : any) {
-        console.log('introduce : ' + value);        
+        // console.log('introduce : ' + value);        
         setUser({...user, introduce : value});
     }
     
@@ -64,11 +73,11 @@ function SignUp() {
 
         user.username = base64_encode(user.username);
         user.password = base64_encode(user.password);        
-        console.log('[signup] after encode : ' + JSON.stringify(user));
+        // console.log('[signup] after encode : ' + JSON.stringify(user));
 
         const res = dispatch(asyncSignUp(user));
-        console.log('[signup] res : ' + JSON.stringify(res.arg));
-        navigate(`/${layoutinfo.typeId !== '' ? layoutinfo.typeId : '/'}`);
+        // console.log('[signup] res : ' + JSON.stringify(res.arg));
+        navigate(`/${layoutInfo.typeId !== '' ? layoutInfo.typeId : '/'}`);
     }
 
     useEffect(()=>{

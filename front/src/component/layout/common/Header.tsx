@@ -12,6 +12,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import store from "../../../store";
+import { useAppSelect } from "../../../store/index.hooks";
+import { getLayoutInfo } from "../../../store/modules/layout";
 
 type HeaderProps = {
     user : User,
@@ -32,6 +34,7 @@ function Header({
     const pages = (isLogin === true) ? [{menu : 'Home', path : '/'},{menu : 'My Page', path : `/${typeId}/mypage`}] : [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : `/${typeId}/mypage`}, {menu : 'Logout', path : '/logout'}];
     
+    const layoutInfo = useAppSelect(getLayoutInfo);
 
     const navigate = useNavigate();
  
@@ -41,6 +44,7 @@ function Header({
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
+    
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -57,7 +61,7 @@ function Header({
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
             store.dispatch(userSlice.actions.logout(user));
-            navigate("/");    
+            navigate(`/${layoutInfo.typeId}`);    
         } else {
             navigate(param);
         }
@@ -141,18 +145,13 @@ function Header({
                 ))}
               </Menu>
             </Box>              
-    ) : 
-    (
-      (typeId === "3") ? (
+    ) : (
         <Box sx={{ flexGrow: 0 }}>        
           <ButtonGroup>
             <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
             <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
           </ButtonGroup>        
         </Box>      
-      ) : (
-        <Box sx={{ flexGrow: 0 }}></Box>
-      )                        
     )
   }
           </Toolbar>
