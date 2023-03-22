@@ -85,8 +85,6 @@ function SignUp() {
         }
     }, []);
 
-    const [quillValue, setQuillValue] = useState('');
-
     const modules = useMemo(
         () => ({
             toolbar: { // 툴바에 넣을 기능
@@ -100,6 +98,8 @@ function SignUp() {
                         { indent: "+1" },
                         { align: [] },
                     ],
+                    ['link', 'image'],
+
                 ],
             },
         }), []);

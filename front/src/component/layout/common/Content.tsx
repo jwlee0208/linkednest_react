@@ -15,7 +15,7 @@ function Content ({
       <Routes>
         <Route path='/' element={<Home bannerHeight="480px"/>} />
         <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
-        <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
+        <Route path='/:typeId/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/login"/>} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>
