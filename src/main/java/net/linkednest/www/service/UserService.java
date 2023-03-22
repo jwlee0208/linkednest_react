@@ -74,7 +74,7 @@ public class UserService {
 
                 log.info("[{}.{}] before update user : {}", this.getClass().getName(), "updateUser", user);
 
-                userRepository.saveAndFlush(user);
+                userRepository.save(user);
             }
         } catch (Exception e) {
             e.printStackTrace();

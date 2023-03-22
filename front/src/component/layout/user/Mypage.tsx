@@ -9,34 +9,23 @@ import {encode as base64_encode} from 'base-64';
 import ReactQuill from 'react-quill';
 import { useNavigate } from "react-router-dom";
 import Parser from 'html-react-parser';
+import Textarea from '@mui/material/TextareaAutosize';
 
 function Mypage() {
   // user info
   const userinfo = useAppSelect(getUserInfo);
 
-
   const [user, setUser] = useState<User>({
-    username : ""
-  , password : ""
-  , introduce : ""
-  , accessToken : ""
-  , refreshToken : ""
-  , isLogin : false
-  , nickname : ""
-  , email : ""
-  , returnCode : 0
-});
-  /* const [user, setUser] = useState<User>({
       username : userinfo.username
     , password : ""
-    , introduce : decodeURI(userinfo.introduce).replaceAll('\\"', '"')
+    , introduce : Parser(decodeURI(userinfo.introduce).replaceAll('\\"', '"')).toString() 
     , accessToken : userinfo.accessToken
     , refreshToken : userinfo.refreshToken
     , isLogin : userinfo.isLogin
     , nickname : userinfo.nickname
     , email : userinfo.email
     , returnCode : 0
-  }); */
+  });
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -85,8 +74,8 @@ function Mypage() {
   }
 
   const inputIntroduceVal = (value : any) => {
-      console.log('introduce : ' + Parser(value).toString()); 
-      // setUser({...user, introduce : Parser(user.introduce).toString()}); // to-do : setState시 무한루프 발생 해결 요망
+      console.log('introduce : ' + value); 
+      setUser({...user, introduce : value}); 
   }  
 
   useEffect(()=>{
@@ -98,19 +87,6 @@ function Mypage() {
     quillCss.href = `https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css`;
     
     document.head.appendChild(quillCss);
-    
-    setUser({
-        ...user,       
-        username : userinfo.username
-      , password : ""
-      , introduce : decodeURI(userinfo.introduce).replaceAll('\\"', '"')
-      , accessToken : userinfo.accessToken
-      , refreshToken : userinfo.refreshToken
-      , isLogin : userinfo.isLogin
-      , nickname : userinfo.nickname
-      , email : userinfo.email
-      , returnCode : 0
-    });  
     
     return () => {
       document.head.removeChild(quillCss);
@@ -142,14 +118,10 @@ function Mypage() {
               </Grid>
               <Grid container item>
                   <FormControl fullWidth sx={{ m: 1 }}>
-                    <ReactQuill onChange={(content, delta, source, editor) => inputIntroduceVal(editor.getHTML())} modules={modules} theme="snow" 
-                          style={{minHeight: '250px',  width: '100%', borderBlockColor:'black', marginBottom: '50px'}} value={Parser(user.introduce).toString()}/>
-                  
-{/*                       <ReactQuill onChange={inputIntroduceVal} modules={modules} theme="snow" 
-                          style={{minHeight: '250px',  width: '100%', borderBlockColor:'black', marginBottom: '50px'}} value={Parser(user.introduce).toString()}/>     */}
+                     <ReactQuill onChange={(content, delta, source, editor) => inputIntroduceVal(editor.getHTML())} modules={modules} theme="snow" 
+                          style={{minHeight: '250px',  width: '100%', borderBlockColor:'black', marginBottom: '50px'}} value={user.introduce}/>                  
                   </FormControl>
               </Grid>
-
               <Grid container item>
                   <FormControl fullWidth sx={{ m: 1 }}>
                       <Button type="submit" variant="outlined" size="large">Update</Button>

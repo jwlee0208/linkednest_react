@@ -105,6 +105,7 @@ public class UserController {
 
     resUserRegistDto.setUsername(username);
     resUserRegistDto.setNickname(nickname);
+    resUserRegistDto.setIntroduce(introduce);
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
     resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
     return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);

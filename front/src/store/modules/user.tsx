@@ -54,7 +54,6 @@ const userSlice = createSlice ({
             }   
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
-// console.log('after login action' + JSON.stringify(action));
             state.accessToken = action.payload.accessToken;
             state.refreshToken = action.payload.refreshToken;
             state.isLogin = action.payload.isLogin;
@@ -66,6 +65,11 @@ const userSlice = createSlice ({
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
 // console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
         })
+        builder.addCase(asyncUserUpdate.fulfilled, (state, action) => {
+            state.introduce = action.payload.introduce;        
+        })
+
+
     } 
 });
 
