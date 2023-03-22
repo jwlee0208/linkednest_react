@@ -1,12 +1,12 @@
-package net.linkednest.www.config;
+package net.linkednest.config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.www.filter.JwtAuthenticationFilter;
-import net.linkednest.www.security.JwtProvider;
+import net.linkednest.filter.JwtAuthenticationFilter;
+import net.linkednest.security.JwtProvider;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -76,11 +76,12 @@ public class SecurityConfig {
                 .and()
                     .authorizeHttpRequests()
                         // .requestMatchers("/user/**").authenticated()    // JWT 인증 체크해야할 URL 선언
-                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
+                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken", "/admin/**").permitAll()  // 무조건 허용할 URL 선언
 //                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
 //                        .requestMatchers("/static/**", "/style/**", "/images/**").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/user/**").authenticated()
+//                        .requestMatchers("/admin/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 .and()

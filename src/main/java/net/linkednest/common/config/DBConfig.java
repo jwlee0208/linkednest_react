@@ -1,4 +1,4 @@
-package net.linkednest.www.config;
+package net.linkednest.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

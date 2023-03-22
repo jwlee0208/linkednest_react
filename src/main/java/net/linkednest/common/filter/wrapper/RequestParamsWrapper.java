@@ -1,11 +1,11 @@
-package net.linkednest.www.filter.wrapper;
+package net.linkednest.filter.wrapper;
 
 
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-import net.linkednest.www.utils.CommonUtil;
+import net.linkednest.common.utils.CommonUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
