@@ -1,4 +1,4 @@
-package net.linkednest.www.aop;
+package net.linkednest.aop;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.Enumeration;
 @Component
 public class RequestParamAop {
 
-    @Around("execution(* net.linkednest.www.controller..*(..))")
+    @Around("execution(* net.linkednest.www.controller..*(..)) || execution(* net.linkednest.backoffice.controller..*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         String joinPointStr = joinPoint.toString();
