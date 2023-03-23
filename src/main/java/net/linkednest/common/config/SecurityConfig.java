@@ -1,4 +1,4 @@
-package net.linkednest.common.config;
+package net.linkednest.www.config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,9 +9,12 @@ import net.linkednest.common.filter.JwtAuthenticationFilter;
 import net.linkednest.common.security.JwtProvider;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
+import org.aspectj.lang.annotation.Around;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
@@ -36,12 +39,15 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
 
     @Bean
+//    @Around("execution(* net.linkednest.www.controller..*(..))")
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        log.info("[{}.{}] START >>>", this.getClass().getName(), "filterChain");
         httpSecurity
                     .httpBasic().disable()
                     .csrf()
@@ -83,6 +89,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").authenticated()
 //                        .requestMatchers("/admin/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+//                        .anyRequest().access("@authorizationValidator.validate(request, auth)")
                         .anyRequest().permitAll()
                 .and()
                     .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
