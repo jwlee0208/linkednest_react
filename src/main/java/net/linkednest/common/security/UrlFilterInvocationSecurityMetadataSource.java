@@ -70,7 +70,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
 
-    @Cacheable
+//    @Cacheable(cacheNames = {"ROLE_ACCESS_PATH_REQUEST_MAP"})
     private void setReguestMap() {
         List<RoleAccessPath> roleAccessPathList = this.roleAccessProvider.getRoleAccessPathList();
 
