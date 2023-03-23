@@ -1,13 +1,19 @@
 package net.linkednest.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "role")
 public class Role {
     @Id
@@ -20,4 +26,15 @@ public class Role {
     private String roleDescription;
 
     private Date createDate;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Builder.Default
+
+    private List<RoleAccessPath> accessPaths;
+
+    public void setAccessPaths(List<RoleAccessPath> roleAccessPaths) {
+        this.accessPaths = roleAccessPaths;
+        roleAccessPaths.stream().forEach(o -> o.setRole(this));
+    }
 }

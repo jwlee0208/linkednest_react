@@ -24,6 +24,7 @@ function SignUp() {
         , nickname : ""
         , email : ""
         , returnCode : 0
+        , authorities : JSON
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {

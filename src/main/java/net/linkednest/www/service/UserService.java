@@ -104,6 +104,15 @@ public class UserService {
                 resUserLoginDto.setEmail(user.getEmail());
                 resUserLoginDto.setIntroduce(user.getIntroduce());
                 resUserLoginDto.setNickname(user.getNickname());
+                resUserLoginDto.setAuthorities(user.getRoles());
+
+                user.getRoles().stream().forEach(r->{
+
+                    r.getRole().getAccessPaths().stream().forEach(rap -> {
+                        log.info(">>>>>>>>>>>>>>>> role name : {}, role access path : {}", r.getRole().getRoleName(), rap.toString());
+                    });
+                });
+
                 Optional<UserRefreshToken> refreshTokenOptional = userRefreshTokenRepository.findByUser(user);
                 String mergeRefreshTokenVal = null;
                 UserRefreshToken refreshTokenObj = null;

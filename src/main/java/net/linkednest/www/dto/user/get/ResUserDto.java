@@ -2,7 +2,10 @@ package net.linkednest.www.dto.user.get;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import net.linkednest.common.entity.Authority;
 import net.linkednest.www.dto.CommonResDto;
+
+import java.util.List;
 
 @Data
 public class ResUserDto extends CommonResDto {
@@ -17,4 +20,7 @@ public class ResUserDto extends CommonResDto {
 
     @Schema(description = "사용자 이메일", defaultValue = "test01@mail.com", name = "email", required = true)
     private String email;
+
+    @Schema(description = "사용자 권한 목록", required = true)
+    private List<Authority> authorities;
 }

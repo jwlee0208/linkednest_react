@@ -14,6 +14,7 @@ export interface User {
     accessToken : string;
     refreshToken : string;
     isLogin : boolean;
+    authorities : JSON;
     returnCode : number;
 }
 
@@ -26,6 +27,7 @@ const initialState : User = {
     accessToken : '',
     refreshToken : '',
     isLogin : false,
+    authorities : JSON,
     returnCode : 0,
 };
 
@@ -61,6 +63,8 @@ const userSlice = createSlice ({
             state.email = action.payload.email;
             state.nickname = action.payload.nickname;
             state.introduce = action.payload.introduce;
+            state.authorities = action.payload.authorities;
+            console.log('asyncLogin >> authorities : ' + JSON.stringify(action.payload.authorities));
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
 // console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));

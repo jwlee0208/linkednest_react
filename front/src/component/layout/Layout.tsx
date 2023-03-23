@@ -6,6 +6,7 @@ import { useAppSelect } from "../../store/index.hooks";
 import { useEffect, useState } from "react";
 import layoutSlice, { getLayoutInfo, Layout_, setLayoutTypeId, } from "../../store/modules/layout";
 import store from "../../store";
+import LayoutAdmin from "./template/admin/LayoutAdmin";
 
 
 function Layout() {
@@ -55,6 +56,7 @@ function Layout() {
       case "1" : return <Layout1/>
       case "2" : return <Layout2/>
       case "3" : return <Layout3/>
+      case "admin" : return <LayoutAdmin/>
       default : return <Layout1/>
     }
 }
