@@ -12,6 +12,7 @@ import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.entity.Authority;
 import net.linkednest.common.entity.User;
 import net.linkednest.common.entity.UserRefreshToken;
+import net.linkednest.www.repository.RoleRepository;
 import net.linkednest.www.repository.UserRefreshTokenRepository;
 import net.linkednest.www.repository.UserRepository;
 import net.linkednest.common.security.JwtProvider;
@@ -34,6 +35,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    private final RoleRepository roleRepository;
+
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] userRegist : {}", this.getClass().getName().toString(), "registUser", userRegistDto.toString());
         User newUser = new User();
@@ -45,10 +48,8 @@ public class UserService {
             newUser.setPassword(passwordEncoder.encode(new String(Base64.getDecoder().decode(userRegistDto.getPassword()))));
             newUser.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
             Authority authority = new Authority();
-            authority.setName("ROLE_USER");
-
+            authority.setRole(roleRepository.getById(1L));
             newUser.setRoles(Collections.singletonList(authority));
-
             log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName().toString(), "registUser", newUser.toString());
 
             userRepository.save(newUser);

@@ -14,6 +14,7 @@ import FormControl from "@mui/material/FormControl";
 import store from "../../../store";
 import { useAppSelect } from "../../../store/index.hooks";
 import { getLayoutInfo } from "../../../store/modules/layout";
+import { axiosInstance } from "../../..";
 
 type HeaderProps = {
     user : User,
@@ -76,6 +77,12 @@ function Header({
         e.preventDefault();
         const typeIdVal = e.target.value;
         navigate(`/${typeIdVal}`);
+    }
+
+    const callAdmin = (param : string, event : React.MouseEvent) => {
+      event.preventDefault();
+      axiosInstance.get(`${param}`);
+
     }
 
     return (
@@ -154,6 +161,9 @@ function Header({
         </Box>      
     )
   }
+        <Box>
+          <Button onClick={(e)=>{callAdmin("/admin", e)}}>admin</Button>
+        </Box>
           </Toolbar>
         </Container>
       </AppBar>
