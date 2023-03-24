@@ -69,11 +69,6 @@ function SideAreaAdmin({
                     }
                 </Box>
             </Box>    
-            <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{mt:1, mb:1, minHeight:"200px"}}>
-                <Box sx={{ m: 1 }}>
-                    Area3
-                </Box>
-            </Box>  
         </Box>
     );
 }
