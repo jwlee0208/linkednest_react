@@ -4,16 +4,18 @@ import store from "../store";
 import storage from "redux-persist/lib/storage";
 import userSlice from "../store/modules/user";
 import layoutSlice from "../store/modules/layout";
+import adminMenuCategorySlice from "../store/modules/adminMenu";
 
 const persistConfig = {
     key : "root",
     storage,
-    whitelist : ["userSlice", "layoutSlice"]
+    whitelist : ["userSlice", "layoutSlice", "adminMenuCategorySlice"]
 }
 
 const rootReducer = combineReducers({
     userSlice : userSlice.reducer, 
-    layoutSlice : layoutSlice.reducer
+    layoutSlice : layoutSlice.reducer,
+    adminMenuCategorySlice : adminMenuCategorySlice.reducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -2,7 +2,10 @@ package net.linkednest.www.dto.user.signin;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import net.linkednest.common.entity.Authority;
 import net.linkednest.www.dto.CommonResDto;
+
+import java.util.List;
 
 @Data
 public class ResUserLoginDto extends CommonResDto {
@@ -25,4 +28,7 @@ public class ResUserLoginDto extends CommonResDto {
 
     @Schema(description = "닉네임", defaultValue = "true", name = "nickname", required = false)
     private String nickname;
+
+    @Schema(description = "사용자 권한 목록", required = true)
+    private List<Authority> authorities;
 }

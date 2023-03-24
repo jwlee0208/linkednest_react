@@ -25,6 +25,7 @@ function Mypage() {
     , nickname      : userinfo.nickname
     , email         : userinfo.email
     , returnCode    : 0
+    , authorities   : JSON
   });
 
   const navigate    = useNavigate();

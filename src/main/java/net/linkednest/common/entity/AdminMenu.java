@@ -7,30 +7,22 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
-@Data
 @Entity
-@Table(name = "authority")
-public class Authority {
+@Getter
+@Setter
+@Table(name = "adminMenu")
+public class AdminMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
 
     @JsonBackReference
-    @JoinColumn(name = "userId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private User user;
-
-    @JsonBackReference
-    @JoinColumn(name = "roleId")
+    @JoinColumn(name = "categoryId")
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Role role;
+    private AdminMenuCategory adminMenuCategory;
+    private String menuName;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setRole(Role role) { this.role = role; }
+    private String menuUrl;
 }

@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.backoffice.repository.RoleAccessPathRepository;
 import net.linkednest.common.filter.JwtAuthenticationFilter;
 import net.linkednest.common.security.JwtProvider;
 import net.linkednest.common.security.RoleAccessProvider;
@@ -48,8 +47,6 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final RoleAccessProvider roleAccessProvider;
-
-    private final RoleAccessPathRepository roleAccessPathRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
