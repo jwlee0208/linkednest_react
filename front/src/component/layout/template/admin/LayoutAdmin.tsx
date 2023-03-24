@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from "react";
 import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
 import { getUserInfo } from "../../../../store/modules/user";
 import Header from "../../common/Header";
@@ -8,7 +9,7 @@ import TopBanner from "../../common/TopBanner";
 import { getLayoutInfo } from "../../../../store/modules/layout";
 import Content from "../../common/Content";
 import SideAreaAdmin from "../../common/admin/SideAreaAdmin";
-import { asyncAdminMenuCategoryList, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
+import { adminMenuCategories, asyncAdminMenuCategoryList, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
 
 function LayoutAdmin() {
 
@@ -23,7 +24,9 @@ function LayoutAdmin() {
 
     const dispatch = useAppDispatch();
 
-    const res = dispatch(asyncAdminMenuCategoryList());
+    useEffect(()=>{
+      dispatch(asyncAdminMenuCategoryList());
+    },[]);
 
     const adminMenuCategoryInfo = useAppSelect(getAdminMenuCategoryInfo);
 

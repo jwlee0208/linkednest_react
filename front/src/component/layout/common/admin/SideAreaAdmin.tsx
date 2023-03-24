@@ -1,20 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Box, Button, FormControl } from "@mui/material";
 import { useNavigate } from "react-router";
 import store from "../../../../store";
 import { useAppSelect } from "../../../../store/index.hooks";
-import { adminMenuCategory, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
+// import { adminMenuCategory, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
 import { getLayoutInfo } from "../../../../store/modules/layout";
 import userSlice, { User } from "../../../../store/modules/user";
 import Login from "../../user/Login";
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Avatar, ButtonGroup, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { adminMenuCategories, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
+import MenuRow from "./CategoryMenuRow";
 
 
 type SideAreaProps = {
     user : User,
-    isLogin : Boolean;
-    username : String;
+    isLogin : Boolean,
+    username : String,
 };
 
 function SideAreaAdmin({
@@ -25,9 +27,17 @@ function SideAreaAdmin({
 
     const navigate = useNavigate();
     const layoutInfo = useAppSelect(getLayoutInfo);
-    const adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
 
-console.log('sideAreaAdmin >>>>>>> adminMenuList : ' + JSON.stringify(adminMenuList));
+    let adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
+    console.log('sideAreaAdmin >>>>>>> adminMenuList : ' + JSON.stringify(adminMenuList));
+
+    useEffect(() => {
+
+
+    },[]);
+
+//     const adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
+
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
@@ -56,14 +66,11 @@ console.log('sideAreaAdmin >>>>>>> adminMenuList : ' + JSON.stringify(adminMenuL
             </Box>
             <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{minHeight:"200px"}}>
                 <Box sx={{ m: 1 }}>
-                {    adminMenuList.categoryName
-                    /* adminMenuList.menus.map((adminMenu) => 
-                    <MenuItem key={adminMenu.id} onClick={(e) => {handleCloseNavMenu(adminMenu.menuUrl, e)}}>
-                        <Typography textAlign="center">{adminMenu.menuName}</Typography>
-                    </MenuItem>
-                    ) */
-                    
-                }    
+                    {
+                        adminMenuList.adminMenuCategories.map(aml => (<MenuRow menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus}/>))
+                            // (<MenuRow menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus}/>)
+                        
+                    }
                 </Box>
             </Box>    
             <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{mt:1, mb:1, minHeight:"200px"}}>
