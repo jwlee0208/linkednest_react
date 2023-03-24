@@ -5,9 +5,6 @@ import { RootState } from "../../reducer";
 
 export interface adminMenuCategories extends Array<adminMenuCategory> {}
 
-/* interface adminMenuInfos {
-    adminMenuInfoArr : adminMenuCategory[]
-} */
 
 export interface adminMenuCategory {
     id           : number;
@@ -23,19 +20,6 @@ interface adminMenu {
     menuUrl  : string;
 }
 
-/* const initialState : adminMenuCategories = [
-    {
-      id : 0
-    , categoryName : ''
-    , menus : [
-            {
-                id   : 0,
-                menuName : '',
-                menuUrl  : '',
-            }
-        ]
-    }
-]; */
 const initialState = {
     adminMenuCategories : [
         {
@@ -63,16 +47,12 @@ const adminMenuCategorySlice = createSlice ({
             state.adminMenuCategories = adminMenuCategoryArray;
 
 
-            adminMenuCategoryArray.map((adminMenuCategoryObj : adminMenuCategory, outerIdx) => {
-                // state.adminMenuCategories.concat(adminMenuCategoryObj);
-                // [...state.adminMenuCategories, state.adminMenuCategories.concat(adminMenuCategoryObj)];
-                // state(adminMenuCategoryObj);
-                // state.id[outerIdx] = adminMenuCategoryObj;
+/*             adminMenuCategoryArray.map((adminMenuCategoryObj : adminMenuCategory, outerIdx) => {
                 let adminMenus = adminMenuCategoryObj.menus as adminMenu[];
                 adminMenus.map((adminMenuObj : adminMenu, innerIdx) => {
                     console.log("adminMenuCategoryObj : ", outerIdx, innerIdx,  adminMenuCategoryObj.categoryName, ", menuName : ", adminMenuObj.menuName, ", menuUrl : ", adminMenuObj.menuUrl);
                 });
-            });
+            }); */
         })
     } 
 });

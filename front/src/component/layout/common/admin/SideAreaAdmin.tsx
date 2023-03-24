@@ -33,11 +33,7 @@ function SideAreaAdmin({
 
     useEffect(() => {
 
-
-    },[]);
-
-//     const adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
-
+    },[adminMenuList]);
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
@@ -66,10 +62,10 @@ function SideAreaAdmin({
             </Box>
             <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{minHeight:"200px"}}>
                 <Box sx={{ m: 1 }}>
-                    {
+                    {(isLogin === true) ?   
                         adminMenuList.adminMenuCategories.map(aml => (<MenuRow menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus}/>))
                             // (<MenuRow menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus}/>)
-                        
+                        : <></>
                     }
                 </Box>
             </Box>    
