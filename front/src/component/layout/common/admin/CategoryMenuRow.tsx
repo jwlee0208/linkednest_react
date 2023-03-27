@@ -1,5 +1,7 @@
 import { adminMenuCategory, adminMenus } from "../../../../store/modules/adminMenu";
-import { Box } from "@mui/material";
+import { Box, Divider, ListItemText, MenuItem, Typography } from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router";
 
 type MenuRowProps = {
     menuCategoryId : number,
@@ -13,17 +15,28 @@ function CategoryMenuRow({
     menusArr
 } : MenuRowProps) {
 
+    const navigate = useNavigate();
+
+    const handleToClickMenu = (param : string, e : React.MouseEvent) => {
+        e.preventDefault();
+        navigate(param);
+    }
+
     return (
        <> 
-        <Box><h2>{menuCategoryName}</h2></Box>
-        <hr/>
-        <Box>
-            {
-                menusArr.map(menu => (
-                    <Box><a href={menu.menuUrl}>{menu.menuName}</a></Box>        
-                ))        
-            }
-        </Box>
+            <MenuItem>
+                <ListItemText>
+                    <Typography variant="h5" color="primary">{menuCategoryName}</Typography>
+                </ListItemText>
+            </MenuItem>
+            <Divider/>
+    {
+        menusArr.map(menu => (
+            <MenuItem>
+                <ListItemText onClick={(e) => handleToClickMenu(`${menu.menuUrl}`, e)}>{menu.menuName}</ListItemText>
+            </MenuItem>        
+        ))        
+    }
         </>
     )
 }

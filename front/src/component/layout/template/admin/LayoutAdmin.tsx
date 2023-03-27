@@ -10,6 +10,8 @@ import { getLayoutInfo } from "../../../../store/modules/layout";
 import Content from "../../common/Content";
 import SideAreaAdmin from "../../common/admin/SideAreaAdmin";
 import { adminMenuCategories, asyncAdminMenuCategoryList, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
+import AdminHeader from "../../common/admin/AdminHeader";
+import AdminContent from "../../common/admin/AdminContent";
 
 function LayoutAdmin() {
 
@@ -36,12 +38,12 @@ function LayoutAdmin() {
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}  typeId={layoutInfo.typeId}/>
+            <AdminHeader isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}  typeId={layoutInfo.typeId}/>
           </Grid>
           <Hidden smUp>
             <Grid container spacing={1}>
               <Grid component="article" item xs={12}>
-                <Content isLogin={isLogin}/>
+                <AdminContent isLogin={isLogin}/>
               </Grid>
             </Grid>  
           </Hidden>
@@ -51,7 +53,7 @@ function LayoutAdmin() {
                 <SideAreaAdmin isLogin={isLogin} username={username} user={userinfo} />
               </Grid>
               <Grid component="article" item xs={9}>
-                <Content isLogin={isLogin}/>
+                <AdminContent isLogin={isLogin}/>
               </Grid>
             </Grid>
           </Hidden>
