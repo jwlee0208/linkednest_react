@@ -9,27 +9,30 @@ import { Menu, MenuList, MenuItem, Toolbar, Tooltip, Typography, Paper, ListItem
 import { AppBar, Avatar, ButtonGroup, Container, IconButton, Box, Button, FormControl } from "@mui/material";
 
 import { adminMenuCategories, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
-import MenuRow from "./CategoryMenuRow";
 
 import Divider from '@mui/material/Divider';
 import { Cloud } from "@mui/icons-material";
+import CategoryMenuRow from "./CategoryMenuRow";
+import { randomUUID } from "crypto";
 
 
 type SideAreaProps = {
     user : User,
     isLogin : Boolean,
     username : String,
+    adminMenuList : adminMenuCategories
 };
 
-function SideAreaAdmin({
+function AdminSideArea({
     user,
     isLogin, 
     username, 
+    adminMenuList,
 } : SideAreaProps) {
 
     const navigate      = useNavigate();
     const layoutInfo    = useAppSelect(getLayoutInfo);
-    const adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
+    // const adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
 
     console.log('sideAreaAdmin >>>>>>> adminMenuList : ' + JSON.stringify(adminMenuList));
 
@@ -63,8 +66,8 @@ function SideAreaAdmin({
                     <Box sx={{ m: 1 }}>
                         <MenuList>
                         {(isLogin === true) ?
-                            adminMenuList.adminMenuCategories.map(aml => (
-                                <MenuRow menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus} />
+                            adminMenuList.map(aml => (
+                                <CategoryMenuRow key={aml.id} menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus} />
                             ))
                             : <></>}
                         </MenuList>
@@ -75,4 +78,4 @@ function SideAreaAdmin({
     );
 }
 
-export default SideAreaAdmin;
+export default AdminSideArea;

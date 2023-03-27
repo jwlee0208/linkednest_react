@@ -24,15 +24,15 @@ function CategoryMenuRow({
 
     return (
        <> 
-            <MenuItem>
-                <ListItemText>
+            <MenuItem key={"cat_"+menuCategoryId}>
+              <ListItemText>
                     <Typography variant="h5" color="primary">{menuCategoryName}</Typography>
                 </ListItemText>
             </MenuItem>
             <Divider/>
     {
         menusArr.map(menu => (
-            <MenuItem>
+            <MenuItem key={"menu_" + menu.id}>
                 <ListItemText onClick={(e) => handleToClickMenu(`${menu.menuUrl}`, e)}>{menu.menuName}</ListItemText>
             </MenuItem>        
         ))        
