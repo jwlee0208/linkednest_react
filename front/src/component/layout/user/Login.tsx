@@ -13,7 +13,18 @@ function Login() {
     const navigate = useNavigate();
     const layoutinfo = useAppSelect(getLayoutInfo);
 
-    const [user, setUser] = useState<User>({username : "", password : "", introduce : "", accessToken : "", refreshToken : '', isLogin : false, nickname : "", email : "", returnCode : 0, authorities : JSON});
+    const [user, setUser] = useState<User>({
+          username : ""
+        , password : ""
+        , introduce : ""
+        , accessToken : ""
+        , refreshToken : ''
+        , isLogin : false
+        , nickname : ""
+        , email : ""
+        , returnCode : 0
+        , authorities : JSON
+        , adminMenuCategoryList : []});
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
 

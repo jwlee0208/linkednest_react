@@ -5,6 +5,22 @@ import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
 import { useAppDispatch } from "../index.hooks";
 
+export interface AdminMenuCategoryList extends Array<AdminMenuCategory>{}
+
+export interface AdminMenuCategory {
+    categoryId : number,
+    categoryName : string,
+    roleAccessPathList : Array<RoleAccessPath>,
+}
+
+export interface RoleAccessPaths extends Array<RoleAccessPath>{}
+
+export interface RoleAccessPath {
+    id : number;
+    name : string, 
+    url : string,
+}
+
 export interface User {
     username : string;
     password : string;
@@ -15,6 +31,7 @@ export interface User {
     refreshToken : string;
     isLogin : boolean;
     authorities : JSON;
+    adminMenuCategoryList : AdminMenuCategoryList;
     returnCode : number;
 }
 
@@ -28,6 +45,7 @@ const initialState : User = {
     refreshToken : '',
     isLogin : false,
     authorities : JSON,
+    adminMenuCategoryList : [],
     returnCode : 0,
 };
 
@@ -64,7 +82,8 @@ const userSlice = createSlice ({
             state.nickname = action.payload.nickname;
             state.introduce = action.payload.introduce;
             state.authorities = action.payload.authorities;
-            console.log('asyncLogin >> authorities : ' + JSON.stringify(action.payload.authorities));
+            state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
+            console.log('asyncLogin >> adminMenuCategoryDtoList : ' + JSON.stringify(action.payload.adminMenuCategoryList));
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
 // console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));

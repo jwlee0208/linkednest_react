@@ -25,6 +25,7 @@ function SignUp() {
         , email : ""
         , returnCode : 0
         , authorities : JSON
+        , adminMenuCategoryList : []
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {

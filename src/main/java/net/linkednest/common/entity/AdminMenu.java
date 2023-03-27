@@ -1,11 +1,16 @@
 package net.linkednest.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +30,15 @@ public class AdminMenu {
     private String menuName;
 
     private String menuUrl;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "adminMenu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<AdminMenuRoleAccessPath> adminMenuRoleAccessPaths = new ArrayList<>();
+
+    public void setAdminMenuRoleAccessPaths(List<AdminMenuRoleAccessPath> adminMenuRoleAccessPath) {
+        this.adminMenuRoleAccessPaths = adminMenuRoleAccessPath;
+        adminMenuRoleAccessPath.stream().forEach(o -> o.setAdminMenu(this));
+    }
+
 }

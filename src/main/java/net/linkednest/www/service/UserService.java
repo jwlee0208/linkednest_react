@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.www.dto.user.ResTokenDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
 import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
@@ -20,22 +22,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository userRepository;
-
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final RoleRepository roleRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
-
-    private final RoleRepository roleRepository;
 
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] userRegist : {}", this.getClass().getName().toString(), "registUser", userRegistDto.toString());
@@ -62,8 +60,7 @@ public class UserService {
 
     public Boolean updateUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] updateUser : {}", this.getClass().getName(), "updateUser", userRegistDto.toString());
-        User newUser = new User();
-        String decodedUserId = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
+        String  decodedUserId   = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
         try {
             Optional<User> userOptional = this.getUser(decodedUserId);
             if (userOptional.isPresent()) {
@@ -87,7 +84,7 @@ public class UserService {
 
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
 
-        String userId = new String(Base64.getDecoder().decode(reqUserLoginDto.getUsername()));
+        String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUsername()));
         String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
 
         Optional<User> userOptional = this.getUser(userId);
@@ -106,20 +103,56 @@ public class UserService {
                 resUserLoginDto.setNickname(user.getNickname());
                 resUserLoginDto.setAuthorities(user.getRoles());
 
-                user.getRoles().stream().forEach(r->{
+                List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList = new ArrayList<>();
 
-                    r.getRole().getAccessPaths().stream().forEach(rap -> {
+                user.getRoles().stream().forEach(r -> {
+                    r.getRole().getAdminMenuCategoryRoleAccesses().stream().forEach(amcra -> {
+                        String categoryName = amcra.getAdminMenuCategory().getCategoryName();
+                        ResAdminMenuCategoryDto resAdminMenuCategoryDto = new ResAdminMenuCategoryDto();
+                        resAdminMenuCategoryDto.setCategoryId(amcra.getAdminMenuCategory().getId());
+                        resAdminMenuCategoryDto.setCategoryName(categoryName);
+
+                        List<ResAdminMenuRoleAccessPathDto> resAdminMenuRoleAccessPathDtoList  = new ArrayList<>();
+
+                        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> categoryName : {}", categoryName);
+                        amcra.getAdminMenuCategory().getAdminMenuRoleAccessPaths().stream().forEach(amrap -> {
+
+                            ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
+                            resRoleAccessPathDto.setId(amrap.getAdminMenu().getId());
+                            resRoleAccessPathDto.setUrl(amrap.getAdminMenu().getMenuUrl());
+                            resRoleAccessPathDto.setName(amrap.getAdminMenu().getMenuName());
+
+                            resAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
+                            resAdminMenuCategoryDto.setRoleAccessPathList(resAdminMenuRoleAccessPathDtoList);
+                            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> menuName : {}, menuUrl : {}", amrap.getAdminMenu().getMenuName(), amrap.getAdminMenu().getMenuUrl());
+                        });
+                        adminMenuCategoryDtoList.add(resAdminMenuCategoryDto);
+                    });
+                });
+                resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
+
+/*
+                user.getRoles().stream().forEach(r -> {
+                   r.getRole().getAccessPaths().stream().filter(rap -> StringUtils.equals(rap.getType(), "FRONTEND")).forEach(rap -> {
+                        ResRoleAccessPathDto resRoleAccessPathDto = new ResRoleAccessPathDto();
+                        resRoleAccessPathDto.setId(rap.getId());
+                        resRoleAccessPathDto.setType(rap.getType());
+                        resRoleAccessPathDto.setUrl(rap.getUrl());
+                        resRoleAccessPathDto.setHttpMethod(rap.getHttpMethod());
+                        roleAccessPathDtoList.add(resRoleAccessPathDto);
                         log.info(">>>>>>>>>>>>>>>> role name : {}, role access path : {}", r.getRole().getRoleName(), rap.toString());
                     });
                 });
+                resUserLoginDto.setRoleAccessPathList(roleAccessPathDtoList);
+*/
 
                 Optional<UserRefreshToken> refreshTokenOptional = userRefreshTokenRepository.findByUser(user);
-                String mergeRefreshTokenVal = null;
-                UserRefreshToken refreshTokenObj = null;
-                UserRefreshToken mergedRefreshToken = null;
+                String              mergeRefreshTokenVal    = null;
+                UserRefreshToken    refreshTokenObj         = null;
+                UserRefreshToken    mergedRefreshToken      = null;
                 if (!refreshTokenOptional.isPresent()) {
                     mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getRoles());
-                    refreshTokenObj = new UserRefreshToken();
+                    refreshTokenObj      = new UserRefreshToken();
                     refreshTokenObj.setUser(user);
                     refreshTokenObj.setRefreshToken(mergeRefreshTokenVal);
                     mergedRefreshToken = userRefreshTokenRepository.save(refreshTokenObj);
