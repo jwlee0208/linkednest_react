@@ -116,15 +116,16 @@ public class UserService {
 
                         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> categoryName : {}", categoryName);
                         amcra.getAdminMenuCategory().getAdminMenuRoleAccessPaths().stream().forEach(amrap -> {
+                            if (amcra.getRole().equals(amrap.getRole())) {
+                                ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
+                                resRoleAccessPathDto.setId(amrap.getAdminMenu().getId());
+                                resRoleAccessPathDto.setUrl(amrap.getAdminMenu().getMenuUrl());
+                                resRoleAccessPathDto.setName(amrap.getAdminMenu().getMenuName());
 
-                            ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
-                            resRoleAccessPathDto.setId(amrap.getAdminMenu().getId());
-                            resRoleAccessPathDto.setUrl(amrap.getAdminMenu().getMenuUrl());
-                            resRoleAccessPathDto.setName(amrap.getAdminMenu().getMenuName());
-
-                            resAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
-                            resAdminMenuCategoryDto.setRoleAccessPathList(resAdminMenuRoleAccessPathDtoList);
-                            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> menuName : {}, menuUrl : {}", amrap.getAdminMenu().getMenuName(), amrap.getAdminMenu().getMenuUrl());
+                                resAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
+                                resAdminMenuCategoryDto.setRoleAccessPathList(resAdminMenuRoleAccessPathDtoList);
+                                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> menuName : {}, menuUrl : {}", amrap.getAdminMenu().getMenuName(), amrap.getAdminMenu().getMenuUrl());
+                            }
                         });
                         adminMenuCategoryDtoList.add(resAdminMenuCategoryDto);
                     });

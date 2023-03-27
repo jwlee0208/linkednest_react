@@ -24,7 +24,7 @@ function LayoutAdmin() {
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-      dispatch(asyncAdminMenuCategoryList());
+      // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
 /*     const adminMenuCategoryInfo = useAppSelect(getAdminMenuCategoryInfo);

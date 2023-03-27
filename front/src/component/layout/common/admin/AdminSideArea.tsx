@@ -69,7 +69,7 @@ function AdminSideArea({
                                 </Box>
                             ))
                             : (
-                                <Box key={'menu2'}>
+                                <Box key={'menu0'}>
                                     <CategoryMenuRow key={0} menuCategoryId={0} menuCategoryName={''} menusArr={[]} user={user}/>
                                 </Box>
                             )

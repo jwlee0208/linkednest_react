@@ -54,13 +54,14 @@ const userSlice = createSlice ({
     initialState,
     reducers : {
         logout : (state, action) => {
-            console.log('[setTypeID] action  : ' + JSON.stringify(action));
+            console.log('[logout] action  : ' + JSON.stringify(action));
             state.accessToken = '';
             state.refreshToken = '';
             state.email = '';
             state.isLogin = false;
             state.nickname = '';
             state.password = '';
+            state.adminMenuCategoryList = [];
         }, 
     },
     extraReducers : (builder) => {
