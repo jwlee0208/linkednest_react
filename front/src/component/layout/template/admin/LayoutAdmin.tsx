@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
 import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
 import { getUserInfo } from "../../../../store/modules/user";
-import Header from "../../common/Header";
 import Footer from "../../common/Footer";
 import { Grid, Hidden } from "@mui/material";
 import Navbar from "../../common/Navbar";
-import TopBanner from "../../common/TopBanner";
 import { getLayoutInfo } from "../../../../store/modules/layout";
-import Content from "../../common/Content";
-import SideAreaAdmin from "../../common/admin/SideAreaAdmin";
+import AdminSideArea from "../../common/admin/AdminSideArea";
 import { adminMenuCategories, asyncAdminMenuCategoryList, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
+import AdminHeader from "../../common/admin/AdminHeader";
+import AdminContent from "../../common/admin/AdminContent";
 
 function LayoutAdmin() {
 
@@ -36,22 +35,25 @@ function LayoutAdmin() {
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}  typeId={layoutInfo.typeId}/>
+            <AdminHeader isLogin={isLogin} accessToken={accessToken} 
+                         username={username} 
+                         user={userinfo}  
+                         typeId={layoutInfo.typeId}/>
           </Grid>
           <Hidden smUp>
             <Grid container spacing={1}>
               <Grid component="article" item xs={12}>
-                <Content isLogin={isLogin}/>
+                <AdminContent isLogin={isLogin}/>
               </Grid>
             </Grid>  
           </Hidden>
           <Hidden smDown>
             <Grid container spacing={1}>
               <Grid component="aside" item xs={3}>
-                <SideAreaAdmin isLogin={isLogin} username={username} user={userinfo} />
+                <AdminSideArea isLogin={isLogin} username={username} user={userinfo} adminMenuList={adminMenuCategoryInfo.adminMenuCategories}/>
               </Grid>
               <Grid component="article" item xs={9}>
-                <Content isLogin={isLogin}/>
+                <AdminContent isLogin={isLogin}/>
               </Grid>
             </Grid>
           </Hidden>
