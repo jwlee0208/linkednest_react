@@ -27,9 +27,9 @@ function Mypage() {
     , nickname              : userInfo.nickname
     , email                 : userInfo.email
     , returnCode            : 0
-    , authorities           : JSON
     , adminMenuCategoryList : []
-    , userRoleDtoList       : []
+    , userRoleInfoList      : []
+    , roleInfoList          : []
   });
 
  

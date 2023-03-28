@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.www.dto.user.ResTokenDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
-import net.linkednest.www.dto.user.role.ResUserRoleAccessPathDto;
-import net.linkednest.www.dto.user.role.ResUserRoleDto;
+import net.linkednest.www.dto.user.role.*;
 import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
 import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
@@ -97,23 +94,25 @@ public class UserService {
             // password check
             boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
             if (isMatchedPw) {
+                resUserLoginDto.setIsLogin(true);
+                resUserLoginDto.setEmail(user.getEmail());
+                resUserLoginDto.setUsername(user.getUserId());
+                resUserLoginDto.setNickname(user.getNickname());
+                resUserLoginDto.setIntroduce(user.getIntroduce());
                 resUserLoginDto.setReturnCode(10000);
                 resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
-                resUserLoginDto.setIsLogin(true);
-                resUserLoginDto.setUsername(user.getUserId());
                 resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles())); // accessToken 발급
-                resUserLoginDto.setEmail(user.getEmail());
-                resUserLoginDto.setIntroduce(user.getIntroduce());
-                resUserLoginDto.setNickname(user.getNickname());
-                resUserLoginDto.setAuthorities(user.getRoles());
 
-                List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList = new ArrayList<>();
-                List<ResUserRoleDto> userRoleDtoList = new ArrayList<>();
+                List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
+                List<ResUserRoleDto>            userRoleDtoList          = new ArrayList<>();
+                List<ResRoleDto>                roleDtoList              = new ArrayList<>();
                 user.getRoles().stream().forEach(r -> {
-                    setUserRoleAccessPaths(r, userRoleDtoList); // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
-                    setAdminMenuCategoryList(r, adminMenuCategoryDtoList);  // user의 adminMenu 접근 가능 category & menu list 조회
+                    setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
+                    setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
+                    setAdminMenuCategoryList(r  , adminMenuCategoryDtoList);    // user의 adminMenu 접근 가능 category & menu list 조회
                 });
-                resUserLoginDto.setUserRoleDtoList(userRoleDtoList);
+                resUserLoginDto.setRoleInfoList(roleDtoList);
+                resUserLoginDto.setUserRoleInfoList(userRoleDtoList);
                 resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
 
                 // refresh token 발급(or 재사용)
@@ -133,7 +132,14 @@ public class UserService {
         return resUserLoginDto;
     }
 
-    private void setUserRoleAccessPaths(Authority r, List<ResUserRoleDto> userRoleDtoList) {
+    private void setRoleList(Authority r, List<ResRoleDto> roleDtoList) {
+        ResRoleDto resRoleDto = new ResRoleDto();
+        resRoleDto.setRoleId(r.getRole().getId());
+        resRoleDto.setRoleName(r.getRole().getRoleName());
+        resRoleDto.setRoleDesc(r.getRole().getRoleDescription());
+        roleDtoList.add(resRoleDto);
+    }
+    private void setUserRoleAccessPathList(Authority r, List<ResUserRoleDto> userRoleDtoList) {
         ResUserRoleDto resUserRoleDto = new ResUserRoleDto();
         resUserRoleDto.setRoleName(r.getRole().getRoleName());
         resUserRoleDto.setRoleId(r.getRole().getId());

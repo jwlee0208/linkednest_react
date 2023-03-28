@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import { asyncSignUp, User } from "../../../store/modules/user";
-import { getLayoutInfo } from "../../../store/modules/layout";
-import { encode as base64_encode } from 'base-64';
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import { Box, FormControl, Grid } from "@mui/material";
-import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField";
-import ReactQuill from 'react-quill';
+import React, { useState, useEffect, useMemo }  from "react";
+import { encode as base64_encode }              from 'base-64';
+import { useNavigate }                          from "react-router-dom";
+import { asyncSignUp, User }                    from "../../../store/modules/user";
+import { getLayoutInfo }                        from "../../../store/modules/layout";
+import { useAppDispatch, useAppSelect }         from "../../../store/index.hooks";
+import { Box, FormControl, Grid }               from "@mui/material";
+import Button                                   from "@mui/material/Button"
+import TextField                                from "@mui/material/TextField";
+import ReactQuill                               from 'react-quill';
 import 'react-quill/dist/react-quill';
 
 function SignUp() {
@@ -25,9 +25,9 @@ function SignUp() {
         , nickname              : ""
         , email                 : ""
         , returnCode            : 0
-        , authorities           : JSON
         , adminMenuCategoryList : []
-        , userRoleDtoList       : []
+        , userRoleInfoList      : []
+        , roleInfoList          : []
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,10 +70,8 @@ function SignUp() {
 
         user.username = base64_encode(user.username);
         user.password = base64_encode(user.password);        
-        // console.log('[signup] after encode : ' + JSON.stringify(user));
 
         const res = dispatch(asyncSignUp(user));
-        // console.log('[signup] res : ' + JSON.stringify(res.arg));
         navigate(`/${layoutInfo.typeId !== '' ? layoutInfo.typeId : '/'}`);
     }
 
