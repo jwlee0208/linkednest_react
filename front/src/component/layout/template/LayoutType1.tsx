@@ -16,8 +16,6 @@ import React              from "react";
 
 function LayoutType1() {
 
-    console.log("layoutType1>>");
-
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
     const isLogin     = userinfo.isLogin;
@@ -25,6 +23,8 @@ function LayoutType1() {
     const username    = userinfo.username; 
 
     const [value, setValue] = React.useState(0);
+
+    console.log(`layout${layoutInfo.typeId}>>`);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>

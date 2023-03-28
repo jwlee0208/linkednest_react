@@ -18,8 +18,6 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
 function LayoutType2() {
 
-    console.log("layout2>>");
-
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
     const isLogin     = userinfo.isLogin;
@@ -27,6 +25,8 @@ function LayoutType2() {
     const username    = userinfo.username; 
 
     const [value, setValue] = React.useState(0);
+
+    console.log(`layout${layoutInfo.typeId}>>`);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>

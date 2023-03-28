@@ -15,12 +15,12 @@ function AdminContent ({
 } : ContentProps ) {
     return (
       <Routes>
-        <Route path='/admin' element={<Index/>}/>
-        <Route path='/admin/login' element={<Login />} />
-        <Route path='/admin/user/list' element={<UserList/>}/>
-        <Route path='/admin/user/manager' element={<ManageUser/>}/>
+        <Route path='/admin'                     element={<Index/>}/>
+        <Route path='/admin/login'               element={<Login />} />
+        <Route path='/admin/user/list'           element={<UserList/>}/>
+        <Route path='/admin/user/manager'        element={<ManageUser/>}/>
         <Route path='/admin/board/category/list' element={<BoardCategoryList/>}/>
-        <Route path='/admin/board/list' element={<BoardList/>}/>
+        <Route path='/admin/board/list'          element={<BoardList/>}/>
       </Routes>
     )
 }
