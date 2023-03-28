@@ -37,4 +37,14 @@ public class Role {
         this.accessPaths = roleAccessPaths;
         roleAccessPaths.stream().forEach(o -> o.setRole(this));
     }
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<AdminMenuCategoryRoleAccess> adminMenuCategoryRoleAccesses;
+
+    public void setAdminMenuCategoryRoleAccesses(List<AdminMenuCategoryRoleAccess> adminMenuCategoryRoleAccesses) {
+        this.adminMenuCategoryRoleAccesses = adminMenuCategoryRoleAccesses;
+        adminMenuCategoryRoleAccesses.stream().forEach(o -> o.setRole(this));
+    }
 }

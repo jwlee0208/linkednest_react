@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import store from "../../../../store";
 import { useAppSelect } from "../../../../store/index.hooks";
 import { getLayoutInfo } from "../../../../store/modules/layout";
-import userSlice, { User } from "../../../../store/modules/user";
+import userSlice, { AdminMenuCategoryList, User } from "../../../../store/modules/user";
 import Login from "../../user/Login";
 import { Menu, MenuList, MenuItem, Toolbar, Tooltip, Typography, Paper, ListItemText, ListItemIcon } from "@mui/material";
 import { AppBar, Avatar, ButtonGroup, Container, IconButton, Box, Button, FormControl } from "@mui/material";
@@ -20,7 +20,7 @@ type SideAreaProps = {
     user : User,
     isLogin : Boolean,
     username : String,
-    adminMenuList : adminMenuCategories
+    adminMenuList : AdminMenuCategoryList
 };
 
 function AdminSideArea({
@@ -32,13 +32,10 @@ function AdminSideArea({
 
     const navigate      = useNavigate();
     const layoutInfo    = useAppSelect(getLayoutInfo);
-    // const adminMenuList = useAppSelect(getAdminMenuCategoryInfo);
-
-    console.log('sideAreaAdmin >>>>>>> adminMenuList : ' + JSON.stringify(adminMenuList));
 
     useEffect(() => {
 
-    },[adminMenuList]);
+    },[]);
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
@@ -48,28 +45,35 @@ function AdminSideArea({
 
     return (
     <>
-        <Box>
-
-        </Box>
-        <Box component="menu" sx={{ mr: 3, overflow: 'hidden' }}>
-                <Box border={1} borderColor="gray" sx={{ mt: 1, mb: 1 }}>
-                    {isLogin === false ?
-                        <Login />
+        <Box component="menu" sx={{ mr: 3, overflow: 'hidden' }} key={0}>
+                <Box border={1} borderColor="gray" sx={{ mt: 1, mb: 1 }} key={1}>
+                    {
+                    isLogin === false ?
+                        <Login key={0} />
                         : (
-                            <Box sx={{ m: 2 }}>
+                            <Box sx={{ m: 2 }} key={3}>
                                 <Box>{username}님<br />
-                                    <Button variant="outlined" size="medium" onClick={(e) => handleLogoutAction(e)}>Logout</Button></Box>
+                                <Button variant="outlined" size="medium" onClick={(e) => handleLogoutAction(e)}>Logout</Button></Box>
                             </Box>
-                        )}
+                        )
+                    }
                 </Box>
-                <Box border={1} borderColor="primary.main" bgcolor="" sx={{ minHeight: "200px" }}>
-                    <Box sx={{ m: 1 }}>
-                        <MenuList>
-                        {(isLogin === true) ?
+                <Box border={1} borderColor="primary.main" bgcolor="" sx={{ minHeight: "200px" }} key={0}>
+                    <Box sx={{ m: 1 }} key={4}>
+                        <MenuList key={'menuList0'}>
+                        {
+                        (isLogin === true && adminMenuList !== null) ?    
                             adminMenuList.map(aml => (
-                                <CategoryMenuRow key={aml.id} menuCategoryId={aml.id} menuCategoryName={aml.categoryName} menusArr={aml.menus} />
+                                <Box key={`menu${aml.categoryId}`}>
+                                    <CategoryMenuRow key={aml.categoryName} menuCategoryId={aml.categoryId} menuCategoryName={aml.categoryName} menusArr={aml.roleAccessPathList} user={user}/>
+                                </Box>
                             ))
-                            : <></>}
+                            : (
+                                <Box key={'menu0'}>
+                                    <CategoryMenuRow key={0} menuCategoryId={0} menuCategoryName={''} menusArr={[]} user={user}/>
+                                </Box>
+                            )
+                        }    
                         </MenuList>
                     </Box>
                 </Box>

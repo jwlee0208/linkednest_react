@@ -24,13 +24,15 @@ function LayoutAdmin() {
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-      dispatch(asyncAdminMenuCategoryList());
+      // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
-    const adminMenuCategoryInfo = useAppSelect(getAdminMenuCategoryInfo);
+/*     const adminMenuCategoryInfo = useAppSelect(getAdminMenuCategoryInfo);
 
     console.log('adminMenuCategoryInfo : ' + JSON.stringify(adminMenuCategoryInfo));
+ */
 
+    const adminMenuCategoryList = userinfo.adminMenuCategoryList;
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
@@ -50,7 +52,7 @@ function LayoutAdmin() {
           <Hidden smDown>
             <Grid container spacing={1}>
               <Grid component="aside" item xs={3}>
-                <AdminSideArea isLogin={isLogin} username={username} user={userinfo} adminMenuList={adminMenuCategoryInfo.adminMenuCategories}/>
+                <AdminSideArea isLogin={isLogin} username={username} user={userinfo} adminMenuList={adminMenuCategoryList}/>
               </Grid>
               <Grid component="article" item xs={9}>
                 <AdminContent isLogin={isLogin}/>

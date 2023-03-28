@@ -14,6 +14,6 @@ public class RoleAccessProvider {
     private final RoleAccessPathRepository roleAccessPathRepository;
 
     public List<RoleAccessPath> getRoleAccessPathList() {
-        return roleAccessPathRepository.findAll();
+        return roleAccessPathRepository.findAllByType("BACKEND");
     }
 }

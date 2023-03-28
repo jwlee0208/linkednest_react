@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.www.dto.user.ResTokenDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
 import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
@@ -19,23 +21,21 @@ import net.linkednest.common.security.JwtProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Base64;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository userRepository;
-
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final RoleRepository roleRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
-
-    private final RoleRepository roleRepository;
 
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] userRegist : {}", this.getClass().getName().toString(), "registUser", userRegistDto.toString());
@@ -62,8 +62,7 @@ public class UserService {
 
     public Boolean updateUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] updateUser : {}", this.getClass().getName(), "updateUser", userRegistDto.toString());
-        User newUser = new User();
-        String decodedUserId = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
+        String  decodedUserId   = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
         try {
             Optional<User> userOptional = this.getUser(decodedUserId);
             if (userOptional.isPresent()) {
@@ -87,45 +86,81 @@ public class UserService {
 
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
 
-        String userId = new String(Base64.getDecoder().decode(reqUserLoginDto.getUsername()));
+        String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUsername()));
         String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
 
         Optional<User> userOptional = this.getUser(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-//            String encryptPw = passwordEncoder.encode(password);
-            Boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
+            // password check
+            boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
             if (isMatchedPw) {
                 resUserLoginDto.setReturnCode(10000);
                 resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
                 resUserLoginDto.setIsLogin(true);
                 resUserLoginDto.setUsername(user.getUserId());
-                resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles()));
+                resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles())); // accessToken 발급
                 resUserLoginDto.setEmail(user.getEmail());
                 resUserLoginDto.setIntroduce(user.getIntroduce());
                 resUserLoginDto.setNickname(user.getNickname());
                 resUserLoginDto.setAuthorities(user.getRoles());
 
-                user.getRoles().stream().forEach(r->{
+                List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList = new ArrayList<>();
 
-                    r.getRole().getAccessPaths().stream().forEach(rap -> {
-                        log.info(">>>>>>>>>>>>>>>> role name : {}, role access path : {}", r.getRole().getRoleName(), rap.toString());
+                user.getRoles().stream().forEach(r -> {
+                    r.getRole().getAdminMenuCategoryRoleAccesses().stream().forEach(amcra -> {
+                        String categoryName = amcra.getAdminMenuCategory().getCategoryName();
+
+                        List<ResAdminMenuRoleAccessPathDto> resAdminMenuRoleAccessPathDtoList  = new ArrayList<>();
+                        Optional<ResAdminMenuCategoryDto> resAdminMenuCategoryDtoOptional = adminMenuCategoryDtoList.stream().filter(amcdl -> amcdl.getCategoryId().equals(amcra.getAdminMenuCategory().getId())).findAny();
+                        boolean isAddedCategory = resAdminMenuCategoryDtoOptional.isPresent();
+
+                        ResAdminMenuCategoryDto resAdminMenuCategoryDto = null;
+
+                        if (isAddedCategory) {
+                            resAdminMenuCategoryDto = resAdminMenuCategoryDtoOptional.get();
+                            resAdminMenuRoleAccessPathDtoList = resAdminMenuCategoryDtoOptional.get().getRoleAccessPathList();
+                            adminMenuCategoryDtoList.remove(resAdminMenuCategoryDto);
+                        } else {
+                            resAdminMenuCategoryDto = new ResAdminMenuCategoryDto();
+                            resAdminMenuCategoryDto.setCategoryId(amcra.getAdminMenuCategory().getId());
+                            resAdminMenuCategoryDto.setCategoryName(categoryName);
+                        }
+
+                        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> categoryName : {}, AdminMenuRoleAccessPaths size : {}, isAddedCategory : {}", categoryName, amcra.getAdminMenuCategory().getAdminMenuRoleAccessPaths().size(), isAddedCategory);
+                        List<ResAdminMenuRoleAccessPathDto> finalResAdminMenuRoleAccessPathDtoList = resAdminMenuRoleAccessPathDtoList;
+                        ResAdminMenuCategoryDto finalResAdminMenuCategoryDto = resAdminMenuCategoryDto;
+                        amcra.getAdminMenuCategory().getAdminMenuRoleAccessPaths().stream().forEach(amrap -> {
+
+                            if (amcra.getRole().equals(amrap.getRole())) {
+
+                                boolean isEmptyRapl = CollectionUtils.isEmpty(finalResAdminMenuCategoryDto.getRoleAccessPathList());
+                                boolean isAddedMenu = isEmptyRapl ? false
+                                        : finalResAdminMenuCategoryDto.getRoleAccessPathList()
+                                                                    .stream()
+                                                                    .anyMatch(rapl -> rapl.getUrl().equals(amrap.getAdminMenu().getMenuUrl())
+                                                                            && rapl.getName().equals(amrap.getAdminMenu().getMenuName()));
+
+                                if (!isAddedMenu) {
+                                    ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
+                                    resRoleAccessPathDto.setId(amrap.getAdminMenu().getId());
+                                    resRoleAccessPathDto.setUrl(amrap.getAdminMenu().getMenuUrl());
+                                    resRoleAccessPathDto.setName(amrap.getAdminMenu().getMenuName());
+
+                                    finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
+                                    finalResAdminMenuCategoryDto.setRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
+                                    log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> menuName : {}, menuUrl : {}", amrap.getAdminMenu().getMenuName(), amrap.getAdminMenu().getMenuUrl());
+                                }
+                            }
+                        });
+                        adminMenuCategoryDtoList.add(finalResAdminMenuCategoryDto);
                     });
                 });
+                resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
 
-                Optional<UserRefreshToken> refreshTokenOptional = userRefreshTokenRepository.findByUser(user);
-                String mergeRefreshTokenVal = null;
-                UserRefreshToken refreshTokenObj = null;
-                UserRefreshToken mergedRefreshToken = null;
-                if (!refreshTokenOptional.isPresent()) {
-                    mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getRoles());
-                    refreshTokenObj = new UserRefreshToken();
-                    refreshTokenObj.setUser(user);
-                    refreshTokenObj.setRefreshToken(mergeRefreshTokenVal);
-                    mergedRefreshToken = userRefreshTokenRepository.save(refreshTokenObj);
-                } else {
-                    mergedRefreshToken = refreshTokenOptional.get();
-                }
+                // refresh token
+                UserRefreshToken mergedRefreshToken = this.mergeRefreshToken(user);
+
                 response.setHeader(CommonConstants.REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
             } else {
                 resUserLoginDto.setReturnCode(20001);
@@ -138,6 +173,23 @@ public class UserService {
             resUserLoginDto.setIsLogin(false);
         }
         return resUserLoginDto;
+    }
+
+    private UserRefreshToken mergeRefreshToken(User user) {
+        Optional<UserRefreshToken> refreshTokenOptional = userRefreshTokenRepository.findByUser(user);
+        String              mergeRefreshTokenVal    = null;
+        UserRefreshToken    refreshTokenObj         = null;
+        UserRefreshToken    mergedRefreshToken      = null;
+        if (!refreshTokenOptional.isPresent()) {
+            mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getRoles());
+            refreshTokenObj      = new UserRefreshToken();
+            refreshTokenObj.setUser(user);
+            refreshTokenObj.setRefreshToken(mergeRefreshTokenVal);
+            mergedRefreshToken = userRefreshTokenRepository.save(refreshTokenObj);
+        } else {
+            mergedRefreshToken = refreshTokenOptional.get();
+        }
+        return mergedRefreshToken;
     }
 
     public Optional<User> getUser(String userId) {

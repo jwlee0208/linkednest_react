@@ -77,8 +77,8 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         log.info("[{}.{}] roleAccessPathList : {}", this.getClass().getName(), "CONSTRUCTOR", roleAccessPathList);
 
         roleAccessPathList.stream().forEach(r -> {
-            log.info("[{}.{}] url : {}, roleName : {}", this.getClass().getName(), "CONSTRUCTOR", r.getUrl(), r.getRole().getRoleName());
-            requestMap.put(new AntPathRequestMatcher(r.getUrl()), Collections.singletonList(new SecurityConfig(r.getRole().getRoleName())));
+            log.info("[{}.{}] url : {}, httpMethod : {}, type, {}, roleName : {}", this.getClass().getName(), "CONSTRUCTOR", r.getUrl(), r.getHttpMethod(), r.getType(), r.getRole().getRoleName());
+            requestMap.put(new AntPathRequestMatcher(r.getHttpMethod(), r.getUrl()), Collections.singletonList(new SecurityConfig(r.getRole().getRoleName())));
         });
 
         log.info("[{}.{}] requestMap : {}, ", this.getClass().getName(), "CONSTRUCTOR", requestMap);

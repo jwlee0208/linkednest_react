@@ -2,17 +2,21 @@ import { adminMenuCategory, adminMenus } from "../../../../store/modules/adminMe
 import { Box, Divider, ListItemText, MenuItem, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router";
+import { RoleAccessPaths, User } from "../../../../store/modules/user";
+import { Key } from "@mui/icons-material";
 
 type MenuRowProps = {
     menuCategoryId : number,
     menuCategoryName : string,
-    menusArr : adminMenus
+    menusArr : RoleAccessPaths,
+    user : User,
 };
 
 function CategoryMenuRow({
     menuCategoryId,
     menuCategoryName,
-    menusArr
+    menusArr,
+    user
 } : MenuRowProps) {
 
     const navigate = useNavigate();
@@ -31,12 +35,15 @@ function CategoryMenuRow({
             </MenuItem>
             <Divider/>
     {
-        menusArr.map(menu => (
-            <MenuItem key={"menu_" + menu.id}>
-                <ListItemText onClick={(e) => handleToClickMenu(`${menu.menuUrl}`, e)}>{menu.menuName}</ListItemText>
-            </MenuItem>        
-        ))        
-    }
+        (menusArr !== null) ? (
+            menusArr.map(menu => (
+                    <MenuItem key={"menu_" + menu.id}>
+                        <ListItemText onClick={(e) => handleToClickMenu(`${menu.url}`, e)}>{menu.name}</ListItemText>
+                    </MenuItem>
+                )
+            )
+        ) : (<></>)
+    }    
         </>
     )
 }

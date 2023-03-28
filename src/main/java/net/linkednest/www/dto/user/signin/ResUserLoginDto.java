@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.linkednest.common.entity.Authority;
 import net.linkednest.www.dto.CommonResDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
 
 import java.util.List;
 
@@ -31,4 +33,9 @@ public class ResUserLoginDto extends CommonResDto {
 
     @Schema(description = "사용자 권한 목록", required = true)
     private List<Authority> authorities;
+
+    @Schema(description = "사용자 접근 가능 URL", required = false)
+    private List<ResAdminMenuRoleAccessPathDto> roleAccessPathList;
+
+    private List<ResAdminMenuCategoryDto> adminMenuCategoryList;
 }

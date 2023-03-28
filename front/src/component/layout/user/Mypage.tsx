@@ -26,6 +26,7 @@ function Mypage() {
     , email         : userinfo.email
     , returnCode    : 0
     , authorities   : JSON
+    , adminMenuCategoryList : []
   });
 
   const navigate    = useNavigate();
