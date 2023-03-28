@@ -10,7 +10,7 @@ import Footer             from "../common/Footer";
 import SideArea           from "../common/SideArea";
 import Content            from "../common/Content";
 
-function Layout2() {
+function LayoutType2() {
 
     console.log("layout2>>");
 
@@ -57,4 +57,4 @@ function Layout2() {
     )
 }
 
-export default Layout2;
+export default LayoutType2;
