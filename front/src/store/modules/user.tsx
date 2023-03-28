@@ -4,8 +4,15 @@ import { axiosInstance }         from '../..';
 import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
 
-export interface userRoleDtoList extends Array<UserRoleDto>{}
-export interface UserRoleDto {
+export interface RoleInfoList extends Array<RoleInfo>{}
+export interface RoleInfo {
+    roleId      : number;
+    roleName    : string;
+    roleDesc    : string;
+}
+
+export interface userRoleInfoList extends Array<UserRole>{}
+export interface UserRole {
     roleId                  : number;
     roleName                : string;
     userRoleAccessPathList  : UserRoleAccessPathList;
@@ -45,9 +52,9 @@ export interface User {
     accessToken             : string;
     refreshToken            : string;
     isLogin                 : boolean;
-    authorities             : JSON;
     adminMenuCategoryList   : AdminMenuCategoryList;
-    userRoleDtoList         : userRoleDtoList;
+    userRoleInfoList        : userRoleInfoList;
+    roleInfoList            : RoleInfoList;
     returnCode              : number;
 }
 
@@ -60,9 +67,9 @@ const initialState : User = {
     accessToken             : '',
     refreshToken            : '',
     isLogin                 : false,
-    authorities             : JSON,
     adminMenuCategoryList   : [],
-    userRoleDtoList         : [],
+    userRoleInfoList        : [],
+    roleInfoList            : [],
     returnCode              : 0,
 };
 
@@ -79,7 +86,8 @@ const userSlice = createSlice ({
             state.nickname              = '';
             state.password              = '';
             state.adminMenuCategoryList = [];
-            state.userRoleDtoList       = [];
+            state.userRoleInfoList      = [];
+            state.roleInfoList          = [];
         }, 
     },
     extraReducers : (builder) => {
@@ -100,9 +108,9 @@ const userSlice = createSlice ({
             state.email                 = action.payload.email;
             state.nickname              = action.payload.nickname;
             state.introduce             = action.payload.introduce;
-            state.authorities           = action.payload.authorities;
             state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
-            state.userRoleDtoList       = action.payload.userRoleDtoList;
+            state.userRoleInfoList      = action.payload.userRoleInfoList;
+            state.roleInfoList          = action.payload.roleInfoList;
             console.log('asyncLogin >> adminMenuCategoryDtoList : ' + JSON.stringify(action.payload.adminMenuCategoryList));
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {

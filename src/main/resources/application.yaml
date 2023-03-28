@@ -1,7 +1,7 @@
 server:
   port: 9091
 
-springdoc:
+spring-doc:
   show-actuator: true
   packagesToScan: net.linkednest.www.controller, net.linkednest.backoffice.controller
   swagger:
@@ -10,7 +10,6 @@ springdoc:
     title: Test Project API Document
     description: API Document For Test Project
     version: v0.1
-
 
 jwt:
   secret:

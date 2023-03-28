@@ -26,9 +26,9 @@ function Login() {
         , nickname              : ""
         , email                 : ""
         , returnCode            : 0
-        , authorities           : JSON
         , adminMenuCategoryList : []
-        , userRoleDtoList       : []
+        , userRoleInfoList      : []
+        , roleInfoList          : []
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
