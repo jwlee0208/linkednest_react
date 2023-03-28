@@ -115,14 +115,11 @@ function AdminHeader({
         <Box sx={{ flexGrow: 0 }}>        
           <ButtonGroup>
             <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
-            <Button onClick={(e)=>{handleCloseNavMenu("/login", e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
+            {/* <Button onClick={(e)=>{handleCloseNavMenu(`/${typeId}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>           */}
           </ButtonGroup>        
         </Box>      
     )
   }
-        <Box>
-          <Button onClick={(e)=>{callAdmin("/admin", e)}}>admin</Button>
-        </Box>
           </Toolbar>
         </Container>
       </AppBar>

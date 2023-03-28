@@ -99,16 +99,22 @@ const userSlice = createSlice ({
             }   
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
-            state.accessToken           = action.payload.accessToken;
-            state.refreshToken          = action.payload.refreshToken;
-            state.isLogin               = action.payload.isLogin;
-            state.username              = action.payload.username;
-            state.email                 = action.payload.email;
-            state.nickname              = action.payload.nickname;
-            state.introduce             = action.payload.introduce;
-            state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
-            state.userRoleInfoList      = action.payload.userRoleInfoList;
-            state.roleInfoList          = action.payload.roleInfoList;
+            console.log(`action.payload.returnCode : ${action.payload.returnCode}`);
+            if (action.payload.returnCode === 10000) {
+                state.accessToken           = action.payload.accessToken;
+                state.refreshToken          = action.payload.refreshToken;
+                state.isLogin               = action.payload.isLogin;
+                state.username              = action.payload.username;
+                state.email                 = action.payload.email;
+                state.nickname              = action.payload.nickname;
+                state.introduce             = action.payload.introduce;
+                state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
+                state.userRoleInfoList      = action.payload.userRoleInfoList;
+                state.roleInfoList          = action.payload.roleInfoList;    
+            } else {
+                alert(`Login Failure : [err : ${action.payload.returnCode}]`);
+                window.location.href='/';
+            }
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
             console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));

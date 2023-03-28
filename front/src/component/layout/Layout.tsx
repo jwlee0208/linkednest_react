@@ -17,13 +17,13 @@ function Layout() {
 
     const [layout, setLayout] = useState<LayoutInfo>({typeId : ""});
 
-    console.log(`LAYOUT >> location : ${location} , json type : ${JSON.stringify(location)}`);
+    // console.log(`LAYOUT >> location : ${location} , json type : ${JSON.stringify(location)}`);
 
     let pathArr = location.pathname.split("/");
     if (pathArr[1] !== ''){
       typeId = pathArr[1];
     }
-    console.log(`location.pathname : ${typeId}, stateTypeId : ${layoutInfo.typeId}`);
+    // console.log(`location.pathname : ${typeId}, stateTypeId : ${layoutInfo.typeId}`);
 
     if (typeId !== layoutInfo.typeId) {
       setLayout({...layout, typeId : typeId});

@@ -33,13 +33,11 @@ function Login() {
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('username : ' + e.target.value);
         setUser({...user, username : e.target.value});
     }
 
     const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('password : ' + e.target.value);
         setUser({...user, password : e.target.value});
     }
 
@@ -53,12 +51,9 @@ function Login() {
 
         user.username = base64_encode(user.username);
         user.password = base64_encode(user.password);    
-        console.log('[login] before : ' + JSON.stringify(user));        
 
-        const res = dispatch(asyncLogin(user));
-        console.log('[login] res : ' + JSON.stringify(res.arg));
-
-        setMsg("로그인 성공하였습니다.");
+        dispatch(asyncLogin(user));        
+        setMsg("Login Success");
         navigate(`/${layoutInfo.typeId}`);
         setLoading(true);
     }
