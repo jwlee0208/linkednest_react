@@ -3,16 +3,14 @@ import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
 import { Grid }           from "@mui/material";
 import Header             from "../common/Header";
+import Footer             from "../common/Footer";
 import Navbar             from "../common/Navbar";
 import TopBanner          from "../common/TopBanner";
-import Footer             from "../common/Footer";
-import SideArea           from "../common/SideArea";
 import Content            from "../common/Content";
-import Hidden             from "@mui/material/Hidden";
 
-function Layout1() {
+function LayoutType3() {
 
-    console.log("layout1>>");
+    console.log("layout3>>");
 
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
@@ -32,23 +30,11 @@ function Layout1() {
           <Grid component="nav">
             <Navbar/>
           </Grid>
-          <Hidden smUp>
-            <Grid container spacing={1}>
-              <Grid component="article" item xs={12}>
-                <Content isLogin={isLogin}/>
-              </Grid>
-            </Grid>  
-          </Hidden>
-          <Hidden smDown>
-            <Grid container spacing={1}>
-              <Grid component="article" item xs={9}>
-                <Content isLogin={isLogin}/>
-              </Grid>
-              <Grid component="aside" item xs={3}>
-                <SideArea isLogin={isLogin} username={username} user={userinfo} />
-              </Grid>
+          <Grid container spacing={1}>
+            <Grid component="article" item xs={12}>
+              <Content isLogin={isLogin}/>
             </Grid>
-          </Hidden>
+          </Grid>
         </Grid>
         <Grid component="footer">
           <Footer/>
@@ -57,4 +43,4 @@ function Layout1() {
     )
 }
 
-export default Layout1;
+export default LayoutType3;

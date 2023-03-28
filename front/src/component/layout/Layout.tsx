@@ -1,9 +1,9 @@
 import { useLocation }             from "react-router";
 import { useAppSelect }            from "../../store/index.hooks";
 import { useEffect, useState }     from "react";
-import Layout1                     from "./template/Layout1";
-import Layout2                     from "./template/Layout2";
-import Layout3                     from "./template/Layout3";
+import LayoutType1                 from "./template/LayoutType1";
+import LayoutType2                 from "./template/LayoutType2";
+import LayoutType3                 from "./template/LayoutType3";
 import LayoutAdmin                 from "./template/admin/LayoutAdmin";
 import store                       from "../../store";
 import layoutSlice
@@ -11,7 +11,7 @@ import layoutSlice
 
 function Layout() {
 
-    let   typeId      = '1'; 
+    let   typeId      = 'type1'; 
     const location    = useLocation();
     const layoutInfo  = useAppSelect(getLayoutInfo);
 
@@ -52,11 +52,11 @@ function Layout() {
     }, [typeId]);
     
     switch (typeId) {
-      case "1" : return <Layout1/>
-      case "2" : return <Layout2/>
-      case "3" : return <Layout3/>
-      case "admin" : return <LayoutAdmin/>
-      default : return <Layout1/>
+      case "admin"  : return <LayoutAdmin/>
+      case "type1"  : return <LayoutType1/>
+      case "type2"  : return <LayoutType2/>
+      case "type3"  : return <LayoutType3/>
+      default       : return <LayoutType1/>
     }
 }
 

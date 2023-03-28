@@ -2,10 +2,6 @@ import React from 'react';
 import {BrowserRouter, useLocation, useParams} from 'react-router-dom';
 import './App.scss';
 import Layout from './component/layout/Layout';
-import Layout2 from './component/layout/template/Layout2';
-
-
-// const getTypeId = (state : any) => state.typeId; 
 
 function App() {
 

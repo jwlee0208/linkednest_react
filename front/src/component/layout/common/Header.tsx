@@ -110,9 +110,9 @@ function Header({
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
                 <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="1" value={typeId}>
-                  <MenuItem value={"1"}>1</MenuItem>
-                  <MenuItem value={"2"}>2</MenuItem>
-                  <MenuItem value={"3"}>3</MenuItem>
+                  <MenuItem value={"type1"}>type1</MenuItem>
+                  <MenuItem value={"type2"}>type2</MenuItem>
+                  <MenuItem value={"type3"}>type3</MenuItem>
                 </Select>
             </FormControl>
               </Menu>
@@ -125,9 +125,9 @@ function Header({
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
                 <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="1" value={typeId}>
-                  <MenuItem value={"1"}>1</MenuItem>
-                  <MenuItem value={"2"}>2</MenuItem>
-                  <MenuItem value={"3"}>3</MenuItem>
+                  <MenuItem value={"type1"}>type1</MenuItem>
+                  <MenuItem value={"type2"}>type2</MenuItem>
+                  <MenuItem value={"type3"}>type3</MenuItem>
                 </Select>
             </FormControl>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -158,7 +158,7 @@ function Header({
           <ButtonGroup>
             <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
             {
-              typeId === '3' ? (
+              typeId === 'type3' ? (
                 <Button onClick={(e)=>{handleCloseNavMenu(`/${typeId}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
               ) : (<></>)
             }
