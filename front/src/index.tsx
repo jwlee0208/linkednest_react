@@ -1,16 +1,16 @@
-import React from 'react';
-import {Provider} from 'react-redux';
-import ReactDOM from 'react-dom/client';
-import './index.scss';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import axios from 'axios';
-import store from './store';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
+import React                      from 'react';
+import { Navigate }               from 'react-router';
+import { Provider }               from 'react-redux';
+import { PersistGate }            from 'redux-persist/integration/react';
+import { persistStore }           from 'redux-persist';
 import { Container, CssBaseline } from '@mui/material';
-import jwtDecode from 'jwt-decode';
-import { Navigate } from 'react-router';
+import ReactDOM                   from 'react-dom/client';
+import App                        from './App';
+import reportWebVitals            from './reportWebVitals';
+import axios                      from 'axios';
+import store                      from './store';
+import jwtDecode                  from 'jwt-decode';
+import './index.scss';
 
 export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",
@@ -19,7 +19,6 @@ export const axiosInstance = axios.create({
     withCredentials : false
   },
   timeout : 3000,
-  
 });
 
 interface Token{
@@ -34,8 +33,8 @@ axiosInstance.interceptors.request.use(
     console.log("request interceptor start >>>");
 
     if (userinfo.isLogin === true) {
-      let reqAccessToken = userinfo.accessToken;
-        config.headers.Authorization = `Bearer ${reqAccessToken}`;
+      let reqAccessToken           = userinfo.accessToken;
+      config.headers.Authorization = `Bearer ${reqAccessToken}`;
     }
     return config;
   },
@@ -56,20 +55,20 @@ axiosInstance.interceptors.response.use(
     const originalReq = config;
 
     if (status === 401) {
-      const userinfo = store.getState().userSlice;
-      const refreshToken = userinfo.refreshToken;
+      const userinfo      = store.getState().userSlice;
+      const refreshToken  = userinfo.refreshToken;
       try {
         const {data} = await axiosInstance({
-          method : 'post',
-          url : '/reIssueToken',
-          data : {refreshToken : refreshToken},
+          method  : 'post',
+          url     : '/reIssueToken',
+          data    : {refreshToken : refreshToken},
         });
         console.log("[interceptor response] return data : " + JSON.stringify(data) + ", returnCode : " + data.returnCode);
         if (data.returnCode === 10000) {
-          const newAccessToken = data.accessToken;
-          const newRefreshToken = data.refreshToken;
-          userinfo.accessToken = newAccessToken;
-          userinfo.refreshToken = newRefreshToken;
+          const newAccessToken      = data.accessToken;
+          const newRefreshToken     = data.refreshToken;
+          userinfo.accessToken      = newAccessToken;
+          userinfo.refreshToken     = newRefreshToken;
           originalReq.Authorization = `Bearer ${newAccessToken}`;
           
           return await axiosInstance(originalReq);  

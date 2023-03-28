@@ -1,15 +1,13 @@
-import { adminMenuCategory, adminMenus } from "../../../../store/modules/adminMenu";
-import { Box, Divider, ListItemText, MenuItem, Typography } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router";
-import { RoleAccessPaths, User } from "../../../../store/modules/user";
-import { Key } from "@mui/icons-material";
+import React                             from "react";
+import { useNavigate }                   from "react-router";
+import { RoleAccessPaths, User }         from "../../../../store/modules/user";
+import { Divider, ListItemText, MenuItem, Typography } from "@mui/material";
 
 type MenuRowProps = {
-    menuCategoryId : number,
-    menuCategoryName : string,
-    menusArr : RoleAccessPaths,
-    user : User,
+    menuCategoryId      : number,
+    menuCategoryName    : string,
+    menusArr            : RoleAccessPaths,
+    user                : User,
 };
 
 function CategoryMenuRow({

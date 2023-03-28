@@ -1,8 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import rootReducer from "../reducer";
-import logger from 'redux-logger';
-import { isIterable } from "iterable";
-import { serialize } from "v8";
+import rootReducer  from "../reducer";
+import logger       from 'redux-logger';
 
 const store = configureStore({
     reducer : rootReducer,

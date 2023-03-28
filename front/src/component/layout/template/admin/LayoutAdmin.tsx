@@ -1,28 +1,25 @@
-import React, {useEffect, useState} from "react";
-import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
-import { getUserInfo } from "../../../../store/modules/user";
-import Footer from "../../common/Footer";
-import { Grid, Hidden } from "@mui/material";
-import Navbar from "../../common/Navbar";
-import { getLayoutInfo } from "../../../../store/modules/layout";
-import AdminSideArea from "../../common/admin/AdminSideArea";
-import { adminMenuCategories, asyncAdminMenuCategoryList, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
-import AdminHeader from "../../common/admin/AdminHeader";
-import AdminContent from "../../common/admin/AdminContent";
-import { useLocation } from "react-router";
+import React, {useEffect} from "react";
+import { useLocation }    from "react-router";
+import { useAppSelect }   from "../../../../store/index.hooks";
+import { getUserInfo }    from "../../../../store/modules/user";
+import { Grid, Hidden }   from "@mui/material";
+import { getLayoutInfo }  from "../../../../store/modules/layout";
+import AdminSideArea      from "../../common/admin/AdminSideArea";
+import AdminHeader        from "../../common/admin/AdminHeader";
+import AdminContent       from "../../common/admin/AdminContent";
+import Footer             from "../../common/Footer";
 
 function LayoutAdmin() {
 
     console.log("layoutAdmin>>");
+    const location    = useLocation();
 
-    const userinfo = useAppSelect(getUserInfo);
-    const isLogin = userinfo.isLogin;
+    const layoutInfo  = useAppSelect(getLayoutInfo);
+    const userinfo    = useAppSelect(getUserInfo);
+    const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
-    const username = userinfo.username; 
-
-    const layoutInfo = useAppSelect(getLayoutInfo);
-
-    const location = useLocation();
+    const username    = userinfo.username; 
+    const adminMenuCategoryList = userinfo.adminMenuCategoryList;
 
     const isAdminIndexPage = (location.pathname === '/admin' || location.pathname === '/admin/index') ;
 
@@ -41,20 +38,19 @@ function LayoutAdmin() {
       window.location.href = '/admin';
     }    
 
-
     useEffect(()=>{
       // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
-    const adminMenuCategoryList = userinfo.adminMenuCategoryList;
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <AdminHeader isLogin={isLogin} accessToken={accessToken} 
-                        username={username} 
-                        user={userinfo}  
-                        typeId={layoutInfo.typeId}/>
+            <AdminHeader isLogin={isLogin} 
+                         accessToken={accessToken} 
+                         username={username} 
+                         user={userinfo}  
+                         typeId={layoutInfo.typeId}/>
           </Grid>
           <Hidden smUp>
             <Grid container spacing={1}>

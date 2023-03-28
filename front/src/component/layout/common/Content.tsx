@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router";
-import Login from "../user/Login";
+import Login  from "../user/Login";
 import Mypage from "../user/Mypage";
 import SignUp from "../user/SignUp";
-import Home from "./Home";
+import Home   from "./Home";
 
 type ContentProps = {
     isLogin : boolean;

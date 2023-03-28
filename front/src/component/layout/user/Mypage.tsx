@@ -1,38 +1,37 @@
-import { useMemo, useState, useEffect, useRef } from "react";
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
+import { useMemo, useState, useEffect }      from "react";
+import { useAppDispatch, useAppSelect }      from "../../../store/index.hooks";
 import { asyncUserUpdate, getUserInfo, User} from "../../../store/modules/user";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button"
-import { Box, FormControl, Grid } from "@mui/material";
-import { getLayoutInfo } from "../../../store/modules/layout";
-import {encode as base64_encode} from 'base-64';
-import ReactQuill from 'react-quill';
-import { useNavigate } from "react-router-dom";
-import Parser from 'html-react-parser';
-import Textarea from '@mui/material/TextareaAutosize';
+import { getLayoutInfo }                     from "../../../store/modules/layout";
+import { encode as base64_encode }           from 'base-64';
+import { useNavigate }                       from "react-router-dom";
+import { Box, FormControl, Grid }            from "@mui/material";
+import TextField                             from "@mui/material/TextField";
+import Button                                from "@mui/material/Button"
+import Parser                                from 'html-react-parser';
+import ReactQuill                            from 'react-quill';
 
 function Mypage() {
-  // user info
-  const userinfo = useAppSelect(getUserInfo);
-
-  const [user, setUser] = useState<User>({
-      username      : userinfo.username
-    , password      : ""
-    , introduce     : Parser(decodeURI(userinfo.introduce).replaceAll('\\"', '"')).toString() 
-    , accessToken   : userinfo.accessToken
-    , refreshToken  : userinfo.refreshToken
-    , isLogin       : userinfo.isLogin
-    , nickname      : userinfo.nickname
-    , email         : userinfo.email
-    , returnCode    : 0
-    , authorities   : JSON
-    , adminMenuCategoryList : []
-    , userRoleDtoList : []
-  });
 
   const navigate    = useNavigate();
   const dispatch    = useAppDispatch();
   const layoutInfo  = useAppSelect(getLayoutInfo);
+  const userInfo    = useAppSelect(getUserInfo);
+
+  const [user, setUser] = useState<User>({
+      username              : userInfo.username
+    , password              : ""
+    , introduce             : Parser(decodeURI(userInfo.introduce).replaceAll('\\"', '"')).toString() 
+    , accessToken           : userInfo.accessToken
+    , refreshToken          : userInfo.refreshToken
+    , isLogin               : userInfo.isLogin
+    , nickname              : userInfo.nickname
+    , email                 : userInfo.email
+    , returnCode            : 0
+    , authorities           : JSON
+    , adminMenuCategoryList : []
+    , userRoleDtoList       : []
+  });
+
  
   const modules = useMemo(
     () => ({
@@ -56,7 +55,7 @@ function Mypage() {
   const MypageAction = (e : React.FormEvent) => {
     e.preventDefault();
     user.username = base64_encode(user.username);
-    const res = dispatch(asyncUserUpdate(user));
+    dispatch(asyncUserUpdate(user));
     navigate(`/${layoutInfo.typeId}`);
   }
 
@@ -83,10 +82,10 @@ function Mypage() {
   useEffect(()=>{
     // quill editor
     const quillCss = document.createElement("link");
-    quillCss.crossOrigin = '*';
-    quillCss.rel = 'stylesheet';
-    quillCss.type = "text/css";
-    quillCss.href = `https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css`;
+    quillCss.crossOrigin  = '*';
+    quillCss.rel          = 'stylesheet';
+    quillCss.type         = "text/css";
+    quillCss.href         = `https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css`;
     
     document.head.appendChild(quillCss);
     

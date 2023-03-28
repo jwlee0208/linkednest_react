@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosInstance } from "../..";
-import { RootState } from "../../reducer";
+import { axiosInstance }    from "../..";
+import { RootState }        from "../../reducer";
 
 
 export interface adminMenuCategories extends Array<adminMenuCategory> {}

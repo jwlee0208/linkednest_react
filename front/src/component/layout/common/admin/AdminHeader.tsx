@@ -1,27 +1,25 @@
-import React, { FormEvent, useState } from "react";
-import {useNavigate} from 'react-router-dom';
-import userSlice, { User } from "../../../../store/modules/user";
-import logo from './logo.svg';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import AdbIcon from '@mui/icons-material/Adb';
+import React    from "react";
+import logo     from './logo.svg';
+import Button   from '@mui/material/Button';
+import AdbIcon  from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
+import store    from "../../../../store";
 
-import { AppBar, Avatar, Box, ButtonGroup, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import store from "../../../../store";
-import { useAppSelect } from "../../../../store/index.hooks";
-import { getLayoutInfo } from "../../../../store/modules/layout";
-import { axiosInstance } from "../../../..";
+import userSlice, { User }  from "../../../../store/modules/user";
+import { useNavigate }      from 'react-router-dom';
+import { useAppSelect }     from "../../../../store/index.hooks";
+import { getLayoutInfo }    from "../../../../store/modules/layout";
+import { axiosInstance }    from "../../../..";
+import { AppBar, Avatar, Box, ButtonGroup
+       , Container, IconButton, Menu, MenuItem
+       , Toolbar, Tooltip, Typography } from "@mui/material";
 
 type HeaderProps = {
-    user : User,
-    isLogin : boolean;
-    username : string;
+    user        : User,
+    isLogin     : boolean;
+    username    : string;
     accessToken : string;
-    typeId : string;
+    typeId      : string;
 };
 
 function AdminHeader({
@@ -32,13 +30,11 @@ function AdminHeader({
     typeId
 } : HeaderProps) {
 
-    const settings = [{menu : 'My Page', path : `/${typeId}/mypage`}, {menu : 'Logout', path : '/logout'}];
-    
-    const layoutInfo = useAppSelect(getLayoutInfo);
-
-    const navigate = useNavigate();
+    const settings    = [{menu : 'My Page', path : `/${typeId}/mypage`}, {menu : 'Logout', path : '/logout'}];
+    const layoutInfo  = useAppSelect(getLayoutInfo);
+    const navigate    = useNavigate();
  
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -71,12 +67,6 @@ function AdminHeader({
     const handleCloseUserMenu_ = () => {
         setAnchorElUser(null);
     };
-
-    const handleMoveType = (e : SelectChangeEvent) => {
-        e.preventDefault();
-        const typeIdVal = e.target.value;
-        navigate(`/${typeIdVal}`);
-    }
 
     const callAdmin = (param : string, event : React.MouseEvent) => {
       event.preventDefault();

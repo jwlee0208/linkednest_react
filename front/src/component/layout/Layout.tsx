@@ -11,9 +11,9 @@ import LayoutAdmin from "./template/admin/LayoutAdmin";
 
 function Layout() {
 
-
-    let typeId = '1'; 
-    const location = useLocation();
+    let   typeId      = '1'; 
+    const location    = useLocation();
+    const layoutInfo  = useAppSelect(getLayoutInfo);
 
     const [layout, setLayout] = useState<Layout_>({typeId : ""});
 
@@ -23,7 +23,6 @@ function Layout() {
     if (pathArr[1] !== ''){
       typeId = pathArr[1];
     }
-    const layoutInfo = useAppSelect(getLayoutInfo);
     console.log('location.pathname : ' + typeId  + ', stateTypeId : ' + layoutInfo.typeId);
 
     if (typeId !== layoutInfo.typeId) {
@@ -34,13 +33,13 @@ function Layout() {
     useEffect(()=>{
       const baseCss = document.createElement("link");
       baseCss.crossOrigin = '*';
-      baseCss.rel = 'stylesheet';
-      baseCss.type = "text/css";
-      baseCss.href = `http://localhost:9091/style/layout_${typeId === '' ? '1' : typeId}.scss`;
+      baseCss.rel         = 'stylesheet';
+      baseCss.type        = "text/css";
+      baseCss.href        = `http://localhost:9091/style/layout_${typeId === '' ? '1' : typeId}.scss`;
       
       const iconCss = document.createElement("link");
-      iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-      iconCss.rel = 'stylesheet';
+      iconCss.href        = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+      iconCss.rel         = 'stylesheet';
       iconCss.crossOrigin = '*';
 
       document.head.appendChild(baseCss);

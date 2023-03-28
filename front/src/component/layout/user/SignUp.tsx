@@ -12,54 +12,48 @@ import 'react-quill/dist/react-quill';
 
 function SignUp() {
 
-    const navigate = useNavigate();
-    const layoutInfo = useAppSelect(getLayoutInfo);
+    const dispatch      = useAppDispatch();
+    const navigate      = useNavigate();
+    const layoutInfo    = useAppSelect(getLayoutInfo);
     const [user, setUser] = useState<User>({
-          username : ""
-        , password : ""
-        , introduce : ""
-        , accessToken : ""
-        , refreshToken : ''
-        , isLogin : false
-        , nickname : ""
-        , email : ""
-        , returnCode : 0
-        , authorities : JSON
+          username              : ""
+        , password              : ""
+        , introduce             : ""
+        , accessToken           : ""
+        , refreshToken          : ''
+        , isLogin               : false
+        , nickname              : ""
+        , email                 : ""
+        , returnCode            : 0
+        , authorities           : JSON
         , adminMenuCategoryList : []
-        , userRoleDtoList : []
+        , userRoleDtoList       : []
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        // console.log('username : ' + e.target.value);        
         setUser({...user, username : e.target.value});
     }
 
     const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        // console.log('password : ' + e.target.value);
         setUser({...user, password : e.target.value});
     }
 
     const inputNicknameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        // console.log('nickname : ' + e.target.value);        
         setUser({...user, nickname : e.target.value});
     }
 
     const inputEmailVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        // console.log('email : ' + e.target.value);        
         setUser({...user, email : e.target.value});
     }
 
     function inputIntroduceVal (value : any) {
-        // console.log('introduce : ' + value);        
         setUser({...user, introduce : value});
     }
     
-    const dispatch = useAppDispatch();
-
     const SignupAction = (e : React.FormEvent) => {
         e.preventDefault();
         if (!user.username) {
@@ -85,13 +79,12 @@ function SignUp() {
 
     useEffect(()=>{
         const quillCss = document.createElement("link");
-        quillCss.crossOrigin = '*';
-        quillCss.rel = 'stylesheet';
-        quillCss.type = "text/css";
-        quillCss.href = `https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css`;
+        quillCss.crossOrigin    = '*';
+        quillCss.rel            = 'stylesheet';
+        quillCss.type           = "text/css";
+        quillCss.href           = `https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css`;
         
         document.head.appendChild(quillCss);
-  
         return () => {
           document.head.removeChild(quillCss);
         }
@@ -115,7 +108,6 @@ function SignUp() {
                 ],
             },
         }), []);
-
 
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
