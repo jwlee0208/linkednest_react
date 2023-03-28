@@ -9,6 +9,12 @@ import Header             from "../common/Header";
 import Footer             from "../common/Footer";
 import SideArea           from "../common/SideArea";
 import Content            from "../common/Content";
+import RestoreIcon        from '@mui/icons-material/Restore';
+import FavoriteIcon       from '@mui/icons-material/Favorite';
+import LocationOnIcon     from '@mui/icons-material/LocationOn';
+import React              from "react";
+import BottomNavigation       from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
 function LayoutType2() {
 
@@ -19,6 +25,8 @@ function LayoutType2() {
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
     const username    = userinfo.username; 
+
+    const [value, setValue] = React.useState(0);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
@@ -51,7 +59,23 @@ function LayoutType2() {
           </Hidden>
         </Grid>
         <Grid component="footer">
-          <Footer/>
+          <Hidden smUp>
+            <BottomNavigation
+              showLabels
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+            >
+              <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+              <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+              <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+            </BottomNavigation>
+
+          </Hidden>
+          <Hidden smDown>
+            <Footer/>
+          </Hidden>
         </Grid>
       </Grid>  
     )
