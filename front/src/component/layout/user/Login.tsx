@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { asyncLogin, User } from "../../../store/modules/user";
+import React, { useState, useEffect }   from "react";
+import { useNavigate }                  from "react-router-dom";
+import { encode as base64_encode }      from 'base-64';
+import { asyncLogin, User }             from "../../../store/modules/user";
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button"
-import { Box, FormControl, Grid } from "@mui/material";
-import { getLayoutInfo } from "../../../store/modules/layout";
-import {encode as base64_encode} from 'base-64';
+import { getLayoutInfo }                from "../../../store/modules/layout";
+import { Box, FormControl, Grid }       from "@mui/material";
+import TextField                        from "@mui/material/TextField";
+import Button                           from "@mui/material/Button"
 
 function Login() {
 
-    const navigate = useNavigate();
-    const layoutinfo = useAppSelect(getLayoutInfo);
+    const dispatch      = useAppDispatch();
+    const navigate      = useNavigate();
+    const layoutInfo    = useAppSelect(getLayoutInfo);
 
-    const [user, setUser] = useState<User>({
-          username : ""
-        , password : ""
-        , introduce : ""
-        , accessToken : ""
-        , refreshToken : ''
-        , isLogin : false
-        , nickname : ""
-        , email : ""
-        , returnCode : 0
-        , authorities : JSON
-        , adminMenuCategoryList : []
-        , userRoleDtoList : []});
     const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState("");
+    const [msg, setMsg]         = useState("");
+    const [user, setUser]       = useState<User>({
+          username              : ""
+        , password              : ""
+        , introduce             : ""
+        , accessToken           : ""
+        , refreshToken          : ''
+        , isLogin               : false
+        , nickname              : ""
+        , email                 : ""
+        , returnCode            : 0
+        , authorities           : JSON
+        , adminMenuCategoryList : []
+        , userRoleDtoList       : []
+    });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         console.log('username : ' + e.target.value);
-        
         setUser({...user, username : e.target.value});
     }
 
@@ -41,8 +42,6 @@ function Login() {
         console.log('password : ' + e.target.value);
         setUser({...user, password : e.target.value});
     }
-
-    const dispatch = useAppDispatch();
 
     const LoginAction = (e : React.FormEvent) => {
         e.preventDefault();
@@ -57,12 +56,10 @@ function Login() {
         console.log('[login] before : ' + JSON.stringify(user));        
 
         const res = dispatch(asyncLogin(user));
-        // setUser({...user, user.isLogin : true, user.accessToken : 'asdf'});
-        // dispatch({type : 'LOGIN_USER', payload: user});
         console.log('[login] res : ' + JSON.stringify(res.arg));
 
         setMsg("로그인 성공하였습니다.");
-        navigate(`/${layoutinfo.typeId}`);
+        navigate(`/${layoutInfo.typeId}`);
         setLoading(true);
     }
 

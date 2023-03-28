@@ -1,15 +1,15 @@
-import { Box, Button, FormControl } from "@mui/material";
-import { useNavigate } from "react-router";
-import store from "../../../store";
-import { useAppSelect } from "../../../store/index.hooks";
-import { getLayoutInfo } from "../../../store/modules/layout";
-import userSlice, { User } from "../../../store/modules/user";
-import Login from "../user/Login";
+import { Box, Button }      from "@mui/material";
+import { useNavigate }      from "react-router";
+import { useAppSelect }     from "../../../store/index.hooks";
+import { getLayoutInfo }    from "../../../store/modules/layout";
+import userSlice, { User }  from "../../../store/modules/user";
+import Login                from "../user/Login";
+import store                from "../../../store";
 
 type SideAreaProps = {
-    user : User,
-    isLogin : Boolean;
-    username : String;
+    user        : User,
+    isLogin     : Boolean;
+    username    : String;
 };
 
 function SideArea({
@@ -18,8 +18,8 @@ function SideArea({
     username, 
 } : SideAreaProps) {
 
-    const navigate = useNavigate();
-    const layoutInfo = useAppSelect(getLayoutInfo);
+    const navigate      = useNavigate();
+    const layoutInfo    = useAppSelect(getLayoutInfo);
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();

@@ -8,19 +8,13 @@ import Login from "../../user/Login";
 import { Menu, MenuList, MenuItem, Toolbar, Tooltip, Typography, Paper, ListItemText, ListItemIcon } from "@mui/material";
 import { AppBar, Avatar, ButtonGroup, Container, IconButton, Box, Button, FormControl } from "@mui/material";
 
-import { adminMenuCategories, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
-
-import Divider from '@mui/material/Divider';
-import { Cloud } from "@mui/icons-material";
-import CategoryMenuRow from "./CategoryMenuRow";
-import { randomUUID } from "crypto";
-
+import CategoryMenuRow  from "./CategoryMenuRow";
 
 type SideAreaProps = {
-    user : User,
-    isLogin : Boolean,
-    username : String,
-    adminMenuList : AdminMenuCategoryList
+    user            : User,
+    isLogin         : Boolean,
+    username        : String,
+    adminMenuList   : AdminMenuCategoryList
 };
 
 function AdminSideArea({

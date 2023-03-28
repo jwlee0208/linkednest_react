@@ -10,7 +10,7 @@ const initialState : Layout_ = {
 };
 
 const layoutSlice = createSlice ({
-    name : 'layout',
+    name     : 'layout',
     initialState,
     reducers : {
         setTypeId : (state, action) => {

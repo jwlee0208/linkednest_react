@@ -1,27 +1,29 @@
-import React, { FormEvent, useState } from "react";
-import {useNavigate} from 'react-router-dom';
+import React from "react";
+import { useNavigate }     from 'react-router-dom';
+import { useAppSelect }    from "../../../store/index.hooks";
+import { getLayoutInfo }   from "../../../store/modules/layout";
+import { axiosInstance }   from "../../..";
 import userSlice, { User } from "../../../store/modules/user";
-import logo from './logo.svg';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import AdbIcon from '@mui/icons-material/Adb';
-import MenuIcon from '@mui/icons-material/Menu';
+import store               from "../../../store";
+import logo                from './logo.svg';
 
-import { AppBar, Avatar, Box, ButtonGroup, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
+import Button              from '@mui/material/Button';
+import Link                from '@mui/material/Link';
+import AdbIcon             from '@mui/icons-material/Adb';
+import MenuIcon            from '@mui/icons-material/Menu';
+import FormControl         from "@mui/material/FormControl";
+import InputLabel          from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import store from "../../../store";
-import { useAppSelect } from "../../../store/index.hooks";
-import { getLayoutInfo } from "../../../store/modules/layout";
-import { axiosInstance } from "../../..";
+import { Typography, AppBar, Avatar, IconButton
+       , ButtonGroup, Box, Container, Menu
+       , MenuItem, Toolbar, Tooltip } from "@mui/material";
 
 type HeaderProps = {
-    user : User,
-    isLogin : boolean;
-    username : string;
+    user        : User,
+    isLogin     : boolean;
+    username    : string;
     accessToken : string;
-    typeId : string;
+    typeId      : string;
 };
 
 function Header({
@@ -32,25 +34,26 @@ function Header({
     typeId
 } : HeaderProps) {
 
-    const pages = (isLogin === true) ? [{menu : 'Home', path : '/'},{menu : 'My Page', path : `/${typeId}/mypage`}] : [{menu : 'Home', path : '/'}];
     const settings = [{menu : 'My Page', path : `/${typeId}/mypage`}, {menu : 'Logout', path : '/logout'}];
+    const pages    = (isLogin === true) ? [{menu : 'Home', path : '/'}
+                                         , {menu : 'My Page', path : `/${typeId}/mypage`}] 
+                                        : [{menu : 'Home', path : '/'}];
     
-    const layoutInfo = useAppSelect(getLayoutInfo);
-
-    const navigate = useNavigate();
+    const layoutInfo  = useAppSelect(getLayoutInfo);
+    const navigate    = useNavigate();
  
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const handleOpenNavMenu   = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
     
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const handleOpenUserMenu  = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = (param : string, event : React.MouseEvent<HTMLElement>) => {
+    const handleCloseNavMenu  = (param : string, event : React.MouseEvent<HTMLElement>) => {
         navigate(param);
         setAnchorElNav(null);
     };
@@ -82,7 +85,6 @@ function Header({
     const callAdmin = (param : string, event : React.MouseEvent) => {
       event.preventDefault();
       axiosInstance.get(`${param}`);
-
     }
 
     return (
@@ -94,7 +96,6 @@ function Header({
               sx={{mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none',}}>
               TEST PROJECT
             </Typography>
-  
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
                 <MenuIcon />

@@ -1,10 +1,10 @@
-import { Navigate, Route, Routes } from "react-router";
-import BoardList from "../../admin/crm/board/BoardList";
-import BoardCategoryList from "../../admin/crm/category/BoardCategoryList";
-import Index from "../../admin/Index";
-import ManageUser from "../../admin/user/ManageUser";
-import UserList from "../../admin/user/UserList";
-import Login from "../../user/Login";
+import { Route, Routes } from "react-router";
+import BoardList          from "../../admin/crm/board/BoardList";
+import BoardCategoryList  from "../../admin/crm/category/BoardCategoryList";
+import ManageUser         from "../../admin/user/ManageUser";
+import UserList           from "../../admin/user/UserList";
+import Login              from "../../user/Login";
+import Index              from "../../admin/Index";
 
 type ContentProps = {
     isLogin : boolean;
