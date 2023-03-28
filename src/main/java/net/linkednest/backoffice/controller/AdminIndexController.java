@@ -17,7 +17,7 @@ public class AdminIndexController {
     @Operation(
             summary = "어드민 인덱스",
             description = "어드민 인덱스입니다.",
-            tags = { "Admin Index Controller" },
+            tags = { "Admin Index" },
             responses = {
                     @ApiResponse(
                             responseCode = "200",

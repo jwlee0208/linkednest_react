@@ -6,6 +6,7 @@ import net.linkednest.common.entity.Authority;
 import net.linkednest.www.dto.CommonResDto;
 import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
 import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
+import net.linkednest.www.dto.user.role.ResUserRoleDto;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public class ResUserLoginDto extends CommonResDto {
     private List<ResAdminMenuRoleAccessPathDto> roleAccessPathList;
 
     private List<ResAdminMenuCategoryDto> adminMenuCategoryList;
+
+    private List<ResUserRoleDto> userRoleDtoList;
 }

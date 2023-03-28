@@ -43,7 +43,7 @@ public class UserController {
   @Operation(
     summary = "회원 등록",
     description = "회원 등록 액션입니다.",
-    tags = { "User Controller" },
+    tags = { "User" },
     responses = {
       @ApiResponse(
         responseCode = "201",
@@ -88,7 +88,7 @@ public class UserController {
   @Operation(
           summary = "회원 정보 수정",
           description = "회원 정보 수정 액션입니다.",
-          tags = { "User Controller" },
+          tags = { "User" },
           responses = {
                   @ApiResponse(
                           responseCode = "201",
@@ -136,7 +136,7 @@ public class UserController {
   @Operation(
           summary = "회원 정보 조회",
           description = "회원 정보 조회 액션입니다.",
-          tags = { "User Controller" },
+          tags = { "User" },
           responses = {
                   @ApiResponse(
                           responseCode = "200",
@@ -174,7 +174,7 @@ public class UserController {
   @Operation(
     summary = "회원 로그인",
     description = "회원 로그인 액션입니다.",
-    tags = { "User Controller" },
+    tags = { "User" },
     responses = {
       @ApiResponse(
         responseCode = "200",
@@ -204,7 +204,7 @@ public class UserController {
   @Operation(
           summary = "회원 로그아웃",
           description = "회원 로그아웃 액션입니다.",
-          tags = { "User Controller" },
+          tags = { "User" },
           responses = {
                   @ApiResponse(
                           responseCode = "200",
@@ -222,7 +222,7 @@ public class UserController {
   @Operation(
           summary = "회원 액세스 토큰 재발행",
           description = "회원 액세스 토큰 재발행 액션입니다.",
-          tags = { "User Controller" },
+          tags = { "User" },
           responses = {
                   @ApiResponse(
                           responseCode = "200",
