@@ -13,11 +13,11 @@ function Content ({
 } : ContentProps ) {
     return (
       <Routes>
-        <Route path='/' element={<Home bannerHeight="480px"/>} />
-        <Route path='/:typeId' element={<Home bannerHeight="480px"/>} />
+        <Route path='/'               element={<Home bannerHeight="480px"/>} />
+        <Route path='/:typeId'        element={<Home bannerHeight="480px"/>} />
         <Route path='/:typeId/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/:typeId/login"/>} />
-        <Route path='/:typeId/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
+        <Route path='/:typeId/login'  element={<Login />} />
+        <Route path='/signup'         element={<SignUp />} />
       </Routes>
     )
 }

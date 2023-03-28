@@ -27,6 +27,8 @@ function LayoutType3() {
 
     const [value, setValue] = React.useState(0);
 
+    console.log(`layout${layoutInfo.typeId}>>`);
+
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  

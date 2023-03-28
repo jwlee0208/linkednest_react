@@ -42,6 +42,8 @@ function LayoutAdmin() {
       // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
+    console.log(`layout${layoutInfo.typeId}>>`);
+
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
@@ -54,7 +56,7 @@ function LayoutAdmin() {
           </Grid>
           <Hidden smUp>
             <Grid container spacing={1}>
-              <Grid component="article" item xs={12}>
+              <Grid component="article" item xs={12} sx={{border:1}}>
                 <AdminContent isLogin={isLogin}/>
               </Grid>
             </Grid>  
