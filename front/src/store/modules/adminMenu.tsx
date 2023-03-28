@@ -2,9 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance }    from "../..";
 import { RootState }        from "../../reducer";
 
-
 export interface adminMenuCategories extends Array<adminMenuCategory> {}
-
 
 export interface adminMenuCategory {
     id           : number;
@@ -15,9 +13,9 @@ export interface adminMenuCategory {
 export interface adminMenus extends Array<adminMenu> {}
 
 interface adminMenu {
-    id   : number;
-    menuName : string;
-    menuUrl  : string;
+    id          : number;
+    menuName    : string;
+    menuUrl     : string;
 }
 
 const initialState = {
@@ -45,14 +43,14 @@ const adminMenuCategorySlice = createSlice ({
         builder.addCase(asyncAdminMenuCategoryList.fulfilled, (state, action) => {
             let adminMenuCategoryArray = action.payload as adminMenuCategories; 
             state.adminMenuCategories = adminMenuCategoryArray;
-
-
-/*             adminMenuCategoryArray.map((adminMenuCategoryObj : adminMenuCategory, outerIdx) => {
+/*             
+                adminMenuCategoryArray.map((adminMenuCategoryObj : adminMenuCategory, outerIdx) => {
                 let adminMenus = adminMenuCategoryObj.menus as adminMenu[];
                 adminMenus.map((adminMenuObj : adminMenu, innerIdx) => {
                     console.log("adminMenuCategoryObj : ", outerIdx, innerIdx,  adminMenuCategoryObj.categoryName, ", menuName : ", adminMenuObj.menuName, ", menuUrl : ", adminMenuObj.menuUrl);
                 });
-            }); */
+            }); 
+*/
         })
     } 
 });
