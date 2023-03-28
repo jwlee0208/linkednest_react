@@ -21,7 +21,7 @@ public class IndexController {
     @Operation(
             summary = "Index",
             description = "Index",
-            tags = { "Index Controller" },
+            tags = { "Index" },
             responses = {
                     @ApiResponse(
                             responseCode = "200",

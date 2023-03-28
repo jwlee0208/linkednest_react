@@ -87,7 +87,7 @@ public class SecurityConfig {
                     .authorizeHttpRequests()
                         // .requestMatchers("/user/**").authenticated()    // JWT 인증 체크해야할 URL 선언
                         .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
-//                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
 //                        .requestMatchers("/static/**", "/style/**", "/images/**").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/user/**").authenticated()

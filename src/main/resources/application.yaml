@@ -4,6 +4,13 @@ server:
 springdoc:
   show-actuator: true
   packagesToScan: net.linkednest.www.controller, net.linkednest.backoffice.controller
+  swagger:
+    disable-swagger-default-url: false
+    display-query-params-without-oauth2: true
+    title: Test Project API Document
+    description: API Document For Test Project
+    version: v0.1
+
 
 jwt:
   secret:

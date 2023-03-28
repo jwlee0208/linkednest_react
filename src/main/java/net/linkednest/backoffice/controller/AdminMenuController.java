@@ -1,5 +1,9 @@
 package net.linkednest.backoffice.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.service.AdminMenuService;
@@ -20,6 +24,20 @@ public class AdminMenuController {
     @Autowired
     private AdminMenuService adminMenuService;
 
+    @Operation(
+        summary = "어드민 카테고리 & 메뉴 목록 조회 API",
+        description = "어드민 카테고리 & 메뉴 목록 조회 API입니다.",
+        tags = { "Admin Menu" },
+        responses = {
+          @ApiResponse(
+            responseCode = "200",
+            description = "조회 성공",
+            content = @Content(
+              schema = @Schema(implementation = AdminMenuCategory.class)
+            )
+          )
+        }
+      )
     @GetMapping(value = "/category/list")
     public ResponseEntity<List<AdminMenuCategory>> getAdminMenuCategoryList() {
         return ResponseEntity.ok(this.adminMenuService.getAdminMenuList());
