@@ -78,7 +78,6 @@ const userSlice = createSlice ({
     initialState,
     reducers : {
         logout : (state, action) => {
-            console.log('[logout] action  : ' + JSON.stringify(action));
             state.accessToken           = '';
             state.refreshToken          = '';
             state.email                 = '';
@@ -92,7 +91,6 @@ const userSlice = createSlice ({
     },
     extraReducers : (builder) => {
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
-            console.log("[asyncLogin] action : ", action);
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
                 state.username  = action.payload.username;
@@ -111,7 +109,6 @@ const userSlice = createSlice ({
             state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
             state.userRoleInfoList      = action.payload.userRoleInfoList;
             state.roleInfoList          = action.payload.roleInfoList;
-            console.log('asyncLogin >> adminMenuCategoryDtoList : ' + JSON.stringify(action.payload.adminMenuCategoryList));
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
             console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
