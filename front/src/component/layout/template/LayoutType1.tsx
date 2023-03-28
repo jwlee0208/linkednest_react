@@ -1,7 +1,7 @@
 import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
-import { Grid }           from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Grid }           from "@mui/material";
 import Header             from "../common/Header";
 import Navbar             from "../common/Navbar";
 import TopBanner          from "../common/TopBanner";
@@ -9,6 +9,10 @@ import Footer             from "../common/Footer";
 import SideArea           from "../common/SideArea";
 import Content            from "../common/Content";
 import Hidden             from "@mui/material/Hidden";
+import RestoreIcon        from '@mui/icons-material/Restore';
+import FavoriteIcon       from '@mui/icons-material/Favorite';
+import LocationOnIcon     from '@mui/icons-material/LocationOn';
+import React              from "react";
 
 function LayoutType1() {
 
@@ -19,6 +23,8 @@ function LayoutType1() {
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
     const username    = userinfo.username; 
+
+    const [value, setValue] = React.useState(0);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
@@ -51,7 +57,23 @@ function LayoutType1() {
           </Hidden>
         </Grid>
         <Grid component="footer">
-          <Footer/>
+          <Hidden smUp>
+            <BottomNavigation
+              showLabels
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+            >
+              <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+              <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+              <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+            </BottomNavigation>
+
+          </Hidden>
+          <Hidden smDown>
+            <Footer/>
+          </Hidden>
         </Grid>
       </Grid>  
     )
