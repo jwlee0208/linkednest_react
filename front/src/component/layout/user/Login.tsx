@@ -24,7 +24,8 @@ function Login() {
         , email : ""
         , returnCode : 0
         , authorities : JSON
-        , adminMenuCategoryList : []});
+        , adminMenuCategoryList : []
+        , userRoleDtoList : []});
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
 

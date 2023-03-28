@@ -5,6 +5,24 @@ import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
 import { useAppDispatch } from "../index.hooks";
 
+
+
+export interface userRoleDtoList extends Array<UserRoleDto>{}
+export interface UserRoleDto {
+    roleId : number;
+    roleName : string;
+    userRoleAccessPathList : UserRoleAccessPathList;
+}
+
+export interface UserRoleAccessPathList extends Array<UserRoleAccessPath>{}
+
+export interface UserRoleAccessPath {
+    roleAccessPathId : number;
+    url : string;
+    type : string;
+    httpMethod : string;
+}
+
 export interface AdminMenuCategoryList extends Array<AdminMenuCategory>{}
 
 export interface AdminMenuCategory {
@@ -32,6 +50,7 @@ export interface User {
     isLogin : boolean;
     authorities : JSON;
     adminMenuCategoryList : AdminMenuCategoryList;
+    userRoleDtoList : userRoleDtoList;
     returnCode : number;
 }
 
@@ -46,6 +65,7 @@ const initialState : User = {
     isLogin : false,
     authorities : JSON,
     adminMenuCategoryList : [],
+    userRoleDtoList : [],
     returnCode : 0,
 };
 
@@ -62,6 +82,7 @@ const userSlice = createSlice ({
             state.nickname = '';
             state.password = '';
             state.adminMenuCategoryList = [];
+            state.userRoleDtoList = [];
         }, 
     },
     extraReducers : (builder) => {
@@ -84,6 +105,7 @@ const userSlice = createSlice ({
             state.introduce = action.payload.introduce;
             state.authorities = action.payload.authorities;
             state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
+            state.userRoleDtoList = action.payload.userRoleDtoList;
             console.log('asyncLogin >> adminMenuCategoryDtoList : ' + JSON.stringify(action.payload.adminMenuCategoryList));
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {

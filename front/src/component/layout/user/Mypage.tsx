@@ -27,6 +27,7 @@ function Mypage() {
     , returnCode    : 0
     , authorities   : JSON
     , adminMenuCategoryList : []
+    , userRoleDtoList : []
   });
 
   const navigate    = useNavigate();

@@ -9,6 +9,7 @@ import AdminSideArea from "../../common/admin/AdminSideArea";
 import { adminMenuCategories, asyncAdminMenuCategoryList, getAdminMenuCategoryInfo } from "../../../../store/modules/adminMenu";
 import AdminHeader from "../../common/admin/AdminHeader";
 import AdminContent from "../../common/admin/AdminContent";
+import { useLocation } from "react-router";
 
 function LayoutAdmin() {
 
@@ -21,26 +22,39 @@ function LayoutAdmin() {
 
     const layoutInfo = useAppSelect(getLayoutInfo);
 
-    const dispatch = useAppDispatch();
+    const location = useLocation();
+
+    const isAdminIndexPage = (location.pathname === '/admin' || location.pathname === '/admin/index') ;
+
+    let matchedUrlCnt = 0;
+    
+    userinfo.adminMenuCategoryList.map(amcl => 
+      amcl.roleAccessPathList.map(rapl => 
+        rapl.url === location.pathname)).forEach(r=>
+          r.forEach(aa => 
+            (aa === true) ? matchedUrlCnt++  : 0)
+        );
+
+    const isInvalidAccess = !isAdminIndexPage && matchedUrlCnt < 1;
+    if (isInvalidAccess) {
+      alert(`can not access this page (${location.pathname})`);
+      window.location.href = '/admin';
+    }    
+
 
     useEffect(()=>{
       // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
-/*     const adminMenuCategoryInfo = useAppSelect(getAdminMenuCategoryInfo);
-
-    console.log('adminMenuCategoryInfo : ' + JSON.stringify(adminMenuCategoryInfo));
- */
-
     const adminMenuCategoryList = userinfo.adminMenuCategoryList;
     return (
-        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
             <AdminHeader isLogin={isLogin} accessToken={accessToken} 
-                         username={username} 
-                         user={userinfo}  
-                         typeId={layoutInfo.typeId}/>
+                        username={username} 
+                        user={userinfo}  
+                        typeId={layoutInfo.typeId}/>
           </Grid>
           <Hidden smUp>
             <Grid container spacing={1}>
