@@ -1,13 +1,13 @@
-import { useLocation } from "react-router";
-import Layout2 from "./template/Layout2";
-import Layout1 from "./template/Layout1";
-import Layout3 from "./template/Layout3";
-import { useAppSelect } from "../../store/index.hooks";
-import { useEffect, useState } from "react";
-import layoutSlice, { getLayoutInfo, Layout_, setLayoutTypeId, } from "../../store/modules/layout";
-import store from "../../store";
-import LayoutAdmin from "./template/admin/LayoutAdmin";
-
+import { useLocation }             from "react-router";
+import { useAppSelect }            from "../../store/index.hooks";
+import { useEffect, useState }     from "react";
+import Layout1                     from "./template/Layout1";
+import Layout2                     from "./template/Layout2";
+import Layout3                     from "./template/Layout3";
+import LayoutAdmin                 from "./template/admin/LayoutAdmin";
+import store                       from "../../store";
+import layoutSlice
+   , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
 
 function Layout() {
 
@@ -15,15 +15,15 @@ function Layout() {
     const location    = useLocation();
     const layoutInfo  = useAppSelect(getLayoutInfo);
 
-    const [layout, setLayout] = useState<Layout_>({typeId : ""});
+    const [layout, setLayout] = useState<LayoutInfo>({typeId : ""});
 
-    console.log('layout >> location : ' + location + ", json type : " + JSON.stringify(location));
+    // console.log(`LAYOUT >> location : ${location} , json type : ${JSON.stringify(location)}`);
 
     let pathArr = location.pathname.split("/");
     if (pathArr[1] !== ''){
       typeId = pathArr[1];
     }
-    console.log('location.pathname : ' + typeId  + ', stateTypeId : ' + layoutInfo.typeId);
+    // console.log(`location.pathname : ${typeId}, stateTypeId : ${layoutInfo.typeId}`);
 
     if (typeId !== layoutInfo.typeId) {
       setLayout({...layout, typeId : typeId});

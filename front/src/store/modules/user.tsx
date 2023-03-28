@@ -78,7 +78,6 @@ const userSlice = createSlice ({
     initialState,
     reducers : {
         logout : (state, action) => {
-            console.log('[logout] action  : ' + JSON.stringify(action));
             state.accessToken           = '';
             state.refreshToken          = '';
             state.email                 = '';
@@ -92,7 +91,6 @@ const userSlice = createSlice ({
     },
     extraReducers : (builder) => {
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
-            console.log("[asyncLogin] action : ", action);
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
                 state.username  = action.payload.username;
@@ -101,17 +99,22 @@ const userSlice = createSlice ({
             }   
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
-            state.accessToken           = action.payload.accessToken;
-            state.refreshToken          = action.payload.refreshToken;
-            state.isLogin               = action.payload.isLogin;
-            state.username              = action.payload.username;
-            state.email                 = action.payload.email;
-            state.nickname              = action.payload.nickname;
-            state.introduce             = action.payload.introduce;
-            state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
-            state.userRoleInfoList      = action.payload.userRoleInfoList;
-            state.roleInfoList          = action.payload.roleInfoList;
-            console.log('asyncLogin >> adminMenuCategoryDtoList : ' + JSON.stringify(action.payload.adminMenuCategoryList));
+            console.log(`action.payload.returnCode : ${action.payload.returnCode}`);
+            if (action.payload.returnCode === 10000) {
+                state.accessToken           = action.payload.accessToken;
+                state.refreshToken          = action.payload.refreshToken;
+                state.isLogin               = action.payload.isLogin;
+                state.username              = action.payload.username;
+                state.email                 = action.payload.email;
+                state.nickname              = action.payload.nickname;
+                state.introduce             = action.payload.introduce;
+                state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
+                state.userRoleInfoList      = action.payload.userRoleInfoList;
+                state.roleInfoList          = action.payload.roleInfoList;    
+            } else {
+                alert(`Login Failure : [err : ${action.payload.returnCode}]`);
+                window.location.href='/';
+            }
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
             console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
