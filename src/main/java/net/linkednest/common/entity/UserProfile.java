@@ -34,8 +34,19 @@ public class UserProfile {
     @ManyToOne(fetch = FetchType.LAZY)
     private User createUser;
 
+    private Date updateDate;
+
     public void setCreateUser(User createUser) {
         this.createUser = createUser;
     }
 
+    @PrePersist
+    protected void onCreate() {
+        createDate = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updateDate = new Date();
+    }
 }

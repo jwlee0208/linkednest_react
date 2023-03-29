@@ -29,15 +29,13 @@ function Login() {
         , adminMenuCategoryList : []
         , userRoleInfoList      : []
         , roleInfoList          : []
-        , userProfile             : {
-            birthday            : '',
-            sex                 : '',
-            phoneNo             : '',
-            additionalPhoneNo   : '',
-            address             : '',
-            detailAddress       : '',
-            zipcode             : 0,
-        },    
+        , birthday              : ''
+        , sex                   : ''
+        , phoneNo               : ''
+        , additionalPhoneNo     : ''
+        , address               : ''
+        , detailAddress         : ''
+        , zipcode               : 0
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {

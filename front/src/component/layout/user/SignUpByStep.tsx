@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useMemo }  from "react";
 import { encode as base64_encode }              from 'base-64';
 import { useNavigate }                          from "react-router-dom";
-import { asyncSignUp, User, UserProfile }                    from "../../../store/modules/user";
+import { asyncSignUp, User }                    from "../../../store/modules/user";
 import { getLayoutInfo }                        from "../../../store/modules/layout";
 import { useAppDispatch, useAppSelect }         from "../../../store/index.hooks";
 import { Box, FormControl, Grid }               from "@mui/material";
 import Button                                   from "@mui/material/Button"
 import TextField                                from "@mui/material/TextField";
-import ReactQuill                               from 'react-quill';
-// import ReactPhoneInput                          from 'react-phone-input-material-ui';
-import 'react-quill/dist/react-quill';
 import FormLabel                                from "@mui/material/FormLabel";
 import RadioGroup                               from "@mui/material/RadioGroup";
 import FormControlLabel                         from "@mui/material/FormControlLabel";
@@ -18,8 +15,12 @@ import Typography                               from "@mui/material/Typography/T
 import { AdapterDayjs }                         from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider }                 from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker }                           from '@mui/x-date-pickers/DatePicker';
+import { format }                               from 'date-fns';
 import Parser                                   from 'html-react-parser';
-import { format } from 'date-fns';
+import PhoneInput                               from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css'
+import ReactQuill                               from 'react-quill';
+import 'react-quill/dist/react-quill';
 
 type SignUpProps = {
     stepId : number,
@@ -31,8 +32,6 @@ function SignUpByStep({
 
 
     const dispatch      = useAppDispatch();
-    const navigate      = useNavigate();
-    const layoutInfo    = useAppSelect(getLayoutInfo);
     const [user, setUser] = useState<User>({
           username              : ""
         , password              : ""
@@ -46,25 +45,13 @@ function SignUpByStep({
         , adminMenuCategoryList : []
         , userRoleInfoList      : []
         , roleInfoList          : []
-        , userProfile             : {
-            birthday            : '',
-            sex                 : 'female',
-            phoneNo             : '',
-            additionalPhoneNo   : '',
-            address             : '',
-            detailAddress       : '',
-            zipcode             : 0,
-        },
-    });
-
-    const [userProfile, setUserProfile] = useState<UserProfile>({
-        birthday            : '',
-        sex                 : 'female',
-        phoneNo             : '',
-        additionalPhoneNo   : '',
-        address             : '',
-        detailAddress       : '',
-        zipcode             : 0,
+        , birthday              : ''
+        , sex                   : ''
+        , phoneNo               : ''
+        , additionalPhoneNo     : ''
+        , address               : ''
+        , detailAddress         : ''
+        , zipcode               : 0
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,30 +78,17 @@ function SignUpByStep({
         setUser({...user, introduce : value});
     }
     
-    const inputPhoneNoVal = (value : any) => {
-        // console.log('[signup] inputPhoneNoVal : ' + value);
-
-        setUserProfile({...userProfile, phoneNo : value });
-        setUser({...user, userProfile : userProfile});
-        console.log('userprofile : ' + JSON.stringify(userProfile));
+    const inputPhoneNoVal = async (value : any) => {
+        setUser({...user, phoneNo : value});
     }
 
     const handleSexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        // console.log('[signup] handleSexChange : ' + e.target.value);
-
-        setUserProfile({...userProfile, sex : e.target.value});
-        setUser({...user, userProfile : userProfile});
-
-        console.log('userprofile : ' + JSON.stringify(userProfile));
+        setUser({...user, sex : e.target.value});
     }
 
-    const handleDateChange = (value : any) => {
-        
-        console.log('handleDateChange : ' + format(new Date(value), 'yyyyMMdd'));
-
-        setUserProfile({...userProfile, birthday : format(new Date(value), 'yyyyMMdd').toString()});
-        setUser({...user, userProfile : userProfile});
+    const handleDateChange = (value : any) => {        
+        setUser({...user, birthday : format(new Date(value), 'yyyyMMdd').toString()});
     }
     const SignupAction = (e : React.FormEvent) => {
         e.preventDefault();
@@ -217,10 +191,10 @@ function SignUpByStep({
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
                         onChange={handleSexChange}
-                        value={userProfile.sex}
+                        value={user.sex}
                     >
-                        <FormControlLabel value="female"    control={<Radio />} label="Female"  checked={userProfile.sex === 'female' || userProfile.sex === ''}/>
-                        <FormControlLabel value="male"      control={<Radio />} label="Male"    checked={userProfile.sex === 'male'}/>
+                        <FormControlLabel value="female"    control={<Radio />} label="Female"  checked={user.sex === 'female' || user.sex === ''}/>
+                        <FormControlLabel value="male"      control={<Radio />} label="Male"    checked={user.sex === 'male'}/>
                     </RadioGroup>
 
                 </FormControl>        
@@ -234,6 +208,10 @@ function SignUpByStep({
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
                     <React.Fragment>
+                        <PhoneInput onChange={inputPhoneNoVal} 
+                                    value={user.phoneNo} 
+                                    onlyCountries={['kr', 'us']}
+                                     />
                         {/* <ReactPhoneInput 
                             onChange={inputPhoneNoVal} component={TextField} value={userProfile.phoneNo}/> */}
                     </React.Fragment>
@@ -289,7 +267,7 @@ function SignUpByStep({
                 </Grid>
                 <Grid item xs={10}>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <Typography>{user.userProfile.phoneNo}</Typography>
+                        <Typography>{user.phoneNo}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>
@@ -299,7 +277,7 @@ function SignUpByStep({
                 </Grid>
                 <Grid item xs={10}>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <Typography>{user.userProfile.sex}</Typography>
+                        <Typography>{user.sex}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>                                        
@@ -309,7 +287,7 @@ function SignUpByStep({
                 </Grid>
                 <Grid item xs={10}>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <Typography>{user.userProfile.birthday}</Typography>
+                        <Typography>{user.birthday}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>                                        

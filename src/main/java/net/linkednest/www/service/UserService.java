@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private final UserProfileService userProfileService;
     private final UserRepository userRepository;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final RoleRepository roleRepository;
@@ -46,12 +48,28 @@ public class UserService {
             newUser.setNickname(userRegistDto.getNickname());
             newUser.setPassword(passwordEncoder.encode(new String(Base64.getDecoder().decode(userRegistDto.getPassword()))));
             newUser.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
+
             Authority authority = new Authority();
             authority.setRole(roleRepository.getById(1L));
             newUser.setRoles(Collections.singletonList(authority));
+
             log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName().toString(), "registUser", newUser.toString());
 
-            userRepository.save(newUser);
+            try {
+                User createdUser = userRepository.saveAndFlush(newUser);
+
+                log.info("[registUser] createdUser : {}", createdUser);
+
+                try {
+                    this.userProfileService.saveUserProfile(userRegistDto, createdUser);
+                } catch (Exception e) {
+                    log.error("[{}.{}] userProfileService.saveUserProfile ERROR OCCURRED reqDto : {}, errorMsg : {}", this.getClass().getName(), "registUser", userRegistDto.toString(), e.getMessage());
+                    return false;
+                }
+            } catch (Exception e) {
+                log.error("[{}.{}] userRepository.save ERROR OCCURRED entity : {}, errorMsg : {}", this.getClass().getName(), "registUser", newUser, e.getMessage());
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;

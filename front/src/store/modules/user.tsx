@@ -43,15 +43,6 @@ export interface RoleAccessPath {
     url     : string,
 }
 
-export interface UserProfile {
-    birthday            : string;
-    sex                 : string;
-    phoneNo             : string;
-    additionalPhoneNo   : string;
-    address             : string;
-    detailAddress       : string;
-    zipcode             : number;
-}
 
 export interface User {
     username                : string;
@@ -65,7 +56,13 @@ export interface User {
     adminMenuCategoryList   : AdminMenuCategoryList;
     userRoleInfoList        : userRoleInfoList;
     roleInfoList            : RoleInfoList;
-    userProfile             : UserProfile;
+    birthday                : string;
+    sex                     : string;
+    phoneNo                 : string;
+    additionalPhoneNo       : string;
+    address                 : string;
+    detailAddress           : string;
+    zipcode                 : number;
     returnCode              : number;
 }
 
@@ -81,15 +78,13 @@ const initialState : User = {
     adminMenuCategoryList   : [],
     userRoleInfoList        : [],
     roleInfoList            : [],
-    userProfile             : {
-        birthday            : '',
-        sex                 : 'female',
-        phoneNo             : '',
-        additionalPhoneNo   : '',
-        address             : '',
-        detailAddress       : '',
-        zipcode             : 0,
-    },
+    birthday                : '',
+    sex                     : '',
+    phoneNo                 : '',
+    additionalPhoneNo       : '',
+    address                 : '',
+    detailAddress           : '',
+    zipcode                 : 0,
     returnCode              : 0,
 };
 
