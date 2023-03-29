@@ -30,7 +30,14 @@ function Mypage() {
     , adminMenuCategoryList : []
     , userRoleInfoList      : []
     , roleInfoList          : []
-  });
+    , birthday              : ''
+    , sex                   : ''
+    , phoneNo               : ''
+    , additionalPhoneNo     : ''
+    , address               : ''
+    , detailAddress         : ''
+    , zipcode               : 0
+});
 
  
   const modules = useMemo(

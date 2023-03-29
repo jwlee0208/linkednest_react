@@ -17,7 +17,7 @@ public class Authority {
     private Long id;
 
     @JsonBackReference
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userNo")
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;

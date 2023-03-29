@@ -43,6 +43,7 @@ export interface RoleAccessPath {
     url     : string,
 }
 
+
 export interface User {
     username                : string;
     password                : string;
@@ -55,6 +56,13 @@ export interface User {
     adminMenuCategoryList   : AdminMenuCategoryList;
     userRoleInfoList        : userRoleInfoList;
     roleInfoList            : RoleInfoList;
+    birthday                : string;
+    sex                     : string;
+    phoneNo                 : string;
+    additionalPhoneNo       : string;
+    address                 : string;
+    detailAddress           : string;
+    zipcode                 : number;
     returnCode              : number;
 }
 
@@ -70,6 +78,13 @@ const initialState : User = {
     adminMenuCategoryList   : [],
     userRoleInfoList        : [],
     roleInfoList            : [],
+    birthday                : '',
+    sex                     : '',
+    phoneNo                 : '',
+    additionalPhoneNo       : '',
+    address                 : '',
+    detailAddress           : '',
+    zipcode                 : 0,
     returnCode              : 0,
 };
 
@@ -96,7 +111,10 @@ const userSlice = createSlice ({
                 state.username  = action.payload.username;
                 state.email     = action.payload.email;
                 state.nickname  = action.payload.nickname;        
-            }   
+            } else {
+                alert(`Signup Failure : [err : ${action.payload.returnCode}]`);
+                window.location.reload();
+            }  
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
             console.log(`action.payload.returnCode : ${action.payload.returnCode}`);

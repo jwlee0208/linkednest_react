@@ -20,4 +20,12 @@ public class ReqUserRegistDto {
 
     @Schema(description = "사용자 소개", required = false)
     private String introduce;
+    private String birthday;
+    private String sex;
+    private String phoneNo;
+    private String additionalPhoneNo;
+    private String address;
+    private String detailAddress;
+    private Integer zipcode;
+
 }

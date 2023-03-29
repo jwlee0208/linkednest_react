@@ -28,6 +28,13 @@ function SignUp() {
         , adminMenuCategoryList : []
         , userRoleInfoList      : []
         , roleInfoList          : []
+        , birthday              : ''
+        , sex                   : ''
+        , phoneNo               : ''
+        , additionalPhoneNo     : ''
+        , address               : ''
+        , detailAddress         : ''
+        , zipcode               : 0
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -156,7 +156,7 @@ function Header({
     ) : (
         <Box sx={{ flexGrow: 0 }}>        
           <ButtonGroup>
-            <Button onClick={(e)=>{handleCloseNavMenu("/signup", e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
+            <Button onClick={(e)=>{handleCloseNavMenu(`/${typeId}/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
             {
               typeId === 'type3' ? (
                 <Button onClick={(e)=>{handleCloseNavMenu(`/${typeId}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
