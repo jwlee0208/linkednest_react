@@ -1,6 +1,6 @@
 {
   "name": "front",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "proxy": "http://localhost:9091",
   "dependencies": {
@@ -8,7 +8,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
-    "@mui/x-date-pickers": "^6.0.2",
+    "@mui/x-date-pickers": "^6.0.3",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -20,7 +20,9 @@
     "@types/redux-persist": "^4.3.1",
     "axios": "^1.3.4",
     "base-64": "^1.0.0",
-    "html-react-parser": "^3.0.12",
+    "date-fns": "^2.29.3",
+    "dayjs": "^1.11.7",
+    "html-react-parser": "^3.0.15",
     "immutable": "^4.3.0",
     "iterable": "^6.0.1-beta.5",
     "jwt-decode": "^3.1.2",

@@ -20,4 +20,6 @@ public class ReqUserRegistDto {
 
     @Schema(description = "사용자 소개", required = false)
     private String introduce;
+
+    private ResUserProfileDto resUserProfileDto;
 }
