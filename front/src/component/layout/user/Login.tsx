@@ -81,12 +81,12 @@ function Login() {
         <Grid container>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your Email"/> 
+                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your Email" autoComplete="off"/> 
                 </FormControl>    
             </Grid>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password"/>
+                    <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
                 </FormControl>    
             </Grid>
             <Grid container item>

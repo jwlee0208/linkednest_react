@@ -11,7 +11,6 @@ import Footer             from "../../common/Footer";
 
 function LayoutAdmin() {
 
-    console.log("layoutAdmin>>");
     const location    = useLocation();
 
     const layoutInfo  = useAppSelect(getLayoutInfo);
