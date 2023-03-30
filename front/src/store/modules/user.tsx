@@ -66,7 +66,7 @@ export interface User {
     returnCode              : number;
 }
 
-const initialState : User = {
+export const initialState : User = {
     username                : '',
     password                : '',
     nickname                : '',
@@ -93,16 +93,47 @@ const userSlice = createSlice ({
     initialState,
     reducers : {
         logout : (state, action) => {
-            state.accessToken           = '';
-            state.refreshToken          = '';
-            state.email                 = '';
-            state.isLogin               = false;
-            state.nickname              = '';
-            state.password              = '';
-            state.adminMenuCategoryList = [];
-            state.userRoleInfoList      = [];
-            state.roleInfoList          = [];
+            state.username                = '';
+            state.password                = '';
+            state.nickname                = '';
+            state.email                   = '';
+            state.introduce               = '';
+            state.accessToken             = '';
+            state.refreshToken            = '';
+            state.isLogin                 = false;
+            state.adminMenuCategoryList   = [];
+            state.userRoleInfoList        = [];
+            state.roleInfoList            = [];
+            state.birthday                = '';
+            state.sex                     = '';
+            state.phoneNo                 = '';
+            state.additionalPhoneNo       = '';
+            state.address                 = '';
+            state.detailAddress           = '';
+            state.zipcode                 = 0;
+            state.returnCode              = 0;
         }, 
+        initUserState : (state, action) => {
+            state.username                = '';
+            state.password                = '';
+            state.nickname                = '';
+            state.email                   = '';
+            state.introduce               = '';
+            state.accessToken             = '';
+            state.refreshToken            = '';
+            state.isLogin                 = false;
+            state.adminMenuCategoryList   = [];
+            state.userRoleInfoList        = [];
+            state.roleInfoList            = [];
+            state.birthday                = '';
+            state.sex                     = '';
+            state.phoneNo                 = '';
+            state.additionalPhoneNo       = '';
+            state.address                 = '';
+            state.detailAddress           = '';
+            state.zipcode                 = 0;
+            state.returnCode              = 0;
+        },
     },
     extraReducers : (builder) => {
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
@@ -128,7 +159,7 @@ const userSlice = createSlice ({
                 state.introduce             = action.payload.introduce;
                 state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
                 state.userRoleInfoList      = action.payload.userRoleInfoList;
-                state.roleInfoList          = action.payload.roleInfoList;    
+                state.roleInfoList          = action.payload.roleInfoList; 
             } else {
                 alert(`Login Failure : [err : ${action.payload.returnCode}]`);
                 window.location.href='/';

@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useMemo }  from "react";
+import React, { useState, useEffect, useMemo, forwardRef, useImperativeHandle }  from "react";
 import { encode as base64_encode }              from 'base-64';
-import { useNavigate }                          from "react-router-dom";
 import { asyncSignUp, User }                    from "../../../store/modules/user";
-import { getLayoutInfo }                        from "../../../store/modules/layout";
-import { useAppDispatch, useAppSelect }         from "../../../store/index.hooks";
+import { useAppDispatch }                       from "../../../store/index.hooks";
 import { Box, FormControl, Grid }               from "@mui/material";
 import Button                                   from "@mui/material/Button"
 import TextField                                from "@mui/material/TextField";
@@ -24,12 +22,16 @@ import 'react-quill/dist/react-quill';
 
 type SignUpProps = {
     stepId : number,
+    keyRef : any,
 }
 
-function SignUpByStep({
-    stepId
-} : SignUpProps) {
+const phoneNoRegex = new RegExp(/^\d{12,13}$/);
+const pwRegex      = new RegExp(/^.*(?=.{8,10})(?=.*[a-zA-Z])(?=.*?[A-Z])(?=.*\d)(?=.+?[\W|_])[a-zA-Z0-9!@#$%^&*()-_+={}\|\\\/]+$/);
+const emailRegex   = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
+const SignUpByStep = forwardRef(({
+    stepId, keyRef
+} : SignUpProps) => {
 
     const dispatch      = useAppDispatch();
     const [user, setUser] = useState<User>({
@@ -53,6 +55,74 @@ function SignUpByStep({
         , detailAddress         : ''
         , zipcode               : 0
     });
+
+    function validStep0_() {
+        console.log('call validStep0_');
+        if (!user.username) {
+            alert('ID를 입력하세요.');
+            return false;
+        }
+        if (!user.password) {
+            alert('Password를 입력하세요.');
+            return false;
+        } else if (!pwRegex.test(user.password)) {
+            console.log(user.password)
+            alert('Password형식이 일치하지 않습니다.');
+            return false;
+        }
+
+        if (!user.email) {
+            alert('Email을 입력하세요.');
+            return false;
+        } else if (!emailRegex.test(user.email)) {
+            alert('Email형식이 일치하지 않습니다.');
+            return false;
+        }
+
+        if (!user.nickname) {
+            alert('Nickname을 입력하세요.');
+            return false;
+        }
+        return true;
+    }
+
+    function validStep1_() {
+        console.log('call validStep1_');
+        if (user.sex === '') {
+            alert('성별을 선택해주세요.');
+            return false;
+        }
+        if (user.introduce === '') {
+            alert('자기소개를 해주세요.');
+            return false;
+        }
+
+        const phoneNo = user.phoneNo;
+        let isValidPhonoNoRegEx = phoneNoRegex.test(phoneNo)
+        console.log('user.phoneNo : ', phoneNo, 'isValidPhonoNoRegEx : ', isValidPhonoNoRegEx)
+
+        if (phoneNo !== '' && isValidPhonoNoRegEx === false) {
+            alert('전화번호 번호 형식이 맞지 않습니다.');
+            return false;
+        }
+        if (user.birthday === '') {
+            alert('생년월일을 입력해주세요.');
+            return false;
+        }
+        return true;
+    }
+
+    function validStep2_() {
+        console.log('call validStep2_');
+        // to-do
+        return true;
+    }
+
+    useImperativeHandle(keyRef, () => ({
+        validStep0_,
+        validStep1_,
+        validStep2_,
+    }));
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -112,6 +182,10 @@ function SignUpByStep({
     }
 
     useEffect(()=>{
+
+        console.log(navigator.languages);
+
+
         const quillCss = document.createElement("link");
         quillCss.crossOrigin    = '*';
         quillCss.rel            = 'stylesheet';
@@ -153,22 +227,22 @@ function SignUpByStep({
     <>    
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="username"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID"/> 
+                <TextField id="outlined-basic" name="username"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID" autoComplete="off"/> 
             </FormControl>    
         </Grid>
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="password" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password"/>
+                <TextField id="outlined-basic" name="password" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
             </FormControl>    
         </Grid>
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="email" label="Email" variant="filled" color="success" onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email"/> 
+                <TextField id="outlined-basic" name="email" label="Email" variant="filled" color="success" onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email" autoComplete="off"/> 
             </FormControl>    
         </Grid>
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname"/>
+                <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname" autoComplete="off"/>
             </FormControl>    
         </Grid>
     </>
@@ -178,11 +252,6 @@ function SignUpByStep({
 {    
     stepId === 1 ? (
         <>
-            <Grid container item>
-                <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname"/>
-                </FormControl>    
-            </Grid>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
                     <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
@@ -207,18 +276,19 @@ function SignUpByStep({
             </Grid>        
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
+                    <FormLabel id="demo-row-radio-buttons-group-label">Phone No</FormLabel>
                     <React.Fragment>
-                        <PhoneInput onChange={inputPhoneNoVal} 
+                        <PhoneInput onChange={inputPhoneNoVal}
                                     value={user.phoneNo} 
-                                    onlyCountries={['kr', 'us']}
+                                    country={navigator.language.split("-")[1].toLowerCase()}
+                                    onlyCountries={['kr', 'us', 'ca', 'tw', 'gb', 'au', 'de', 'fr', 'it']}
                                      />
-                        {/* <ReactPhoneInput 
-                            onChange={inputPhoneNoVal} component={TextField} value={userProfile.phoneNo}/> */}
                     </React.Fragment>
                 </FormControl>
             </Grid> 
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
+                    <FormLabel id="demo-row-radio-buttons-group-label">Birth Date</FormLabel>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker onChange={handleDateChange} />
                     </LocalizationProvider>    
@@ -316,6 +386,7 @@ function SignUpByStep({
       </div>
       </Box>
     );
-  }
-  export default SignUpByStep;
+})
+
+export default SignUpByStep;
   

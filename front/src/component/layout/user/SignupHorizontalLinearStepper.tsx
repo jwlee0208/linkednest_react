@@ -1,18 +1,18 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
-import SignUpByStep from './SignUpByStep';
+import React, { useRef, useLayoutEffect } from 'react';
+import Box                                from '@mui/material/Box';
+import Stepper                            from '@mui/material/Stepper';
+import Step                               from '@mui/material/Step';
+import StepLabel                          from '@mui/material/StepLabel';
+import Button                             from '@mui/material/Button';
+import Typography                         from '@mui/material/Typography';
+import SignUpByStep                       from './SignUpByStep';
 
 const steps = ['User Info', 'User Profile', 'Create Account'];
 
 function SignupHorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set<number>());
+  const [skipped, setSkipped]       = React.useState(new Set<number>());
+  const signUpRef                   = useRef<any>();  // 하위 컴포넌트의 함수 호출 위해 선언
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -22,8 +22,26 @@ function SignupHorizontalLinearStepper() {
     return skipped.has(step);
   };
 
+  function validInputForStep(activeStep : number) {
+    switch (activeStep) {
+      case 0 : 
+        return signUpRef.current?.validStep0_();
+      case 1 : 
+        return signUpRef.current?.validStep1_();
+      case 2 : 
+        return signUpRef.current?.validStep2_();
+      default : 
+        return true;
+    }
+  }
+
   const handleNext = () => {
     let newSkipped = skipped;
+
+    if (validInputForStep(activeStep) === false) {  // to-do : 단계별 입력 정보 유효성 체크
+      return false;
+    }
+
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
@@ -55,6 +73,10 @@ function SignupHorizontalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  useLayoutEffect(() => {
+    
+  },[]);
 
   return (
     <Box sx={{ width: '100%', mt: 3 }}>
@@ -92,7 +114,7 @@ function SignupHorizontalLinearStepper() {
       ) : (
         <React.Fragment>    
           <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, m : 5}}>  
-            <SignUpByStep stepId={activeStep}/>
+            <SignUpByStep stepId={activeStep} keyRef={signUpRef}/>
             {/* <Typography sx={{ mt: 2, mb: 1, ml : 10, mr : 10 }}>Step {activeStep + 1}</Typography> */}
           </Box>      
       
