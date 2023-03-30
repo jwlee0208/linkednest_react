@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate }     from 'react-router-dom';
 import { useAppSelect }    from "../../../store/index.hooks";
 import { getLayoutInfo }   from "../../../store/modules/layout";
-import { axiosInstance }   from "../../..";
 import userSlice, { User } from "../../../store/modules/user";
 import store               from "../../../store";
 import logo                from './logo.svg';
@@ -80,11 +79,6 @@ function Header({
         e.preventDefault();
         const typeIdVal = e.target.value;
         navigate(`/${typeIdVal}`);
-    }
-
-    const callAdmin = (param : string, event : React.MouseEvent) => {
-      event.preventDefault();
-      axiosInstance.get(`${param}`);
     }
 
     return (

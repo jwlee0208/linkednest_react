@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, forwardRef, useImperativeHandle }  from "react";
 import { encode as base64_encode }              from 'base-64';
-import { asyncSignUp, User }                    from "../../../store/modules/user";
-import { useAppDispatch }                       from "../../../store/index.hooks";
+import { asyncSignUp, User }                    from "../../../../store/modules/user";
+import { useAppDispatch }                       from "../../../../store/index.hooks";
 import { Box, FormControl, Grid }               from "@mui/material";
 import Button                                   from "@mui/material/Button"
 import TextField                                from "@mui/material/TextField";
@@ -29,7 +29,7 @@ const phoneNoRegex = new RegExp(/^\d{12,13}$/);
 const pwRegex      = new RegExp(/^.*(?=.{8,10})(?=.*[a-zA-Z])(?=.*?[A-Z])(?=.*\d)(?=.+?[\W|_])[a-zA-Z0-9!@#$%^&*()-_+={}\|\\\/]+$/);
 const emailRegex   = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
-const SignUpByStep = forwardRef(({
+const SignUpDetailForStepper = forwardRef(({
     stepId, keyRef
 } : SignUpProps) => {
 
@@ -57,7 +57,7 @@ const SignUpByStep = forwardRef(({
     });
 
     function validStep0_() {
-        console.log('call validStep0_');
+        // console.log('call validStep0_');
         if (!user.username) {
             alert('ID를 입력하세요.');
             return false;
@@ -87,7 +87,7 @@ const SignUpByStep = forwardRef(({
     }
 
     function validStep1_() {
-        console.log('call validStep1_');
+        // console.log('call validStep1_');
         if (user.sex === '') {
             alert('성별을 선택해주세요.');
             return false;
@@ -113,7 +113,7 @@ const SignUpByStep = forwardRef(({
     }
 
     function validStep2_() {
-        console.log('call validStep2_');
+        // console.log('call validStep2_');
         // to-do
         return true;
     }
@@ -183,8 +183,7 @@ const SignUpByStep = forwardRef(({
 
     useEffect(()=>{
 
-        console.log(navigator.languages);
-
+        // console.log(navigator.languages);
 
         const quillCss = document.createElement("link");
         quillCss.crossOrigin    = '*';
@@ -388,5 +387,5 @@ const SignUpByStep = forwardRef(({
     );
 })
 
-export default SignUpByStep;
+export default SignUpDetailForStepper;
   
