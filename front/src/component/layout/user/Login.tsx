@@ -17,7 +17,8 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [msg, setMsg]         = useState("");
     const [user, setUser]       = useState<User>({
-          username              : ""
+          userNo                : 0  
+        , userId                : ""
         , password              : ""
         , introduce             : ""
         , accessToken           : ""
@@ -40,7 +41,7 @@ function Login() {
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setUser({...user, username : e.target.value});
+        setUser({...user, userId : e.target.value});
     }
 
     const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,14 +51,14 @@ function Login() {
 
     const LoginAction = (e : React.FormEvent) => {
         e.preventDefault();
-        if (!user.username) {
+        if (!user.userId) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
             return alert('Password를 입력하세요.');
         }
 
-        user.username = base64_encode(user.username);
-        user.password = base64_encode(user.password);    
+        user.userId     = base64_encode(user.userId);
+        user.password   = base64_encode(user.password);    
 
         dispatch(asyncLogin(user));        
         setMsg("Login Success");
@@ -81,7 +82,7 @@ function Login() {
         <Grid container>
             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your Email" autoComplete="off"/> 
+                    <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your Email" autoComplete="off"/> 
                 </FormControl>    
             </Grid>
             <Grid container item>

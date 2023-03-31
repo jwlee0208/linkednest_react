@@ -17,8 +17,6 @@ function Layout() {
 
     const [layout, setLayout] = useState<LayoutInfo>({typeId : ""});
 
-    // console.log(`LAYOUT >> location : ${location} , json type : ${JSON.stringify(location)}`);
-
     let pathArr = location.pathname.split("/");
     if (pathArr[1] !== ''){
       typeId = pathArr[1];

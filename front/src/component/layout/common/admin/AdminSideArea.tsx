@@ -13,14 +13,14 @@ import CategoryMenuRow  from "./CategoryMenuRow";
 type SideAreaProps = {
     user            : User,
     isLogin         : Boolean,
-    username        : String,
+    userId          : String,
     adminMenuList   : AdminMenuCategoryList
 };
 
 function AdminSideArea({
     user,
     isLogin, 
-    username, 
+    userId, 
     adminMenuList,
 } : SideAreaProps) {
 
@@ -46,7 +46,7 @@ function AdminSideArea({
                         <Login key={0} />
                         : (
                             <Box sx={{ m: 2 }} key={3}>
-                                <Box>{username}님<br />
+                                <Box>{userId}님<br />
                                 <Button variant="outlined" size="medium" onClick={(e) => handleLogoutAction(e)}>Logout</Button></Box>
                             </Box>
                         )

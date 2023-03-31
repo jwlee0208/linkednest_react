@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReqUserRegistDto {
     @Schema(description = "사용자 아이디", required = true, example = "test01")
-    private String username;
+    private String userId;
 
     @Schema(description = "사용자 이메일", required = true, example = "test01@test.com")
     private String email;

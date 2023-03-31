@@ -5,11 +5,11 @@ import Step                               from '@mui/material/Step';
 import StepLabel                          from '@mui/material/StepLabel';
 import Button                             from '@mui/material/Button';
 import Typography                         from '@mui/material/Typography';
-import SignUpByStep                       from './SignUpByStep';
+import SignUpDetailForStepper             from '../signup/SignUpDetailForStepper';
 
 const steps = ['User Info', 'User Profile', 'Create Account'];
 
-function SignupHorizontalLinearStepper() {
+function SignupForStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped]       = React.useState(new Set<number>());
   const signUpRef                   = useRef<any>();  // 하위 컴포넌트의 함수 호출 위해 선언
@@ -114,7 +114,7 @@ function SignupHorizontalLinearStepper() {
       ) : (
         <React.Fragment>    
           <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, m : 5}}>  
-            <SignUpByStep stepId={activeStep} keyRef={signUpRef}/>
+            <SignUpDetailForStepper stepId={activeStep} keyRef={signUpRef}/>
             {/* <Typography sx={{ mt: 2, mb: 1, ml : 10, mr : 10 }}>Step {activeStep + 1}</Typography> */}
           </Box>      
       
@@ -143,4 +143,4 @@ function SignupHorizontalLinearStepper() {
   );
 }
 
-export default SignupHorizontalLinearStepper;
+export default SignupForStepper;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, forwardRef, useImperativeHandle }  from "react";
 import { encode as base64_encode }              from 'base-64';
-import { asyncSignUp, User }                    from "../../../store/modules/user";
-import { useAppDispatch }                       from "../../../store/index.hooks";
+import { asyncSignUp, User }                    from "../../../../store/modules/user";
+import { useAppDispatch }                       from "../../../../store/index.hooks";
 import { Box, FormControl, Grid }               from "@mui/material";
 import Button                                   from "@mui/material/Button"
 import TextField                                from "@mui/material/TextField";
@@ -29,13 +29,15 @@ const phoneNoRegex = new RegExp(/^\d{12,13}$/);
 const pwRegex      = new RegExp(/^.*(?=.{8,10})(?=.*[a-zA-Z])(?=.*?[A-Z])(?=.*\d)(?=.+?[\W|_])[a-zA-Z0-9!@#$%^&*()-_+={}\|\\\/]+$/);
 const emailRegex   = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
-const SignUpByStep = forwardRef(({
+const SignUpDetailForStepper = forwardRef(({
     stepId, keyRef
 } : SignUpProps) => {
 
     const dispatch      = useAppDispatch();
     const [user, setUser] = useState<User>({
-          username              : ""
+          
+        userNo                  : 0,
+          userId                : ""
         , password              : ""
         , introduce             : "" 
         , accessToken           : ""
@@ -57,8 +59,8 @@ const SignUpByStep = forwardRef(({
     });
 
     function validStep0_() {
-        console.log('call validStep0_');
-        if (!user.username) {
+        // console.log('call validStep0_');
+        if (!user.userId) {
             alert('ID를 입력하세요.');
             return false;
         }
@@ -87,7 +89,7 @@ const SignUpByStep = forwardRef(({
     }
 
     function validStep1_() {
-        console.log('call validStep1_');
+        // console.log('call validStep1_');
         if (user.sex === '') {
             alert('성별을 선택해주세요.');
             return false;
@@ -113,7 +115,7 @@ const SignUpByStep = forwardRef(({
     }
 
     function validStep2_() {
-        console.log('call validStep2_');
+        // console.log('call validStep2_');
         // to-do
         return true;
     }
@@ -126,7 +128,7 @@ const SignUpByStep = forwardRef(({
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setUser({...user, username : e.target.value});
+        setUser({...user, userId : e.target.value});
     }
 
     const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,7 +164,7 @@ const SignUpByStep = forwardRef(({
     }
     const SignupAction = (e : React.FormEvent) => {
         e.preventDefault();
-        if (!user.username) {
+        if (!user.userId) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
             return alert('Password를 입력하세요.');
@@ -174,8 +176,8 @@ const SignUpByStep = forwardRef(({
 
         console.log('[signup] before encode : ' + JSON.stringify(user));
 
-        user.username = base64_encode(user.username);
-        user.password = base64_encode(user.password);        
+        user.userId     = base64_encode(user.userId);
+        user.password   = base64_encode(user.password);        
 
         const res = dispatch(asyncSignUp(user));
         
@@ -183,8 +185,7 @@ const SignUpByStep = forwardRef(({
 
     useEffect(()=>{
 
-        console.log(navigator.languages);
-
+        // console.log(navigator.languages);
 
         const quillCss = document.createElement("link");
         quillCss.crossOrigin    = '*';
@@ -227,7 +228,7 @@ const SignUpByStep = forwardRef(({
     <>    
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="username"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID" autoComplete="off"/> 
+                <TextField id="outlined-basic" name="userId"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
             </FormControl>    
         </Grid>
         <Grid container item>
@@ -307,7 +308,7 @@ const SignUpByStep = forwardRef(({
                 </Grid>
                 <Grid item xs={10}>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <Typography>{user.username}</Typography>
+                        <Typography>{user.userId}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>
@@ -388,5 +389,5 @@ const SignUpByStep = forwardRef(({
     );
 })
 
-export default SignUpByStep;
+export default SignUpDetailForStepper;
   

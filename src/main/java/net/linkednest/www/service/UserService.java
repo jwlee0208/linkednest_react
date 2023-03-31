@@ -43,7 +43,7 @@ public class UserService {
         User newUser = new User();
 
         try {
-            newUser.setUserId(new String(Base64.getDecoder().decode(userRegistDto.getUsername())));
+            newUser.setUserId(new String(Base64.getDecoder().decode(userRegistDto.getUserId())));
             newUser.setEmail(userRegistDto.getEmail());
             newUser.setNickname(userRegistDto.getNickname());
             newUser.setPassword(passwordEncoder.encode(new String(Base64.getDecoder().decode(userRegistDto.getPassword()))));
@@ -79,7 +79,7 @@ public class UserService {
 
     public Boolean updateUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] updateUser : {}", this.getClass().getName(), "updateUser", userRegistDto.toString());
-        String  decodedUserId   = new String(Base64.getDecoder().decode(userRegistDto.getUsername()));
+        String  decodedUserId   = new String(Base64.getDecoder().decode(userRegistDto.getUserId()));
         try {
             Optional<User> userOptional = this.getUser(decodedUserId);
             if (userOptional.isPresent()) {
@@ -103,7 +103,7 @@ public class UserService {
 
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
 
-        String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUsername()));
+        String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUserId()));
         String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
 
         Optional<User> userOptional = this.getUser(userId);
@@ -114,7 +114,7 @@ public class UserService {
             if (isMatchedPw) {
                 resUserLoginDto.setIsLogin(true);
                 resUserLoginDto.setEmail(user.getEmail());
-                resUserLoginDto.setUsername(user.getUserId());
+                resUserLoginDto.setUserId(user.getUserId());
                 resUserLoginDto.setNickname(user.getNickname());
                 resUserLoginDto.setIntroduce(user.getIntroduce());
                 resUserLoginDto.setReturnCode(10000);

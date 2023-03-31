@@ -45,7 +45,8 @@ export interface RoleAccessPath {
 
 
 export interface User {
-    username                : string;
+    userNo                  : number,
+    userId                  : string;
     password                : string;
     nickname                : string;
     email                   : string;
@@ -67,7 +68,8 @@ export interface User {
 }
 
 export const initialState : User = {
-    username                : '',
+    userNo                  : 0,
+    userId                  : '',
     password                : '',
     nickname                : '',
     email                   : '',
@@ -93,7 +95,7 @@ const userSlice = createSlice ({
     initialState,
     reducers : {
         logout : (state, action) => {
-            state.username                = '';
+            state.userId                  = '';
             state.password                = '';
             state.nickname                = '';
             state.email                   = '';
@@ -114,7 +116,7 @@ const userSlice = createSlice ({
             state.returnCode              = 0;
         }, 
         initUserState : (state, action) => {
-            state.username                = '';
+            state.userId                  = '';
             state.password                = '';
             state.nickname                = '';
             state.email                   = '';
@@ -139,7 +141,7 @@ const userSlice = createSlice ({
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
-                state.username  = action.payload.username;
+                state.userId    = action.payload.userId;
                 state.email     = action.payload.email;
                 state.nickname  = action.payload.nickname;        
             } else {
@@ -153,7 +155,7 @@ const userSlice = createSlice ({
                 state.accessToken           = action.payload.accessToken;
                 state.refreshToken          = action.payload.refreshToken;
                 state.isLogin               = action.payload.isLogin;
-                state.username              = action.payload.username;
+                state.userId                = action.payload.userId;
                 state.email                 = action.payload.email;
                 state.nickname              = action.payload.nickname;
                 state.introduce             = action.payload.introduce;

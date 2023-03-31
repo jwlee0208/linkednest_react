@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate }     from 'react-router-dom';
 import { useAppSelect }    from "../../../store/index.hooks";
 import { getLayoutInfo }   from "../../../store/modules/layout";
-import { axiosInstance }   from "../../..";
 import userSlice, { User } from "../../../store/modules/user";
 import store               from "../../../store";
 import logo                from './logo.svg';
@@ -21,7 +20,7 @@ import { Typography, AppBar, Avatar, IconButton
 type HeaderProps = {
     user        : User,
     isLogin     : boolean;
-    username    : string;
+    userId      : string;
     accessToken : string;
     typeId      : string;
 };
@@ -29,7 +28,7 @@ type HeaderProps = {
 function Header({
     user,
     isLogin, 
-    username, 
+    userId, 
     accessToken,
     typeId
 } : HeaderProps) {
@@ -80,11 +79,6 @@ function Header({
         e.preventDefault();
         const typeIdVal = e.target.value;
         navigate(`/${typeIdVal}`);
-    }
-
-    const callAdmin = (param : string, event : React.MouseEvent) => {
-      event.preventDefault();
-      axiosInstance.get(`${param}`);
     }
 
     return (

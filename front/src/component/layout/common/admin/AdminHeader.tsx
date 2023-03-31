@@ -17,7 +17,7 @@ import { AppBar, Avatar, Box, ButtonGroup
 type HeaderProps = {
     user        : User,
     isLogin     : boolean;
-    username    : string;
+    userId      : string;
     accessToken : string;
     typeId      : string;
 };
@@ -25,7 +25,7 @@ type HeaderProps = {
 function AdminHeader({
     user,
     isLogin, 
-    username, 
+    userId, 
     accessToken,
     typeId
 } : HeaderProps) {

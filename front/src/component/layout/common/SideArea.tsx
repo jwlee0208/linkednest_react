@@ -9,13 +9,13 @@ import store                from "../../../store";
 type SideAreaProps = {
     user        : User,
     isLogin     : Boolean;
-    username    : String;
+    userId      : String;
 };
 
 function SideArea({
     user,
     isLogin, 
-    username, 
+    userId, 
 } : SideAreaProps) {
 
     const navigate      = useNavigate();
@@ -39,7 +39,7 @@ function SideArea({
                     <Login/> 
                     : (
                         <Box sx={{ m: 2 }}>
-                            <Box>{username}님<br/>
+                            <Box>{userId}님<br/>
                             <Button variant="outlined" size="medium" onClick={(e) => handleLogoutAction(e)}>Logout</Button></Box>
                         </Box>    
                     )
