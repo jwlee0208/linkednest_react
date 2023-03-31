@@ -18,7 +18,8 @@ function Mypage() {
   const userInfo    = useAppSelect(getUserInfo);
 
   const [user, setUser] = useState<User>({
-      username              : userInfo.username
+      userNo                : 0
+    , userId                : userInfo.userId
     , password              : ""
     , introduce             : Parser(decodeURI(userInfo.introduce).replaceAll('\\"', '"')).toString() 
     , accessToken           : userInfo.accessToken
@@ -61,7 +62,7 @@ function Mypage() {
 
   const MypageAction = (e : React.FormEvent) => {
     e.preventDefault();
-    user.username = base64_encode(user.username);
+    user.userId = base64_encode(user.userId);
     dispatch(asyncUserUpdate(user));
     navigate(`/${layoutInfo.typeId}`);
   }
@@ -108,8 +109,8 @@ function Mypage() {
           <Grid container>
               <Grid container item>
                   <FormControl fullWidth sx={{ m: 1 }}>
-                      <TextField id="outlined-basic" name="username" label="User ID" variant="filled" color="success" 
-                                onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID" disabled/> 
+                      <TextField id="outlined-basic" name="userId" label="User ID" variant="filled" color="success" 
+                                onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" disabled/> 
                   </FormControl>    
               </Grid>
               <Grid container item>

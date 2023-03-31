@@ -20,7 +20,7 @@ import { Typography, AppBar, Avatar, IconButton
 type HeaderProps = {
     user        : User,
     isLogin     : boolean;
-    username    : string;
+    userId      : string;
     accessToken : string;
     typeId      : string;
 };
@@ -28,7 +28,7 @@ type HeaderProps = {
 function Header({
     user,
     isLogin, 
-    username, 
+    userId, 
     accessToken,
     typeId
 } : HeaderProps) {

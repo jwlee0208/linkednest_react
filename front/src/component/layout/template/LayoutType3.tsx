@@ -23,7 +23,7 @@ function LayoutType3() {
     const userinfo    = useAppSelect(getUserInfo);
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
-    const username    = userinfo.username; 
+    const userId      = userinfo.userId; 
 
     const [value, setValue] = React.useState(0);
 
@@ -33,7 +33,7 @@ function LayoutType3() {
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} username={username} user={userinfo}  typeId={layoutInfo.typeId}/>
+            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  typeId={layoutInfo.typeId}/>
           </Grid>
           <Grid>
             <TopBanner/>

@@ -67,17 +67,17 @@ public class UserController {
       description = "회원가입 요청 파라미터"
     ) ReqUserRegistDto reqUserRegistDto
   ) {
-    String username = reqUserRegistDto.getUsername();
+    String userId = reqUserRegistDto.getUserId();
     String password = reqUserRegistDto.getPassword();
     String nickname = reqUserRegistDto.getNickname();
 
-    log.info("[registUser] username : {}, password : {}, nickname : {}", username, password, nickname);
+    log.info("[registUser] userId : {}, password : {}, nickname : {}", userId, password, nickname);
 
     Boolean isSaved = userService.registUser(reqUserRegistDto);
 
     ResUserRegistDto resUserRegistDto = new ResUserRegistDto();
 
-    resUserRegistDto.setUsername(username);
+    resUserRegistDto.setUserId(userId);
     resUserRegistDto.setNickname(nickname);
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
     resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
@@ -113,18 +113,18 @@ public class UserController {
                   description = "회원정보 수정 요청 파라미터"
           ) ReqUserRegistDto reqUserRegistDto
   ) {
-    String username = reqUserRegistDto.getUsername();
+    String userId = reqUserRegistDto.getUserId();
     String password = reqUserRegistDto.getPassword();
     String nickname = reqUserRegistDto.getNickname();
     String introduce = reqUserRegistDto.getIntroduce();
 
-    log.info("[updateUser] username : {}, password : {}, nickname : {}, introduce : {}", username, password, nickname, introduce);
+    log.info("[updateUser] userId : {}, password : {}, nickname : {}, introduce : {}", userId, password, nickname, introduce);
 
     Boolean isSaved = userService.updateUser(reqUserRegistDto);
 
     ResUserRegistDto resUserRegistDto = new ResUserRegistDto();
 
-    resUserRegistDto.setUsername(username);
+    resUserRegistDto.setUserId(userId);
     resUserRegistDto.setNickname(nickname);
     resUserRegistDto.setIntroduce(introduce);
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
@@ -186,13 +186,11 @@ public class UserController {
     }
   )
   public ResponseEntity<ResUserLoginDto> login(@RequestBody ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
-    String username = reqUserLoginDto.getUsername();
+    String userId = reqUserLoginDto.getUserId();
     String password = reqUserLoginDto.getPassword();
 
     log.info(
-      "[login] username : {}, password : {}, nickname : {}",
-      username,
-      password
+      "[login] userId : {}, password : {}, nickname : {}", userId, password
     );
 
     ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, response);

@@ -13,8 +13,8 @@ import java.util.List;
 
 @Data
 public class ResUserLoginDto extends CommonResDto {
-    @Schema(description = "사용자 아이디", defaultValue = "test01@test.com", name = "username", required = true)
-    private String username;
+    @Schema(description = "사용자 아이디", defaultValue = "test01@test.com", name = "userId", required = true)
+    private String userId;
     @Schema(description = "인증 토큰", defaultValue = "asdfqwetasd2asdf", name = "accessToken", required = false)
     private String accessToken;
 /*

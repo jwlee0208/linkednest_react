@@ -35,7 +35,9 @@ const SignUpDetailForStepper = forwardRef(({
 
     const dispatch      = useAppDispatch();
     const [user, setUser] = useState<User>({
-          username              : ""
+          
+        userNo                  : 0,
+          userId                : ""
         , password              : ""
         , introduce             : "" 
         , accessToken           : ""
@@ -58,7 +60,7 @@ const SignUpDetailForStepper = forwardRef(({
 
     function validStep0_() {
         // console.log('call validStep0_');
-        if (!user.username) {
+        if (!user.userId) {
             alert('ID를 입력하세요.');
             return false;
         }
@@ -126,7 +128,7 @@ const SignUpDetailForStepper = forwardRef(({
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setUser({...user, username : e.target.value});
+        setUser({...user, userId : e.target.value});
     }
 
     const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,7 +164,7 @@ const SignUpDetailForStepper = forwardRef(({
     }
     const SignupAction = (e : React.FormEvent) => {
         e.preventDefault();
-        if (!user.username) {
+        if (!user.userId) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
             return alert('Password를 입력하세요.');
@@ -174,8 +176,8 @@ const SignUpDetailForStepper = forwardRef(({
 
         console.log('[signup] before encode : ' + JSON.stringify(user));
 
-        user.username = base64_encode(user.username);
-        user.password = base64_encode(user.password);        
+        user.userId     = base64_encode(user.userId);
+        user.password   = base64_encode(user.password);        
 
         const res = dispatch(asyncSignUp(user));
         
@@ -226,7 +228,7 @@ const SignUpDetailForStepper = forwardRef(({
     <>    
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="username"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.username} type="text" helperText="Please enter your ID" autoComplete="off"/> 
+                <TextField id="outlined-basic" name="userId"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
             </FormControl>    
         </Grid>
         <Grid container item>
@@ -306,7 +308,7 @@ const SignUpDetailForStepper = forwardRef(({
                 </Grid>
                 <Grid item xs={10}>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <Typography>{user.username}</Typography>
+                        <Typography>{user.userId}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>

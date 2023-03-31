@@ -17,16 +17,18 @@ function LayoutAdmin() {
     const userinfo    = useAppSelect(getUserInfo);
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
-    const username    = userinfo.username; 
+    const userId      = userinfo.userId; 
     const adminMenuCategoryList = userinfo.adminMenuCategoryList;
 
     const isAdminIndexPage = (location.pathname === '/admin' || location.pathname === '/admin/index') ;
 
     let matchedUrlCnt = 0;
     
+console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList);
+
     userinfo.adminMenuCategoryList.map(amcl => 
       amcl.roleAccessPathList.map(rapl => 
-        rapl.url === location.pathname)).forEach(r=>
+        rapl.url === location.pathname)).forEach(r => 
           r.forEach(aa => 
             (aa === true) ? matchedUrlCnt++  : 0)
         );
@@ -49,7 +51,7 @@ function LayoutAdmin() {
           <Grid component="header">
             <AdminHeader isLogin={isLogin} 
                          accessToken={accessToken} 
-                         username={username} 
+                         userId={userId} 
                          user={userinfo}  
                          typeId={layoutInfo.typeId}/>
           </Grid>
@@ -63,7 +65,7 @@ function LayoutAdmin() {
           <Hidden smDown>
             <Grid container spacing={1}>
               <Grid component="aside" item xs={3}>
-                <AdminSideArea isLogin={isLogin} username={username} user={userinfo} adminMenuList={adminMenuCategoryList}/>
+                <AdminSideArea isLogin={isLogin} userId={userId} user={userinfo} adminMenuList={adminMenuCategoryList}/>
               </Grid>
               <Grid component="article" item xs={9}>
                 <AdminContent isLogin={isLogin}/>

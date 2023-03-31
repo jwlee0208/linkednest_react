@@ -1,4 +1,4 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Pagination } from '@mui/material';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Pagination, Breadcrumbs, Typography, Link, Divider } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { axiosInstance } from '../../../..';
@@ -31,6 +31,7 @@ function UserRoleList() {
     const handleDeleteUserRole = (roleId : number, userNo : number, event : React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         console.log('[delete] roleId : ', roleId, 'userNo : ', userNo);
+        alert('to-do');
     }
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -51,7 +52,17 @@ function UserRoleList() {
     },[]);
 
     return (
-    <>    
+    <Box sx={{width : '100%', p : 3}}>   
+        <Typography variant="h3">User Role List</Typography>
+        <Divider/>
+        <br/>
+
+        <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="javascript:void(0);">
+                Role
+            </Link>            
+            <Typography color="text.primary">User Role List</Typography>
+        </Breadcrumbs>
         <TableContainer>
             <Table>   
                 <TableHead>
@@ -69,7 +80,7 @@ function UserRoleList() {
             userRoleList.slice(offset, offset+limit).map((userRole, index) => (
 
               <TableRow>      
-                <TableCell>{index}</TableCell>
+                <TableCell>{index + offset + 1}</TableCell>
                 <TableCell>{userRole.roleId}</TableCell>
                 <TableCell>{userRole.roleName}</TableCell>
                 <TableCell>{userRole.userNo}</TableCell>
@@ -83,8 +94,8 @@ function UserRoleList() {
                 </TableBody>
             </Table>
         </TableContainer>
-        <Pagination count={pageCnt} shape="rounded" onChange={handleChange}/>
-</>
+        <Pagination count={pageCnt} shape="rounded" onChange={handleChange} sx={{p:2, justifyContent:"center", display: "flex"}}/>
+</Box>
     )
 }
 

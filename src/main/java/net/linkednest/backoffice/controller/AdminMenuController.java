@@ -18,11 +18,10 @@ import java.util.List;
 
 @Slf4j
 @RestController
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping(value = "/admin/menu")
 public class AdminMenuController {
-    @Autowired
-    private AdminMenuService adminMenuService;
+    private final AdminMenuService adminMenuService;
 
     @Operation(
         summary = "어드민 카테고리 & 메뉴 목록 조회 API",
