@@ -36,6 +36,11 @@ function SignUp() {
         , address               : ''
         , detailAddress         : ''
         , zipcode               : 0
+        , userProfile             : {
+            sex         : '',
+            phoneNo     : '',
+            birthday    : '',
+        },
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {

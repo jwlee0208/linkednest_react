@@ -17,6 +17,8 @@ public class ResUserLoginDto extends CommonResDto {
     private String userId;
     @Schema(description = "인증 토큰", defaultValue = "asdfqwetasd2asdf", name = "accessToken", required = false)
     private String accessToken;
+
+    private Long userNo;
 /*
     @Schema(description = "Refresh Token", required = false)
     private String refreshToken;

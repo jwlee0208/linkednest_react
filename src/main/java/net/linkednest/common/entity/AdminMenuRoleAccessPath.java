@@ -29,6 +29,8 @@ public class AdminMenuRoleAccessPath {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private Role role;
+
+    private Boolean isViewAdminMenuList;
     private Date createDate;
 
     private Date updateDate;

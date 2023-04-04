@@ -1,24 +1,25 @@
-import { useLocation }                                  from "react-router";
+import { useLocation, useNavigate }                                  from "react-router";
 import { useState, useEffect }                          from "react";
 import { axiosInstance }                                from "../../../..";
 import { User }                                         from "../../../../store/modules/user";
-import { Box, Typography, Divider, Grid, FormLabel }    from "@mui/material";
+import { Box, Typography, Divider, Grid, FormLabel, IconButton }    from "@mui/material";
+// import EditIcon from '@material-ui/core/Icon'
 import Table                                            from "@mui/material/Table";
 import TableBody                                        from "@mui/material/TableBody";
 import TableCell                                        from "@mui/material/TableCell";
 import TableContainer                                   from "@mui/material/TableContainer";
 import TableHead                                        from "@mui/material/TableHead";
 import TableRow                                         from "@mui/material/TableRow";
-import AccordionDetails                                 from "@mui/material/AccordionDetails";
-import Accordion                                        from "@mui/material/Accordion";
-import AccordionSummary                                 from "@mui/material/AccordionSummary";
 import { styled }                                       from '@mui/material/styles';
 import ArrowForwardIosSharpIcon                         from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps }                 from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps, }  from '@mui/material/AccordionSummary';
 import MuiAccordionDetails                              from '@mui/material/AccordionDetails';
+import Parser                                           from 'html-react-parser';
+import {Edit} from '@mui/icons-material'
 
 function UserDetail() {
+    const navigate = useNavigate();
     const Accordion = styled((props: AccordionProps) => (
         <MuiAccordion disableGutters elevation={0} square {...props} />
       ))(({ theme }) => ({
@@ -50,10 +51,10 @@ function UserDetail() {
         },
       }));
       
-      const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
         padding: theme.spacing(2),
         borderTop: '1px solid rgba(0, 0, 0, .125)',
-      }));
+    }));
     const location = useLocation();
     const [user, setUser] = useState<User>({
         userNo                  : 0,
@@ -75,6 +76,11 @@ function UserDetail() {
         address                 : '',
         detailAddress           : '',
         zipcode                 : 0,
+        userProfile             : {
+            sex         : '',
+            phoneNo     : '',
+            birthday    : '',
+        },
         returnCode              : 0,
     })
 
@@ -85,6 +91,14 @@ function UserDetail() {
     const handleAccordionChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
         setExpanded(newExpanded ? panel : false);
       };
+
+    const goEditUserPage = (event : React.MouseEvent<HTMLElement>) => {
+        navigate('/admin/user/edit', {state : {userInfo : user}})
+    }; 
+
+    const goEditUserProfilePage = (event : React.MouseEvent<HTMLElement>) => {
+        navigate('/admin/userProfile/edit', {state : {userInfo : user}})
+    }; 
 
     useEffect(() => {
         axiosInstance.get(`/admin/user/${location.state.userId}`)
@@ -101,9 +115,19 @@ function UserDetail() {
             <Typography variant="h3">User Detail</Typography>
             <Divider/>
             <br/>
-            <Typography variant="h5">User Basic Info</Typography>
+            <Grid container alignItems="center" sx={{ m: 0 }}>
+                <Grid item xs={11}>
+                    <Typography variant="h5">User Basic Info</Typography>
+
+                </Grid>
+                <Grid item xs={1}>
+                    <IconButton aria-label="edit" onClick={(e) => goEditUserPage(e)}>
+                        <Edit/>
+                    </IconButton>
+                </Grid>                        
+            </Grid>
             <br/>
-            <Grid container>
+            <Grid container key={'userInfoKey'}>
                 <Grid container alignItems="center" sx={{ m: 1 }}>
                     <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">User ID</FormLabel></Grid>
                     <Grid item xs={10}>{user.userId}</Grid>
@@ -118,13 +142,54 @@ function UserDetail() {
                 </Grid>
                 <Grid container alignItems="center" sx={{ m: 1 }}>
                     <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">Introduce</FormLabel></Grid>
-                    <Grid item xs={10}>{user.introduce}</Grid>
+                    <Grid item xs={10}>
+                        <div dangerouslySetInnerHTML={{__html : Parser(decodeURI(user.introduce).replaceAll('\\"', '"')).toString()}}></div>
+                    </Grid>
                 </Grid>
             </Grid>
             <br/>
-            <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
-                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                    <Typography variant="h5">User Role Info</Typography>                
+            <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')} key={'userProfileKey'}>
+                <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+                    <Grid container alignItems="center" sx={{ m: 0 }}>
+                        <Grid item xs={11}>
+                            <Typography variant="h5">User Profile Info</Typography>                
+                        </Grid>
+                        <Grid item xs={1}>
+                            <IconButton aria-label="edit" onClick={(e) => goEditUserProfilePage(e)}>
+                                <Edit/>
+                            </IconButton>
+                        </Grid>                        
+                    </Grid>
+                </AccordionSummary>    
+                <AccordionDetails>
+                    <Grid container>
+                        <Grid container alignItems="center" sx={{ m: 1 }}>
+                            <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel></Grid>
+                            <Grid item xs={10}>{user.userProfile.sex}</Grid>
+                        </Grid>
+                        <Grid container alignItems="center" sx={{ m: 1 }}>
+                            <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">Birth Date</FormLabel></Grid>
+                            <Grid item xs={10}>{user.userProfile.birthday}</Grid>
+                        </Grid>
+                        <Grid container alignItems="center" sx={{ m: 1 }}>
+                            <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">Phone No</FormLabel></Grid>
+                            <Grid item xs={10}>{user.userProfile.phoneNo}</Grid>
+                        </Grid>
+                    </Grid>
+                </AccordionDetails>
+            </Accordion>    
+            <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')} key={'userRoleKey'}>
+                <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+                    <Grid container alignItems="center" sx={{ m: 0 }}>
+                        <Grid item xs={11}>
+                            <Typography variant="h5">User Role Info</Typography> 
+                        </Grid>
+                        <Grid item xs={1}>
+                            <IconButton aria-label="edit">
+                                <Edit/>
+                            </IconButton>
+                        </Grid>                        
+                    </Grid>
                 </AccordionSummary>    
                 <AccordionDetails>
                     <TableContainer>
@@ -139,21 +204,20 @@ function UserDetail() {
                             <TableBody>
                         {
                             user.userRoleInfoList.map(uri => (
-                                <TableRow>
+                                <TableRow key={uri.roleId}>
                                     <TableCell>{uri.roleId}</TableCell>
                                     <TableCell>{uri.roleName}</TableCell>        
                                     <TableCell>
                                         <Table>
                                             <TableBody>
                                             {uri.userRoleAccessPathList.map(urap => (
-                                                <TableRow>
+                                                <TableRow key={urap.httpMethod + urap.url}>
                                                     <TableCell>{urap.type}</TableCell>
                                                     <TableCell>{urap.url}</TableCell>
                                                     <TableCell>{urap.httpMethod}</TableCell>
                                                 </TableRow>
                                             ))
                                             }
-
                                             </TableBody>
                                         </Table>
                                     </TableCell>

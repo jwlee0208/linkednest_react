@@ -35,8 +35,7 @@ const SignUpDetailForStepper = forwardRef(({
 
     const dispatch      = useAppDispatch();
     const [user, setUser] = useState<User>({
-          
-        userNo                  : 0,
+          userNo                  : 0,
           userId                : ""
         , password              : ""
         , introduce             : "" 
@@ -56,6 +55,11 @@ const SignUpDetailForStepper = forwardRef(({
         , address               : ''
         , detailAddress         : ''
         , zipcode               : 0
+        , userProfile             : {
+            sex         : '',
+            phoneNo     : '',
+            birthday    : '',
+        },
     });
 
     function validStep0_() {

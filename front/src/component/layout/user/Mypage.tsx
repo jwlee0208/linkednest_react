@@ -38,6 +38,11 @@ function Mypage() {
     , address               : ''
     , detailAddress         : ''
     , zipcode               : 0
+    , userProfile             : {
+      sex         : '',
+      phoneNo     : '',
+      birthday    : '',
+  },
 });
 
  
