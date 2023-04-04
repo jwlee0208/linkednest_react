@@ -36,6 +36,11 @@ function UserList () {
         address                 : '',
         detailAddress           : '',
         zipcode                 : 0,
+        userProfile             : {
+            sex         : '',
+            phoneNo     : '',
+            birthday    : '',
+        },
         returnCode              : 0,
     }]);
 
@@ -74,9 +79,7 @@ function UserList () {
         <Divider/>
         <br/>
         <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="javascript:void(0);">
-                User
-            </Link>            
+            <Link underline="hover" color="inherit">User</Link>            
             <Typography color="text.primary">User List</Typography>
         </Breadcrumbs>
         <TableContainer>
@@ -95,7 +98,7 @@ function UserList () {
         {
             userList.slice(offset, offset+limit).map((user, index) => (
 
-              <TableRow>      
+              <TableRow key={user.userNo}>      
                 <TableCell>{index + offset + 1}</TableCell>
                 <TableCell>{user.userNo}</TableCell>
                 <TableCell>{user.userId}</TableCell>

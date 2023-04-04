@@ -4,6 +4,12 @@ import { axiosInstance }         from '../..';
 import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
 
+export interface UserProfile {
+    sex         : string;
+    phoneNo     : string;
+    birthday    : string;
+}
+
 export interface RoleInfoList extends Array<RoleInfo>{}
 export interface RoleInfo {
     roleId      : number;
@@ -64,6 +70,7 @@ export interface User {
     address                 : string;
     detailAddress           : string;
     zipcode                 : number;
+    userProfile             : UserProfile;
     returnCode              : number;
 }
 
@@ -87,6 +94,11 @@ export const initialState : User = {
     address                 : '',
     detailAddress           : '',
     zipcode                 : 0,
+    userProfile             : {
+        sex         : '',
+        phoneNo     : '',
+        birthday    : '',
+    },
     returnCode              : 0,
 };
 
@@ -95,6 +107,7 @@ const userSlice = createSlice ({
     initialState,
     reducers : {
         logout : (state, action) => {
+            state.userNo                  = 0;
             state.userId                  = '';
             state.password                = '';
             state.nickname                = '';
@@ -116,6 +129,7 @@ const userSlice = createSlice ({
             state.returnCode              = 0;
         }, 
         initUserState : (state, action) => {
+            state.userNo                  = 0;
             state.userId                  = '';
             state.password                = '';
             state.nickname                = '';
@@ -141,6 +155,7 @@ const userSlice = createSlice ({
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
+                state.userNo    = action.payload.userNo;
                 state.userId    = action.payload.userId;
                 state.email     = action.payload.email;
                 state.nickname  = action.payload.nickname;        
@@ -152,6 +167,7 @@ const userSlice = createSlice ({
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
             console.log(`action.payload.returnCode : ${action.payload.returnCode}`);
             if (action.payload.returnCode === 10000) {
+                state.userNo                = action.payload.userNo;
                 state.accessToken           = action.payload.accessToken;
                 state.refreshToken          = action.payload.refreshToken;
                 state.isLogin               = action.payload.isLogin;

@@ -5,6 +5,7 @@ import lombok.Data;
 import net.linkednest.common.entity.Authority;
 import net.linkednest.www.dto.CommonResDto;
 import net.linkednest.www.dto.user.role.ResUserRoleDto;
+import net.linkednest.www.dto.user.signup.ResUserProfileDto;
 
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class ResUserDto extends CommonResDto {
     @Schema(description = "사용자 이메일", defaultValue = "test01@mail.com", name = "email", required = true)
     private String email;
 
+    private String introduce;
+
     @Schema(description = "사용자 권한 목록", required = true)
     private List<ResUserRoleDto> userRoleInfoList;
+
+    private ResUserProfileDto userProfile;
 }

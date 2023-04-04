@@ -5,9 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.entity.Authority;
 import net.linkednest.common.entity.RoleAccessPath;
 import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.UserProfile;
 import net.linkednest.www.dto.user.get.ResUserDto;
 import net.linkednest.www.dto.user.role.ResUserRoleAccessPathDto;
 import net.linkednest.www.dto.user.role.ResUserRoleDto;
+import net.linkednest.www.dto.user.signup.ResUserProfileDto;
+import net.linkednest.www.repository.UserProfileRepository;
 import net.linkednest.www.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminUserService {
     private final UserRepository userRepository;
+
+    private final UserProfileRepository userProfileRepository;
 
     public List<ResUserDto> userList() {
 
@@ -44,6 +49,8 @@ public class AdminUserService {
         userObj.setUserId(u.getUserId());
         userObj.setEmail(u.getEmail());
         userObj.setNickname(u.getNickname());
+        userObj.setIntroduce((u.getIntroduce()));
+        userObj.setUserProfile(this.getUserProfile(u));
 
         List<ResUserRoleDto> userRoleList = new ArrayList<>();
         u.getRoles().stream().forEach(r -> {
@@ -51,6 +58,18 @@ public class AdminUserService {
         });
         userObj.setUserRoleInfoList(userRoleList);
         return userObj;
+    }
+
+    private ResUserProfileDto getUserProfile(User u) {
+        Optional<UserProfile> upOptional = userProfileRepository.findByUser(u);
+        ResUserProfileDto userProfileObj = new ResUserProfileDto();
+        if (upOptional.isPresent()){
+            UserProfile up = upOptional.get();
+            userProfileObj.setSex(up.getSex());
+            userProfileObj.setBirthday(up.getBirthday());
+            userProfileObj.setPhoneNo(up.getPhoneNo());
+        }
+        return userProfileObj;
     }
 
     private ResUserRoleDto getUserRole(Authority r) {

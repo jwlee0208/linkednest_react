@@ -112,6 +112,7 @@ public class UserService {
             // password check
             boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
             if (isMatchedPw) {
+                resUserLoginDto.setUserNo(user.getUserNo());
                 resUserLoginDto.setIsLogin(true);
                 resUserLoginDto.setEmail(user.getEmail());
                 resUserLoginDto.setUserId(user.getUserId());

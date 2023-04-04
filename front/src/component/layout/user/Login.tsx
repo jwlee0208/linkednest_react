@@ -37,6 +37,11 @@ function Login() {
         , address               : ''
         , detailAddress         : ''
         , zipcode               : 0
+        , userProfile             : {
+            sex         : '',
+            phoneNo     : '',
+            birthday    : '',
+        },
     });
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
