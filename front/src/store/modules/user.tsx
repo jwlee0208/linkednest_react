@@ -3,6 +3,7 @@ import { RootState }             from '../../reducer';
 import { axiosInstance }         from '../..'; 
 import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
+import { type } from 'os';
 
 export interface UserProfile {
     sex         : string;
@@ -47,6 +48,7 @@ export interface RoleAccessPath {
     id      : number;
     name    : string, 
     url     : string,
+    isShow  : boolean,
 }
 
 

@@ -34,7 +34,8 @@ function CategoryMenuRow({
             <Divider/>
     {
         (menusArr !== null) ? (
-            menusArr.map(menu => (
+            menusArr.filter(menu => menu.isShow === true)
+                    .map(menu => (
                     <MenuItem key={"menu_" + menu.id}>
                         <ListItemText onClick={(e) => handleToClickMenu(`${menu.url}`, e)}>{menu.name}</ListItemText>
                     </MenuItem>

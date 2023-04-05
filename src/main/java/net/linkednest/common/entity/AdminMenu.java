@@ -31,6 +31,9 @@ public class AdminMenu {
 
     private String menuUrl;
 
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isShow;    // admin menu list에 보여져야 할 내용인지 아닌지
+
     @JsonManagedReference
     @OneToMany(mappedBy = "adminMenu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
