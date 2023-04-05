@@ -39,12 +39,12 @@ export interface AdminMenuCategoryList extends Array<AdminMenuCategory>{}
 export interface AdminMenuCategory {
     categoryId          : number,
     categoryName        : string,
-    roleAccessPathList  : Array<RoleAccessPath>,
+    roleAccessPathList  : Array<AdminMenu>,
 }
 
-export interface RoleAccessPaths extends Array<RoleAccessPath>{}
+export interface AdminMenus extends Array<AdminMenu>{}
 
-export interface RoleAccessPath {
+export interface AdminMenu {
     id      : number;
     name    : string, 
     url     : string,

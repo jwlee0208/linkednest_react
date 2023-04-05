@@ -1,12 +1,12 @@
 import React                             from "react";
 import { useNavigate }                   from "react-router";
-import { RoleAccessPaths, User }         from "../../../../store/modules/user";
+import { AdminMenus, User }         from "../../../../store/modules/user";
 import { Divider, ListItemText, MenuItem, Typography } from "@mui/material";
 
 type MenuRowProps = {
     menuCategoryId      : number,
     menuCategoryName    : string,
-    menusArr            : RoleAccessPaths,
+    menusArr            : AdminMenus,
     user                : User,
 };
 

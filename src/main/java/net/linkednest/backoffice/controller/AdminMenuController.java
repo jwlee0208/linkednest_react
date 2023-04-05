@@ -7,7 +7,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.ReqAdminMenuCategoryDto;
+import net.linkednest.backoffice.dto.ReqAdminMenuDto;
 import net.linkednest.backoffice.dto.ResAdminMenuCategoryDto;
+import net.linkednest.backoffice.dto.ResAdminMenuDto;
+import net.linkednest.backoffice.service.AdminMenuCategoryService;
 import net.linkednest.backoffice.service.AdminMenuService;
 import net.linkednest.common.entity.AdminMenuCategory;
 import net.linkednest.www.dto.CommonResDto;
@@ -21,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/admin/menu")
 public class AdminMenuController {
+    private final AdminMenuCategoryService adminMenuCategoryService;
     private final AdminMenuService adminMenuService;
 
     @Operation(
@@ -39,7 +43,7 @@ public class AdminMenuController {
       )
     @GetMapping(value = "/category/list")
     public ResponseEntity<List<ResAdminMenuCategoryDto>> getAdminMenuCategoryList() {
-        return ResponseEntity.ok(this.adminMenuService.getAdminMenuList());
+        return ResponseEntity.ok(this.adminMenuCategoryService.getAdminMenuList());
     }
 
     @Operation(
@@ -58,26 +62,13 @@ public class AdminMenuController {
     )
     @PostMapping(value = "/category")
     public ResponseEntity<ResAdminMenuCategoryDto> createAdminMenuCategory(ReqAdminMenuCategoryDto adminMenuCategoryObj) {
-        return ResponseEntity.ok(this.adminMenuService.save(adminMenuCategoryObj));
+        return ResponseEntity.ok(this.adminMenuCategoryService.save(adminMenuCategoryObj));
     }
 
-    @Operation(
-            summary = "어드민 카테고리 & 메뉴 갱신 API",
-            description = "어드민 카테고리 & 메뉴 갱신 API입니다.",
-            tags = { "Admin Menu" },
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "갱신 성공",
-                            content = @Content(
-                                    schema = @Schema(implementation = ResAdminMenuCategoryDto.class)
-                            )
-                    )
-            }
-    )
+
     @PatchMapping(value = "/category")
     public ResponseEntity<ResAdminMenuCategoryDto> updateAdminMenuCategory(ReqAdminMenuCategoryDto adminMenuCategoryObj) {
-        return ResponseEntity.ok(this.adminMenuService.save(adminMenuCategoryObj));
+        return ResponseEntity.ok(this.adminMenuCategoryService.save(adminMenuCategoryObj));
     }
 
     @Operation(
@@ -96,6 +87,68 @@ public class AdminMenuController {
     )
     @DeleteMapping(value = "/category")
     public ResponseEntity<CommonResDto> deleteAdminMenuCategory(ReqAdminMenuCategoryDto adminMenuCategoryObj) {
-        return ResponseEntity.ok(this.adminMenuService.delete(adminMenuCategoryObj));
+        return ResponseEntity.ok(this.adminMenuCategoryService.delete(adminMenuCategoryObj));
+    }
+
+    @Operation(
+            summary = "어드민 메뉴 목록 조회 API",
+            description = "어드민 메뉴 목록 조회 API입니다.",
+            tags = { "Admin Menu" },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "목록 조회 성공",
+                            content = @Content(
+                                    schema = @Schema(implementation = ResAdminMenuDto.class)
+                            )
+                    )
+            }
+    )
+    @RequestMapping(value="/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<List<ResAdminMenuDto>> getAdminMenuList() {
+        return ResponseEntity.ok(this.adminMenuService.getAdminMenuList());
+    }
+
+    @Operation(
+            summary = "어드민 메뉴 삭제 API",
+            description = "어드민 메뉴 (논리적)삭제 API입니다.",
+            tags = { "Admin Menu" },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "삭제 성공",
+                            content = @Content(
+                                    schema = @Schema(implementation = CommonResDto.class)
+                            )
+                    )
+            }
+    )
+    @DeleteMapping(value="")
+    public ResponseEntity<CommonResDto> deleteAdminMenu(ReqAdminMenuDto reqAdminMenuObj) {
+        return ResponseEntity.ok(this.adminMenuService.deleteAdminMenu(reqAdminMenuObj));
+    }
+
+    @Operation(
+            summary = "어드민 메뉴 갱신 API",
+            description = "어드민 메뉴 갱신 API입니다.",
+            tags = { "Admin Menu" },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "갱신 성공",
+                            content = @Content(
+                                    schema = @Schema(implementation = ResAdminMenuDto.class)
+                            )
+                    )
+            }
+    )
+    @PatchMapping(value = "")
+    public ResponseEntity<ResAdminMenuDto> updateAdminMenu(ReqAdminMenuDto reqAdminMenuDto) {
+        return ResponseEntity.ok(this.adminMenuService.editAdminMenu(reqAdminMenuDto));
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<ResAdminMenuDto> createAdminMenu(ReqAdminMenuDto reqAdminMenuDto) {
+        return ResponseEntity.ok(this.adminMenuService.editAdminMenu(reqAdminMenuDto));
     }
 }

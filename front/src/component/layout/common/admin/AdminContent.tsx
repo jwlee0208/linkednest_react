@@ -15,6 +15,7 @@ import MenuCategoryDetail from "../../admin/menu/category/MenuCategoryDetail";
 import CreateMenu from "../../admin/menu/CreateMenu";
 import MenuList from "../../admin/menu/MenuList";
 import MenuDetail from "../../admin/menu/MenuDetail";
+import MergeMenu from "../../admin/menu/MergeMenu";
 
 type ContentProps = {
     isLogin : boolean;
@@ -40,7 +41,7 @@ function AdminContent ({
         <Route path="/admin/menu/category/edit"   element={<CreateMenuCategory/>}/>
         <Route path="/admin/menu/list"            element={<MenuList/>}/>
         <Route path="/admin/menu/detail"          element={<MenuDetail/>}/>
-        <Route path="/admin/menu/create"          element={<CreateMenu/>}/>
+        <Route path="/admin/menu/edit"            element={<MergeMenu/>}/>
       </Routes>
     )
 }
