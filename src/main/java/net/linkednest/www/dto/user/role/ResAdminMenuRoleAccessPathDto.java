@@ -9,7 +9,7 @@ public class ResAdminMenuRoleAccessPathDto implements Serializable {
     static final long serialVersionUID = 1L;
     private Long id;
     private String url;
-    // backend, front 구분
     private String name;
 
+    private Boolean isShow;
 }

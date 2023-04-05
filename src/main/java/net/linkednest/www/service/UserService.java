@@ -215,6 +215,7 @@ public class UserService {
                         resRoleAccessPathDto.setId(amrap.getAdminMenu().getId());
                         resRoleAccessPathDto.setUrl(amrap.getAdminMenu().getMenuUrl());
                         resRoleAccessPathDto.setName(amrap.getAdminMenu().getMenuName());
+                        resRoleAccessPathDto.setIsShow(amrap.getAdminMenu().getIsShow());
 
                         finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
                         finalResAdminMenuCategoryDto.setRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
