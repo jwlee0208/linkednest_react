@@ -21,4 +21,14 @@ export interface ResultInfo_ {
 }
 
 
-
+export interface AdminMenuList_ extends Array<AdminMenu_> {}
+export interface AdminMenu_ {
+    id      : number;
+    name    : string, 
+    url     : string,
+    show    : string,
+    categoryId : number,
+    categoryName : string,
+    createUser : number,
+    updateUser : number,
+}

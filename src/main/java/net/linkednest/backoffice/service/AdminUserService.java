@@ -7,12 +7,15 @@ import net.linkednest.common.entity.RoleAccessPath;
 import net.linkednest.common.entity.User;
 import net.linkednest.common.entity.UserProfile;
 import net.linkednest.www.dto.user.get.ResUserDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
+import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.www.dto.user.role.ResUserRoleAccessPathDto;
 import net.linkednest.www.dto.user.role.ResUserRoleDto;
 import net.linkednest.www.dto.user.signup.ResUserProfileDto;
 import net.linkednest.www.repository.UserProfileRepository;
 import net.linkednest.www.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,4 +93,6 @@ public class AdminUserService {
         userRoleAccessPathObj.setType(ap.getType());
         return userRoleAccessPathObj;
     }
+
+
 }
