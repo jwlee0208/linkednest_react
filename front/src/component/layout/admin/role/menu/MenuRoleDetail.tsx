@@ -1,7 +1,7 @@
 import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
 import { MenuRole_ } from ".";
-import { axiosInstance } from "../../../..";
+import { axiosInstance } from "../../../../..";
 
 function MenuRoleDetail() {
     const navigate      = useNavigate();

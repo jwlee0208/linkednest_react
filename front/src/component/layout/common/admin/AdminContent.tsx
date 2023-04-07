@@ -1,11 +1,10 @@
 import { Route, Routes }  from "react-router";
 import BoardList          from "../../admin/crm/board/BoardList";
 import BoardCategoryList  from "../../admin/crm/category/BoardCategoryList";
-import ManageUser         from "../../admin/user/ManageUser";
 import UserList           from "../../admin/user/UserList";
 import Login              from "../../user/Login";
 import Index              from "../../admin/Index";
-import UserRoleList       from "../../admin/role/UserRoleList";
+import UserRoleList       from "../../admin/role/user/UserRoleList";
 import UserDetail         from "../../admin/user/UserDetail";
 import EditUser           from "../../admin/user/EditUser";
 import EditUserProfile    from "../../admin/user/EditUserProfile";
@@ -15,9 +14,9 @@ import MenuCategoryDetail from "../../admin/menu/category/MenuCategoryDetail";
 import MenuList           from "../../admin/menu/MenuList";
 import MenuDetail         from "../../admin/menu/MenuDetail";
 import EditMenu           from "../../admin/menu/EditMenu";
-import MenuRoleList       from "../../admin/role/MenuRoleList";
-import EditMenuRole       from "../../admin/role/EditMenuRole";
-import MenuRoleDetail from "../../admin/role/MenuRoleDetail";
+import MenuRoleList       from "../../admin/role/menu/MenuRoleList";
+import EditMenuRole       from "../../admin/role/menu/EditMenuRole";
+import MenuRoleDetail     from "../../admin/role/menu/MenuRoleDetail";
 
 type ContentProps = {
     isLogin : boolean;
@@ -37,7 +36,6 @@ function AdminContent ({
         <Route path="/admin/role/menu/edit"       element={<EditMenuRole/>}/> 
         <Route path="/admin/role/menu/detail"     element={<MenuRoleDetail/>}/> 
         <Route path='/admin/user/list'            element={<UserList/>}/>
-        <Route path='/admin/user/manager'         element={<ManageUser/>}/>
         <Route path='/admin/user/detail'          element={<UserDetail/>}/>
         <Route path='/admin/user/edit'            element={<EditUser/>}/>
         <Route path='/admin/userProfile/edit'     element={<EditUserProfile/>}/>
