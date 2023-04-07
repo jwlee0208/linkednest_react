@@ -1,11 +1,12 @@
 import { Box, Button, Divider, FormControl, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { MenuRole_, RoleList_ } from ".";
-import { AdminMenuList_, MenuCategoryList_ } from "../menu";
-import { axiosInstance } from "../../../..";
-import { useLocation, useNavigate } from "react-router";
-import { useAppSelect } from "../../../../store/index.hooks";
-import { getUserInfo } from "../../../../store/modules/user";
+import { useEffect, useState }               from "react";
+import { MenuRole_}                          from ".";
+import { RoleList_ }                         from "../index";
+import { AdminMenuList_, MenuCategoryList_ } from "../../menu";
+import { axiosInstance }                     from "../../../../..";
+import { useLocation, useNavigate }          from "react-router";
+import { useAppSelect }                      from "../../../../../store/index.hooks";
+import { getUserInfo }                       from "../../../../../store/modules/user";
 
 function EditMenuRole() {
 
@@ -78,7 +79,7 @@ function EditMenuRole() {
         createMenuRoleCall().then((res) => (
             navigate('/admin/role/menu/list')
         )).catch((err) => (
-            console.log('err : ', err)
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)  
         ));
     }
 
@@ -87,7 +88,7 @@ function EditMenuRole() {
         updateMenuRoleCall().then((res) => (
             navigate('/admin/role/menu/list')
         )).catch((err) => (
-            console.log('err : ', err)
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)  
         ));
     }
 
@@ -140,16 +141,16 @@ function EditMenuRole() {
         axiosInstance
             .get('/admin/menu/category/list')
                 .then((res) => setMenuCategoryList(res.data))
-                .catch((err) => console.log('err : ', err));
+                .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
         axiosInstance
             .get('/admin/menu/list')
                 .then((res) => setMenuList(res.data))
-                .catch((err) => console.log('err : ', err));
+                .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
         
         axiosInstance.get('/admin/role/list')
             .then((res) => setRoleList(res.data))
-            .catch((err) => console.log('err : ', err));
+            .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
     }, [])
 
     return (

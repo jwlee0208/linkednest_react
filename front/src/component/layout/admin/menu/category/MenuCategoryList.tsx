@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../../../../..";
-import { Box, Button, Divider, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { MenuCategoryList_, MenuCategory_ } from "..";
 
 function MenuCategoryList () {
@@ -33,6 +33,11 @@ function MenuCategoryList () {
         navigate(`/admin/menu/category/detail`, {state : {menuCategory : menuCategory}});
     }
 
+    const moveToCreate = (e : React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        navigate(`/admin/menu/category/edit`);
+    }
+
     useEffect(() => {
         axiosInstance.get(`/admin/menu/category/list`)
         .then((res) => {
@@ -44,6 +49,9 @@ function MenuCategoryList () {
         <Box sx={{p:2}}>
             <Typography variant="h4">Menu Category List</Typography>
             <Divider/>
+            <ButtonGroup sx={{p:1, float:'right'}}>
+                <Button onClick={(e) => moveToCreate(e)}>Create</Button>
+            </ButtonGroup>
             <TableContainer>
             <Table>
                 <TableHead>

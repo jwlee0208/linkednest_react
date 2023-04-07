@@ -1,7 +1,7 @@
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Pagination, Breadcrumbs, Typography, Link, Divider } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import { axiosInstance } from '../../../..';
+import { axiosInstance } from '../../../../..';
 
 function UserRoleList() {
 
@@ -78,8 +78,7 @@ function UserRoleList() {
                 <TableBody>      
         {
             userRoleList.slice(offset, offset+limit).map((userRole, index) => (
-
-              <TableRow>      
+              <TableRow key={index + offset + 1}>      
                 <TableCell>{index + offset + 1}</TableCell>
                 <TableCell>{userRole.roleId}</TableCell>
                 <TableCell>{userRole.roleName}</TableCell>

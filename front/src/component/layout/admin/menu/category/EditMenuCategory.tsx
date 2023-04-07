@@ -6,7 +6,7 @@ import { axiosInstance } from '../../../../..';
 import { MenuCategory_ } from '..';
 import { useNavigate, useLocation } from 'react-router';
 
-function MergeMenuCategory () {
+function EditMenuCategory () {
 
     const navigate = useNavigate();
     const userInfo = useAppSelect(getUserInfo);
@@ -45,8 +45,8 @@ function MergeMenuCategory () {
         createMenuCategory().then((res) => (
             // console.log('res : ', res)  
             navigate('/admin/menu/category/list')
-        )).catch(error => (
-            console.log('error : ', error)
+        )).catch(err => (
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)  
         ));
     }
     
@@ -75,8 +75,8 @@ function MergeMenuCategory () {
         .then(res => 
             navigate('/admin/menu/category/list')
         )
-        .catch(error => 
-            console.log('error : ', error)    
+        .catch(err => 
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)     
         );
     }
 
@@ -130,4 +130,4 @@ function MergeMenuCategory () {
     )
 }
 
-export default MergeMenuCategory;
+export default EditMenuCategory;

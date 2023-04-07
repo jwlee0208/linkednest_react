@@ -1,7 +1,7 @@
 import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
 import { MenuRole_ } from ".";
-import { axiosInstance } from "../../../..";
+import { axiosInstance } from "../../../../..";
 
 function MenuRoleDetail() {
     const navigate      = useNavigate();
@@ -29,7 +29,7 @@ function MenuRoleDetail() {
 
     return (
         <Box sx={{p:3}}>
-            <Typography variant="h4">Menu Detail</Typography>
+            <Typography variant="h4">Menu Role Detail</Typography>
             <Divider/>
             <Grid container alignItems="center" sx={{ m: 1 }}>
                 <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">카테고리 명</FormLabel></Grid>
