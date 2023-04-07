@@ -17,6 +17,8 @@ import EditMenu           from "../../admin/menu/EditMenu";
 import MenuRoleList       from "../../admin/role/menu/MenuRoleList";
 import EditMenuRole       from "../../admin/role/menu/EditMenuRole";
 import MenuRoleDetail     from "../../admin/role/menu/MenuRoleDetail";
+import RoleList from "../../admin/role/RoleList";
+import RoleDetail from "../../admin/role/RoleDetail";
 
 type ContentProps = {
     isLogin : boolean;
@@ -27,10 +29,13 @@ function AdminContent ({
 } : ContentProps ) {
     return (
       <Routes>
+        {/* to-do : 추후 동적으로 처리하도록 */}
         <Route path='/admin'                      element={<Index/>}/>
         <Route path='/admin/login'                element={<Login/>} />
         <Route path='/admin/board/category/list'  element={<BoardCategoryList/>}/>
         <Route path='/admin/board/list'           element={<BoardList/>}/>
+        <Route path="/admin/role/list"            element={<RoleList/>}/>
+        <Route path="/admin/role/detail"          element={<RoleDetail/>}/>
         <Route path='/admin/role/user/list'       element={<UserRoleList/>}/>
         <Route path='/admin/role/menu/list'       element={<MenuRoleList/>}/> 
         <Route path="/admin/role/menu/edit"       element={<EditMenuRole/>}/> 
