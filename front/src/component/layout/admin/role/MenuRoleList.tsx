@@ -15,6 +15,8 @@ function MenuRoleList() {
         menuUrl          : '',
         roleId           : 0,
         roleName         : '',
+        createUserNo     : 0,
+        updateUserNo     : 0,
     }]);
 
     const navigate = useNavigate();

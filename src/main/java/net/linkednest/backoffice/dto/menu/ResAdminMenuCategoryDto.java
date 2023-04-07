@@ -1,4 +1,4 @@
-package net.linkednest.backoffice.dto;
+package net.linkednest.backoffice.dto.menu;
 
 import lombok.Data;
 import net.linkednest.www.dto.CommonResDto;

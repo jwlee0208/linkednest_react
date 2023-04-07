@@ -2,8 +2,8 @@ package net.linkednest.backoffice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.backoffice.dto.ReqAdminMenuCategoryDto;
-import net.linkednest.backoffice.dto.ResAdminMenuCategoryDto;
+import net.linkednest.backoffice.dto.menu.ReqAdminMenuCategoryDto;
+import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
 import net.linkednest.backoffice.repository.AdminMenuCategoryRepository;
 import net.linkednest.backoffice.repository.AdminMenuRepository;
 import net.linkednest.common.ResponseCodeMsg;
@@ -12,7 +12,6 @@ import net.linkednest.common.entity.User;
 import net.linkednest.www.dto.CommonResDto;
 import net.linkednest.www.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
