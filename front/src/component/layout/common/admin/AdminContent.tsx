@@ -16,6 +16,8 @@ import CreateMenu from "../../admin/menu/CreateMenu";
 import MenuList from "../../admin/menu/MenuList";
 import MenuDetail from "../../admin/menu/MenuDetail";
 import MergeMenu from "../../admin/menu/MergeMenu";
+import MenuRoleList from "../../admin/role/MenuRoleList";
+import MergeMenuRole from "../../admin/menu/MergeMenuRole";
 
 type ContentProps = {
     isLogin : boolean;
@@ -26,22 +28,25 @@ function AdminContent ({
 } : ContentProps ) {
     return (
       <Routes>
-        <Route path='/admin'                     element={<Index/>}/>
-        <Route path='/admin/login'               element={<Login />} />
-        <Route path='/admin/board/category/list' element={<BoardCategoryList/>}/>
-        <Route path='/admin/board/list'          element={<BoardList/>}/>
-        <Route path='/admin/role/userRoleList'   element={<UserRoleList/>}/>
-        <Route path='/admin/user/list'           element={<UserList/>}/>
-        <Route path='/admin/user/manager'        element={<ManageUser/>}/>
-        <Route path='/admin/user/detail'         element={<UserDetail/>}/>
-        <Route path='/admin/user/edit'           element={<EditUser/>}/>
-        <Route path='/admin/userProfile/edit'    element={<EditUserProfile/>}/>
-        <Route path="/admin/menu/category/list"  element={<MenuCategoryList/>}/>
+        <Route path='/admin'                      element={<Index/>}/>
+        <Route path='/admin/login'                element={<Login/>} />
+        <Route path='/admin/board/category/list'  element={<BoardCategoryList/>}/>
+        <Route path='/admin/board/list'           element={<BoardList/>}/>
+        <Route path='/admin/role/user/list'       element={<UserRoleList/>}/>
+        <Route path='/admin/role/menu/list'       element={<MenuRoleList/>}/> 
+        <Route path="/admin/role/menu/edit"       element={<MergeMenuRole/>}/> 
+        <Route path='/admin/user/list'            element={<UserList/>}/>
+        <Route path='/admin/user/manager'         element={<ManageUser/>}/>
+        <Route path='/admin/user/detail'          element={<UserDetail/>}/>
+        <Route path='/admin/user/edit'            element={<EditUser/>}/>
+        <Route path='/admin/userProfile/edit'     element={<EditUserProfile/>}/>
+        <Route path="/admin/menu/category/list"   element={<MenuCategoryList/>}/>
         <Route path="/admin/menu/category/detail" element={<MenuCategoryDetail/>}/>
         <Route path="/admin/menu/category/edit"   element={<CreateMenuCategory/>}/>
         <Route path="/admin/menu/list"            element={<MenuList/>}/>
         <Route path="/admin/menu/detail"          element={<MenuDetail/>}/>
         <Route path="/admin/menu/edit"            element={<MergeMenu/>}/>
+
       </Routes>
     )
 }

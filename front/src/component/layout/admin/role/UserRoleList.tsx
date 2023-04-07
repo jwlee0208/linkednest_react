@@ -41,7 +41,7 @@ function UserRoleList() {
     useEffect(() => {
         axiosInstance({
             method          : 'post'
-          , url             : '/admin/userRole/list'
+          , url             : '/admin/role/user/list'
           , params          : {}
         }).then((res) => {
             setUserRoleList(res.data);

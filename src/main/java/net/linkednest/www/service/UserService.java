@@ -3,19 +3,16 @@ package net.linkednest.www.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.backoffice.repository.AdminMenuRoleAccessPathRepository;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
+import net.linkednest.common.entity.*;
 import net.linkednest.www.dto.user.ResTokenDto;
 import net.linkednest.www.dto.user.role.*;
 import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.www.dto.user.signin.ResUserLoginDto;
 import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
-import net.linkednest.common.entity.Authority;
-import net.linkednest.common.entity.User;
-import net.linkednest.common.entity.UserRefreshToken;
-import net.linkednest.www.repository.RoleRepository;
-import net.linkednest.www.repository.UserRefreshTokenRepository;
-import net.linkednest.www.repository.UserRepository;
+import net.linkednest.www.repository.*;
 import net.linkednest.common.security.JwtProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,7 +29,10 @@ public class UserService {
     private final UserProfileService userProfileService;
     private final UserRepository userRepository;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+
     private final RoleRepository roleRepository;
+    private final AdminMenuCategoryRoleAccessRepository adminMenuCategoryRoleAccessRepository;
+    private final AdminMenuRoleAccessPathRepository adminMenuRoleAccessPathRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
@@ -122,14 +121,17 @@ public class UserService {
                 resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
                 resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles())); // accessToken 발급
 
-                List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
                 List<ResUserRoleDto>            userRoleDtoList          = new ArrayList<>();
                 List<ResRoleDto>                roleDtoList              = new ArrayList<>();
-                user.getRoles().stream().forEach(r -> {
-                    setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
-                    setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
-                    setAdminMenuCategoryList(r  , adminMenuCategoryDtoList);    // user의 adminMenu 접근 가능 category & menu list 조회
-                });
+                List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
+
+                user.getRoles()
+                        .stream()
+                        .forEach(r -> {
+                            setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
+                            setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
+                            setAdminMenuCategoryList(r  , adminMenuCategoryDtoList);    // user의 adminMenu 접근 가능 category & menu list 조회
+                        });
                 resUserLoginDto.setRoleInfoList(roleDtoList);
                 resUserLoginDto.setUserRoleInfoList(userRoleDtoList);
                 resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
@@ -177,9 +179,71 @@ public class UserService {
     }
 
     private void setAdminMenuCategoryList(Authority r, List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList) {
-        r.getRole().getAdminMenuCategoryRoleAccesses().stream().forEach(amcra -> {
-            String categoryName = amcra.getAdminMenuCategory().getCategoryName();
+        List<AdminMenuRoleAccessPath> amrapList = adminMenuRoleAccessPathRepository.findAllByRoleId(r.getRole().getId());
+        /*r.getRole().getAdminMenuCategoryRoleAccesses().stream().forEach(amcra -> {
+            ResAdminMenuCategoryDto resAdminMenuCategoryDto = new ResAdminMenuCategoryDto();
 
+            resAdminMenuCategoryDto.setCategoryId(amcra.getAdminMenuCategory().getId());
+            resAdminMenuCategoryDto.setCategoryName(amcra.getAdminMenuCategory().getCategoryName());
+
+            List<ResAdminMenuRoleAccessPathDto> resAdminMenuRoleAccessPathList = new ArrayList<>();
+            amrapList.stream()
+                    .forEach(amrap -> {
+                ResAdminMenuRoleAccessPathDto resRoleAccessPathObj = new ResAdminMenuRoleAccessPathDto();
+
+                resRoleAccessPathObj.setId(amrap.getAdminMenu().getId());
+                resRoleAccessPathObj.setUrl(amrap.getAdminMenu().getMenuUrl());
+                resRoleAccessPathObj.setName(amrap.getAdminMenu().getMenuName());
+                resRoleAccessPathObj.setIsShow(amrap.getAdminMenu().getIsShow());
+                resAdminMenuRoleAccessPathList.add(resRoleAccessPathObj);
+            });
+            resAdminMenuCategoryDto.setRoleAccessPathList(resAdminMenuRoleAccessPathList);
+            adminMenuCategoryDtoList.add(resAdminMenuCategoryDto);
+//            log.info("adminMenuCategoryDtoList : {}", adminMenuCategoryDtoList);
+        });*/
+
+        amrapList.stream().forEach(a -> {
+            log.info("[{}.{}] AdminMenuRoleAccessPath : {}", this.getClass().getName(), "setAdminMenuCategoryList", a.getAdminMenu().getMenuName());
+            AdminMenu           am  = a.getAdminMenu();
+            AdminMenuCategory   amc = am.getAdminMenuCategory();
+            String              categoryName = amc.getCategoryName();
+            List<ResAdminMenuRoleAccessPathDto> resAdminMenuRoleAccessPathDtoList   = new ArrayList<>();
+            Optional<ResAdminMenuCategoryDto>   resAdminMenuCategoryDtoOptional     = adminMenuCategoryDtoList.stream().filter(amcdl -> amcdl.getCategoryId().equals(amc.getId())).findAny();
+            ResAdminMenuCategoryDto             resAdminMenuCategoryDto             = null;
+
+            boolean isAddedCategory = resAdminMenuCategoryDtoOptional.isPresent();
+
+            if (isAddedCategory) {
+                resAdminMenuCategoryDto = resAdminMenuCategoryDtoOptional.get();
+                resAdminMenuRoleAccessPathDtoList = resAdminMenuCategoryDtoOptional.get().getRoleAccessPathList();
+                adminMenuCategoryDtoList.remove(resAdminMenuCategoryDto);
+            } else {
+                resAdminMenuCategoryDto = new ResAdminMenuCategoryDto();
+                resAdminMenuCategoryDto.setCategoryId(amc.getId());
+                resAdminMenuCategoryDto.setCategoryName(categoryName);
+            }
+
+            List<ResAdminMenuRoleAccessPathDto> finalResAdminMenuRoleAccessPathDtoList = resAdminMenuRoleAccessPathDtoList;
+            ResAdminMenuCategoryDto finalResAdminMenuCategoryDto = resAdminMenuCategoryDto;
+            r.getRole().getAdminMenuCategoryRoleAccesses()
+                    .stream()
+                    .filter(amcra -> a.getAdminMenu().getAdminMenuCategory().getId().equals(amcra.getAdminMenuCategory().getId()))
+                    .forEach(amcra -> {
+                        ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
+                        resRoleAccessPathDto.setId(am.getId());
+                        resRoleAccessPathDto.setUrl(am.getMenuUrl());
+                        resRoleAccessPathDto.setName(am.getMenuName());
+                        resRoleAccessPathDto.setIsShow(am.getIsShow());
+
+                        finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
+                        finalResAdminMenuCategoryDto.setRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
+
+                    });
+            adminMenuCategoryDtoList.add(finalResAdminMenuCategoryDto);
+        });
+
+        /*r.getRole().getAdminMenuCategoryRoleAccesses().stream().forEach(amcra -> {
+            String categoryName = amcra.getAdminMenuCategory().getCategoryName();
             List<ResAdminMenuRoleAccessPathDto> resAdminMenuRoleAccessPathDtoList  = new ArrayList<>();
             Optional<ResAdminMenuCategoryDto> resAdminMenuCategoryDtoOptional = adminMenuCategoryDtoList.stream().filter(amcdl -> amcdl.getCategoryId().equals(amcra.getAdminMenuCategory().getId())).findAny();
             boolean isAddedCategory = resAdminMenuCategoryDtoOptional.isPresent();
@@ -196,12 +260,14 @@ public class UserService {
                 resAdminMenuCategoryDto.setCategoryName(categoryName);
             }
 
-            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> categoryName : {}, AdminMenuRoleAccessPaths size : {}, isAddedCategory : {}", categoryName, amcra.getAdminMenuCategory().getAdminMenuRoleAccessPaths().size(), isAddedCategory);
             List<ResAdminMenuRoleAccessPathDto> finalResAdminMenuRoleAccessPathDtoList = resAdminMenuRoleAccessPathDtoList;
-            ResAdminMenuCategoryDto finalResAdminMenuCategoryDto = resAdminMenuCategoryDto;
-            amcra.getAdminMenuCategory().getAdminMenuRoleAccessPaths().stream().forEach(amrap -> {
 
-                if (amcra.getRole().equals(amrap.getRole())) {
+            ResAdminMenuCategoryDto finalResAdminMenuCategoryDto = resAdminMenuCategoryDto;
+            log.info(">>>>>>>>>>>>> categoryName : {}, AdminMenuRoleAccessPaths size : {}, isAddedCategory : {}", categoryName, amrapList.stream().filter(amrap1 -> amrap1.getRole().getId().equals(r.getRole().getId())).count(), isAddedCategory);
+
+            amrapList.stream()
+                    .filter(amrap -> amcra.getAdminMenuCategory().equals(amrap.getAdminMenu().getAdminMenuCategory()))
+                    .forEach(amrap -> {
 
                     boolean isEmptyRapl = CollectionUtils.isEmpty(finalResAdminMenuCategoryDto.getRoleAccessPathList());
                     boolean isAddedMenu = isEmptyRapl ? false
@@ -219,12 +285,12 @@ public class UserService {
 
                         finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
                         finalResAdminMenuCategoryDto.setRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
-                        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> menuName : {}, menuUrl : {}", amrap.getAdminMenu().getMenuName(), amrap.getAdminMenu().getMenuUrl());
                     }
-                }
+//                        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> menuName : {}, menuUrl : {}, rolename :{}, rname : {}", amrap.getAdminMenu().getMenuName(), amrap.getAdminMenu().getMenuUrl(), amrap.getRole().getRoleName(), r.getRole().getRoleName());
+
             });
             adminMenuCategoryDtoList.add(finalResAdminMenuCategoryDto);
-        });
+        });*/
     }
 
     private UserRefreshToken mergeRefreshToken(User user) {
