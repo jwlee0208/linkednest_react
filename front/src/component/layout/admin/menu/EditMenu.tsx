@@ -70,9 +70,9 @@ function MergeMenu () {
     
     async function createMenu () : Promise<AdminMenu_> {
         return await axiosInstance({
-            method : "POST",
-            url : '/admin/menu',
-            params : { 
+            method  : "POST",
+            url     : '/admin/menu',
+            params  : { 
                   createUser    : menu.createUser
                 , categoryId    : menu.categoryId  
                 , name          : menu.name

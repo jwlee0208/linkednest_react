@@ -2,27 +2,19 @@ package net.linkednest.backoffice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.backoffice.dto.ReqAdminMenuCategoryDto;
-import net.linkednest.backoffice.dto.ReqAdminMenuDto;
-import net.linkednest.backoffice.dto.ResAdminMenuCategoryDto;
-import net.linkednest.backoffice.dto.ResAdminMenuDto;
-import net.linkednest.backoffice.repository.AdminMenuCategoryRepository;
+import net.linkednest.backoffice.dto.menu.ReqAdminMenuDto;
+import net.linkednest.backoffice.dto.menu.ResAdminMenuDto;
 import net.linkednest.backoffice.repository.AdminMenuRepository;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.entity.AdminMenu;
 import net.linkednest.common.entity.AdminMenuCategory;
-import net.linkednest.common.entity.Authority;
 import net.linkednest.common.entity.User;
 import net.linkednest.www.dto.CommonResDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
-import net.linkednest.www.repository.UserProfileRepository;
 import net.linkednest.www.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +29,6 @@ public class AdminMenuService {
 
     private final AdminMenuRepository adminMenuRepository;
     private final UserRepository userRepository;
-
     private final AdminMenuCategoryService adminMenuCategoryService;
     public List<ResAdminMenuDto> getAdminMenuList() {
         List<ResAdminMenuDto> adminMenuList = new ArrayList<>();
@@ -101,7 +92,6 @@ public class AdminMenuService {
             if (StringUtils.equals(editType, "UPDATE")) {
                 Optional<AdminMenu> adminMenuOptional = adminMenuRepository.findById(menuId);
                 if (adminMenuOptional.isPresent()) {
-
                     adminMenu = adminMenuOptional.get();
                     adminMenu.setUpdateDate(new Date());
                     adminMenu.setUpdateUser(editUser);
@@ -109,6 +99,7 @@ public class AdminMenuService {
             } else {
                 adminMenu.setCreateDate(new Date());
                 adminMenu.setCreateUser(editUser);
+                adminMenu.setIsActive(true);
             }
             adminMenu.setAdminMenuCategory(adminMenuCategory);
             adminMenu.setMenuName(reqAdminMenuObj.getName());

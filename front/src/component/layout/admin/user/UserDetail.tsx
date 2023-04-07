@@ -118,7 +118,6 @@ function UserDetail() {
             <Grid container alignItems="center" sx={{ m: 0 }}>
                 <Grid item xs={11}>
                     <Typography variant="h5">User Basic Info</Typography>
-
                 </Grid>
                 <Grid item xs={1}>
                     <IconButton aria-label="edit" onClick={(e) => goEditUserPage(e)}>

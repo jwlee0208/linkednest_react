@@ -9,4 +9,14 @@ export interface MenuRole_ {
     menuUrl          : string,
     roleId           : number,
     roleName         : string,
+    createUserNo     : number,
+    updateUserNo     : number,
 }
+
+export interface RoleList_ extends Array<Role_> {}
+export interface Role_ {
+    roleId : number,
+    roleName : string,
+    roleDesc : string,
+}
+
