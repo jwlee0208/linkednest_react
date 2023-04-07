@@ -78,8 +78,7 @@ function UserRoleList() {
                 <TableBody>      
         {
             userRoleList.slice(offset, offset+limit).map((userRole, index) => (
-
-              <TableRow>      
+              <TableRow key={index + offset + 1}>      
                 <TableCell>{index + offset + 1}</TableCell>
                 <TableCell>{userRole.roleId}</TableCell>
                 <TableCell>{userRole.roleName}</TableCell>

@@ -82,7 +82,7 @@ function MenuRoleList() {
                     <TableBody>      
             {
                 menuRoleList.slice(offset, offset+limit).map((menuRole, index) => (
-                        <TableRow>      
+                        <TableRow key={index + offset + 1}>      
                             <TableCell>{index + offset + 1}</TableCell>
                             <TableCell>{menuRole.id}</TableCell>
                             <TableCell>{menuRole.menuCategoryName}</TableCell>
