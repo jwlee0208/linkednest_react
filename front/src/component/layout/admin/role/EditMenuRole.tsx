@@ -78,7 +78,7 @@ function EditMenuRole() {
         createMenuRoleCall().then((res) => (
             navigate('/admin/role/menu/list')
         )).catch((err) => (
-            console.log('err : ', err)
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)  
         ));
     }
 
@@ -87,7 +87,7 @@ function EditMenuRole() {
         updateMenuRoleCall().then((res) => (
             navigate('/admin/role/menu/list')
         )).catch((err) => (
-            console.log('err : ', err)
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)  
         ));
     }
 
@@ -140,16 +140,16 @@ function EditMenuRole() {
         axiosInstance
             .get('/admin/menu/category/list')
                 .then((res) => setMenuCategoryList(res.data))
-                .catch((err) => console.log('err : ', err));
+                .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
         axiosInstance
             .get('/admin/menu/list')
                 .then((res) => setMenuList(res.data))
-                .catch((err) => console.log('err : ', err));
+                .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
         
         axiosInstance.get('/admin/role/list')
             .then((res) => setRoleList(res.data))
-            .catch((err) => console.log('err : ', err));
+            .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
     }, [])
 
     return (

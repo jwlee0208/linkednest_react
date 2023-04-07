@@ -23,7 +23,7 @@ function MenuDetail () {
         }).then(res => (
             res.status === 200 ? navigate('/admin/menu/list') : alert(`occurred exception : [${res.data.returnCode}]`)
         )).catch(err => (
-            console.log('err : ', err)    
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)     
         ))
     }
 

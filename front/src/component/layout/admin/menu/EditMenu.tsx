@@ -63,8 +63,8 @@ function MergeMenu () {
         createMenu().then((res) => (
             // console.log('res : ', res)  
             navigate('/admin/menu/list')
-        )).catch(error => (
-            console.log('error : ', error)
+        )).catch(err => (
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)  
         ));
     }
     
@@ -97,8 +97,8 @@ function MergeMenu () {
         .then(res => 
             navigate('/admin/menu/list')
         )
-        .catch(error => 
-            console.log('error : ', error)    
+        .catch(err => 
+            alert(`[${err.code}][${err.response.status}] ${err.message}`)    
         );
     }
 
@@ -111,7 +111,7 @@ function MergeMenu () {
         axiosInstance
             .get('/admin/menu/category/list')
                 .then((res) => setMenuCategoryList(res.data))
-                .catch((err) => console.log('err : ', err));
+                .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
         if (editType === 'edit') {
             const menuObj = location.state.menu;
