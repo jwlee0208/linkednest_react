@@ -6,7 +6,7 @@ import { axiosInstance } from '../../../..';
 import { AdminMenu_, MenuCategoryList_, MenuCategory_ } from '.';
 import { useNavigate, useLocation } from 'react-router';
 
-function MergeMenu () {
+function EditMenu () {
 
     const navigate = useNavigate();
     const userInfo = useAppSelect(getUserInfo);
@@ -186,4 +186,4 @@ function MergeMenu () {
     )
 }
 
-export default MergeMenu;
+export default EditMenu;
