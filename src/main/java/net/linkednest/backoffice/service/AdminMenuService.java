@@ -41,7 +41,7 @@ public class AdminMenuService {
     private final AdminMenuCategoryService adminMenuCategoryService;
     public List<ResAdminMenuDto> getAdminMenuList() {
         List<ResAdminMenuDto> adminMenuList = new ArrayList<>();
-        adminMenuRepository.findAll(Sort.by(Sort.Direction.DESC, "adminMenuCategory")).forEach(amr -> {
+        adminMenuRepository.findAllByIsActive(true, Sort.by(Sort.Direction.DESC, "adminMenuCategory")).forEach(amr -> {
             ResAdminMenuDto adminMenuObj = new ResAdminMenuDto();
             adminMenuObj.setId(amr.getId());
             adminMenuObj.setName(amr.getMenuName());
@@ -52,6 +52,14 @@ public class AdminMenuService {
             adminMenuList.add(adminMenuObj);
         });
         return adminMenuList;
+    }
+
+    public AdminMenu getAdminMenu(Long menuId) {
+        Optional<AdminMenu> adminMenuOptional = this.adminMenuRepository.findById(menuId);
+        if (adminMenuOptional.isPresent()) {
+            return adminMenuOptional.get();
+        }
+        return null;
     }
 
     public CommonResDto deleteAdminMenu(ReqAdminMenuDto reqAdminMenuObj) {
@@ -93,13 +101,14 @@ public class AdminMenuService {
             if (StringUtils.equals(editType, "UPDATE")) {
                 Optional<AdminMenu> adminMenuOptional = adminMenuRepository.findById(menuId);
                 if (adminMenuOptional.isPresent()) {
+
                     adminMenu = adminMenuOptional.get();
-                    adminMenu.setCreateDate(new Date());
-                    adminMenu.setCreateUser(editUser);
+                    adminMenu.setUpdateDate(new Date());
+                    adminMenu.setUpdateUser(editUser);
                 }
             } else {
-                adminMenu.setUpdateDate(new Date());
-                adminMenu.setUpdateUser(editUser);
+                adminMenu.setCreateDate(new Date());
+                adminMenu.setCreateUser(editUser);
             }
             adminMenu.setAdminMenuCategory(adminMenuCategory);
             adminMenu.setMenuName(reqAdminMenuObj.getName());

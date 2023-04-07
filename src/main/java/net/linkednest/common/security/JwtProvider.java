@@ -33,7 +33,7 @@ public class JwtProvider {
 
     private Key secretKey;
 
-    private final long expireDuration = 1000L * 60 * 60; // 1 hour
+    private final long expireDuration = 1000L * 60 * 60 * 2; // 2 hour
 
     private final CustomUserDetailService userDetailService;
 

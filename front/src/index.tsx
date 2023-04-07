@@ -9,7 +9,6 @@ import App                        from './App';
 import reportWebVitals            from './reportWebVitals';
 import axios                      from 'axios';
 import store                      from './store';
-import jwtDecode                  from 'jwt-decode';
 import './index.scss';
 
 export const axiosInstance = axios.create({

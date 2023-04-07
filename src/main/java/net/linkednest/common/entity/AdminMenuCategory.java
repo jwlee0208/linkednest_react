@@ -52,14 +52,4 @@ public class AdminMenuCategory {
         this.menus = menu;
         menu.stream().forEach(o -> o.setAdminMenuCategory(this));
     }
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "adminMenuCategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<AdminMenuRoleAccessPath> adminMenuRoleAccessPaths = new ArrayList<>();
-
-    public void setAdminMenuRoleAccessPaths(List<AdminMenuRoleAccessPath> adminMenuRoleAccessPaths) {
-        this.adminMenuRoleAccessPaths = adminMenuRoleAccessPaths;
-        adminMenuRoleAccessPaths.stream().forEach(o -> o.setAdminMenuCategory(this));
-    }
 }

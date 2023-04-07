@@ -30,20 +30,20 @@ public class AdminMenuRoleAccessPath {
     @JsonIgnore
     private Role role;
 
-    private Boolean isViewAdminMenuList;
+    @JsonBackReference
+    @JoinColumn(name = "createUserNo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User createUser;
     private Date createDate;
 
-    private Date updateDate;
-
-    public void setAdminMenuCategory(AdminMenuCategory adminMenuCategory) {
-        this.adminMenuCategory = adminMenuCategory;
-    }
 
     @JsonBackReference
-    @JoinColumn(name = "adminMenuCategoryId")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "updateUserNo")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private AdminMenuCategory adminMenuCategory;
+    private User updateUser;
 
+    private Date updateDate;
 
 }
