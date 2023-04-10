@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "user")
+@ToString(exclude = {"roles", "refreshToken"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,12 +3,15 @@ package net.linkednest.common.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import net.minidev.json.annotate.JsonIgnore;
+
+import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "adminMenuCategoryRoleAccess")
-
+@ToString(exclude = {"adminMenuCategory", "role", "updateUser", "createUser"})
 public class AdminMenuCategoryRoleAccess {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +39,22 @@ public class AdminMenuCategoryRoleAccess {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @JsonBackReference
+    @JoinColumn(name = "createUserNo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User createUser;
+    private Date createDate;
+
+
+    @JsonBackReference
+    @JoinColumn(name = "updateUserNo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User updateUser;
+
+    private Date updateDate;
+
 
 }

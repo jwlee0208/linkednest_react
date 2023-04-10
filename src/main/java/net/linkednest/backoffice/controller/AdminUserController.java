@@ -7,29 +7,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.linkednest.backoffice.service.AdminUserService;
-import net.linkednest.common.entity.AdminMenuCategory;
-import net.linkednest.common.entity.Authority;
 import net.linkednest.common.entity.User;
 import net.linkednest.www.dto.user.get.ResUserDto;
-import net.linkednest.www.repository.UserRepository;
-import net.linkednest.www.service.UserService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/admin/user")
 @RequiredArgsConstructor
 public class AdminUserController {
-
     private final AdminUserService adminUserService;
-
-    private final UserService userService;
-
     @Operation(
             summary = "어드민 >> 유저 목록 조회 API",
             description = "어드민 >> 유저 목록 조회 API입니다.",

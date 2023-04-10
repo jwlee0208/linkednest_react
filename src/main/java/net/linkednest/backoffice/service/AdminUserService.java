@@ -7,15 +7,12 @@ import net.linkednest.common.entity.RoleAccessPath;
 import net.linkednest.common.entity.User;
 import net.linkednest.common.entity.UserProfile;
 import net.linkednest.www.dto.user.get.ResUserDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.www.dto.user.role.ResUserRoleAccessPathDto;
 import net.linkednest.www.dto.user.role.ResUserRoleDto;
 import net.linkednest.www.dto.user.signup.ResUserProfileDto;
-import net.linkednest.www.repository.UserProfileRepository;
-import net.linkednest.www.repository.UserRepository;
+import net.linkednest.common.repository.UserProfileRepository;
+import net.linkednest.common.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +23,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AdminUserService {
-    private final UserRepository userRepository;
-
+    private final UserRepository        userRepository;
     private final UserProfileRepository userProfileRepository;
 
     public List<ResUserDto> userList() {
-
         List<ResUserDto> userList = new ArrayList<>();
         userRepository.findAll().stream().forEach(u -> {
             userList.add(this.getUser(u));
         });
         return userList;
     }
-
     public ResUserDto getUser(String userId) {
         Optional<User> userOptional = userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
@@ -62,7 +56,6 @@ public class AdminUserService {
         userObj.setUserRoleInfoList(userRoleList);
         return userObj;
     }
-
     private ResUserProfileDto getUserProfile(User u) {
         Optional<UserProfile> upOptional = userProfileRepository.findByUser(u);
         ResUserProfileDto userProfileObj = new ResUserProfileDto();
@@ -74,7 +67,6 @@ public class AdminUserService {
         }
         return userProfileObj;
     }
-
     private ResUserRoleDto getUserRole(Authority r) {
         ResUserRoleDto userRoleObj = new ResUserRoleDto();
         userRoleObj.setRoleName(r.getRole().getRoleName());
@@ -93,6 +85,4 @@ public class AdminUserService {
         userRoleAccessPathObj.setType(ap.getType());
         return userRoleAccessPathObj;
     }
-
-
 }

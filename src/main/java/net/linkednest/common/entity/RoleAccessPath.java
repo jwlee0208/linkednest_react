@@ -3,6 +3,7 @@ package net.linkednest.common.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "roleAccessPath")
+@ToString(exclude = {"role"})
 public class RoleAccessPath {
 
     @Id

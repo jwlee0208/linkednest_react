@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import net.minidev.json.annotate.JsonIgnore;
 
 @Data
 @Entity
 @Table(name = "authority")
+@ToString(exclude = {"user", "role"})
 public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

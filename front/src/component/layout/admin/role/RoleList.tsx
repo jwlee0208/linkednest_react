@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { axiosInstance } from "../../../..";
+import { useEffect, useState }  from "react";
+import { axiosInstance }        from "../../../..";
+import { RoleList_, Role_ }     from ".";
+import { useNavigate }          from "react-router";
 import { Box, Button, ButtonGroup, Divider, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { RoleList_, Role_ } from ".";
-import { useNavigate } from "react-router";
 
 function RoleList() {
 
     const [roleList, setRoleList] = useState<RoleList_>([{
-        roleId : 0,
+        roleId   : 0,
         roleName : '',
         roleDesc : '',
     }]);
 
-    const navigate = useNavigate();
+    const navigate          = useNavigate();
     const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
-    const offset = (page - 1) * limit;
+    const [page, setPage]   = useState(1);
+    const offset            = (page - 1) * limit;
 
     let listCnt = roleList.length;
     let pageCnt = Math.ceil(listCnt/10);
@@ -65,7 +65,7 @@ function RoleList() {
                     <TableBody>
 {
     roleList.slice(offset, offset+limit).map((role, index) => (
-                        <TableRow key={index + offset + 1}>
+                        <TableRow key={`${role.roleId}`}>
                             <TableCell>{index + offset + 1}</TableCell>
                             <TableCell>{role.roleId}</TableCell>
                             <TableCell>{role.roleName}</TableCell>

@@ -2,10 +2,7 @@ package net.linkednest.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
@@ -15,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "role")
+@ToString(exclude = {"accessPaths", "adminMenuCategoryRoleAccesses"})
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +28,6 @@ public class Role {
     @JsonManagedReference
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
-
     private List<RoleAccessPath> accessPaths;
 
     public void setAccessPaths(List<RoleAccessPath> roleAccessPaths) {

@@ -1,8 +1,7 @@
-import { useLocation, useNavigate }                                  from "react-router";
+import { useLocation, useNavigate }                     from "react-router";
 import { useState, useEffect }                          from "react";
 import { axiosInstance }                                from "../../../..";
 import { User }                                         from "../../../../store/modules/user";
-import { Box, Typography, Divider, Grid, FormLabel, IconButton }    from "@mui/material";
 // import EditIcon from '@material-ui/core/Icon'
 import Table                                            from "@mui/material/Table";
 import TableBody                                        from "@mui/material/TableBody";
@@ -15,11 +14,13 @@ import ArrowForwardIosSharpIcon                         from '@mui/icons-materia
 import MuiAccordion, { AccordionProps }                 from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps, }  from '@mui/material/AccordionSummary';
 import MuiAccordionDetails                              from '@mui/material/AccordionDetails';
+import {Edit}                                           from '@mui/icons-material'
+import { Box, Typography, Divider, Grid
+                            , FormLabel, IconButton }   from "@mui/material";
 import Parser                                           from 'html-react-parser';
-import {Edit} from '@mui/icons-material'
 
 function UserDetail() {
-    const navigate = useNavigate();
+    const navigate  = useNavigate();
     const Accordion = styled((props: AccordionProps) => (
         <MuiAccordion disableGutters elevation={0} square {...props} />
       ))(({ theme }) => ({
@@ -58,7 +59,7 @@ function UserDetail() {
     const location = useLocation();
     const [user, setUser] = useState<User>({
         userNo                  : 0,
-        userId                : '',
+        userId                  : '',
         password                : '',
         nickname                : '',
         email                   : '',

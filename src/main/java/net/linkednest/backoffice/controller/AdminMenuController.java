@@ -24,8 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/admin/menu")
 public class AdminMenuController {
-    private final AdminMenuCategoryService adminMenuCategoryService;
-    private final AdminMenuService adminMenuService;
+    private final AdminMenuCategoryService  adminMenuCategoryService;
+    private final AdminMenuService          adminMenuService;
 
     @Operation(
         summary = "어드민 카테고리 & 메뉴 목록 조회 API",
@@ -43,7 +43,7 @@ public class AdminMenuController {
       )
     @GetMapping(value = "/category/list")
     public ResponseEntity<List<ResAdminMenuCategoryDto>> getAdminMenuCategoryList() {
-        return ResponseEntity.ok(this.adminMenuCategoryService.getAdminMenuList());
+        return ResponseEntity.ok(this.adminMenuCategoryService.getAdminMenuCategoryList());
     }
 
     @Operation(

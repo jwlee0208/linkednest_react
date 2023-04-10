@@ -17,8 +17,11 @@ import EditMenu           from "../../admin/menu/EditMenu";
 import MenuRoleList       from "../../admin/role/menu/MenuRoleList";
 import EditMenuRole       from "../../admin/role/menu/EditMenuRole";
 import MenuRoleDetail     from "../../admin/role/menu/MenuRoleDetail";
-import RoleList from "../../admin/role/RoleList";
-import RoleDetail from "../../admin/role/RoleDetail";
+import RoleList           from "../../admin/role/RoleList";
+import RoleDetail         from "../../admin/role/RoleDetail";
+import CategoryRoleList   from "../../admin/role/category/CategoryRoleList";
+import EditCategoryRole   from "../../admin/role/category/EditCategoryRole";
+import CategoryRoleDetail from "../../admin/role/category/CategoryRoleDetail";
 
 type ContentProps = {
     isLogin : boolean;
@@ -40,6 +43,9 @@ function AdminContent ({
         <Route path='/admin/role/menu/list'       element={<MenuRoleList/>}/> 
         <Route path="/admin/role/menu/edit"       element={<EditMenuRole/>}/> 
         <Route path="/admin/role/menu/detail"     element={<MenuRoleDetail/>}/> 
+        <Route path='/admin/role/category/list'   element={<CategoryRoleList/>}/> 
+        <Route path='/admin/role/category/edit'   element={<EditCategoryRole/>}/> 
+        <Route path='/admin/role/category/detail' element={<CategoryRoleDetail/>}/>        
         <Route path='/admin/user/list'            element={<UserList/>}/>
         <Route path='/admin/user/detail'          element={<UserDetail/>}/>
         <Route path='/admin/user/edit'            element={<EditUser/>}/>
@@ -50,7 +56,6 @@ function AdminContent ({
         <Route path="/admin/menu/list"            element={<MenuList/>}/>
         <Route path="/admin/menu/detail"          element={<MenuDetail/>}/>
         <Route path="/admin/menu/edit"            element={<EditMenu/>}/>
-
       </Routes>
     )
 }

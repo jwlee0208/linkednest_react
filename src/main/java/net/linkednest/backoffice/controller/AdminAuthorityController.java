@@ -2,11 +2,14 @@ package net.linkednest.backoffice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.backoffice.dto.authority.ReqMenuCategoryRoleAccessDto;
 import net.linkednest.backoffice.dto.authority.ResAuthorityDto;
+import net.linkednest.backoffice.dto.authority.ResMenuCategoryRoleAccessDto;
 import net.linkednest.backoffice.dto.authority.ResRoleDto;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
 import net.linkednest.backoffice.service.AdminAuthorityService;
+import net.linkednest.backoffice.service.AdminMenuCategoryRoleAccessService;
 import net.linkednest.backoffice.service.AdminRoleService;
 import net.linkednest.www.dto.CommonResDto;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/admin/role")
 public class AdminAuthorityController {
-    private final AdminRoleService adminRoleService;
-
-    private final AdminAuthorityService adminAuthorityService;
+    private final AdminRoleService                   adminRoleService;
+    private final AdminAuthorityService              adminAuthorityService;
+    private final AdminMenuCategoryRoleAccessService adminMenuCategoryRoleAccessService;
 
     @RequestMapping(value = "/user/list", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<List<ResAuthorityDto>> getUserRoleList() {
@@ -48,9 +51,29 @@ public class AdminAuthorityController {
         return ResponseEntity.ok((this.adminAuthorityService.deleteMenuRole(reqAdminMenuAccessPathObj)));
     }
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list")
     public ResponseEntity<List<ResRoleDto>> getRoleList() {
         return ResponseEntity.ok(adminRoleService.getRoleList());
+    }
+
+    @GetMapping(value = "/category/list")
+    public ResponseEntity<List<ResMenuCategoryRoleAccessDto>> getCategoryRoleList() {
+        return ResponseEntity.ok(adminMenuCategoryRoleAccessService.getAdminMenuCategoryRoleAccessList());
+    }
+
+    @PostMapping(value = "/category")
+    public ResponseEntity<ResMenuCategoryRoleAccessDto> createCategoryRole(ReqMenuCategoryRoleAccessDto reqMenuCategoryRoleAccessObj) {
+        return ResponseEntity.ok(this.adminAuthorityService.editCategoryRole(reqMenuCategoryRoleAccessObj));
+    }
+
+    @PatchMapping(value = "/category")
+    public ResponseEntity<ResMenuCategoryRoleAccessDto> updateCategoryRole(ReqMenuCategoryRoleAccessDto reqMenuCategoryRoleAccessObj) {
+        return ResponseEntity.ok(this.adminAuthorityService.editCategoryRole(reqMenuCategoryRoleAccessObj));
+    }
+
+    @DeleteMapping(value = "/category")
+    public ResponseEntity<CommonResDto> deleteCategoryRole(ReqMenuCategoryRoleAccessDto reqMenuCategoryRoleAccessObj) {
+        return ResponseEntity.ok((this.adminAuthorityService.deleteCategoryRole(reqMenuCategoryRoleAccessObj)));
     }
 
 }

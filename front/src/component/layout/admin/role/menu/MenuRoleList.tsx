@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { axiosInstance } from "../../../../..";
+import { useEffect, useState }      from "react";
+import { axiosInstance }            from "../../../../..";
 import { MenuRoleList_, MenuRole_ } from ".";
-import { Box, Breadcrumbs, Divider, Typography, Link, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Pagination, Button, ButtonGroup } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Box, Breadcrumbs, Divider, Typography, Link, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Pagination, Button, ButtonGroup } 
+                                    from "@mui/material";
+import { useNavigate }              from "react-router";
 
 function MenuRoleList() {
 
@@ -61,7 +62,7 @@ function MenuRoleList() {
             </ButtonGroup>
             <br/>
             <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="javascript:void(0);">
+                <Link underline="hover" color="inherit">
                     Role
                 </Link>            
                 <Typography color="text.primary">Menu Role List</Typography>

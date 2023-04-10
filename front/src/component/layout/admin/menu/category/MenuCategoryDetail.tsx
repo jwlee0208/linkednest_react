@@ -1,7 +1,8 @@
-import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } 
+                                    from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
-import { MenuCategory_ } from "..";
-import { axiosInstance } from "../../../../..";
+import { MenuCategory_ }            from "..";
+import { axiosInstance }            from "../../../../..";
 
 function MenuCategoryDetail () {
 

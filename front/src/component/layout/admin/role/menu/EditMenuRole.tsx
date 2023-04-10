@@ -61,7 +61,6 @@ function EditMenuRole() {
     const handleCategoryChange = (event: SelectChangeEvent) => {
         event.preventDefault();
         setMenuRole({...menuRole, menuCategoryId : Number(event.target.value)});
-        // menuRole.menuCategoryId = Number(event.target.value);
     }
 
     const handleMenuChange = (event: SelectChangeEvent) => {
@@ -97,10 +96,10 @@ function EditMenuRole() {
             method  : 'post',
             url     : '/admin/role/menu',
             params  : {
-                  createUserNo : menuRole.createUserNo
-                , roleId : menuRole.roleId
+                  createUserNo   : menuRole.createUserNo
+                , roleId         : menuRole.roleId
                 , menuCategoryId : menuRole.menuCategoryId
-                , menuId : menuRole.menuId
+                , menuId         : menuRole.menuId
             }
         });        
     }
@@ -110,11 +109,11 @@ function EditMenuRole() {
             method  : 'patch',
             url     : '/admin/role/menu',
             params  : {
-                  id            : menuRole.id
-                , createUserNo  : menuRole.createUserNo
-                , roleId        : menuRole.roleId
+                  id                : menuRole.id
+                , createUserNo      : menuRole.createUserNo
+                , roleId            : menuRole.roleId
                 , menuCategoryId    : menuRole.menuCategoryId
-                , menuId        : menuRole.menuId
+                , menuId            : menuRole.menuId
             }
         });        
     }
@@ -125,11 +124,11 @@ function EditMenuRole() {
             const menuRoleObj = location.state.menuRole;
             setMenuRole({
                   ...menuRole
-                , id : menuRoleObj.id
+                , id             : menuRoleObj.id
                 , menuCategoryId : menuRoleObj.menuCategoryId
-                , menuId : menuRoleObj.menuId
-                , roleId : menuRoleObj.roleId
-                , updateUserNo : userInfo.userNo
+                , menuId         : menuRoleObj.menuId
+                , roleId         : menuRoleObj.roleId
+                , updateUserNo   : userInfo.userNo
             })
         } else if (editType === 'create') {
             setMenuRole({
@@ -140,16 +139,16 @@ function EditMenuRole() {
 
         axiosInstance
             .get('/admin/menu/category/list')
-                .then((res) => setMenuCategoryList(res.data))
+                .then((res)  => setMenuCategoryList(res.data))
                 .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
         axiosInstance
             .get('/admin/menu/list')
-                .then((res) => setMenuList(res.data))
+                .then((res)  => setMenuList(res.data))
                 .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
         
         axiosInstance.get('/admin/role/list')
-            .then((res) => setRoleList(res.data))
+            .then((res)  => setRoleList(res.data))
             .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
     }, [])
 
@@ -168,7 +167,7 @@ function EditMenuRole() {
                         <MenuItem value={0}>::: 선택 :::</MenuItem> 
                 {
                     menuCategoryList.map(mc => (
-                        <MenuItem value={mc.categoryId}>{mc.categoryName}</MenuItem>
+                        <MenuItem key={mc.categoryId} value={mc.categoryId}>{mc.categoryName}</MenuItem>
                     ))
                 }
                     </Select>           
@@ -186,7 +185,7 @@ function EditMenuRole() {
                 {
                     menuList.filter(m => m.categoryId === menuRole.menuCategoryId)
                             .map(m => (
-                        <MenuItem value={m.id}>{m.name}</MenuItem>
+                        <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>
                     ))
                 }
                     </Select>           
@@ -203,7 +202,7 @@ function EditMenuRole() {
                         <MenuItem value={0}>::: 선택 :::</MenuItem> 
                 {
                     roleList.map(r => (
-                        <MenuItem value={r.roleId}>{r.roleName}</MenuItem>
+                        <MenuItem key={r.roleId} value={r.roleId}>{r.roleName}</MenuItem>
                     ))
                 }
                     </Select>           

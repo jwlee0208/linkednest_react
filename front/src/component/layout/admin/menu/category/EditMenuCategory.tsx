@@ -1,9 +1,10 @@
-import { useEffect, useState }                          from 'react'
-import { useAppSelect }                      from '../../../../../store/index.hooks';
-import { getUserInfo }                       from '../../../../../store/modules/user';
-import { Box, FormControlLabel, FormControl, FormLabel, RadioGroup, Radio, Grid, TextField, Typography, Button } from "@mui/material";
-import { axiosInstance } from '../../../../..';
-import { MenuCategory_ } from '..';
+import { useEffect, useState }      from 'react'
+import { useAppSelect }             from '../../../../../store/index.hooks';
+import { getUserInfo }              from '../../../../../store/modules/user';
+import { axiosInstance }            from '../../../../..';
+import { MenuCategory_ }            from '..';
+import { Box, FormControlLabel, FormControl, FormLabel, RadioGroup, Radio, Grid, TextField, Typography, Button } 
+                                    from "@mui/material";
 import { useNavigate, useLocation } from 'react-router';
 
 function EditMenuCategory () {
@@ -43,7 +44,6 @@ function EditMenuCategory () {
         setMenuCategory({...menuCategory, createUser : userInfo.userNo});
         menuCategory.createUser = userInfo.userNo;
         createMenuCategory().then((res) => (
-            // console.log('res : ', res)  
             navigate('/admin/menu/category/list')
         )).catch(err => (
             alert(`[${err.code}][${err.response.status}] ${err.message}`)  
@@ -85,10 +85,10 @@ function EditMenuCategory () {
             const menuCategoryObj = location.state.menuCategory;
             setMenuCategory({
                 ...menuCategory
-                , categoryId : menuCategoryObj.categoryId
-                , categoryName : menuCategoryObj.categoryName
-                , isActive : menuCategoryObj.isActive
-                , updateUser : userInfo.userNo
+                , categoryId    : menuCategoryObj.categoryId
+                , categoryName  : menuCategoryObj.categoryName
+                , isActive      : menuCategoryObj.isActive
+                , updateUser    : userInfo.userNo
             })    
         } else if (editType === 'create') {
             setMenuCategory({
