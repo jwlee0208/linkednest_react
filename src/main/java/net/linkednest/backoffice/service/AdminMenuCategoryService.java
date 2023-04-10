@@ -4,13 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuCategoryDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
-import net.linkednest.backoffice.repository.AdminMenuCategoryRepository;
-import net.linkednest.backoffice.repository.AdminMenuRepository;
+import net.linkednest.common.repository.AdminMenuCategoryRepository;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.entity.AdminMenuCategory;
 import net.linkednest.common.entity.User;
 import net.linkednest.www.dto.CommonResDto;
-import net.linkednest.www.repository.UserRepository;
+import net.linkednest.common.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +22,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AdminMenuCategoryService {
-    private final UserRepository userRepository;
-    private final AdminMenuCategoryRepository adminMenuCategoryRepository;
+    private final UserRepository                userRepository;
+    private final AdminMenuCategoryRepository   adminMenuCategoryRepository;
 
-    private final AdminMenuRepository adminMenuRepository;
-    public List<ResAdminMenuCategoryDto> getAdminMenuList() {
+    public List<ResAdminMenuCategoryDto> getAdminMenuCategoryList() {
         List<ResAdminMenuCategoryDto> menuCategoryList = new ArrayList<>();
         adminMenuCategoryRepository.findAll().stream().forEach(amcr -> {
             ResAdminMenuCategoryDto menuCategoryObj = new ResAdminMenuCategoryDto();
@@ -40,23 +38,22 @@ public class AdminMenuCategoryService {
     }
 
     public ResAdminMenuCategoryDto save(ReqAdminMenuCategoryDto adminMenuCategoryObj) {
-        User user              = null;
-        AdminMenuCategory adminMenuCategory = new AdminMenuCategory();
-        AdminMenuCategory savedObj          = null;
         long categoryId = (adminMenuCategoryObj.getCategoryId() == null) ? 0L : adminMenuCategoryObj.getCategoryId();
-        int returnCode = 10000;
+        int returnCode  = 10000;
+        ResAdminMenuCategoryDto resAdminMenuCategoryObj = new ResAdminMenuCategoryDto();
+        Optional<User>          userOptional            = userRepository.findById(categoryId > 0L
+                ? adminMenuCategoryObj.getUpdateUser() : adminMenuCategoryObj.getCreateUser());
+        User                    user                    = null;
+        AdminMenuCategory       adminMenuCategory       = new AdminMenuCategory();
+        AdminMenuCategory       savedObj                = null;
         if (categoryId > 0L) {
             Optional<AdminMenuCategory> adminMenuCategoryOptional = adminMenuCategoryRepository.findById(categoryId);
             if (adminMenuCategoryOptional.isPresent()) {
                 adminMenuCategory = adminMenuCategoryOptional.get();
             }
         }
-        Optional<User> userOptional = userRepository.findById(categoryId > 0L ? adminMenuCategoryObj.getUpdateUser() : adminMenuCategoryObj.getCreateUser());
         if (userOptional.isPresent()) {
             user = userOptional.get();
-        }
-
-        if (user != null) {
             adminMenuCategory.setCategoryName(adminMenuCategoryObj.getCategoryName());
             adminMenuCategory.setIsActive(adminMenuCategoryObj.getIsActive());
             if (categoryId > 0L) {
@@ -68,15 +65,16 @@ public class AdminMenuCategoryService {
             }
             log.info("[{}.{}] adminMenuCategoryObj : {}", this.getClass().getName(), "save", adminMenuCategoryObj.toString());
             savedObj = adminMenuCategoryRepository.saveAndFlush(adminMenuCategory);
+            if (ObjectUtils.isNotEmpty(savedObj)) {
+                resAdminMenuCategoryObj.setCategoryId(savedObj.getId());
+                resAdminMenuCategoryObj.setCategoryName(savedObj.getCategoryName());
+            } else {
+                returnCode = 50000;
+            }
+        } else {
+            returnCode = 50000; // no user
         }
 
-        ResAdminMenuCategoryDto resAdminMenuCategoryObj = new ResAdminMenuCategoryDto();
-        if (ObjectUtils.isNotEmpty(savedObj)) {
-            resAdminMenuCategoryObj.setCategoryId(savedObj.getId());
-            resAdminMenuCategoryObj.setCategoryName(savedObj.getCategoryName());
-        } else {
-            returnCode = 50000;
-        }
         resAdminMenuCategoryObj.setReturnCode(returnCode);
         resAdminMenuCategoryObj.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
 

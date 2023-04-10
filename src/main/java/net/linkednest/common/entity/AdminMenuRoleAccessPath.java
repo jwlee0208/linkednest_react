@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "adminMenuRoleAccessPath")
+@ToString(exclude = {"role", "adminMenu", "updateUser", "createUser"})
 public class AdminMenuRoleAccessPath {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package net.linkednest.backoffice.repository;
+package net.linkednest.common.repository;
 
 import net.linkednest.common.entity.AdminMenu;
 import org.springframework.data.domain.Sort;

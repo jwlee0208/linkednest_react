@@ -1,4 +1,4 @@
-package net.linkednest.www.repository;
+package net.linkednest.common.repository;
 
 import net.linkednest.common.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;

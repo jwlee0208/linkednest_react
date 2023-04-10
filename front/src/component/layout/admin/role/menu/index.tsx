@@ -12,3 +12,4 @@ export interface MenuRole_ {
     createUserNo     : number,
     updateUserNo     : number,
 }
+

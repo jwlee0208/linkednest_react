@@ -1,7 +1,7 @@
 package net.linkednest.common.security;
 
 import lombok.RequiredArgsConstructor;
-import net.linkednest.backoffice.repository.RoleAccessPathRepository;
+import net.linkednest.common.repository.RoleAccessPathRepository;
 import net.linkednest.common.entity.RoleAccessPath;
 import org.springframework.stereotype.Component;
 

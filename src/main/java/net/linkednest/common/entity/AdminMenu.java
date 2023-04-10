@@ -3,10 +3,7 @@ package net.linkednest.common.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "adminMenu")
+@ToString(exclude = {"adminMenuRoleAccessPaths", "adminMenuCategory", "updateUser", "createUser"})
 public class AdminMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +27,6 @@ public class AdminMenu {
     @JsonIgnore
     private AdminMenuCategory adminMenuCategory;
     private String menuName;
-
     private String menuUrl;
 
     @Column(columnDefinition = "boolean default false")

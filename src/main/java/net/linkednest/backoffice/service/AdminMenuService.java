@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuDto;
-import net.linkednest.backoffice.repository.AdminMenuRepository;
+import net.linkednest.common.repository.AdminMenuRepository;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.entity.AdminMenu;
 import net.linkednest.common.entity.AdminMenuCategory;
 import net.linkednest.common.entity.User;
 import net.linkednest.www.dto.CommonResDto;
-import net.linkednest.www.repository.UserRepository;
+import net.linkednest.common.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
@@ -25,11 +25,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AdminMenuService {
-
-
-    private final AdminMenuRepository adminMenuRepository;
-    private final UserRepository userRepository;
-    private final AdminMenuCategoryService adminMenuCategoryService;
+    private final AdminMenuRepository       adminMenuRepository;
+    private final UserRepository            userRepository;
+    private final AdminMenuCategoryService  adminMenuCategoryService;
     public List<ResAdminMenuDto> getAdminMenuList() {
         List<ResAdminMenuDto> adminMenuList = new ArrayList<>();
         adminMenuRepository.findAllByIsActive(true, Sort.by(Sort.Direction.DESC, "adminMenuCategory")).forEach(amr -> {

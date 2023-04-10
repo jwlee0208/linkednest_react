@@ -61,7 +61,7 @@ function MenuRoleList() {
             </ButtonGroup>
             <br/>
             <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="javascript:void(0);">
+                <Link underline="hover" color="inherit">
                     Role
                 </Link>            
                 <Typography color="text.primary">Menu Role List</Typography>

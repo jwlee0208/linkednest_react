@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { axiosInstance } from "../../../../..";
-import { Box, Button, ButtonGroup, Divider, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useEffect, useState }              from "react";
+import { useNavigate }                      from "react-router";
+import { axiosInstance }                    from "../../../../..";
 import { MenuCategoryList_, MenuCategory_ } from "..";
+import { Box, Button, ButtonGroup, Divider, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } 
+                                            from "@mui/material";
 
 function MenuCategoryList () {
 
     const navigate = useNavigate();
 
     const [menuCategoryList, setMenuCategoryList] = useState<MenuCategoryList_>([{
-        categoryId   : 0,
-        categoryName : '',
-        isActive : 'false',
-        createUser : 0,
-        updateUser : 0,
+        categoryId      : 0,
+        categoryName    : '',
+        isActive        : 'false',
+        createUser      : 0,
+        updateUser      : 0,
         returnCode      : 0,
         returnMsg       : '',
     }]);
 
     const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
+    const [page, setPage]   = useState(1);
     const offset = (page - 1) * limit;
 
     let listCnt = menuCategoryList.length;
@@ -65,7 +66,7 @@ function MenuCategoryList () {
                 <TableBody>
                 {
                     menuCategoryList.slice(offset, offset+limit).map((m, index) => (
-                        <TableRow key={index + offset + 1}>
+                        <TableRow key={`${m.categoryId}-${offset + 1}`}>
                             <TableCell>{m.categoryId}</TableCell>
                             <TableCell>{m.categoryName}</TableCell>
                             <TableCell>{m.isActive ? 'Active' : 'Inactive'}</TableCell>

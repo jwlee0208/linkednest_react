@@ -61,7 +61,6 @@ function EditMenuRole() {
     const handleCategoryChange = (event: SelectChangeEvent) => {
         event.preventDefault();
         setMenuRole({...menuRole, menuCategoryId : Number(event.target.value)});
-        // menuRole.menuCategoryId = Number(event.target.value);
     }
 
     const handleMenuChange = (event: SelectChangeEvent) => {
@@ -97,10 +96,10 @@ function EditMenuRole() {
             method  : 'post',
             url     : '/admin/role/menu',
             params  : {
-                  createUserNo : menuRole.createUserNo
-                , roleId : menuRole.roleId
+                  createUserNo   : menuRole.createUserNo
+                , roleId         : menuRole.roleId
                 , menuCategoryId : menuRole.menuCategoryId
-                , menuId : menuRole.menuId
+                , menuId         : menuRole.menuId
             }
         });        
     }
@@ -110,11 +109,11 @@ function EditMenuRole() {
             method  : 'patch',
             url     : '/admin/role/menu',
             params  : {
-                  id            : menuRole.id
-                , createUserNo  : menuRole.createUserNo
-                , roleId        : menuRole.roleId
+                  id                : menuRole.id
+                , createUserNo      : menuRole.createUserNo
+                , roleId            : menuRole.roleId
                 , menuCategoryId    : menuRole.menuCategoryId
-                , menuId        : menuRole.menuId
+                , menuId            : menuRole.menuId
             }
         });        
     }
