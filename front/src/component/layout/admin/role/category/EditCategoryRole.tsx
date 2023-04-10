@@ -120,11 +120,11 @@ function EditCategoryRole() {
         }
 
         axiosInstance.get('/admin/menu/category/list')
-            .then((res) => setMenuCategoryList(res.data))
+            .then((res)  => setMenuCategoryList(res.data))
             .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
         axiosInstance.get('/admin/role/list')
-        .then((res) => setRoleList(res.data))
+        .then((res)  => setRoleList(res.data))
         .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
     }, [])
@@ -143,7 +143,7 @@ function EditCategoryRole() {
                         <MenuItem value={0}>::: 선택 :::</MenuItem> 
                 {
                     menuCategoryList.map(mc => (
-                        <MenuItem value={mc.categoryId}>{mc.categoryName}</MenuItem>
+                        <MenuItem key={mc.categoryId} value={mc.categoryId}>{mc.categoryName}</MenuItem>
                     ))
                 }
                     </Select>           
@@ -160,7 +160,7 @@ function EditCategoryRole() {
                         <MenuItem value={0}>::: 선택 :::</MenuItem> 
                 {
                     roleList.map(r => (
-                        <MenuItem value={r.roleId}>{r.roleName}</MenuItem>
+                        <MenuItem key={r.roleId} value={r.roleId}>{r.roleName}</MenuItem>
                     ))
                 }
                     </Select>           

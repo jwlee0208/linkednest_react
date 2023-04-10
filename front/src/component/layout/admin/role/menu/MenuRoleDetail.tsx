@@ -4,8 +4,8 @@ import { MenuRole_ } from ".";
 import { axiosInstance } from "../../../../..";
 
 function MenuRoleDetail() {
-    const navigate      = useNavigate();
-    const location      = useLocation();
+    const navigate  = useNavigate();
+    const location  = useLocation();
     const menuRole  = location.state.menuRole;  
 
     const moveToEdit = (menuRole : MenuRole_, e: React.MouseEvent<HTMLElement>) => {

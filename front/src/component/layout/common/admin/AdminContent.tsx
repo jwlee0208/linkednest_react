@@ -17,10 +17,10 @@ import EditMenu           from "../../admin/menu/EditMenu";
 import MenuRoleList       from "../../admin/role/menu/MenuRoleList";
 import EditMenuRole       from "../../admin/role/menu/EditMenuRole";
 import MenuRoleDetail     from "../../admin/role/menu/MenuRoleDetail";
-import RoleList from "../../admin/role/RoleList";
-import RoleDetail from "../../admin/role/RoleDetail";
-import CategoryRoleList from "../../admin/role/category/CategoryRoleList";
-import EditCategoryRole from "../../admin/role/category/EditCategoryRole";
+import RoleList           from "../../admin/role/RoleList";
+import RoleDetail         from "../../admin/role/RoleDetail";
+import CategoryRoleList   from "../../admin/role/category/CategoryRoleList";
+import EditCategoryRole   from "../../admin/role/category/EditCategoryRole";
 import CategoryRoleDetail from "../../admin/role/category/CategoryRoleDetail";
 
 type ContentProps = {

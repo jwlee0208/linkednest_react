@@ -17,22 +17,22 @@ function EditMenu () {
     }
 
     const [menu, setMenu] = useState<AdminMenu_>({
-        id      : 0,
-        name    : '', 
-        url     : '',
-        show  : 'false',
-        categoryId : 0,
-        categoryName : '',
-        createUser : 0,
-        updateUser : 0,
+        id              : 0,
+        name            : '', 
+        url             : '',
+        show            : 'false',
+        categoryId      : 0,
+        categoryName    : '',
+        createUser      : 0,
+        updateUser      : 0,
      });
     
     const [menuCategoryList, setMenuCategoryList] = useState<MenuCategoryList_>([{
-        categoryId   : 0,
-        categoryName : '',
-        isActive : 'false',
-        createUser : 0,
-        updateUser : 0,
+        categoryId      : 0,
+        categoryName    : '',
+        isActive        : 'false',
+        createUser      : 0,
+        updateUser      : 0,
         returnCode      : 0,
         returnMsg       : '',
     }]);
@@ -61,7 +61,6 @@ function EditMenu () {
         setMenu({...menu, createUser : userInfo.userNo});
         menu.createUser = userInfo.userNo;
         createMenu().then((res) => (
-            // console.log('res : ', res)  
             navigate('/admin/menu/list')
         )).catch(err => (
             alert(`[${err.code}][${err.response.status}] ${err.message}`)  
@@ -110,20 +109,20 @@ function EditMenu () {
 
         axiosInstance
             .get('/admin/menu/category/list')
-                .then((res) => setMenuCategoryList(res.data))
+                .then((res)  => setMenuCategoryList(res.data))
                 .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
 
         if (editType === 'edit') {
             const menuObj = location.state.menu;
             setMenu({
                 ...menu
-                , categoryId : menuObj.categoryId
-                , categoryName : menuObj.categoryName
-                , id : menuObj.id
-                , name : menuObj.name
-                , url : menuObj.url
-                , show : menuObj.show
-                , updateUser : userInfo.userNo
+                , categoryId    : menuObj.categoryId
+                , categoryName  : menuObj.categoryName
+                , id            : menuObj.id
+                , name          : menuObj.name
+                , url           : menuObj.url
+                , show          : menuObj.show
+                , updateUser    : userInfo.userNo
             })    
         } else if (editType === 'create') {
             setMenu({
@@ -156,7 +155,7 @@ function EditMenu () {
                         <MenuItem value={0}>::: 선택 :::</MenuItem>        
                 {
                     menuCategoryList.map(mc => (
-                        <MenuItem value={mc.categoryId}>{mc.categoryName}</MenuItem>
+                        <MenuItem key={mc.categoryId} value={mc.categoryId}>{mc.categoryName}</MenuItem>
                     ))
                 }
                     </Select>

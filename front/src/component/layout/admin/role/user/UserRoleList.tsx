@@ -1,24 +1,24 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Pagination, Breadcrumbs, Typography, Link, Divider } from '@mui/material';
-import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
-import { axiosInstance } from '../../../../..';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Pagination, Breadcrumbs, Typography, Link, Divider } 
+                                        from '@mui/material';
+import { Box }                          from '@mui/system';
+import React, { useEffect, useState }   from 'react';
+import { axiosInstance }                from '../../../../..';
 
 function UserRoleList() {
 
     const [userRoleList, setUserRoleList] = useState<UserRoleList>([{
-        roleId : 0,
-        roleName : '',
-        userNo : 0,
-        userId : '',
+        roleId      : 0,
+        roleName    : '',
+        userNo      : 0,
+        userId      : '',
     }]);
 
     const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
-    const offset = (page - 1) * limit;
+    const [page, setPage]   = useState(1);
+    const offset            = (page - 1) * limit;
 
     let listCnt = userRoleList.length;
     let pageCnt = Math.ceil(listCnt/10);
-    // if (listCnt % 10 > 0)  pageCnt = pageCnt+1;
 
     interface UserRoleList extends Array<UserRole>{}
     interface UserRole {
@@ -78,7 +78,7 @@ function UserRoleList() {
                 <TableBody>      
         {
             userRoleList.slice(offset, offset+limit).map((userRole, index) => (
-              <TableRow key={index + offset + 1}>      
+              <TableRow key={`${userRole.userNo}-${userRole.roleId}`}>      
                 <TableCell>{index + offset + 1}</TableCell>
                 <TableCell>{userRole.roleId}</TableCell>
                 <TableCell>{userRole.roleName}</TableCell>
