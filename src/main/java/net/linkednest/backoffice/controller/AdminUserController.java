@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.linkednest.backoffice.service.AdminUserService;
 import net.linkednest.common.entity.User;
-import net.linkednest.www.dto.user.get.ResUserDto;
+import net.linkednest.common.dto.user.get.ResUserDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

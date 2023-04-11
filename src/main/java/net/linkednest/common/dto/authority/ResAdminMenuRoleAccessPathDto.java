@@ -1,4 +1,4 @@
-package net.linkednest.www.dto.user.role;
+package net.linkednest.common.dto.authority;
 
 import lombok.Data;
 

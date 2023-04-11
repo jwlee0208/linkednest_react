@@ -1,7 +1,7 @@
 package net.linkednest.backoffice.dto.menu;
 
 import lombok.Data;
-import net.linkednest.www.dto.CommonResDto;
+import net.linkednest.common.dto.CommonResDto;
 
 @Data
 public class ResAdminMenuAccessPathDto extends CommonResDto {

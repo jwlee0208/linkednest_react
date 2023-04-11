@@ -2,7 +2,7 @@ package net.linkednest.backoffice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.backoffice.dto.authority.ResMenuCategoryRoleAccessDto;
+import net.linkednest.common.dto.authority.ResMenuCategoryRoleAccessDto;
 import net.linkednest.common.entity.AdminMenuCategory;
 import net.linkednest.common.entity.Role;
 import net.linkednest.common.repository.AdminMenuCategoryRoleAccessRepository;

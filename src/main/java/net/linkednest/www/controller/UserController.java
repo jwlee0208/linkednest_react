@@ -13,12 +13,12 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.www.dto.user.ResTokenDto;
-import net.linkednest.www.dto.user.get.ResUserDto;
-import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
-import net.linkednest.www.dto.user.signin.ResUserLoginDto;
-import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
-import net.linkednest.www.dto.user.signup.ResUserRegistDto;
+import net.linkednest.common.dto.user.ResTokenDto;
+import net.linkednest.common.dto.user.get.ResUserDto;
+import net.linkednest.common.dto.user.signin.ReqUserLoginDto;
+import net.linkednest.common.dto.user.signin.ResUserLoginDto;
+import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
+import net.linkednest.common.dto.user.signup.ResUserRegistDto;
 import net.linkednest.common.entity.User;
 import net.linkednest.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

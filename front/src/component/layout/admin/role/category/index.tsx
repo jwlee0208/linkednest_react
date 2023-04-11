@@ -7,4 +7,5 @@ export interface MenuCategoryRoleAccess_ {
     roleName                : string;
     createUserNo            : number;
     updateUserNo            : number;
+    
 }

@@ -1,11 +1,11 @@
-package net.linkednest.www.dto.user.get;
+package net.linkednest.common.dto.user.get;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import net.linkednest.common.entity.Authority;
-import net.linkednest.www.dto.CommonResDto;
-import net.linkednest.www.dto.user.role.ResUserRoleDto;
-import net.linkednest.www.dto.user.signup.ResUserProfileDto;
+import net.linkednest.common.dto.authority.ResUserRoleDto;
+import net.linkednest.common.dto.CommonResDto;
+import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
+import net.linkednest.common.dto.user.signup.ResUserProfileDto;
 
 import java.util.List;
 
@@ -27,6 +27,8 @@ public class ResUserDto extends CommonResDto {
 
     @Schema(description = "사용자 권한 목록", required = true)
     private List<ResUserRoleDto> userRoleInfoList;
+
+    private List<ResAdminMenuRoleAccessPathDto> adminMenuRoleAccessPathList;
 
     private ResUserProfileDto userProfile;
 }

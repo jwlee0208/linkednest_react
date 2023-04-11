@@ -2,16 +2,15 @@ package net.linkednest.backoffice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.common.entity.Authority;
-import net.linkednest.common.entity.RoleAccessPath;
-import net.linkednest.common.entity.User;
-import net.linkednest.common.entity.UserProfile;
-import net.linkednest.www.dto.user.get.ResUserDto;
-import net.linkednest.www.dto.user.role.ResUserRoleAccessPathDto;
-import net.linkednest.www.dto.user.role.ResUserRoleDto;
-import net.linkednest.www.dto.user.signup.ResUserProfileDto;
+import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
+import net.linkednest.common.entity.*;
+import net.linkednest.common.dto.user.get.ResUserDto;
+import net.linkednest.common.dto.authority.ResUserRoleAccessPathDto;
+import net.linkednest.common.dto.authority.ResUserRoleDto;
+import net.linkednest.common.dto.user.signup.ResUserProfileDto;
 import net.linkednest.common.repository.UserProfileRepository;
 import net.linkednest.common.repository.UserRepository;
+import net.linkednest.www.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +24,8 @@ import java.util.Optional;
 public class AdminUserService {
     private final UserRepository        userRepository;
     private final UserProfileRepository userProfileRepository;
+
+    private final UserService           userService;
 
     public List<ResUserDto> userList() {
         List<ResUserDto> userList = new ArrayList<>();
@@ -52,8 +53,12 @@ public class AdminUserService {
         List<ResUserRoleDto> userRoleList = new ArrayList<>();
         u.getRoles().stream().forEach(r -> {
             userRoleList.add(this.getUserRole(r));
+
         });
         userObj.setUserRoleInfoList(userRoleList);
+
+
+
         return userObj;
     }
     private ResUserProfileDto getUserProfile(User u) {
@@ -71,11 +76,44 @@ public class AdminUserService {
         ResUserRoleDto userRoleObj = new ResUserRoleDto();
         userRoleObj.setRoleName(r.getRole().getRoleName());
         userRoleObj.setRoleId(r.getRole().getId());
+        // user menu role(for back-end)
+        Role role = r.getRole();
         List<ResUserRoleAccessPathDto> userRoleAccessPathList = new ArrayList<>();
-        r.getRole().getAccessPaths().stream().forEach(ap -> {
+        role.getAccessPaths().stream().forEach(ap -> {
             userRoleAccessPathList.add(this.getUserRoleAccessPath(ap));
         });
         userRoleObj.setUserRoleAccessPathList(userRoleAccessPathList);
+
+        // user menu role(for front-end)
+        List<ResAdminMenuCategoryDto> adminMenuCategoryList = new ArrayList<>();
+        userService.setAdminMenuCategoryList(r, adminMenuCategoryList);
+        userRoleObj.setAdminMenuCategoryList(adminMenuCategoryList);
+/*        List<ResAdminMenuCategoryDto> adminMenuCategoryList = new ArrayList<>();
+
+        role.getAdminMenuCategoryRoleAccesses().stream().forEach(amcra -> {
+            AdminMenuCategory amc = amcra.getAdminMenuCategory();
+            ResAdminMenuCategoryDto adminMenuCategoryObj = new ResAdminMenuCategoryDto();
+            adminMenuCategoryObj.setCategoryId(amc.getId());
+            adminMenuCategoryObj.setCategoryName(amc.getCategoryName());
+            amc.getMenus().stream().forEach(adminMenu -> {
+                List<ResAdminMenuRoleAccessPathDto> adminMenuRoleAccessPathList = new ArrayList<>();
+                adminMenu.getAdminMenuRoleAccessPaths().stream().forEach(adminMenuRoleAccessPath -> {
+
+                    log.info("[{}.{}] >>>>>>>>>>>>>>>>>>>>> adminMenuRoleAccessPath >> categoryName: {}, menuUrl : {}", this.getClass().getName(), "getUserROle", amc.getCategoryName(), adminMenuRoleAccessPath.getAdminMenu().getMenuUrl());
+
+                    AdminMenu am = adminMenuRoleAccessPath.getAdminMenu();
+                    ResAdminMenuRoleAccessPathDto resAdminMenuRoleAccessDto = new ResAdminMenuRoleAccessPathDto();
+                    resAdminMenuRoleAccessDto.setId(adminMenuRoleAccessPath.getId());
+                    resAdminMenuRoleAccessDto.setName(am.getMenuName());
+                    resAdminMenuRoleAccessDto.setUrl(am.getMenuUrl());
+                    adminMenuRoleAccessPathList.add(resAdminMenuRoleAccessDto);
+                });
+                adminMenuCategoryObj.setAdminMenuRoleAccessPathList(adminMenuRoleAccessPathList);
+            });
+            adminMenuCategoryList.add(adminMenuCategoryObj);
+        });
+        userRoleObj.setAdminMenuCategoryList(adminMenuCategoryList);*/
+
         return userRoleObj;
     }
     private ResUserRoleAccessPathDto getUserRoleAccessPath(RoleAccessPath ap) {
@@ -85,4 +123,5 @@ public class AdminUserService {
         userRoleAccessPathObj.setType(ap.getType());
         return userRoleAccessPathObj;
     }
+
 }
