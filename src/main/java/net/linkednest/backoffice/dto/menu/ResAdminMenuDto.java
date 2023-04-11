@@ -1,9 +1,14 @@
 package net.linkednest.backoffice.dto.menu;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.linkednest.common.dto.CommonResDto;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class ResAdminMenuDto extends CommonResDto {
 
     private Long id;

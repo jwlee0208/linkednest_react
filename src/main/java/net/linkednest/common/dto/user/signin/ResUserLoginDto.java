@@ -2,6 +2,9 @@ package net.linkednest.common.dto.user.signin;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
 import net.linkednest.common.dto.authority.ResRoleDto;
 import net.linkednest.common.dto.authority.ResUserRoleDto;
@@ -10,7 +13,9 @@ import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"roleAccessPathList", "adminMenuCategoryList", "userRoleInfoList", "roleInfoList"})
 public class ResUserLoginDto extends CommonResDto {
     @Schema(description = "사용자 아이디", defaultValue = "test01@test.com", name = "userId", required = true)
     private String userId;

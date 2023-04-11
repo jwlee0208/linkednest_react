@@ -2,6 +2,9 @@ package net.linkednest.common.dto.user.get;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.linkednest.common.dto.authority.ResUserRoleDto;
 import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
@@ -9,7 +12,9 @@ import net.linkednest.common.dto.user.signup.ResUserProfileDto;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"userRoleInfoList", "adminMenuRoleAccessPathList", "userProfile"})
 public class ResUserDto extends CommonResDto {
     @Schema(description = "사용자 시퀀스 번호", defaultValue = "", name = "userNo", required = true)
     private Long userNo;
