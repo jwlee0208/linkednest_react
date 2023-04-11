@@ -8,8 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 import net.minidev.json.annotate.JsonIgnore;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "authority")
 @ToString(exclude = {"user", "role"})
 public class Authority {

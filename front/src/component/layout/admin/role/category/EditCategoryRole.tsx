@@ -101,6 +101,14 @@ function EditCategoryRole() {
     }
 
     useEffect(() => {
+        axiosInstance.get('/admin/menu/category/list')
+            .then((res)  => setMenuCategoryList(res.data))
+            .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
+
+        axiosInstance.get('/admin/role/list')
+        .then((res)  => setRoleList(res.data))
+        .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
+
         if (editType === 'edit') {
             const menuCategoryRoleAccessObj = location.state.menuCategoryRoleAccess;
             setMenuCategoryRoleAccess({
@@ -118,15 +126,6 @@ function EditCategoryRole() {
                 , createUserNo : userInfo.userNo
             })
         }
-
-        axiosInstance.get('/admin/menu/category/list')
-            .then((res)  => setMenuCategoryList(res.data))
-            .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
-
-        axiosInstance.get('/admin/role/list')
-        .then((res)  => setRoleList(res.data))
-        .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  );
-
     }, [])
     return (
          <Box sx={{p:3}}>
