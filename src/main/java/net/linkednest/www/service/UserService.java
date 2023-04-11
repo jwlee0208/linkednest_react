@@ -21,6 +21,7 @@ import net.linkednest.common.dto.user.signin.ResUserLoginDto;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.security.JwtProvider;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -179,7 +180,7 @@ public class UserService {
     }
 
     public void setAdminMenuCategoryList(Authority r, List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList) {
-        List<AdminMenuRoleAccessPath> amrapList = adminMenuRoleAccessPathRepository.findAllByRoleId(r.getRole().getId());
+        List<AdminMenuRoleAccessPath> amrapList = adminMenuRoleAccessPathRepository.findAllByRoleId(r.getRole().getId(), Sort.by(Sort.Direction.ASC, "adminMenu.adminMenuCategory.sortSeq", "adminMenu.sortSeq"));
 
         amrapList.stream().forEach(a -> {
             log.info("[{}.{}] AdminMenuRoleAccessPath : {}", this.getClass().getName(), "setAdminMenuCategoryList", a.getAdminMenu().getMenuName());

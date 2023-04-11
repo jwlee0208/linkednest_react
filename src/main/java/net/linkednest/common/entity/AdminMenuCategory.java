@@ -41,6 +41,8 @@ public class AdminMenuCategory {
 
     private Boolean isActive;
 
+    private int sortSeq;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "adminMenuCategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
@@ -50,4 +52,5 @@ public class AdminMenuCategory {
         this.menus = menu;
         menu.stream().forEach(o -> o.setAdminMenuCategory(this));
     }
+
 }
