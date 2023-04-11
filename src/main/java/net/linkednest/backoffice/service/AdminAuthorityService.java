@@ -2,11 +2,9 @@ package net.linkednest.backoffice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.common.dto.authority.ReqMenuCategoryRoleAccessDto;
-import net.linkednest.common.dto.authority.ResMenuCategoryRoleAccessDto;
+import net.linkednest.common.dto.authority.*;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
-import net.linkednest.common.dto.authority.ResAuthorityDto;
 import net.linkednest.common.repository.*;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
@@ -220,4 +218,40 @@ public class AdminAuthorityService {
         resObj.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
         return resObj;
     }
+
+    public ResRoleDto editRole(ReqRoleDto reqRoleObj) {
+        ResRoleDto resObj = new ResRoleDto();
+        int     returnCode               = 10000;
+        Long    roleId = reqRoleObj.getRoleId();
+        String  editType                 = ObjectUtils.isEmpty(roleId) ? CommonConstants.ACTION_CREATE : CommonConstants.ACTION_UPDATE;
+
+        try {
+            Role r = new Role();
+            if (StringUtils.equals(editType, CommonConstants.ACTION_UPDATE)) {
+                Optional<Role> roleOptional = roleRepository.findById(roleId);
+                if (roleOptional.isPresent()) {
+                    r = roleOptional.get();
+                } else {
+                    returnCode = 50000;
+                }
+            }
+            r.setRoleName(reqRoleObj.getRoleName());
+            r.setRoleDescription(reqRoleObj.getRoleDesc());
+
+            Role savedObj = roleRepository.saveAndFlush(r);
+            resObj.setRoleId(savedObj.getId());
+            resObj.setRoleName(savedObj.getRoleName());
+            resObj.setRoleDesc(savedObj.getRoleDescription());
+        } catch (Exception e) {
+            log.error("[{}.{}] err : {}", this.getClass().getName(), "editRole", e.getMessage());
+            returnCode = 50000;
+        }
+        resObj.setReturnCode(returnCode);
+        resObj.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
+
+        return resObj;
+    }
+
+
+
 }

@@ -22,6 +22,7 @@ import RoleDetail         from "../../admin/role/RoleDetail";
 import CategoryRoleList   from "../../admin/role/category/CategoryRoleList";
 import EditCategoryRole   from "../../admin/role/category/EditCategoryRole";
 import CategoryRoleDetail from "../../admin/role/category/CategoryRoleDetail";
+import EditRole from "../../admin/role/EditRole";
 
 type ContentProps = {
     isLogin : boolean;
@@ -39,6 +40,7 @@ function AdminContent ({
         <Route path='/admin/board/list'           element={<BoardList/>}/>
         <Route path="/admin/role/list"            element={<RoleList/>}/>
         <Route path="/admin/role/detail"          element={<RoleDetail/>}/>
+        <Route path="/admin/role/edit"            element={<EditRole/>}/>
         <Route path='/admin/role/user/list'       element={<UserRoleList/>}/>
         <Route path='/admin/role/menu/list'       element={<MenuRoleList/>}/> 
         <Route path="/admin/role/menu/edit"       element={<EditMenuRole/>}/> 

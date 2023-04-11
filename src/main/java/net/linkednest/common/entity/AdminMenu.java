@@ -45,6 +45,8 @@ public class AdminMenu {
         adminMenuRoleAccessPath.stream().forEach(o -> o.setAdminMenu(this));
     }
 
+    private int sortSeq;
+
     private Date createDate;
 
     @JsonBackReference
