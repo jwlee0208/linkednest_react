@@ -1,13 +1,12 @@
-package net.linkednest.www.dto.user.signin;
+package net.linkednest.common.dto.user.signin;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import net.linkednest.common.entity.Authority;
-import net.linkednest.www.dto.CommonResDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuCategoryDto;
-import net.linkednest.www.dto.user.role.ResAdminMenuRoleAccessPathDto;
-import net.linkednest.www.dto.user.role.ResRoleDto;
-import net.linkednest.www.dto.user.role.ResUserRoleDto;
+import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
+import net.linkednest.common.dto.authority.ResRoleDto;
+import net.linkednest.common.dto.authority.ResUserRoleDto;
+import net.linkednest.common.dto.CommonResDto;
+import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 
 import java.util.List;
 

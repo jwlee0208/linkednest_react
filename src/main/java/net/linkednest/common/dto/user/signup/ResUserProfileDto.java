@@ -1,4 +1,4 @@
-package net.linkednest.www.dto.user.signup;
+package net.linkednest.common.dto.user.signup;
 
 import lombok.Data;
 

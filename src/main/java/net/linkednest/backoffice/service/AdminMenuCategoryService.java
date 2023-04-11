@@ -8,7 +8,7 @@ import net.linkednest.common.repository.AdminMenuCategoryRepository;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.entity.AdminMenuCategory;
 import net.linkednest.common.entity.User;
-import net.linkednest.www.dto.CommonResDto;
+import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;

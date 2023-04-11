@@ -1,4 +1,4 @@
-package net.linkednest.backoffice.dto.authority;
+package net.linkednest.common.dto.authority;
 
 import lombok.Data;
 

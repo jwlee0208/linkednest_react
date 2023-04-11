@@ -2,7 +2,6 @@ import { useLocation, useNavigate }                     from "react-router";
 import { useState, useEffect }                          from "react";
 import { axiosInstance }                                from "../../../..";
 import { User }                                         from "../../../../store/modules/user";
-// import EditIcon from '@material-ui/core/Icon'
 import Table                                            from "@mui/material/Table";
 import TableBody                                        from "@mui/material/TableBody";
 import TableCell                                        from "@mui/material/TableCell";
@@ -182,7 +181,7 @@ function UserDetail() {
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                     <Grid container alignItems="center" sx={{ m: 0 }}>
                         <Grid item xs={11}>
-                            <Typography variant="h5">User Role Info</Typography> 
+                            <Typography variant="h5">User Role Info (For Back-End)</Typography> 
                         </Grid>
                         <Grid item xs={1}>
                             <IconButton aria-label="edit">
@@ -211,7 +210,7 @@ function UserDetail() {
                                         <Table>
                                             <TableBody>
                                             {uri.userRoleAccessPathList.map(urap => (
-                                                <TableRow key={urap.httpMethod + urap.url}>
+                                                <TableRow key={`${urap.httpMethod}-${urap.url}`}>
                                                     <TableCell>{urap.type}</TableCell>
                                                     <TableCell>{urap.url}</TableCell>
                                                     <TableCell>{urap.httpMethod}</TableCell>
@@ -229,6 +228,76 @@ function UserDetail() {
                     </TableContainer>
                 </AccordionDetails>
             </Accordion>
+
+
+             <Accordion expanded={expanded === 'panel4'} onChange={handleAccordionChange('panel4')} key={'userRoleKey'}>
+                <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+                    <Grid container alignItems="center" sx={{ m: 0 }}>
+                        <Grid item xs={11}>
+                            <Typography variant="h5">User Role Info (For Front-End)</Typography> 
+                        </Grid>
+                        <Grid item xs={1}>
+                            <IconButton aria-label="edit">
+                                <Edit/>
+                            </IconButton>
+                        </Grid>                        
+                    </Grid>
+                </AccordionSummary>    
+                <AccordionDetails>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>메뉴 카테고리 아이디</TableCell>
+                                    <TableCell>메뉴 카테고리 명</TableCell>
+                                    <TableCell>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell colSpan={3} sx={{textAlign:'center'}}>카테고리별 메뉴 권한</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>권한</TableCell>
+                                                    <TableCell>메뉴 명</TableCell>
+                                                    <TableCell>메뉴 URL</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                        </Table>
+                                    </TableCell>
+                                </TableRow>    
+                            </TableHead>                        
+                            <TableBody>
+                        {
+                            user.userRoleInfoList.map(userRole => (
+                                userRole.adminMenuCategoryList.map(menuCategory => (
+                                <TableRow key={menuCategory.categoryId}>
+                                    <TableCell>{menuCategory.categoryId}</TableCell>
+                                    <TableCell>{menuCategory.categoryName}</TableCell>        
+                                    <TableCell>
+                                         <Table>
+                                            <TableBody>
+                                        {menuCategory.adminMenuRoleAccessPathList.map(roleAccessPath => (
+                                            <TableRow key={roleAccessPath.id}>
+                                                <TableCell>{userRole.roleName}</TableCell>    
+                                                <TableCell>{roleAccessPath.name}</TableCell>
+                                                <TableCell>{roleAccessPath.url}</TableCell>        
+                                            </TableRow>
+                                            ))
+                                        }
+                                            </TableBody>
+                                        </Table>
+                                    </TableCell>
+                                </TableRow>
+                                ))
+                                ))
+                        }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </AccordionDetails>
+            </Accordion>
+
+
         </Box>
     )
 }

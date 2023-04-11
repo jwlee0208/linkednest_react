@@ -23,6 +23,7 @@ function EditMenuCategory () {
         isActive        : 'false',
         createUser      : 0,
         updateUser      : 0,
+        adminMenuRoleAccessPathList : [],
         returnCode      : 0,
         returnMsg       : '',
     });

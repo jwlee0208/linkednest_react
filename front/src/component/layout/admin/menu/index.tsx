@@ -1,3 +1,5 @@
+import { MenuCategoryRoleAccessList_ } from "../role/category";
+
 export interface MenuCategoryList_ extends Array<MenuCategory_>{}
 
 export interface MenuCategory_ extends ResultInfo_ {
@@ -6,6 +8,7 @@ export interface MenuCategory_ extends ResultInfo_ {
     isActive     : string,
     createUser   : number,
     updateUser   : number,
+    adminMenuRoleAccessPathList : AdminMenuList_,
 }
 
 export interface ResultInfo_ {

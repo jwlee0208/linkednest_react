@@ -4,6 +4,7 @@ import { axiosInstance }         from '../..';
 import {encode as base64_encode} from 'base-64';
 import {decode as base64_decode} from 'base-64';
 import { type } from 'os';
+import { MenuCategoryList_ } from '../../component/layout/admin/menu';
 
 export interface UserProfile {
     sex         : string;
@@ -23,6 +24,7 @@ export interface UserRole {
     roleId                  : number;
     roleName                : string;
     userRoleAccessPathList  : UserRoleAccessPathList;
+    adminMenuCategoryList   : MenuCategoryList_;
 }
 
 export interface UserRoleAccessPathList extends Array<UserRoleAccessPath>{}

@@ -2,8 +2,7 @@ package net.linkednest.backoffice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.backoffice.dto.authority.ResRoleDto;
-import net.linkednest.backoffice.repository.AdminRoleRepository;
+import net.linkednest.common.dto.authority.ResRoleDto;
 import net.linkednest.common.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 

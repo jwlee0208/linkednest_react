@@ -2,16 +2,16 @@ package net.linkednest.backoffice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.backoffice.dto.authority.ReqMenuCategoryRoleAccessDto;
-import net.linkednest.backoffice.dto.authority.ResAuthorityDto;
-import net.linkednest.backoffice.dto.authority.ResMenuCategoryRoleAccessDto;
-import net.linkednest.backoffice.dto.authority.ResRoleDto;
+import net.linkednest.common.dto.authority.ReqMenuCategoryRoleAccessDto;
+import net.linkednest.common.dto.authority.ResAuthorityDto;
+import net.linkednest.common.dto.authority.ResMenuCategoryRoleAccessDto;
+import net.linkednest.common.dto.authority.ResRoleDto;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
 import net.linkednest.backoffice.service.AdminAuthorityService;
 import net.linkednest.backoffice.service.AdminMenuCategoryRoleAccessService;
 import net.linkednest.backoffice.service.AdminRoleService;
-import net.linkednest.www.dto.CommonResDto;
+import net.linkednest.common.dto.CommonResDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

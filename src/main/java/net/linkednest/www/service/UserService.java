@@ -3,19 +3,22 @@ package net.linkednest.www.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
+import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
+import net.linkednest.common.dto.authority.ResRoleDto;
+import net.linkednest.common.dto.authority.ResUserRoleAccessPathDto;
+import net.linkednest.common.dto.authority.ResUserRoleDto;
 import net.linkednest.common.repository.AdminMenuRoleAccessPathRepository;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.entity.*;
-import net.linkednest.common.repository.AdminMenuCategoryRoleAccessRepository;
 import net.linkednest.common.repository.RoleRepository;
 import net.linkednest.common.repository.UserRefreshTokenRepository;
 import net.linkednest.common.repository.UserRepository;
-import net.linkednest.www.dto.user.ResTokenDto;
-import net.linkednest.www.dto.user.role.*;
-import net.linkednest.www.dto.user.signin.ReqUserLoginDto;
-import net.linkednest.www.dto.user.signin.ResUserLoginDto;
-import net.linkednest.www.dto.user.signup.ReqUserRegistDto;
+import net.linkednest.common.dto.user.ResTokenDto;
+import net.linkednest.common.dto.user.signin.ReqUserLoginDto;
+import net.linkednest.common.dto.user.signin.ResUserLoginDto;
+import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.security.JwtProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -175,7 +178,7 @@ public class UserService {
         userRoleDtoList.add(resUserRoleDto);
     }
 
-    private void setAdminMenuCategoryList(Authority r, List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList) {
+    public void setAdminMenuCategoryList(Authority r, List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList) {
         List<AdminMenuRoleAccessPath> amrapList = adminMenuRoleAccessPathRepository.findAllByRoleId(r.getRole().getId());
 
         amrapList.stream().forEach(a -> {
@@ -200,7 +203,7 @@ log.info("[{}.{}] resAdminMenuCategoryDtoOptional : {}", this.getClass().getName
 
             if (isAddedCategory) {
                 resAdminMenuCategoryDto = resAdminMenuCategoryDtoOptional.get();
-                resAdminMenuRoleAccessPathDtoList = resAdminMenuCategoryDtoOptional.get().getRoleAccessPathList();
+                resAdminMenuRoleAccessPathDtoList = resAdminMenuCategoryDtoOptional.get().getAdminMenuRoleAccessPathList();
                 adminMenuCategoryDtoList.remove(resAdminMenuCategoryDto);
 
 log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "setAdminMenuCategoryList", resAdminMenuRoleAccessPathDtoList);
@@ -228,8 +231,8 @@ log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getNa
                             resRoleAccessPathDto.setIsShow(am.getIsShow());
 
                             finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
-                        }   
-                        finalResAdminMenuCategoryDto.setRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
+                        }
+                        finalResAdminMenuCategoryDto.setAdminMenuRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
                     });
 log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "login", finalResAdminMenuRoleAccessPathDtoList);
 
