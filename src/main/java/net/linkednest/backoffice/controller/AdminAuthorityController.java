@@ -2,10 +2,7 @@ package net.linkednest.backoffice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.common.dto.authority.ReqMenuCategoryRoleAccessDto;
-import net.linkednest.common.dto.authority.ResAuthorityDto;
-import net.linkednest.common.dto.authority.ResMenuCategoryRoleAccessDto;
-import net.linkednest.common.dto.authority.ResRoleDto;
+import net.linkednest.common.dto.authority.*;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
 import net.linkednest.backoffice.service.AdminAuthorityService;
@@ -76,4 +73,18 @@ public class AdminAuthorityController {
         return ResponseEntity.ok((this.adminAuthorityService.deleteCategoryRole(reqMenuCategoryRoleAccessObj)));
     }
 
+    @PostMapping(value = "")
+    public ResponseEntity<ResRoleDto> createRole(ReqRoleDto reqRoleObj) {
+        return ResponseEntity.ok(adminAuthorityService.editRole(reqRoleObj));
+    }
+
+    @PatchMapping(value = "")
+    public ResponseEntity<ResRoleDto> updateRole(ReqRoleDto reqRoleObj) {
+        return ResponseEntity.ok(adminAuthorityService.editRole(reqRoleObj));
+    }
+
+    @DeleteMapping(value = "")
+    public ResponseEntity<ResRoleDto> deleteRole() {
+        return ResponseEntity.ok(null);
+    }
 }
