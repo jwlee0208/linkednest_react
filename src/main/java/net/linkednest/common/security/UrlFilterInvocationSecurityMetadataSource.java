@@ -40,15 +40,21 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         if (requestMap != null) {
             Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entries = requestMap.entrySet();
             log.info("[{}.{}] entries : {}, isEmpty : {}, size : {}", this.getClass().getName(), "getAttributes", entries, entries.isEmpty(), entries.size());
-            entries.stream().forEach(e -> {
-                log.info(">>>>>>>>>>>>>>>>>> {}.{}, entry : {}", this.getClass().getName(), "getAttributes", e);
-            });
-            if (!entries.isEmpty()) {
-                Optional<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryOptional = entries.stream().filter(entry -> entry.getKey().matches(request)).findFirst();
-                if (entryOptional.isPresent()) {
-                    Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = entryOptional.get();
-                    return entry.getValue();
+            try {
+/*
+                entries.stream().forEach(e -> {
+                    log.info(">>>>>>>>>>>>>>>>>> {}.{}, entry : {}", this.getClass().getName(), "getAttributes", e);
+                });
+*/
+                if (!entries.isEmpty()) {
+                    Optional<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryOptional = entries.stream().filter(entry -> entry.getKey().matches(request)).findFirst();
+                    if (entryOptional.isPresent()) {
+                        Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = entryOptional.get();
+                        return entry.getValue();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 /*
             if (!entries.isEmpty()) {

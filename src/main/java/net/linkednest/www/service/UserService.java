@@ -29,16 +29,13 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserProfileService userProfileService;
-    private final UserRepository userRepository;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
-
-    private final RoleRepository roleRepository;
-    private final AdminMenuCategoryRoleAccessRepository adminMenuCategoryRoleAccessRepository;
-    private final AdminMenuRoleAccessPathRepository adminMenuRoleAccessPathRepository;
-
-    private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
+    private final UserProfileService                    userProfileService;
+    private final UserRepository                        userRepository;
+    private final RoleRepository                        roleRepository;
+    private final UserRefreshTokenRepository            userRefreshTokenRepository;
+    private final AdminMenuRoleAccessPathRepository     adminMenuRoleAccessPathRepository;
+    private final PasswordEncoder                       passwordEncoder;
+    private final JwtProvider                           jwtProvider;
 
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
         log.info("[{}.{}] userRegist : {}", this.getClass().getName().toString(), "registUser", userRegistDto.toString());
@@ -59,9 +56,7 @@ public class UserService {
 
             try {
                 User createdUser = userRepository.saveAndFlush(newUser);
-
                 log.info("[registUser] createdUser : {}", createdUser);
-
                 try {
                     this.userProfileService.saveUserProfile(userRegistDto, createdUser);
                 } catch (Exception e) {
@@ -115,8 +110,8 @@ public class UserService {
             // password check
             boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
             if (isMatchedPw) {
-                resUserLoginDto.setUserNo(user.getUserNo());
                 resUserLoginDto.setIsLogin(true);
+                resUserLoginDto.setUserNo(user.getUserNo());
                 resUserLoginDto.setEmail(user.getEmail());
                 resUserLoginDto.setUserId(user.getUserId());
                 resUserLoginDto.setNickname(user.getNickname());
@@ -192,10 +187,12 @@ public class UserService {
             Optional<ResAdminMenuCategoryDto>   resAdminMenuCategoryDtoOptional     = adminMenuCategoryDtoList.stream().filter(amcdl -> amcdl.getCategoryId().equals(amc.getId())).findAny();
             ResAdminMenuCategoryDto             resAdminMenuCategoryDto             = null;
 
+/*
             adminMenuCategoryDtoList.stream().forEach(amcdl -> {
                 log.info("---------------- amcdl : {}, amc : {}, eq : {}", amcdl.getCategoryId(), amc.getId(), amcdl.getCategoryId().equals(amc.getId()));
 
             });
+*/
 
 log.info("[{}.{}] resAdminMenuCategoryDtoOptional : {}", this.getClass().getName(), "setAdminMenuCategoryList", resAdminMenuCategoryDtoOptional.isPresent());
 
@@ -221,15 +218,18 @@ log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getNa
                     .stream()
                     .filter(amcra -> a.getAdminMenu().getAdminMenuCategory().getId().equals(amcra.getAdminMenuCategory().getId()))
                     .forEach(amcra -> {
-                        ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
-                        resRoleAccessPathDto.setId(am.getId());
-                        resRoleAccessPathDto.setUrl(am.getMenuUrl());
-                        resRoleAccessPathDto.setName(am.getMenuName());
-                        resRoleAccessPathDto.setIsShow(am.getIsShow());
+                        Optional<ResAdminMenuRoleAccessPathDto> fam = finalResAdminMenuRoleAccessPathDtoList.stream().filter(framrap -> framrap.getId().equals(am.getId())).findAny();
+                        boolean isAddedMenu = fam.isPresent();
+                        if (!isAddedMenu) {
+                            ResAdminMenuRoleAccessPathDto resRoleAccessPathDto = new ResAdminMenuRoleAccessPathDto();
+                            resRoleAccessPathDto.setId(am.getId());
+                            resRoleAccessPathDto.setUrl(am.getMenuUrl());
+                            resRoleAccessPathDto.setName(am.getMenuName());
+                            resRoleAccessPathDto.setIsShow(am.getIsShow());
 
-                        finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
+                            finalResAdminMenuRoleAccessPathDtoList.add(resRoleAccessPathDto);
+                        }   
                         finalResAdminMenuCategoryDto.setRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
-
                     });
 log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "login", finalResAdminMenuRoleAccessPathDtoList);
 
