@@ -177,7 +177,7 @@ function UserDetail() {
                     </Grid>
                 </AccordionDetails>
             </Accordion>    
-            <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')} key={'userRoleKey'}>
+            <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')} key={'userRoleKeyForBE'}>
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                     <Grid container alignItems="center" sx={{ m: 0 }}>
                         <Grid item xs={11}>
@@ -203,7 +203,7 @@ function UserDetail() {
                             <TableBody>
                         {
                             user.userRoleInfoList.map(uri => (
-                                <TableRow key={uri.roleId}>
+                                <TableRow key={`${uri.roleId}-${uri.userRoleAccessPathList}`}>
                                     <TableCell>{uri.roleId}</TableCell>
                                     <TableCell>{uri.roleName}</TableCell>        
                                     <TableCell>
@@ -230,7 +230,7 @@ function UserDetail() {
             </Accordion>
 
 
-             <Accordion expanded={expanded === 'panel4'} onChange={handleAccordionChange('panel4')} key={'userRoleKey'}>
+             <Accordion expanded={expanded === 'panel4'} onChange={handleAccordionChange('panel4')} key={'userRoleKeyForFE'}>
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                     <Grid container alignItems="center" sx={{ m: 0 }}>
                         <Grid item xs={11}>
@@ -248,47 +248,53 @@ function UserDetail() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>메뉴 카테고리 아이디</TableCell>
-                                    <TableCell>메뉴 카테고리 명</TableCell>
-                                    <TableCell>
-                                        <Table>
+                                    <TableCell width={"20%"}>권한</TableCell>
+                                    <TableCell width={"80%"}>
+                                        <Table width={"100%"}>
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell colSpan={3} sx={{textAlign:'center'}}>카테고리별 메뉴 권한</TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>권한</TableCell>
-                                                    <TableCell>메뉴 명</TableCell>
-                                                    <TableCell>메뉴 URL</TableCell>
-                                                </TableRow>
+                                                    <TableCell width={"25%"}>메뉴 카테고리 명</TableCell>
+                                                    <TableCell width={"35%"}>메뉴 명</TableCell>
+                                                    <TableCell width={"40%"}>메뉴 URL</TableCell>
+                                                </TableRow>       
                                             </TableHead>
-                                        </Table>
-                                    </TableCell>
+                                        </Table>    
+                                    </TableCell>    
                                 </TableRow>    
                             </TableHead>                        
                             <TableBody>
                         {
                             user.userRoleInfoList.map(userRole => (
-                                userRole.adminMenuCategoryList.map(menuCategory => (
-                                <TableRow key={menuCategory.categoryId}>
-                                    <TableCell>{menuCategory.categoryId}</TableCell>
-                                    <TableCell>{menuCategory.categoryName}</TableCell>        
-                                    <TableCell>
-                                         <Table>
+                                <TableRow key={`${userRole.roleId}-${userRole.adminMenuCategoryList}`}>
+                                    <TableCell width={'20%'}>{userRole.roleName}</TableCell>
+                                    <TableCell width={'80%'}>
+                                        <Table width={'100%'}>
                                             <TableBody>
-                                        {menuCategory.adminMenuRoleAccessPathList.map(roleAccessPath => (
-                                            <TableRow key={roleAccessPath.id}>
-                                                <TableCell>{userRole.roleName}</TableCell>    
-                                                <TableCell>{roleAccessPath.name}</TableCell>
-                                                <TableCell>{roleAccessPath.url}</TableCell>        
-                                            </TableRow>
-                                            ))
-                                        }
-                                            </TableBody>
-                                        </Table>
-                                    </TableCell>
+{
+                                    userRole.adminMenuCategoryList.map(menuCategory => (
+                                        <TableRow key={menuCategory.categoryId}>
+                                            <TableCell width={'25%'}>{menuCategory.categoryName}</TableCell>        
+                                            <TableCell width={'75%'}>
+                                                 <Table width={'100%'}>
+                                                    <TableBody>
+                                                {menuCategory.adminMenuRoleAccessPathList.map(roleAccessPath => (
+                                                    <TableRow key={roleAccessPath.id}>
+                                                        <TableCell width={'50%'}>{roleAccessPath.name}</TableCell>
+                                                        <TableCell width={'50%'}>{roleAccessPath.url}</TableCell>        
+                                                    </TableRow>
+                                                    ))
+                                                }
+                                                    </TableBody>
+                                                </Table>
+                                            </TableCell>
+                                        </TableRow>
+                                        ))
+}                                         
+                                            </TableBody>   
+                                        </Table>    
+                                    </TableCell>    
                                 </TableRow>
-                                ))
+
                                 ))
                         }
                             </TableBody>

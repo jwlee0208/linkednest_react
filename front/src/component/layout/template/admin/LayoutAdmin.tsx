@@ -27,7 +27,7 @@ function LayoutAdmin() {
 console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList);
 
     userinfo.adminMenuCategoryList.map(amcl => 
-      amcl.roleAccessPathList.map(rapl => 
+      amcl.adminMenuRoleAccessPathList.map(rapl => 
         rapl.url === location.pathname)).forEach(r => 
           r.forEach(aa => 
             (aa === true) ? matchedUrlCnt++  : 0)

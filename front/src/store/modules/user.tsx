@@ -41,7 +41,7 @@ export interface AdminMenuCategoryList extends Array<AdminMenuCategory>{}
 export interface AdminMenuCategory {
     categoryId          : number,
     categoryName        : string,
-    roleAccessPathList  : Array<AdminMenu>,
+    adminMenuRoleAccessPathList  : Array<AdminMenu>,
 }
 
 export interface AdminMenus extends Array<AdminMenu>{}
