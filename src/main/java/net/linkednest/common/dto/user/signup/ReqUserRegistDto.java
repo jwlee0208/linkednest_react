@@ -1,11 +1,11 @@
 package net.linkednest.common.dto.user.signup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 public class ReqUserRegistDto {
     @Schema(description = "사용자 아이디", required = true, example = "test01")
     private String userId;

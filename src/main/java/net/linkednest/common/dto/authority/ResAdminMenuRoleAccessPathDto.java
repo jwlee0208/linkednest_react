@@ -1,15 +1,15 @@
 package net.linkednest.common.dto.authority;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.io.Serializable;
-
-@Data
-public class ResAdminMenuRoleAccessPathDto implements Serializable {
-    static final long serialVersionUID = 1L;
+@Getter
+@Setter
+@ToString
+public class ResAdminMenuRoleAccessPathDto {
     private Long id;
     private String url;
     private String name;
-
     private Boolean isShow;
 }

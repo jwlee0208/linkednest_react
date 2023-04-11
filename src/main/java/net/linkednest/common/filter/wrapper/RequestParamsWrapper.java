@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class RequestParamsWrapper extends HttpServletRequestWrapper {
 	private final Charset encoding;
 	private byte[] rawData;
-	private Map<String, String[]> params = new HashMap<>();
+	private final Map<String, String[]> params = new HashMap<>();
 
 	public RequestParamsWrapper(HttpServletRequest request) {
 		super(request);
@@ -52,12 +52,16 @@ public class RequestParamsWrapper extends HttpServletRequestWrapper {
 				JSONArray jsonArray = (JSONArray) jsonParser.parse(collect);
 				setParameter("requestBody", jsonArray.toJSONString());
 			} else {
+
 				JSONObject jsonObject = (JSONObject) jsonParser.parse(collect);
-				Iterator iterator = jsonObject.keySet().iterator();
+				jsonObject.keySet().stream().forEach(key -> {
+					setParameter((String)key, String.valueOf(jsonObject.get(key)).replace("\"", "\\\""));
+				});
+/*				Iterator iterator = jsonObject.keySet().iterator();
 				while (iterator.hasNext()) {
 					String key = (String) iterator.next();
 					setParameter(key, String.valueOf(jsonObject.get(key)).replace("\"", "\\\""));
-				}
+				}*/
 				// header setting for CORS
 			}
 		} catch (Exception e) {

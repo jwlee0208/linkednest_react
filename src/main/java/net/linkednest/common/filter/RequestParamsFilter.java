@@ -18,9 +18,15 @@ public class RequestParamsFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
         RequestParamsWrapper wrapper = new RequestParamsWrapper((HttpServletRequest) request);
-        chain.doFilter(wrapper, response);
+        try {
+            chain.doFilter(wrapper, response);
+        } catch(IOException ioe) {
+            log.error("[{}.{}] IOE error : {}", this.getClass().getName(), "doFilter", ioe.getMessage());
+        } catch(ServletException se) {
+            log.error("[{}.{}] SE error : {}", this.getClass().getName(), "doFilter", se.getMessage());
+        }
     }
 
     @Override

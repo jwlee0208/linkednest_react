@@ -15,59 +15,44 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
 @EnableCaching
 public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-    private Map<RequestMatcher, List<ConfigAttribute>> requestMap;
-    private RoleAccessProvider roleAccessProvider;
+    private final Map<RequestMatcher, List<ConfigAttribute>> requestMap;
+    private final RoleAccessProvider roleAccessProvider;
 
     public UrlFilterInvocationSecurityMetadataSource(RoleAccessProvider roleAccessProvider) {
-
         this.requestMap = new HashMap<>();
         this.roleAccessProvider = roleAccessProvider;
-
-/*
-        requestMap.put(new AntPathRequestMatcher("/admin", HttpMethod.GET.name()), Collections.singletonList(new SecurityConfig("ROLE_ADMIN")));
-        requestMap.put(new AntPathRequestMatcher("/admin/**", HttpMethod.GET.name()), Collections.singletonList(new SecurityConfig("ROLE_ADMIN")));*/
     }
 
     @Override
-    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
+    public Collection<ConfigAttribute> getAttributes(Object object) {
         final HttpServletRequest request = ((FilterInvocation) object).getRequest();
         this.setReguestMap();
-        if (requestMap != null) {
+        if (ObjectUtils.isNotEmpty(requestMap)) {
             Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entries = requestMap.entrySet();
-            log.info("[{}.{}] entries : {}, isEmpty : {}, size : {}", this.getClass().getName(), "getAttributes", entries, entries.isEmpty(), entries.size());
             try {
-/*
-                entries.stream().forEach(e -> {
-                    log.info(">>>>>>>>>>>>>>>>>> {}.{}, entry : {}", this.getClass().getName(), "getAttributes", e);
-                });
-*/
                 if (!entries.isEmpty()) {
                     Optional<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryOptional = entries.stream().filter(entry -> entry.getKey().matches(request)).findFirst();
                     if (entryOptional.isPresent()) {
+                        log.info("[{}.{}] entries : {}, isEmpty : {}, size : {}", this.getClass().getName(), "getAttributes", entries, entries.isEmpty(), entries.size());
                         Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = entryOptional.get();
                         return entry.getValue();
                     }
                 }
+            } catch (IllegalArgumentException iae) {
+                log.error("[{}.{}] IAE error : {}", this.getClass().getName(), "getAttributes", iae.getMessage());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("[{}.{}] E error : {}", this.getClass().getName(), "getAttributes", e.getMessage());
+            } finally {
+                entries.clear();
             }
-/*
-            if (!entries.isEmpty()) {
-                for(Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : entries) {
-                    if (entry.getKey().matches(request)) {
-                        log.info("[{}.{}] key : {}, value : {}", this.getClass().getName(), "getAttributes", entry.getKey(), entry.getValue());
-                        return entry.getValue();
-                    }
-                }
-            }
-*/
         }
-        return Collections.emptyList();
+        return null;
     }
 
     @Override

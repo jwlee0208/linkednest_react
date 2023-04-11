@@ -1,8 +1,13 @@
 package net.linkednest.common.dto.authority;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class ReqMenuCategoryRoleAccessDto {
     private Long id;
     private Long menuCategoryId;

@@ -1,12 +1,14 @@
 package net.linkednest.backoffice.dto.menu;
 
-import lombok.Data;
+import lombok.*;
 import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = "adminMenuRoleAccessPathList")
 public class ResAdminMenuCategoryDto extends CommonResDto {
 
     private Long categoryId;

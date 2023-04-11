@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.security.JwtProvider;
 import org.springframework.http.HttpMethod;
@@ -24,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         log.info("[{}.{}] request uri : {}", this.getClass().getName(), "doFilterInternal", request.getRequestURI());
         boolean isNotNeedJwt = (request.getMethod().equals(HttpMethod.OPTIONS.name()) || request.getRequestURI().contains("/images") || request.getRequestURI().contains("/images") || request.getRequestURI().contains("/style"));
         if (isNotNeedJwt) {
@@ -47,7 +48,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             log.info("[{}.{}] response header : {}", this.getClass().getName(), "doFilterInternal", response.getHeader("REFRESH_TOKEN"));
 
-            filterChain.doFilter(request, response);
+            try {
+                filterChain.doFilter(request, response);
+            } catch (ServletException se) {
+                log.error("[{}.{}] SE error : {}", this.getClass().getName(), "doFilterInternal", se.getMessage());
+            } catch (IOException ioe) {
+                log.error("[{}.{}] IOE error : {}", this.getClass().getName(), "doFilterInternal", ioe.getMessage());
+            }
         }
     }
 }

@@ -2,9 +2,14 @@ package net.linkednest.common.dto.user.signup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.linkednest.common.dto.CommonResDto;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class ResUserRegistDto extends CommonResDto {
     @Schema(description = "사용자 아이디", defaultValue = "test01@test.com", name = "userId", required = true)
     private String userId;
