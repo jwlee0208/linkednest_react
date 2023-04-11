@@ -59,7 +59,7 @@ function AdminSideArea({
                         (isLogin === true && adminMenuList !== null) ?    
                             adminMenuList.map(aml => (
                                 <Box key={`menu${aml.categoryId}`}>
-                                    <CategoryMenuRow key={aml.categoryName} menuCategoryId={aml.categoryId} menuCategoryName={aml.categoryName} menusArr={aml.roleAccessPathList} user={user}/>
+                                    <CategoryMenuRow key={aml.categoryName} menuCategoryId={aml.categoryId} menuCategoryName={aml.categoryName} menusArr={aml.adminMenuRoleAccessPathList} user={user}/>
                                 </Box>
                             ))
                             : (
