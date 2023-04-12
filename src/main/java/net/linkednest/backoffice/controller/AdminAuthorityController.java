@@ -84,7 +84,7 @@ public class AdminAuthorityController {
     }
 
     @DeleteMapping(value = "")
-    public ResponseEntity<ResRoleDto> deleteRole() {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<CommonResDto> deleteRole(ReqRoleDto reqRoleObj) {
+        return ResponseEntity.ok(adminAuthorityService.deleteRole(reqRoleObj));
     }
 }

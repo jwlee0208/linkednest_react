@@ -18,10 +18,10 @@ function RoleDetail() {
               method    : 'delete'
             , url       : '/admin/role'
             , params    : {
-                id : id
+                roleId : id
             }
         }).then(res => (
-            res.status === 200 ? navigate('/admin/role/list') : alert(`occurred exception : [${res.data.returnCode}]`)
+            (res.status === 200 && res.data.returnCode === 10000) ? navigate('/admin/role/list') : alert(`occurred exception : [${res.data.returnCode}]`)
         )).catch(err => (
             alert(`[${err.code}][${err.response.status}] ${err.message}`)    
         ))

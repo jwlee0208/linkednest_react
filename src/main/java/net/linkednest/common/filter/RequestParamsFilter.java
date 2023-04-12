@@ -6,8 +6,10 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.filter.wrapper.RequestParamsWrapper;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @WebFilter(urlPatterns = "*")
@@ -18,15 +20,9 @@ public class RequestParamsFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         RequestParamsWrapper wrapper = new RequestParamsWrapper((HttpServletRequest) request);
-        try {
-            chain.doFilter(wrapper, response);
-        } catch(IOException ioe) {
-            log.error("[{}.{}] IOE error : {}", this.getClass().getName(), "doFilter", ioe.getMessage());
-        } catch(ServletException se) {
-            log.error("[{}.{}] SE error : {}", this.getClass().getName(), "doFilter", se.getMessage());
-        }
+        chain.doFilter(wrapper, response);
     }
 
     @Override
