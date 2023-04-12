@@ -12,9 +12,12 @@ import net.linkednest.common.entity.*;
 import net.linkednest.common.dto.CommonResDto;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -252,6 +255,27 @@ public class AdminAuthorityService {
         return resObj;
     }
 
-
+    public CommonResDto deleteRole(ReqRoleDto reqRoleObj) {
+        CommonResDto resObj = new CommonResDto();
+        int returnCode = 10000;
+        try {
+            Optional<Role> rOptional = roleRepository.findById(reqRoleObj.getRoleId());
+            if (rOptional.isPresent()) {
+                try {
+                    roleRepository.delete(rOptional.get());
+                } catch (DataIntegrityViolationException dive) {
+                    log.error("[{}.{}] err : {}, type : {}", this.getClass().getName(), "deleteRole", dive.getMessage(), dive.getClass().getName());
+                    returnCode = 50000;
+                }
+            } else {
+                returnCode = 50000;
+            }
+        } catch (Exception e) {
+            returnCode = 50000;
+        }
+        resObj.setReturnCode(returnCode);
+        resObj.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
+        return resObj;
+    }
 
 }
