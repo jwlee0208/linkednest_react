@@ -2,6 +2,8 @@ package net.linkednest.backoffice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.backoffice.dto.role.ReqUserRoleDto;
+import net.linkednest.backoffice.dto.role.ResUserRoleDto;
 import net.linkednest.common.dto.authority.*;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
@@ -86,5 +88,10 @@ public class AdminAuthorityController {
     @DeleteMapping(value = "")
     public ResponseEntity<CommonResDto> deleteRole(ReqRoleDto reqRoleObj) {
         return ResponseEntity.ok(adminAuthorityService.deleteRole(reqRoleObj));
+    }
+
+    @PostMapping(value = "/user")
+    public ResponseEntity<ResUserRoleDto> editUserRole(ReqUserRoleDto reqUserRoleObj) {
+        return ResponseEntity.ok(adminAuthorityService.editUserRole(reqUserRoleObj));
     }
 }

@@ -51,7 +51,7 @@ public class AdminUserService {
         userObj.setUserProfile(this.getUserProfile(u));
 
         List<ResUserRoleDto> userRoleList = new ArrayList<>();
-        u.getRoles().stream().forEach(r -> {
+        u.getUserRoles().stream().forEach(r -> {
             userRoleList.add(this.getUserRole(r));
 
         });

@@ -54,7 +54,7 @@ public class UserService {
 
             Authority authority = new Authority();
             authority.setRole(roleRepository.getById(1L));
-            newUser.setRoles(Collections.singletonList(authority));
+            newUser.setUserRoles(Collections.singletonList(authority));
 
             log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName().toString(), "registUser", newUser.toString());
 
@@ -120,13 +120,13 @@ public class UserService {
                 resUserLoginDto.setUserId(user.getUserId());
                 resUserLoginDto.setNickname(user.getNickname());
                 resUserLoginDto.setIntroduce(user.getIntroduce());
-                resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getRoles())); // accessToken 발급
+                resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getUserRoles())); // accessToken 발급
 
                 List<ResUserRoleDto>            userRoleDtoList          = new ArrayList<>();
                 List<ResRoleDto>                roleDtoList              = new ArrayList<>();
                 List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
 
-                user.getRoles()
+                user.getUserRoles()
                         .stream()
                         .forEach(r -> {
                             setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
@@ -247,7 +247,7 @@ log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().
         UserRefreshToken    refreshTokenObj         = null;
         UserRefreshToken    mergedRefreshToken      = null;
         if (!refreshTokenOptional.isPresent()) {
-            mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getRoles());
+            mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getUserRoles());
             refreshTokenObj      = new UserRefreshToken();
             refreshTokenObj.setUser(user);
             refreshTokenObj.setRefreshToken(mergeRefreshTokenVal);
@@ -268,7 +268,7 @@ log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().
         Optional<UserRefreshToken> userRefreshTokenOptional = userRefreshTokenRepository.findByRefreshToken(refreshToken);
         if (userRefreshTokenOptional.isPresent()) {
             UserRefreshToken userRefreshToken = userRefreshTokenOptional.get();
-            resTokenDto.setAccessToken(jwtProvider.createToken(userRefreshToken.getUser().getUserId(), userRefreshToken.getUser().getRoles()));
+            resTokenDto.setAccessToken(jwtProvider.createToken(userRefreshToken.getUser().getUserId(), userRefreshToken.getUser().getUserRoles()));
             resTokenDto.setRefreshToken(refreshToken);
         }
         resTokenDto.setReturnCode(userRefreshTokenOptional.isPresent() ? 10000 : 50000);
