@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.dto.user.ResTokenDto;
 import net.linkednest.common.dto.user.get.ResUserDto;
@@ -29,12 +30,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 //@CrossOrigin(origins = { "http://localhost:3000" })
 public class UserController {
-
-
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
 
   @PostMapping(
     value = "/user",
@@ -167,7 +166,7 @@ public class UserController {
     resUserDto.setReturnCode(isExistUser ? 10000 : 50000);
     resUserDto.setReturnMsg(isExistUser ? "SUCCESS" : "FAIL");
 
-    return ResponseEntity.ok(resUserDto);
+    return new ResponseEntity<>(resUserDto, (isExistUser ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -186,16 +185,12 @@ public class UserController {
     }
   )
   public ResponseEntity<ResUserLoginDto> login(@RequestBody ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
-    String userId = reqUserLoginDto.getUserId();
+    String userId   = reqUserLoginDto.getUserId();
     String password = reqUserLoginDto.getPassword();
 
-    log.info(
-      "[login] userId : {}, password : {}, nickname : {}", userId, password
-    );
-
+    log.info("[login] userId : {}, password : {}", userId, password);
     ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, response);
-
-    return new ResponseEntity<>(resUserLoginDto, HttpStatus.OK);
+    return new ResponseEntity<>(resUserLoginDto, resUserLoginDto.getReturnCode() == 10000 ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
   }
 
   @PostMapping(value = "/logout")
@@ -213,7 +208,7 @@ public class UserController {
   public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) {
     Map<String, Object> resObj = new HashMap<>();
     resObj.put("returnCode", "10000");
-    resObj.put("isLogin", false);
+    resObj.put("isLogin"   , false);
     return ResponseEntity.ok(resObj);
   }
 

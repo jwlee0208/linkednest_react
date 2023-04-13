@@ -3,16 +3,19 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Butto
 import { Box }                          from '@mui/system';
 import React, { useEffect, useState }   from 'react';
 import { axiosInstance }                from '../../../../..';
+import { UserRoleList_, UserRole_ } from '.';
+import { useNavigate } from 'react-router';
 
 function UserRoleList() {
 
-    const [userRoleList, setUserRoleList] = useState<UserRoleList>([{
+    const [userRoleList, setUserRoleList] = useState<UserRoleList_>([{
         roleId      : 0,
         roleName    : '',
         userNo      : 0,
         userId      : '',
     }]);
 
+    const navigate = useNavigate();
     const [limit, setLimit] = useState(10);
     const [page, setPage]   = useState(1);
     const offset            = (page - 1) * limit;
@@ -20,18 +23,10 @@ function UserRoleList() {
     let listCnt = userRoleList.length;
     let pageCnt = Math.ceil(listCnt/10);
 
-    interface UserRoleList extends Array<UserRole>{}
-    interface UserRole {
-        roleId : number,
-        roleName : string,
-        userNo : number,
-        userId : string,
-    }
-
-    const handleDeleteUserRole = (roleId : number, userNo : number, event : React.MouseEvent<HTMLElement>) => {
+    const handleEditUserRole = (roleId : number, userId : String, event : React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
-        console.log('[delete] roleId : ', roleId, 'userNo : ', userNo);
-        alert('to-do');
+        console.log('[delete] roleId : ', roleId, 'userId : ', userId);
+        navigate('/admin/role/user/edit', {state : {userId : userId, roleId : roleId}});
     }
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -72,7 +67,7 @@ function UserRoleList() {
                         <TableCell>권한 명</TableCell>
                         <TableCell>유저 번호</TableCell>
                         <TableCell>유저 아이디</TableCell>
-                        <TableCell>Delete</TableCell>
+                        <TableCell>관리</TableCell>
                     </TableRow>
                 </TableHead>   
                 <TableBody>      
@@ -85,7 +80,7 @@ function UserRoleList() {
                 <TableCell>{userRole.userNo}</TableCell>
                 <TableCell>{userRole.userId}</TableCell>
                 <TableCell>
-                    <Button onClick={(e) => handleDeleteUserRole(userRole.roleId, userRole.userNo, e)} >Delete</Button>
+                    <Button onClick={(e) => handleEditUserRole(userRole.roleId, userRole.userId, e)} >관리</Button>
                 </TableCell>
               </TableRow>  
             ))

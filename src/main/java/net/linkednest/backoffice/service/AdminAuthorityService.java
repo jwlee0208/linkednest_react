@@ -1,7 +1,10 @@
 package net.linkednest.backoffice.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.backoffice.dto.role.ReqUserRoleDto;
+import net.linkednest.backoffice.dto.role.ResUserRoleDto;
 import net.linkednest.common.dto.authority.*;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
@@ -278,4 +281,49 @@ public class AdminAuthorityService {
         return resObj;
     }
 
+    @Transactional
+    public ResUserRoleDto editUserRole(ReqUserRoleDto reqUserRoleObj) {
+
+        log.info("[{}.{}] reqUserRoleObj : {}", this.getClass().getName(), "editUserRole", reqUserRoleObj.toString());
+
+        ResUserRoleDto resObj = new ResUserRoleDto();
+        int returnCode = 10000;
+        try {
+            Optional<User> userOptional = userRepository.findByUserId(reqUserRoleObj.getUserId());
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                List<Authority> authList = authorityRepository.findAllByUser(user);
+
+                user.getUserRoles().removeAll(authList);
+                int resultCnt = authorityRepository.deleteAllByUser(user);
+
+                log.info("[{}.{}] delete resultCnt : {}", this.getClass().getName(), "editUserRole", resultCnt);
+
+                if (resultCnt > 0) {
+                    List<Authority> authorityList = new ArrayList<>();
+                    List<Role> roleList = roleRepository.findAllById(reqUserRoleObj.getRoleIds());
+                    roleList.stream().forEach(r -> {
+                        Authority authority = new Authority();
+                        authority.setUser(user);
+                        authority.setRole(r);
+                        authorityList.add(authority);
+                    });
+
+                    List<Authority> savedList = authorityRepository.saveAllAndFlush(authorityList);
+                    List<Long> roleIds = new ArrayList<>();
+                    savedList.stream().forEach(ur -> {
+                        roleIds.add(ur.getRole().getId());
+                    });
+                    resObj.setUserId(reqUserRoleObj.getUserId());
+                    resObj.setRoleIds(roleIds);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnCode = 50000;
+        }
+        resObj.setReturnCode(returnCode);
+        resObj.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
+        return resObj;
+    }
 }

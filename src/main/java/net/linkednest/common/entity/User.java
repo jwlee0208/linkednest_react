@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "user")
-@ToString(exclude = {"roles", "refreshToken"})
+@ToString(exclude = {"userRoles", "refreshToken"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +36,11 @@ public class User {
     @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
-    private List<Authority> roles = new ArrayList<>();
+    private List<Authority> userRoles = new ArrayList<>();
 
-    public void setRoles(List<Authority> role) {
-        this.roles = role;
-        role.stream().forEach(o -> o.setUser(this));
+    public void setUserRoles(List<Authority> userRoles) {
+        this.userRoles = userRoles;
+        userRoles.stream().forEach(o -> o.setUser(this));
     }
 
     @JsonManagedReference
