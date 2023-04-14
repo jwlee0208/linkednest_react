@@ -6,7 +6,7 @@ import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typogr
 function MenuDetail () {
     const navigate      = useNavigate();
     const location      = useLocation();
-    const menu  = location.state.menu;  
+    const menu          = location.state.menu;  
 
     const moveToEdit = (menu : AdminMenu_, e: React.MouseEvent<HTMLElement>) => {
         console.log('moveToEdit : ', menu);

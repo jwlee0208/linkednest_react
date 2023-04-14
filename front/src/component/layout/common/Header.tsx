@@ -18,6 +18,7 @@ import { Typography, AppBar, Avatar, IconButton
        , MenuItem, Toolbar, Tooltip } from "@mui/material";
 import { axiosInstance } from "../../..";
 import { ContentList_ } from "../../../store/modules/content";
+import SelectBoxForContent from "./SelectBoxForContent";
 
 type HeaderProps = {
     user        : User,
@@ -96,12 +97,6 @@ function Header({
         setAnchorElUser(null);
     };
 
-    const handleMoveType = (e : SelectChangeEvent) => {
-        e.preventDefault();
-        const typeIdVal = e.target.value;
-        navigate(`/${typeIdVal}`);
-    }
-
     useEffect(() => {
        axiosInstance.get('/api/content/list')
                    .then((res) => setContentList(res.data))
@@ -129,14 +124,7 @@ function Header({
                   </MenuItem>
                 ))}
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
-                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="" value={contentCode}>
-            {
-              contentList.map(content => (
-                <MenuItem key={content.contentId} value={content.contentCode}>{content.contentName}</MenuItem>
-              ))
-            }  
-                </Select>
+                  <SelectBoxForContent contentCode={contentCode} contentList={contentList}/>
             </FormControl>
               </Menu>
             </Box>
@@ -146,14 +134,7 @@ function Header({
               TEST PROJECT
             </Typography>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
-                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="" value={contentCode}>
-                {
-                  contentList.map(content => (
-                    <MenuItem key={content.contentId} value={content.contentCode}>{content.contentName}</MenuItem>
-                  ))
-                }
-                </Select>
+              <SelectBoxForContent contentCode={contentCode} contentList={contentList}/>
             </FormControl>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
