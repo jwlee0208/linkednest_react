@@ -1,11 +1,10 @@
-import { Box, FormControl, Grid, Typography } from "@mui/material";
-import { Content_, getContentInfo } from "../../../store/modules/content";
-import { useAppSelect } from "../../../store/index.hooks";
-import Image from "mui-image";
+import { Box, FormControl, Grid, Typography }   from "@mui/material";
+import { getContentInfo }                       from "../../../store/modules/content";
+import { useAppSelect }                         from "../../../store/index.hooks";
+import Image                                    from "mui-image";
 
 function Footer() {
     const contentInfo = useAppSelect(getContentInfo);
-    console.log('contentInfo.contentCreator : ', contentInfo.contentCreator);
 
     return (
         <Grid container spacing={1}>
@@ -15,7 +14,11 @@ function Footer() {
                         <FormControl fullWidth sx={{ m: 1 }}>
                             <Grid container>
                                 <Grid item xs={2}>
-                                    <Image src={contentInfo.contentCreator.creatorImgUrl}/>
+                                {
+                                    (contentInfo.contentCreator.creatorImgUrl !== null) ? (
+                                        <Image src={contentInfo.contentCreator.creatorImgUrl}/>
+                                    ) : (<></>)
+                                }    
                                 </Grid>
                                 <Grid item xs={10}>
                                     <p>{contentInfo.contentCreator.creatorName}</p>
