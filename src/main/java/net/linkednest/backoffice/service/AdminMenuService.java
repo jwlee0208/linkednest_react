@@ -6,9 +6,9 @@ import net.linkednest.backoffice.dto.menu.ReqAdminMenuDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuDto;
 import net.linkednest.common.repository.AdminMenuRepository;
 import net.linkednest.common.ResponseCodeMsg;
-import net.linkednest.common.entity.AdminMenu;
-import net.linkednest.common.entity.AdminMenuCategory;
-import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.menu.AdminMenu;
+import net.linkednest.common.entity.menu.AdminMenuCategory;
+import net.linkednest.common.entity.user.User;
 import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
@@ -45,10 +45,7 @@ public class AdminMenuService {
 
     public AdminMenu getAdminMenu(Long menuId) {
         Optional<AdminMenu> adminMenuOptional = this.adminMenuRepository.findById(menuId);
-        if (adminMenuOptional.isPresent()) {
-            return adminMenuOptional.get();
-        }
-        return null;
+        return adminMenuOptional.orElse(null);
     }
 
     public CommonResDto deleteAdminMenu(ReqAdminMenuDto reqAdminMenuObj) {
@@ -115,7 +112,7 @@ public class AdminMenuService {
                     resAdminMenuObj.setShow(savedObj.getIsShow());
                 }
             } catch (Exception e) {
-                log.error("[].[] error : {}", this.getClass().getName(), "createAdminMenu", e.getMessage());
+                log.error("[{}.{}] error : {}", this.getClass().getName(), "createAdminMenu", e.getMessage());
                 returnCode = 50000;
             }
         } else {

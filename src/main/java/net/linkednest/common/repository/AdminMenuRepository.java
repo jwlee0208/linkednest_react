@@ -1,6 +1,6 @@
 package net.linkednest.common.repository;
 
-import net.linkednest.common.entity.AdminMenu;
+import net.linkednest.common.entity.menu.AdminMenu;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 

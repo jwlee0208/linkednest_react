@@ -1,4 +1,4 @@
-package net.linkednest.common.entity;
+package net.linkednest.common.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.linkednest.common.entity.role.Authority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class User {
 
     public void setUserRoles(List<Authority> userRoles) {
         this.userRoles = userRoles;
-        userRoles.stream().forEach(o -> o.setUser(this));
+        userRoles.forEach(o -> o.setUser(this));
     }
 
     @JsonManagedReference

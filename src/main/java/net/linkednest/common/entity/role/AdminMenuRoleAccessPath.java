@@ -1,10 +1,12 @@
-package net.linkednest.common.entity;
+package net.linkednest.common.entity.role;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.linkednest.common.entity.menu.AdminMenu;
+import net.linkednest.common.entity.user.User;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;

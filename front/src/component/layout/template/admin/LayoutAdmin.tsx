@@ -8,6 +8,7 @@ import AdminSideArea      from "../../common/admin/AdminSideArea";
 import AdminHeader        from "../../common/admin/AdminHeader";
 import AdminContent       from "../../common/admin/AdminContent";
 import Footer             from "../../common/Footer";
+import { getContentInfo } from "../../../../store/modules/content";
 
 function LayoutAdmin() {
 
@@ -19,6 +20,7 @@ function LayoutAdmin() {
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
     const adminMenuCategoryList = userinfo.adminMenuCategoryList;
+    const contentInfo = useAppSelect(getContentInfo);
 
     const isAdminIndexPage = (location.pathname === '/admin' || location.pathname === '/admin/index') ;
 
@@ -31,19 +33,22 @@ console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList)
         rapl.url === location.pathname)).forEach(r => 
           r.forEach(aa => 
             (aa === true) ? matchedUrlCnt++  : 0)
-        );
+        );    
 
     const isInvalidAccess = !isAdminIndexPage && matchedUrlCnt < 1;
-    if (isInvalidAccess) {
-      alert(`can not access this page (${location.pathname})`);
-      window.location.href = '/admin';
-    }    
+
+    if(contentInfo.contentCode === 'admin') {
+      if (isInvalidAccess) {
+        alert(`can not access this page (${location.pathname})`);
+        window.location.href = '/admin';
+      }    
+    }
 
     useEffect(()=>{
       // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
-    console.log(`layout${layoutInfo.typeId}>>`);
+    console.log(`layout${layoutInfo.layoutId}>>`);
 
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
@@ -53,7 +58,7 @@ console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList)
                          accessToken={accessToken} 
                          userId={userId} 
                          user={userinfo}  
-                         typeId={layoutInfo.typeId}/>
+                         typeId={layoutInfo.layoutId}/>
           </Grid>
           <Hidden smUp>
             <Grid container spacing={1}>

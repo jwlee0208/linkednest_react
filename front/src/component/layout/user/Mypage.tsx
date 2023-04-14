@@ -9,6 +9,7 @@ import TextField                             from "@mui/material/TextField";
 import Button                                from "@mui/material/Button"
 import Parser                                from 'html-react-parser';
 import ReactQuill                            from 'react-quill';
+import { getContentInfo } from "../../../store/modules/content";
 
 function Mypage() {
 
@@ -16,6 +17,7 @@ function Mypage() {
   const dispatch    = useAppDispatch();
   const layoutInfo  = useAppSelect(getLayoutInfo);
   const userInfo    = useAppSelect(getUserInfo);
+  const contentInfo = useAppSelect(getContentInfo);
 
   const [user, setUser] = useState<User>({
       userNo                : 0
@@ -69,7 +71,7 @@ function Mypage() {
     e.preventDefault();
     user.userId = base64_encode(user.userId);
     dispatch(asyncUserUpdate(user));
-    navigate(`/${layoutInfo.typeId}`);
+    navigate(`/${contentInfo.contentCode}`);
   }
 
   const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {

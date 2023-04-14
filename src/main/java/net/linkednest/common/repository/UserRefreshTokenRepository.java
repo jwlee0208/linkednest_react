@@ -1,8 +1,8 @@
 package net.linkednest.common.repository;
 
 import jakarta.transaction.Transactional;
-import net.linkednest.common.entity.User;
-import net.linkednest.common.entity.UserRefreshToken;
+import net.linkednest.common.entity.user.User;
+import net.linkednest.common.entity.user.UserRefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

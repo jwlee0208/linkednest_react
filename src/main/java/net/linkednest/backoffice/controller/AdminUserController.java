@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.linkednest.backoffice.service.AdminUserService;
-import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.user.User;
 import net.linkednest.common.dto.user.get.ResUserDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;

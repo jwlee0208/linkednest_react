@@ -6,8 +6,8 @@ import net.linkednest.backoffice.dto.menu.ReqAdminMenuCategoryDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
 import net.linkednest.common.repository.AdminMenuCategoryRepository;
 import net.linkednest.common.ResponseCodeMsg;
-import net.linkednest.common.entity.AdminMenuCategory;
-import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.menu.AdminMenuCategory;
+import net.linkednest.common.entity.user.User;
 import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.repository.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
@@ -27,7 +27,7 @@ public class AdminMenuCategoryService {
 
     public List<ResAdminMenuCategoryDto> getAdminMenuCategoryList() {
         List<ResAdminMenuCategoryDto> menuCategoryList = new ArrayList<>();
-        adminMenuCategoryRepository.findAll().stream().forEach(amcr -> {
+        adminMenuCategoryRepository.findAll().forEach(amcr -> {
             ResAdminMenuCategoryDto menuCategoryObj = new ResAdminMenuCategoryDto();
             menuCategoryObj.setCategoryId(amcr.getId());
             menuCategoryObj.setCategoryName(amcr.getCategoryName());
@@ -93,7 +93,7 @@ public class AdminMenuCategoryService {
                 returnCode = 50000;
             }
         } catch (Exception e) {
-            log.error("[][] : err >> {}", this.getClass().getName(), "delete", e.getMessage());
+            log.error("[{}.{}] : err >> {}", this.getClass().getName(), "delete", e.getMessage());
             returnCode = 50000;
         }
 
@@ -104,9 +104,6 @@ public class AdminMenuCategoryService {
 
     public AdminMenuCategory getAdminMenuCategory(Long categoryId) {
         Optional<AdminMenuCategory> adminMenuCategoryOptional = adminMenuCategoryRepository.findById(categoryId);
-        if (adminMenuCategoryOptional.isPresent()) {
-            return adminMenuCategoryOptional.get();
-        }
-        return null;
+        return adminMenuCategoryOptional.orElse(null);
     }
 }

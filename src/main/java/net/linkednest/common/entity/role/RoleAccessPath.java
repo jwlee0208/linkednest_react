@@ -1,4 +1,4 @@
-package net.linkednest.common.entity;
+package net.linkednest.common.entity.role;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

@@ -85,7 +85,7 @@ function SignUp() {
         user.password = base64_encode(user.password);        
 
         const res = dispatch(asyncSignUp(user));
-        navigate(`/${layoutInfo.typeId !== '' ? layoutInfo.typeId : '/'}`);
+        navigate(`/${layoutInfo.layoutId !== '' ? layoutInfo.layoutId : '/'}`);
     }
 
     useEffect(()=>{

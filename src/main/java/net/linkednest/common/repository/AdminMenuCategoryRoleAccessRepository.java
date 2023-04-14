@@ -1,7 +1,7 @@
 package net.linkednest.common.repository;
 
-import net.linkednest.common.entity.AdminMenuCategoryRoleAccess;
-import net.linkednest.common.entity.Role;
+import net.linkednest.common.entity.menu.AdminMenuCategoryRoleAccess;
+import net.linkednest.common.entity.role.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

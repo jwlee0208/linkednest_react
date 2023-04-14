@@ -2,8 +2,8 @@ package net.linkednest.www.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.linkednest.common.entity.User;
-import net.linkednest.common.entity.UserProfile;
+import net.linkednest.common.entity.user.User;
+import net.linkednest.common.entity.user.UserProfile;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.repository.UserProfileRepository;
 import org.apache.commons.lang3.StringUtils;

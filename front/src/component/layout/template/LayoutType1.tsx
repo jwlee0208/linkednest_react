@@ -14,24 +14,26 @@ import RestoreIcon        from '@mui/icons-material/Restore';
 import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
+import { getContentInfo } from "../../../store/modules/content";
 
 function LayoutType1() {
 
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
+    const contentInfo = useAppSelect(getContentInfo);
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
 
     const [value, setValue] = React.useState(0);
 
-    console.log(`layout${layoutInfo.typeId}>>`);
+    console.log(`layout${layoutInfo.layoutId}>>`);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  typeId={layoutInfo.typeId}/>
+            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId}/>
           </Grid>
           <Grid>
             <TopBanner/>

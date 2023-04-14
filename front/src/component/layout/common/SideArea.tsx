@@ -5,6 +5,7 @@ import { getLayoutInfo }    from "../../../store/modules/layout";
 import userSlice, { User }  from "../../../store/modules/user";
 import Login                from "../user/Login";
 import store                from "../../../store";
+import { getContentInfo } from "../../../store/modules/content";
 
 type SideAreaProps = {
     user        : User,
@@ -20,11 +21,12 @@ function SideArea({
 
     const navigate      = useNavigate();
     const layoutInfo    = useAppSelect(getLayoutInfo);
+    const contentInfo   = useAppSelect(getContentInfo);
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
         store.dispatch(userSlice.actions.logout(user));
-        navigate(`/${layoutInfo.typeId}`);    
+        navigate(`/${contentInfo.contentCode}`);    
     };
     
     return (

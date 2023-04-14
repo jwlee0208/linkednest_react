@@ -7,12 +7,14 @@ import { getLayoutInfo }                from "../../../store/modules/layout";
 import { Box, FormControl, Grid }       from "@mui/material";
 import TextField                        from "@mui/material/TextField";
 import Button                           from "@mui/material/Button"
+import { getContentInfo } from "../../../store/modules/content";
 
 function Login() {
 
     const dispatch      = useAppDispatch();
     const navigate      = useNavigate();
     const layoutInfo    = useAppSelect(getLayoutInfo);
+    const contentInfo   = useAppSelect(getContentInfo);
 
     const [loading, setLoading] = useState(false);
     const [msg, setMsg]         = useState("");
@@ -67,7 +69,7 @@ function Login() {
 
         dispatch(asyncLogin(user));        
         setMsg("Login Success");
-        navigate(`/${layoutInfo.typeId}`);
+        navigate(`/${contentInfo.contentCode}`);
         setLoading(true);
     }
 
