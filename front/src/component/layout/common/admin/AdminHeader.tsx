@@ -57,7 +57,7 @@ function AdminHeader({
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
             store.dispatch(userSlice.actions.logout(user));
-            navigate(`/${layoutInfo.typeId}`);    
+            navigate(`/${layoutInfo.layoutId}`);    
         } else {
             navigate(param);
         }

@@ -8,19 +8,23 @@ import net.linkednest.backoffice.dto.role.ResUserRoleDto;
 import net.linkednest.common.dto.authority.*;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuAccessPathDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuAccessPathDto;
+import net.linkednest.common.entity.menu.AdminMenu;
+import net.linkednest.common.entity.menu.AdminMenuCategory;
+import net.linkednest.common.entity.menu.AdminMenuCategoryRoleAccess;
+import net.linkednest.common.entity.role.AdminMenuRoleAccessPath;
+import net.linkednest.common.entity.role.Authority;
+import net.linkednest.common.entity.role.Role;
+import net.linkednest.common.entity.user.User;
 import net.linkednest.common.repository.*;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
-import net.linkednest.common.entity.*;
 import net.linkednest.common.dto.CommonResDto;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +46,7 @@ public class AdminAuthorityService {
     public List<ResAuthorityDto> getUserRoleList() {
 
         List<ResAuthorityDto> userRoleList = new ArrayList<>();
-        this.authorityRepository.findAll().stream().forEach(a -> {
+        this.authorityRepository.findAll().forEach(a -> {
             ResAuthorityDto resAuthorityDto = new ResAuthorityDto();
             resAuthorityDto.setRoleId(a.getRole().getId());
             resAuthorityDto.setRoleName(a.getRole().getRoleName());
@@ -56,11 +60,11 @@ public class AdminAuthorityService {
 
     public List<ResAdminMenuAccessPathDto> getMenuRoleList() {
         List<ResAdminMenuAccessPathDto> resList = new ArrayList<>();
-        adminMenuRoleAccessPathRepository.findAll(Sort.by(Sort.Direction.DESC, "adminMenu")).stream().forEach(amrap -> {
+        adminMenuRoleAccessPathRepository.findAll(Sort.by(Sort.Direction.DESC, "adminMenu")).forEach(amrap -> {
             ResAdminMenuAccessPathDto   resObj  = new ResAdminMenuAccessPathDto();
-            AdminMenu                   amObj   = amrap.getAdminMenu();
-            AdminMenuCategory           amcObj  = amObj.getAdminMenuCategory();
-            Role                        roleObj = amrap.getRole();
+            AdminMenu amObj   = amrap.getAdminMenu();
+            AdminMenuCategory amcObj  = amObj.getAdminMenuCategory();
+            Role roleObj = amrap.getRole();
 
             resObj.setId(amrap.getId());
             resObj.setMenuId(amObj.getId());
@@ -92,7 +96,6 @@ public class AdminAuthorityService {
                     Optional<AdminMenuRoleAccessPath> amrapOptional = adminMenuRoleAccessPathRepository.findById(menuRoleId);
                     if (amrapOptional.isPresent()) {
                         amrap = amrapOptional.get();
-
                         amrap.setUpdateUser(editUser);
                         amrap.setUpdateDate(new Date());
                     } else {
@@ -149,10 +152,7 @@ public class AdminAuthorityService {
 
     private Role getRole(Long roleId) {
         Optional<Role> roleOptional = roleRepository.findById(roleId);
-        if (roleOptional.isPresent()) {
-            return roleOptional.get();
-        }
-        return null;
+        return roleOptional.orElse(null);
     }
 
     public ResMenuCategoryRoleAccessDto editCategoryRole(ReqMenuCategoryRoleAccessDto reqMenuCategoryRoleAccessObj) {
@@ -228,7 +228,7 @@ public class AdminAuthorityService {
     public ResRoleDto editRole(ReqRoleDto reqRoleObj) {
         ResRoleDto resObj = new ResRoleDto();
         int     returnCode               = 10000;
-        Long    roleId = reqRoleObj.getRoleId();
+        Long    roleId                   = reqRoleObj.getRoleId();
         String  editType                 = ObjectUtils.isEmpty(roleId) ? CommonConstants.ACTION_CREATE : CommonConstants.ACTION_UPDATE;
 
         try {
@@ -302,7 +302,7 @@ public class AdminAuthorityService {
                 if (resultCnt > 0) {
                     List<Authority> authorityList = new ArrayList<>();
                     List<Role> roleList = roleRepository.findAllById(reqUserRoleObj.getRoleIds());
-                    roleList.stream().forEach(r -> {
+                    roleList.forEach(r -> {
                         Authority authority = new Authority();
                         authority.setUser(user);
                         authority.setRole(r);
@@ -311,7 +311,7 @@ public class AdminAuthorityService {
 
                     List<Authority> savedList = authorityRepository.saveAllAndFlush(authorityList);
                     List<Long> roleIds = new ArrayList<>();
-                    savedList.stream().forEach(ur -> {
+                    savedList.forEach(ur -> {
                         roleIds.add(ur.getRole().getId());
                     });
                     resObj.setUserId(reqUserRoleObj.getUserId());

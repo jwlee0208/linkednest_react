@@ -2,31 +2,31 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../reducer";
 
 export interface LayoutInfo {
-    typeId : string;
+    layoutId : string;
 }
 
 const initialState : LayoutInfo = {
-    typeId : '',
+    layoutId : '',
 };
 
 const layoutSlice = createSlice ({
     name     : 'layout',
     initialState,
     reducers : {
-        setTypeId : (state, action) => {
-            console.log('[setTypeID] action  : ' + JSON.stringify(action));
-            state.typeId = action.payload.typeId;
+        setLayoutId : (state, action) => {
+            console.log('[setLayoutId] action  : ' + JSON.stringify(action));
+            state.layoutId = action.payload.layoutId;
         }        
     },
     extraReducers : (builder) => {
-        builder.addCase(setLayoutTypeId.fulfilled, (state, action) => {
-            console.log('setLayoutTypeId >> action.payload : ',JSON.stringify(action.payload));
-            state.typeId = action.payload.typeId;
+        builder.addCase(setLayoutId.fulfilled, (state, action) => {
+            console.log('setLayoutId >> action.payload : ',JSON.stringify(action.payload));
+            state.layoutId = action.payload.layoutId;
         })
     } 
 });
 
-export const setLayoutTypeId = createAsyncThunk("SET_TYPE_ID", async (layout : LayoutInfo) => {
+export const setLayoutId = createAsyncThunk("SET_LAYOUT_ID", async (layout : LayoutInfo) => {
     return layout;
 });
 

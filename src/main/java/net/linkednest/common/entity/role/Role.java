@@ -1,8 +1,9 @@
-package net.linkednest.common.entity;
+package net.linkednest.common.entity.role;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import net.linkednest.common.entity.menu.AdminMenuCategoryRoleAccess;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;

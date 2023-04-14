@@ -97,14 +97,14 @@ function EditUserRole() {
                     <InputLabel id="userRoleSelectLabel">Role</InputLabel>
                     <Select labelId="userRoleSelectLabel"
                             id="userRole"
-                            native
+                            native={true}
                             multiple={true}
                             value={roleId}
                             label="User Role"
-                            sx={{minHeight:'200px'}}
+                            // sx={{height: 300}}
+                            size='medium'
                             onChange={handleRoleSelect}
-                    >                           
-                        <option value={0}>::: 선택 :::</option> 
+                            variant='outlined'>                           
                 {
                     roleList.map(r => (
                         <option key={r.roleId} value={r.roleId} selected={roleId.filter(rId => (rId === r.roleId)).length > 0}>

@@ -8,10 +8,15 @@ import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.common.dto.authority.ResRoleDto;
 import net.linkednest.common.dto.authority.ResUserRoleAccessPathDto;
 import net.linkednest.common.dto.authority.ResUserRoleDto;
+import net.linkednest.common.entity.menu.AdminMenu;
+import net.linkednest.common.entity.menu.AdminMenuCategory;
+import net.linkednest.common.entity.role.AdminMenuRoleAccessPath;
+import net.linkednest.common.entity.role.Authority;
+import net.linkednest.common.entity.user.User;
+import net.linkednest.common.entity.user.UserRefreshToken;
 import net.linkednest.common.repository.AdminMenuRoleAccessPathRepository;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
-import net.linkednest.common.entity.*;
 import net.linkednest.common.repository.RoleRepository;
 import net.linkednest.common.repository.UserRefreshTokenRepository;
 import net.linkednest.common.repository.UserRepository;
@@ -42,7 +47,7 @@ public class UserService {
     private final JwtProvider                           jwtProvider;
 
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
-        log.info("[{}.{}] userRegist : {}", this.getClass().getName().toString(), "registUser", userRegistDto.toString());
+        log.info("[{}.{}] userRegistObj : {}", this.getClass().getName(), "registUser", userRegistDto.toString());
         User newUser = new User();
 
         try {
@@ -53,14 +58,14 @@ public class UserService {
             newUser.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
 
             Authority authority = new Authority();
-            authority.setRole(roleRepository.getById(1L));
+            authority.setRole(roleRepository.getReferenceById(1L));
             newUser.setUserRoles(Collections.singletonList(authority));
 
-            log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName().toString(), "registUser", newUser.toString());
+            log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName(), "registUser", newUser.toString());
 
             try {
                 User createdUser = userRepository.saveAndFlush(newUser);
-                log.info("[registUser] createdUser : {}", createdUser);
+                log.info("[{}.{}] createdUser : {}", this.getClass().getName(), "registUser", createdUser);
                 try {
                     this.userProfileService.saveUserProfile(userRegistDto, createdUser);
                 } catch (Exception e) {
@@ -72,7 +77,7 @@ public class UserService {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("[{}.{}] userRepository.save ERROR OCCURRED entity : {}, errorMsg : {}", this.getClass().getName(), "registUser", newUser, e.getMessage());e.printStackTrace();
             return false;
         }
         return true;
@@ -127,7 +132,6 @@ public class UserService {
                 List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
 
                 user.getUserRoles()
-                        .stream()
                         .forEach(r -> {
                             setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
                             setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
@@ -149,7 +153,7 @@ public class UserService {
         }
         resUserLoginDto.setReturnCode(returnCode);
         resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
-        resUserLoginDto.setIsLogin(returnCode == 10000 ? true : false);
+        resUserLoginDto.setIsLogin(returnCode == 10000);
 
         return resUserLoginDto;
     }
@@ -167,7 +171,7 @@ public class UserService {
         resUserRoleDto.setRoleId(r.getRole().getId());
 
         List<ResUserRoleAccessPathDto> resUserRoleAccessPathDtoList = new ArrayList<>();
-        r.getRole().getAccessPaths().stream().forEach(ap -> {
+        r.getRole().getAccessPaths().forEach(ap -> {
             ResUserRoleAccessPathDto resUserRoleAccessPathDto = new ResUserRoleAccessPathDto();
             resUserRoleAccessPathDto.setRoleAccessPathId(ap.getId());
             resUserRoleAccessPathDto.setUrl(ap.getUrl());
@@ -182,23 +186,16 @@ public class UserService {
     public void setAdminMenuCategoryList(Authority r, List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList) {
         List<AdminMenuRoleAccessPath> amrapList = adminMenuRoleAccessPathRepository.findAllByRoleId(r.getRole().getId(), Sort.by(Sort.Direction.ASC, "adminMenu.adminMenuCategory.sortSeq", "adminMenu.sortSeq"));
 
-        amrapList.stream().forEach(a -> {
+        amrapList.forEach(a -> {
             log.info("[{}.{}] AdminMenuRoleAccessPath : {}", this.getClass().getName(), "setAdminMenuCategoryList", a.getAdminMenu().getMenuName());
-            AdminMenu           am  = a.getAdminMenu();
-            AdminMenuCategory   amc = am.getAdminMenuCategory();
+            AdminMenu am  = a.getAdminMenu();
+            AdminMenuCategory amc = am.getAdminMenuCategory();
             String              categoryName = amc.getCategoryName();
             List<ResAdminMenuRoleAccessPathDto> resAdminMenuRoleAccessPathDtoList   = new ArrayList<>();
             Optional<ResAdminMenuCategoryDto>   resAdminMenuCategoryDtoOptional     = adminMenuCategoryDtoList.stream().filter(amcdl -> amcdl.getCategoryId().equals(amc.getId())).findAny();
             ResAdminMenuCategoryDto             resAdminMenuCategoryDto             = null;
 
-/*
-            adminMenuCategoryDtoList.stream().forEach(amcdl -> {
-                log.info("---------------- amcdl : {}, amc : {}, eq : {}", amcdl.getCategoryId(), amc.getId(), amcdl.getCategoryId().equals(amc.getId()));
-
-            });
-*/
-
-log.info("[{}.{}] resAdminMenuCategoryDtoOptional : {}", this.getClass().getName(), "setAdminMenuCategoryList", resAdminMenuCategoryDtoOptional.isPresent());
+            log.info("[{}.{}] resAdminMenuCategoryDtoOptional : {}", this.getClass().getName(), "setAdminMenuCategoryList", resAdminMenuCategoryDtoOptional.isPresent());
 
             boolean isAddedCategory = resAdminMenuCategoryDtoOptional.isPresent();
 
@@ -207,7 +204,7 @@ log.info("[{}.{}] resAdminMenuCategoryDtoOptional : {}", this.getClass().getName
                 resAdminMenuRoleAccessPathDtoList = resAdminMenuCategoryDtoOptional.get().getAdminMenuRoleAccessPathList();
                 adminMenuCategoryDtoList.remove(resAdminMenuCategoryDto);
 
-log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "setAdminMenuCategoryList", resAdminMenuRoleAccessPathDtoList);
+                log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "setAdminMenuCategoryList", resAdminMenuRoleAccessPathDtoList);
 
             } else {
                 resAdminMenuCategoryDto = new ResAdminMenuCategoryDto();
@@ -215,13 +212,13 @@ log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getNa
                 resAdminMenuCategoryDto.setCategoryName(categoryName);
             }
 
-            List<ResAdminMenuRoleAccessPathDto> finalResAdminMenuRoleAccessPathDtoList = (CollectionUtils.isEmpty(resAdminMenuRoleAccessPathDtoList)) ?
-                    new ArrayList<>() : resAdminMenuRoleAccessPathDtoList;
+            List<ResAdminMenuRoleAccessPathDto> finalResAdminMenuRoleAccessPathDtoList
+                    = (CollectionUtils.isEmpty(resAdminMenuRoleAccessPathDtoList)) ? new ArrayList<>() : resAdminMenuRoleAccessPathDtoList;
             ResAdminMenuCategoryDto finalResAdminMenuCategoryDto = resAdminMenuCategoryDto;
             r.getRole().getAdminMenuCategoryRoleAccesses()
                     .stream()
-                    .filter(amcra -> a.getAdminMenu().getAdminMenuCategory().getId().equals(amcra.getAdminMenuCategory().getId()))
-                    .forEach(amcra -> {
+                    .filter(adminMenuCategoryRoleAccess -> a.getAdminMenu().getAdminMenuCategory().getId().equals(adminMenuCategoryRoleAccess.getAdminMenuCategory().getId()))
+                    .forEach(adminMenuCategoryRoleAccess -> {
                         Optional<ResAdminMenuRoleAccessPathDto> fam = finalResAdminMenuRoleAccessPathDtoList.stream().filter(framrap -> framrap.getId().equals(am.getId())).findAny();
                         boolean isAddedMenu = fam.isPresent();
                         if (!isAddedMenu) {
@@ -235,7 +232,7 @@ log.info("[{}.{}] resAdminMenuRoleAccessPathDtoList : {}", this.getClass().getNa
                         }
                         finalResAdminMenuCategoryDto.setAdminMenuRoleAccessPathList(finalResAdminMenuRoleAccessPathDtoList);
                     });
-log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "login", finalResAdminMenuRoleAccessPathDtoList);
+            log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().getName(), "login", finalResAdminMenuRoleAccessPathDtoList);
 
             adminMenuCategoryDtoList.add(finalResAdminMenuCategoryDto);
         });
@@ -246,7 +243,7 @@ log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().
         String              mergeRefreshTokenVal    = null;
         UserRefreshToken    refreshTokenObj         = null;
         UserRefreshToken    mergedRefreshToken      = null;
-        if (!refreshTokenOptional.isPresent()) {
+        if (refreshTokenOptional.isEmpty()) {
             mergeRefreshTokenVal = jwtProvider.createToken(user.getUserId(), user.getUserRoles());
             refreshTokenObj      = new UserRefreshToken();
             refreshTokenObj.setUser(user);
@@ -263,7 +260,6 @@ log.info("[{}.{}] finalResAdminMenuRoleAccessPathDtoList : {}", this.getClass().
     }
 
     public ResTokenDto reIssueToken(String refreshToken) {
-
         ResTokenDto resTokenDto = new ResTokenDto();
         Optional<UserRefreshToken> userRefreshTokenOptional = userRefreshTokenRepository.findByRefreshToken(refreshToken);
         if (userRefreshTokenOptional.isPresent()) {

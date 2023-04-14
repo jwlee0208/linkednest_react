@@ -12,7 +12,7 @@ import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuDto;
 import net.linkednest.backoffice.service.AdminMenuCategoryService;
 import net.linkednest.backoffice.service.AdminMenuService;
-import net.linkednest.common.entity.AdminMenuCategory;
+import net.linkednest.common.entity.menu.AdminMenuCategory;
 import net.linkednest.common.dto.CommonResDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

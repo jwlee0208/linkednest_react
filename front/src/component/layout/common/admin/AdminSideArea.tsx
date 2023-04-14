@@ -34,7 +34,7 @@ function AdminSideArea({
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
         store.dispatch(userSlice.actions.logout(user));
-        navigate(`/${layoutInfo.typeId}`);    
+        navigate(`/${layoutInfo.layoutId}`);    
     };
 
     return (

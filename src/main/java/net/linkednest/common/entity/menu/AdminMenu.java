@@ -1,9 +1,11 @@
-package net.linkednest.common.entity;
+package net.linkednest.common.entity.menu;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import net.linkednest.common.entity.role.AdminMenuRoleAccessPath;
+import net.linkednest.common.entity.user.User;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.ArrayList;

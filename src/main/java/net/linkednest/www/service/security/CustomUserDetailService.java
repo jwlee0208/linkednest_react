@@ -1,6 +1,6 @@
 package net.linkednest.www.service.security;
 
-import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.user.User;
 import net.linkednest.common.repository.UserRepository;
 import net.linkednest.common.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;

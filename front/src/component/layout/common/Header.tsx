@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate }     from 'react-router-dom';
 import { useAppSelect }    from "../../../store/index.hooks";
 import { getLayoutInfo }   from "../../../store/modules/layout";
@@ -16,13 +16,16 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Typography, AppBar, Avatar, IconButton
        , ButtonGroup, Box, Container, Menu
        , MenuItem, Toolbar, Tooltip } from "@mui/material";
+import { axiosInstance } from "../../..";
+import { ContentList_ } from "../../../store/modules/content";
 
 type HeaderProps = {
     user        : User,
     isLogin     : boolean;
     userId      : string;
     accessToken : string;
-    typeId      : string;
+    contentCode : string;
+    layoutType  : string;
 };
 
 function Header({
@@ -30,12 +33,13 @@ function Header({
     isLogin, 
     userId, 
     accessToken,
-    typeId
+    contentCode,
+    layoutType,
 } : HeaderProps) {
 
-    const settings = [{menu : 'My Page', path : `/${typeId}/mypage`}, {menu : 'Logout', path : '/logout'}];
+    const settings = [{menu : 'My Page', path : `/${contentCode}/mypage`}, {menu : 'Logout', path : '/logout'}];
     const pages    = (isLogin === true) ? [{menu : 'Home', path : '/'}
-                                         , {menu : 'My Page', path : `/${typeId}/mypage`}] 
+                                         , {menu : 'My Page', path : `/${contentCode}/mypage`}] 
                                         : [{menu : 'Home', path : '/'}];
     
     const layoutInfo  = useAppSelect(getLayoutInfo);
@@ -43,6 +47,23 @@ function Header({
  
     const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+    const [contentList, setContentList] = useState<ContentList_>([{
+      contentId   : 0,
+      contentName : '',
+      contentType : '',
+      contentCode : '',
+      layoutType  : 0,
+      status      : '',
+      usableLevel : 0,
+      contentSnsList : [],
+      contentCreator : {
+          contentCreatorId : 0,
+          creatorName      : '',
+          creatorRights    : '',
+          creatorImgUrl    : '',    
+      },
+    }]);
 
     const handleOpenNavMenu   = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -64,7 +85,7 @@ function Header({
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
             store.dispatch(userSlice.actions.logout(user));
-            navigate(`/${layoutInfo.typeId}`);    
+            navigate(`/${param}`);    
         } else {
             navigate(param);
         }
@@ -80,6 +101,12 @@ function Header({
         const typeIdVal = e.target.value;
         navigate(`/${typeIdVal}`);
     }
+
+    useEffect(() => {
+       axiosInstance.get('/api/content/list')
+                   .then((res) => setContentList(res.data))
+                   .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  )
+     }, [])
 
     return (
         <AppBar position="static">
@@ -103,10 +130,12 @@ function Header({
                 ))}
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
-                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="1" value={typeId}>
-                  <MenuItem value={"type1"}>type1</MenuItem>
-                  <MenuItem value={"type2"}>type2</MenuItem>
-                  <MenuItem value={"type3"}>type3</MenuItem>
+                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="" value={contentCode}>
+            {
+              contentList.map(content => (
+                <MenuItem key={content.contentId} value={content.contentCode}>{content.contentName}</MenuItem>
+              ))
+            }  
                 </Select>
             </FormControl>
               </Menu>
@@ -118,10 +147,12 @@ function Header({
             </Typography>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
-                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="1" value={typeId}>
-                  <MenuItem value={"type1"}>type1</MenuItem>
-                  <MenuItem value={"type2"}>type2</MenuItem>
-                  <MenuItem value={"type3"}>type3</MenuItem>
+                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} defaultValue="" value={contentCode}>
+                {
+                  contentList.map(content => (
+                    <MenuItem key={content.contentId} value={content.contentCode}>{content.contentName}</MenuItem>
+                  ))
+                }
                 </Select>
             </FormControl>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -150,10 +181,10 @@ function Header({
     ) : (
         <Box sx={{ flexGrow: 0 }}>        
           <ButtonGroup>
-            <Button onClick={(e)=>{handleCloseNavMenu(`/${typeId}/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
+            <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
             {
-              typeId === 'type3' ? (
-                <Button onClick={(e)=>{handleCloseNavMenu(`/${typeId}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
+              layoutType === '3' ? (
+                <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
               ) : (<></>)
             }
           </ButtonGroup>        

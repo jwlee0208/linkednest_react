@@ -188,9 +188,6 @@ const SignUpDetailForStepper = forwardRef(({
     }
 
     useEffect(()=>{
-
-        // console.log(navigator.languages);
-
         const quillCss = document.createElement("link");
         quillCss.crossOrigin    = '*';
         quillCss.rel            = 'stylesheet';

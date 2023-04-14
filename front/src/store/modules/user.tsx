@@ -160,7 +160,7 @@ const userSlice = createSlice ({
             state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
                 state.userNo    = action.payload.userNo;
-                state.userId    = action.payload.userId;
+                state.userId    = base64_decode(action.payload.userId);
                 state.email     = action.payload.email;
                 state.nickname  = action.payload.nickname;        
             } else {

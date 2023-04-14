@@ -1,6 +1,6 @@
 package net.linkednest.common.security;
 
-import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

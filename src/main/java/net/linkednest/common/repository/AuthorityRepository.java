@@ -1,7 +1,7 @@
 package net.linkednest.common.repository;
 
-import net.linkednest.common.entity.Authority;
-import net.linkednest.common.entity.User;
+import net.linkednest.common.entity.role.Authority;
+import net.linkednest.common.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

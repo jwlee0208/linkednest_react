@@ -16,7 +16,7 @@ public class AdminRoleService {
     private final RoleRepository roleRepository;
     public List<ResRoleDto> getRoleList() {
         List<ResRoleDto> resRoleList = new ArrayList<>();
-        roleRepository.findAll().stream().forEach(r -> {
+        roleRepository.findAll().forEach(r -> {
             ResRoleDto resRoleObj = new ResRoleDto();
             resRoleObj.setRoleId(r.getId());
             resRoleObj.setRoleName(r.getRoleName());

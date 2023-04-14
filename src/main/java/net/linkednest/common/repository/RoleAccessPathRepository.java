@@ -1,6 +1,6 @@
 package net.linkednest.common.repository;
 
-import net.linkednest.common.entity.RoleAccessPath;
+import net.linkednest.common.entity.role.RoleAccessPath;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
