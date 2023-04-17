@@ -1,5 +1,5 @@
 import React                      from 'react';
-import { Navigate }               from 'react-router';
+import { Navigate, redirect }               from 'react-router';
 import { Provider }               from 'react-redux';
 import { PersistGate }            from 'redux-persist/integration/react';
 import { persistStore }           from 'redux-persist';
@@ -10,6 +10,7 @@ import reportWebVitals            from './reportWebVitals';
 import axios                      from 'axios';
 import store                      from './store';
 import './index.scss';
+import userSlice from './store/modules/user';
 
 export const axiosInstance = axios.create({
   baseURL : "http://localhost:9091",
@@ -46,12 +47,16 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   function(response) {
     // to-do
+    console.log('[axios response] response : ', JSON.stringify(response));
+
     return response;
   },
   async function(error) {
     // to-do
     const {config, response : {status}, } = error;
     const originalReq = config;
+
+console.log('[axios response] status : ', status);
 
     if (status === 401) {
       const userinfo      = store.getState().userSlice;
@@ -64,10 +69,13 @@ axiosInstance.interceptors.response.use(
         });
         console.log("[interceptor response] return data : " + JSON.stringify(data) + ", returnCode : " + data.returnCode);
         if (data.returnCode === 10000) {
+
+          store.dispatch(userSlice.actions.updateAccessToken(data))
+
           const newAccessToken      = data.accessToken;
           const newRefreshToken     = data.refreshToken;
-          userinfo.accessToken      = newAccessToken;
-          userinfo.refreshToken     = newRefreshToken;
+          // userinfo.accessToken      = newAccessToken;
+          // userinfo.refreshToken     = newRefreshToken;
           originalReq.Authorization = `Bearer ${newAccessToken}`;
           
           return await axiosInstance(originalReq);  
@@ -76,6 +84,8 @@ axiosInstance.interceptors.response.use(
         console.log('err : ' + JSON.stringify(err));
         // new Error(err);
       }
+    } else if (status === 403) {
+      alert("Can't Accessable");
     }
     return Promise.reject(error);
   }

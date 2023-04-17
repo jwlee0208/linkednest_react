@@ -9,6 +9,8 @@ import { Menu, MenuList, MenuItem, Toolbar, Tooltip, Typography, Paper, ListItem
 import { AppBar, Avatar, ButtonGroup, Container, IconButton, Box, Button, FormControl } from "@mui/material";
 
 import CategoryMenuRow  from "./CategoryMenuRow";
+import { getConfig } from "@testing-library/react";
+import { getContentInfo } from "../../../../store/modules/content";
 
 type SideAreaProps = {
     user            : User,
@@ -26,6 +28,7 @@ function AdminSideArea({
 
     const navigate      = useNavigate();
     const layoutInfo    = useAppSelect(getLayoutInfo);
+    const contentInfo   = useAppSelect(getContentInfo);
 
     useEffect(() => {
 
@@ -34,7 +37,7 @@ function AdminSideArea({
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
         store.dispatch(userSlice.actions.logout(user));
-        navigate(`/${layoutInfo.layoutId}`);    
+        navigate(`/${contentInfo.contentCode}`);    
     };
 
     return (

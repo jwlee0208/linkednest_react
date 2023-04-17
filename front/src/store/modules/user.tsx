@@ -154,6 +154,10 @@ const userSlice = createSlice ({
             state.zipcode                 = 0;
             state.returnCode              = 0;
         },
+        updateAccessToken : (state, action) => {
+            state.accessToken             = action.payload.accessToken; 
+            state.refreshToken            = action.payload.refreshToken;   
+        }
     },
     extraReducers : (builder) => {
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {

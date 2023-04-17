@@ -35,7 +35,7 @@ function AdminContent ({
     return (
       <Routes>
         {/* to-do : 추후 동적으로 처리하도록 */}
-        <Route path='/admin'                      element={<Index/>}/>
+        <Route path='/admin/index'                element={<Index/>}/>
         <Route path='/admin/login'                element={<Login/>} />
         <Route path='/admin/board/category/list'  element={<BoardCategoryList/>}/>
         <Route path='/admin/board/list'           element={<BoardList/>}/>
