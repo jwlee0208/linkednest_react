@@ -37,12 +37,12 @@ console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList)
 
     const isInvalidAccess = !isAdminIndexPage && matchedUrlCnt < 1;
 
-    if(contentInfo.contentCode === 'admin') {
+    /* if(contentInfo.contentCode === 'admin') {
       if (isInvalidAccess) {
         alert(`can not access this page (${location.pathname})`);
         window.location.href = '/admin';
       }    
-    }
+    } */
 
     useEffect(()=>{
       // dispatch(asyncAdminMenuCategoryList());

@@ -1,9 +1,6 @@
 package net.linkednest.common.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +30,10 @@ public class JwtProvider {
 
     private Key secretKey;
 
-    private final long expireDuration = 1000L * 60 * 60 * 2; // 2 hour
+    private final long expireDuration = 1000L * 60;
+
+    private final String TOKEN_PREFIX = "Bearer ";
+        // 1000L * 60 * 60 * 2; // 2 hour
 
     private final CustomUserDetailService userDetailService;
 
@@ -54,6 +54,7 @@ public class JwtProvider {
                 .compact();
     }
 
+
     // 권한 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailService.loadUserByUsername(this.getUserId(token));
@@ -68,24 +69,22 @@ public class JwtProvider {
     // Authorization Header를 통해 인증
     public String resolveToken(HttpServletRequest request) {
         log.info("[{}.{}] resolveToken : {}", this.getClass().getName(), "validateToken", request.getHeader("Authorization"));
-
         return request.getHeader("Authorization");
     }
 
     // Token 검증
     public boolean validateToken(String token) {
         log.info("[{}.{}] token : {}, secretKey : {}", this.getClass().getName(), "validateToken", token, secretKey);
-
-        try {
-            if (!token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
-                return false;
-            } else {
-                token = token.split(" ")[1].trim();
-            }
+//        if (!token.substring(0, "Bearer ".length()).equalsIgnoreCase("Bearer ")) {
+        if (StringUtils.isNotEmpty(token) && StringUtils.startsWith(token, TOKEN_PREFIX)) {
+            token = token.split(" ")[1].trim();
+            log.info("[{}.{}] bearer header is existed >> token : {}", this.getClass().getName(), "validateToken", token);
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            e.printStackTrace();
+            boolean isNotExpired = !claims.getBody().getExpiration().before(new Date());
+            log.info("[{}.{}] isNotExpired : {}", this.getClass().getName(), "validateToken", isNotExpired);
+            return isNotExpired;
+        } else {
+            log.info("[{}.{}] bearer header is not existed : {}", this.getClass().getName(), "validateToken", (!token.substring(0, "Bearer ".length()).equalsIgnoreCase("Bearer ")));
             return false;
         }
     }

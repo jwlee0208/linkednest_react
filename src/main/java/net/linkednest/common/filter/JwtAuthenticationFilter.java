@@ -1,21 +1,30 @@
 package net.linkednest.common.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.security.JwtProvider;
+import org.apache.http.HttpStatus;
+import org.apache.http.entity.ContentType;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 // Jwt 유효성 검증 filter
 @Slf4j
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
@@ -25,9 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("[{}.{}] request uri : {}", this.getClass().getName(), "doFilterInternal", request.getRequestURI());
-        boolean isNotNeedJwt = (request.getMethod().equals(HttpMethod.OPTIONS.name()) || request.getRequestURI().contains("/images") || request.getRequestURI().contains("/images") || request.getRequestURI().contains("/style"));
+        boolean isNotNeedJwt = (request.getMethod().equals(HttpMethod.OPTIONS.name()) || request.getRequestURI().contains("/images") || request.getRequestURI().contains("/images") || request.getRequestURI().contains("/style") || request.getRequestURI().contains("/reIssueToken"));
         if (isNotNeedJwt) {
             // Http Method : OPTION은 PASS
             log.info("[{}.{}] HTTP METHOD OPTION REQUEST >> ", this.getClass().getName(), "doFilterInternal");
@@ -37,7 +46,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("[{}.{}] isValidToken : {}", this.getClass().getName(), "doFilterInternal", isValidToken);
             if (isValidToken) {
                 log.info("[{}.{}] token : {}", this.getClass().getName(), "doFilterInternal", token);
-
                 // accessToken 확인
                 token = token.split(" ")[1].trim();
                 log.info("[{}.{}] accessToken 확인 : {}", this.getClass().getName(), "doFilterInternal", token);
@@ -47,14 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             log.info("[{}.{}] response header : {}", this.getClass().getName(), "doFilterInternal", response.getHeader("REFRESH_TOKEN"));
-
-            try {
-                filterChain.doFilter(request, response);
-            } catch (ServletException se) {
-                log.error("[{}.{}] SE error : {}", this.getClass().getName(), "doFilterInternal", se.getMessage());
-            } catch (IOException ioe) {
-                log.error("[{}.{}] IOE error : {}", this.getClass().getName(), "doFilterInternal", ioe.getMessage());
-            }
         }
+        filterChain.doFilter(request, response);
     }
 }

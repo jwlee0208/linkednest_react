@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.entity.role.RoleAccessPath;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -70,7 +71,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
 
-//    @Cacheable(cacheNames = {"ROLE_ACCESS_PATH_REQUEST_MAP"})
+    @Cacheable(cacheNames = {"ROLE_ACCESS_PATH_REQUEST_MAP"})
     private void setReguestMap() {
         List<RoleAccessPath> roleAccessPathList = this.roleAccessProvider.getRoleAccessPathList();
 
@@ -82,8 +83,8 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
             requestMap.put(new AntPathRequestMatcher(r.getHttpMethod(), r.getUrl()), Collections.singletonList(new SecurityConfig(r.getRole().getRoleName())));
         });
 
-        if (ObjectUtils.isNotEmpty(requestMap)) {
+/*        if (ObjectUtils.isNotEmpty(requestMap)) {
             log.info("[{}.{}] requestMap : {}, ", this.getClass().getName(), "CONSTRUCTOR", requestMap);
-        }
+        }*/
     }
 }

@@ -1,5 +1,6 @@
 package net.linkednest.common.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.ServletException;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class CommonExceptionHandler {
     @ExceptionHandler({CustomException.class})
     protected ResponseEntity handleCustomException(CustomException ce) {
@@ -22,7 +23,7 @@ public class CommonExceptionHandler {
         return new ResponseEntity(resObj, HttpStatus.valueOf(ce.getErrorCode().getStatus()));
     }
 
-    @ExceptionHandler({IOException.class, ServletException.class, DataIntegrityViolationException.class})
+/*    @ExceptionHandler({IOException.class, ServletException.class, DataIntegrityViolationException.class})
     protected ResponseEntity handleException(IOException e) {
         CommonResDto resObj = new CommonResDto();
         resObj.setReturnCode(50000);
@@ -36,6 +37,6 @@ public class CommonExceptionHandler {
         resObj.setReturnCode(50000);
         resObj.setReturnMsg(e.getLocalizedMessage());
         return new ResponseEntity(resObj, HttpStatus.valueOf(ErrorCode.INTERNAL_SERVER_ERROR.getStatus()));
-    }
+    }*/
 
 }
