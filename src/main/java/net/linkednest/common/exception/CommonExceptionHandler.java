@@ -1,17 +1,9 @@
 package net.linkednest.common.exception;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.servlet.ServletException;
-import net.linkednest.common.CommonConstants;
-import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.CommonResDto;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.io.IOException;
 
 //@RestControllerAdvice
 public class CommonExceptionHandler {
