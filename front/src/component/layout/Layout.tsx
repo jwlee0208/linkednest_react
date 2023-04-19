@@ -77,7 +77,7 @@ function Layout() {
       baseCss.crossOrigin = '*';
       baseCss.rel         = 'stylesheet';
       baseCss.type        = "text/css";
-      baseCss.href        = `http://localhost:9091/style/layout_${contentCode === '' ? '' : contentCode}.scss`;
+      baseCss.href        = `http://localhost:9091/style/layout_${contentCode === '' ? '' : contentCode}.css`;
       
       const iconCss = document.createElement("link");
       iconCss.href        = 'https://fonts.googleapis.com/icon?family=Material+Icons';
