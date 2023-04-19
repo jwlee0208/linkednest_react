@@ -67,10 +67,11 @@ function Layout() {
                    .then((res) => setupContent(res.data))
                    .catch(err => console.log(err));
 
-       axiosInstance.get(`/api/banner/list/${content.contentCode}`)
-                  .then((res) => setupBannerList(res.data))
-                  .catch((err) => console.log(err));              
-
+      if (contentCode !== 'admin') {
+        axiosInstance.get(`/api/banner/list/${content.contentCode}`)
+        .then((res) => setupBannerList(res.data))
+        .catch((err) => console.log(err));              
+      }
               
       const baseCss = document.createElement("link");
       baseCss.crossOrigin = '*';
