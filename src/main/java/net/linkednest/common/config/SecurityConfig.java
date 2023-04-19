@@ -76,6 +76,13 @@ public class SecurityConfig {
                     })
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
+                    .addFilterBefore(urlFilterSecurityInterceptor(roleAccessProvider), FilterSecurityInterceptor.class)
+                    .exceptionHandling()
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
                     .authorizeHttpRequests()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/style/**").permitAll()
@@ -84,15 +91,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/content/**", "/api/banner/**").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
 
-                .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
-                    .addFilterBefore(urlFilterSecurityInterceptor(roleAccessProvider), FilterSecurityInterceptor.class)
-                    .exceptionHandling()
-                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                    .accessDeniedHandler(new CustomAccessDeniedHandler())
                 ;
         return httpSecurity.build();
     }
