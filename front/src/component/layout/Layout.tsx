@@ -9,6 +9,7 @@ import layoutSlice
    , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
 import contentSlice, { Content_, asyncGetContent, getContentInfo } from "../../store/modules/content";
 import { axiosInstance } from "../..";
+import bannerSlice, { BannerListInfo_, BannerList_ } from "../../store/modules/banner";
 
 function Layout() {
 
@@ -34,6 +35,13 @@ function Layout() {
           creatorImgUrl    : '',    
       },
     })
+
+    const [bannerListInfo, setBannerListInfo] = useState<BannerListInfo_>({
+      contentCode : '',
+      bannerList : [],
+    });
+
+
     let pathArr = location.pathname.split("/");
     if (pathArr[1] !== ''){
       contentCode = pathArr[1];
@@ -46,11 +54,22 @@ function Layout() {
       dispatch(layoutSlice.actions.setLayoutId(layout));          
     }                   
 
+    const setupBannerList = (bannerList : BannerList_) => {
+      console.log('layout >> bannerList : ', bannerList);
+      bannerListInfo.contentCode = content.contentCode;
+      bannerListInfo.bannerList = bannerList;
+      dispatch(bannerSlice.actions.setBannerList(bannerListInfo));
+    }
+
     useEffect(()=>{
       content.contentCode = contentCode;
       axiosInstance.get(`/api/content/${content.contentCode}`)
                    .then((res) => setupContent(res.data))
                    .catch(err => console.log(err));
+
+       axiosInstance.get(`/api/banner/list/${content.contentCode}`)
+                  .then((res) => setupBannerList(res.data))
+                  .catch((err) => console.log(err));              
 
               
       const baseCss = document.createElement("link");
@@ -71,7 +90,7 @@ function Layout() {
         document.head.removeChild(baseCss);
         document.head.removeChild(iconCss);
       }
-    }, [contentCode, content]);
+    }, [contentCode]);
     
     switch (layoutInfo.layoutId) {
       case "99" : return <LayoutAdmin/>

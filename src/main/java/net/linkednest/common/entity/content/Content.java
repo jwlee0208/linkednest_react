@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import net.linkednest.common.entity.board.BoardCategory;
 import net.linkednest.common.entity.user.User;
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -51,6 +52,15 @@ public class Content {
         this.contentSnsList = contentSnsList;
         contentSnsList.forEach(o -> o.setContent(this));
     }
+    @JsonManagedReference
+    @OneToMany(mappedBy = "content", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<BoardCategory> boardCategoryList;
+    public void setBoardCategoryList(List<BoardCategory> boardCategoryList) {
+        this.boardCategoryList = boardCategoryList;
+        boardCategoryList.forEach(o -> o.setContent(this));
+    }
+
     @JsonBackReference
     @JoinColumn(name = "createUserNo")
     @ManyToOne(fetch = FetchType.LAZY)

@@ -3,6 +3,7 @@ package net.linkednest.common.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.filter.JwtAuthenticationFilter;
+import net.linkednest.common.filter.JwtExceptionFilter;
 import net.linkednest.common.security.*;
 import net.linkednest.www.service.security.CustomUserDetailService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -39,6 +40,7 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final RoleAccessProvider roleAccessProvider;
     private final CustomUserDetailService userDetailsService;
+    private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -74,21 +76,23 @@ public class SecurityConfig {
                     })
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(urlFilterSecurityInterceptor(roleAccessProvider), FilterSecurityInterceptor.class)
-                    .exceptionHandling()
-                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                    .accessDeniedHandler(new CustomAccessDeniedHandler())
-                .and()
                     .authorizeHttpRequests()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/style/**").permitAll()
                         .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
                         .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
+                        .requestMatchers("/api/content/**", "/api/banner/**").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").authenticated()
-                        .requestMatchers("/api/content/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
+
+                .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
+                    .addFilterBefore(urlFilterSecurityInterceptor(roleAccessProvider), FilterSecurityInterceptor.class)
+                    .exceptionHandling()
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .accessDeniedHandler(new CustomAccessDeniedHandler())
                 ;
         return httpSecurity.build();
     }

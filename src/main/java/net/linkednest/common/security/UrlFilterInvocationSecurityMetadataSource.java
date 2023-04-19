@@ -1,5 +1,6 @@
 package net.linkednest.common.security;
 
+import com.nimbusds.oauth2.sdk.util.CollectionUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Slf4j
 @Getter
@@ -27,16 +29,21 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
     @Override
-    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
+    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException, ConcurrentModificationException {
         final HttpServletRequest request = ((FilterInvocation) object).getRequest();
         this.setReguestMap();
         if (ObjectUtils.isNotEmpty(requestMap)) {
             Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entries = requestMap.entrySet();
-            if (!entries.isEmpty()) {
-                Optional<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryOptional = entries.stream().filter(entry -> entry.getKey().matches(request)).findFirst();
-                if (entryOptional.isPresent()) {
-                    log.info("[{}.{}] entries : {}, isEmpty : {}, size : {}", this.getClass().getName(), "getAttributes", entries, entries.isEmpty(), entries.size());
-                    Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = entryOptional.get();
+            if (CollectionUtils.isNotEmpty(entries)) {
+                List<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryList = new ArrayList<>(entries);
+                Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = null;
+                for(Map.Entry<RequestMatcher, List<ConfigAttribute>> entryObj : entryList) {
+                    if (entryObj.getKey().matches(request)) {
+                        entry = entryObj;
+                        break;
+                    }
+                }
+                if (ObjectUtils.isNotEmpty(entry)) {
                     return entry.getValue();
                 }
             }
@@ -79,7 +86,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                 securityConfigs = new ArrayList<>();
             }
             SecurityConfig sc = new SecurityConfig(r.getRole().getRoleName());
-            if (!securityConfigs.contains(sc)) {
+            if (ObjectUtils.isNotEmpty(securityConfigs) && !securityConfigs.contains(sc)) {
                 securityConfigs.add(sc);
             }
             requestMap.put(aprm, securityConfigs);
