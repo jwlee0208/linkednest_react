@@ -1,16 +1,15 @@
-import {Paper} from '@mui/material';
-import { BannerInfo } from './Banner';
-import Image from 'mui-image';
+import {Paper}      from '@mui/material';
+import Image        from 'mui-image';
+import { Banner_ }  from '../../../../store/modules/banner';
 
 type BannerProps = {
-    info : BannerInfo;
+    info : Banner_;
 };
 
 function BannerDetail({info} : BannerProps) {
-
     return (
-        <Paper title={info.name}>
-            <Image src={info.img} style={{margin:"auto", display:"flex"}}/>
+        <Paper title={info.bannerName}>
+            <Image src={info.mainImageUrl} style={{margin:"auto", display:"flex"}} alt={info.bannerDesc}/>
         </Paper>
     )
 }

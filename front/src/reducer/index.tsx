@@ -6,6 +6,7 @@ import userSlice                from "../store/modules/user";
 import layoutSlice              from "../store/modules/layout";
 import adminMenuCategorySlice   from "../store/modules/adminMenu";
 import contentSlice from "../store/modules/content";
+import bannerSlice from "../store/modules/banner";
 
 const persistConfig = {
     key       : "root",
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     layoutSlice             : layoutSlice.reducer,
     contentSlice            : contentSlice.reducer,
     adminMenuCategorySlice  : adminMenuCategorySlice.reducer,
+    bannerSlice             : bannerSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

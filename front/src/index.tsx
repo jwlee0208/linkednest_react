@@ -1,5 +1,4 @@
 import React                      from 'react';
-import { Navigate, redirect }               from 'react-router';
 import { Provider }               from 'react-redux';
 import { PersistGate }            from 'redux-persist/integration/react';
 import { persistStore }           from 'redux-persist';
@@ -47,7 +46,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   function(response) {
     // to-do
-    console.log('[axios response] response : ', JSON.stringify(response));
+    // console.log('[axios response] response : ', JSON.stringify(response));
 
     return response;
   },
@@ -67,15 +66,13 @@ console.log('[axios response] status : ', status);
           url     : '/reIssueToken',
           data    : {refreshToken : refreshToken},
         });
-        console.log("[interceptor response] return data : " + JSON.stringify(data) + ", returnCode : " + data.returnCode);
+        // console.log("[interceptor response] return data : " + JSON.stringify(data) + ", returnCode : " + data.returnCode);
         if (data.returnCode === 10000) {
 
           store.dispatch(userSlice.actions.updateAccessToken(data))
 
           const newAccessToken      = data.accessToken;
           const newRefreshToken     = data.refreshToken;
-          // userinfo.accessToken      = newAccessToken;
-          // userinfo.refreshToken     = newRefreshToken;
           originalReq.Authorization = `Bearer ${newAccessToken}`;
           
           return await axiosInstance(originalReq);  
