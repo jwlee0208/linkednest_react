@@ -9,37 +9,28 @@ import net.linkednest.www.service.security.CustomUserDetailService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.vote.AffirmativeBased;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@EnableWebSecurity
+@Order(0)
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
-    private final RoleAccessProvider roleAccessProvider;
-    private final CustomUserDetailService userDetailsService;
     private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
@@ -78,55 +69,38 @@ public class SecurityConfig {
                 .and()
                     .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
-                    .addFilterBefore(urlFilterSecurityInterceptor(roleAccessProvider), FilterSecurityInterceptor.class)
                     .exceptionHandling()
                     .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                     .accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                     .authorizeHttpRequests()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/style/**").permitAll()
-                        .requestMatchers("/login", "/user", "/logout", "/reIssueToken").permitAll()  // 무조건 허용할 URL 선언
-                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
-                        .requestMatchers("/api/content/**", "/api/banner/**").permitAll()
+                        .requestMatchers(
+                                  new AntPathRequestMatcher("/style/**")
+                                , PathRequest.toStaticResources().atCommonLocations()
+                                , new AntPathRequestMatcher("/user")
+                                , new AntPathRequestMatcher("/login")
+                                , new AntPathRequestMatcher("/reIssueToken")
+                                , new AntPathRequestMatcher("/logout")
+                                , new AntPathRequestMatcher("/login")
+                                , new AntPathRequestMatcher("/swagger-ui/**")
+                                , new AntPathRequestMatcher("/v3/**")
+                                , new AntPathRequestMatcher("/api/content/**")
+                                , new AntPathRequestMatcher("/api/banner/list/**")
+                        ).permitAll()   // 무조건 허용할 URL 선언
+                .and()
+                    .authorizeHttpRequests()
                         .requestMatchers("/user/**").authenticated()
-                        .requestMatchers("/admin/**").authenticated()
-                        .anyRequest().authenticated()
+                .and()
+                    .authorizeHttpRequests()
+                        .anyRequest().permitAll()
 
-                ;
+        ;
         return httpSecurity.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    public FilterSecurityInterceptor urlFilterSecurityInterceptor(RoleAccessProvider roleAccessProvider) throws Exception {
-        FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
-        filterSecurityInterceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource(roleAccessProvider));
-        filterSecurityInterceptor.setAccessDecisionManager(affirmativeBased());
-        filterSecurityInterceptor.setAuthenticationManager(authenticationManager(userDetailsService));
-        return filterSecurityInterceptor;
-    }
-
-    @Bean
-    public UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource(RoleAccessProvider roleAccessProvider) {
-        return new UrlFilterInvocationSecurityMetadataSource(roleAccessProvider);
-    }
-
-    private AccessDecisionManager affirmativeBased() {
-        return new AffirmativeBased(Collections.singletonList(new RoleVoter()));
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(CustomUserDetailService customUserDetailService) throws Exception {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(customUserDetailService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        List<AuthenticationProvider> providers = List.of(authProvider);
-        return new ProviderManager(providers);
     }
 }

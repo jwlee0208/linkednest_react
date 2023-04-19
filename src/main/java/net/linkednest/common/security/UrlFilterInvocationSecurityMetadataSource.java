@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.entity.role.RoleAccessPath;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -16,7 +18,7 @@ import java.util.*;
 
 @Slf4j
 @Getter
-//@EnableCaching
+@EnableCaching
 public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     private final Map<RequestMatcher, List<ConfigAttribute>> requestMap;
     private final RoleAccessProvider roleAccessProvider;
@@ -31,16 +33,29 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         final HttpServletRequest request = ((FilterInvocation) object).getRequest();
         this.setReguestMap();
         if (ObjectUtils.isNotEmpty(requestMap)) {
-            Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entries = requestMap.entrySet();
+            /*Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entries = requestMap.entrySet();
             if (!entries.isEmpty()) {
-                Optional<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryOptional = entries.stream().filter(entry -> entry.getKey().matches(request)).findFirst();
+                Optional<Map.Entry<RequestMatcher, List<ConfigAttribute>>> entryOptional
+                        = entries.stream()
+                            .filter(entry -> {
+                                log.info("[{}.{}] entryKey : {}, request : {}", this.getClass().getName(), "getAttributes", entry.getKey(), request);
+                                log.info("[{}.{}] entry.getKey().matches(request) : {}", this.getClass().getName(), "getAttributes", entry.getKey().matches(request));
+                                return entry.getKey().matches(request);
+                            }).findFirst();
                 if (entryOptional.isPresent()) {
                     log.info("[{}.{}] entries : {}, isEmpty : {}, size : {}", this.getClass().getName(), "getAttributes", entries, entries.isEmpty(), entries.size());
                     Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = entryOptional.get();
                     return entry.getValue();
                 }
             }
-            entries.clear();
+            entries.clear();*/
+            for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {
+                RequestMatcher matcher = entry.getKey();
+                if (matcher.matches(request)) {
+                    log.info("[{}.{}] entry : {}, matcher.matches(request) : {}", this.getClass().getName(), "getAttributes", entry, matcher.matches(request));
+                    return entry.getValue();
+                }
+            }
         }
 
         return null;
@@ -63,7 +78,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
 
-//    @Cacheable(cacheNames = {"ROLE_ACCESS_PATH_REQUEST_MAP"})
+    @Cacheable(cacheNames = {"ROLE_ACCESS_PATH_REQUEST_MAP"})
     private void setReguestMap() {
         List<RoleAccessPath> roleAccessPathList = this.roleAccessProvider.getRoleAccessPathList();
 
