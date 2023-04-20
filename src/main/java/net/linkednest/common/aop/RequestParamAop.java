@@ -20,17 +20,16 @@ public class RequestParamAop {
 
     @Around("execution(* net.linkednest.www.controller..*(..)) || execution(* net.linkednest.backoffice.controller..*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.currentTimeMillis();
-        String joinPointStr = joinPoint.toString();
+        long    start        = System.currentTimeMillis();
+        String  joinPointStr = joinPoint.toString();
         try {
-            Object result = joinPoint.proceed();
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            Object              result  = joinPoint.proceed();
+            HttpServletRequest  request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-            String controllerName = joinPoint.getSignature().getDeclaringType().getSimpleName();
-
-            String methodName = joinPoint.getSignature().getName();
-            String requestURI = request.getRequestURI();
-            String httpMethod = request.getMethod();
+            String controllerName   = joinPoint.getSignature().getDeclaringType().getSimpleName();
+            String methodName       = joinPoint.getSignature().getName();
+            String requestURI       = request.getRequestURI();
+            String httpMethod       = request.getMethod();
 
             JSONObject reqParameters = getParameters(request);
             if (reqParameters.has("password")) {
@@ -47,10 +46,10 @@ public class RequestParamAop {
     }
 
     private static JSONObject getParameters(HttpServletRequest request) throws JSONException {
-        JSONObject jsonObj = new JSONObject();
-        Enumeration<String> params = request.getParameterNames();
+        JSONObject          jsonObj = new JSONObject();
+        Enumeration<String> params  = request.getParameterNames();
         while(params.hasMoreElements()) {
-            String paramKey = (String)params.nextElement();
+            String paramKey     = (String)params.nextElement();
             String replaceParam = paramKey.replaceAll("\\.", "-");
             jsonObj.put(replaceParam, request.getParameter(paramKey));
         }

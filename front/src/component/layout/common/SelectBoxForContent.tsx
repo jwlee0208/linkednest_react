@@ -1,6 +1,7 @@
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { ContentList_ } from "../../../store/modules/content";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 type SelectBoxProps = {
     contentCode : string,
@@ -17,6 +18,10 @@ function SelectBoxForContent({
         const typeIdVal = e.target.value;
         navigate(`/${typeIdVal}`);
     }
+
+    useEffect(() => {
+
+    }, [contentCode]);
 
     return (
         <>

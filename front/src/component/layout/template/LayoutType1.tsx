@@ -1,7 +1,7 @@
 import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
-import { BottomNavigation, BottomNavigationAction, Grid }           
+import { BottomNavigation, BottomNavigationAction, Box, Fab, Grid }           
                           from "@mui/material";
 import Header             from "../common/Header";
 import Navbar             from "../common/Navbar";
@@ -15,6 +15,7 @@ import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
 import { getContentInfo } from "../../../store/modules/content";
+import { AddAPhoto, AddAlarm } from "@mui/icons-material";
 
 function LayoutType1() {
 
@@ -31,6 +32,7 @@ function LayoutType1() {
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
             <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId}/>
@@ -54,7 +56,7 @@ function LayoutType1() {
                 <Content isLogin={isLogin}/>
               </Grid>
               <Grid component="aside" item xs={3}>
-                <SideArea isLogin={isLogin} userId={userId} user={userinfo} />
+                <SideArea isLogin={isLogin} userId={userId} user={userinfo}/>
               </Grid>
             </Grid>
           </Hidden>

@@ -1,11 +1,12 @@
-import { Box, Button }      from "@mui/material";
+import { Box, Button, Fab, Icon } from "@mui/material";
 import { useNavigate }      from "react-router";
 import { useAppSelect }     from "../../../store/index.hooks";
 import { getLayoutInfo }    from "../../../store/modules/layout";
 import userSlice, { User }  from "../../../store/modules/user";
 import Login                from "../user/Login";
 import store                from "../../../store";
-import { getContentInfo } from "../../../store/modules/content";
+import { getContentInfo }   from "../../../store/modules/content";
+import SideFloatingButtons from "./SideFloatingButtons";
 
 type SideAreaProps = {
     user        : User,
@@ -29,8 +30,10 @@ function SideArea({
         navigate(`/${contentInfo.contentCode}`);    
     };
     
+    
     return (
         <Box component="menu" sx={{mr:3, overflow: 'hidden'}}>
+            <SideFloatingButtons/>
             <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{minHeight:"200px"}}>
                 <Box sx={{ m: 1 }}>
                     Area1
