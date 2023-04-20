@@ -4,6 +4,10 @@ import Login                          from "../user/Login";
 import Mypage                         from "../user/Mypage";
 import SignUp                         from "../user/backup/SignUp";
 import Home                           from "./Home";
+import { Box, Fab } from "@mui/material";
+import { AddAPhoto, AddAlarm } from "@mui/icons-material";
+import FavoriteIcon       from '@mui/icons-material/Favorite';
+
 
 type ContentProps = {
     isLogin : boolean;
@@ -13,6 +17,7 @@ function Content ({
     isLogin
 } : ContentProps ) {
     return (
+      <Box>
       <Routes>
         <Route path='/'               element={<Home bannerHeight="480px"/>} />
         <Route path='/:typeId'        element={<Home bannerHeight="480px"/>} />
@@ -21,6 +26,7 @@ function Content ({
         <Route path='/:typeId/signup' element={<SignupForStepper />} />
         {/* <Route path='/signup'         element={<SignUp />} /> */}
       </Routes>
+      </Box>
     )
 }
 
