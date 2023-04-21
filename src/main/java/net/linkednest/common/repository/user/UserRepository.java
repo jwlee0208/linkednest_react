@@ -1,4 +1,4 @@
-package net.linkednest.common.repository;
+package net.linkednest.common.repository.user;
 
 import jakarta.transaction.Transactional;
 import net.linkednest.common.entity.user.User;

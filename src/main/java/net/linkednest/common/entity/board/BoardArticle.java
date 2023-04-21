@@ -12,21 +12,23 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name="board")
-public class Board {
+@Table(name="boardArticle")
+public class BoardArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonBackReference
-    @JoinColumn(name = "boardCategoryId")
+    @JoinColumn(name = "boardId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private BoardCategory boardCategory;
-    private String boardName;
-    private String boardCode;
-    private String boardKeyword;
-    private Boolean isActive;
+    private Board board;
+    private String title;
+    @Column(columnDefinition = "TEXT")
+    private String content;
+    @Column(columnDefinition = "TEXT")
+    private String contentText;
     private String imagePath;
+    private Boolean isActive;
     @JsonBackReference
     @JoinColumn(name = "createUserNo")
     @ManyToOne(fetch = FetchType.LAZY)

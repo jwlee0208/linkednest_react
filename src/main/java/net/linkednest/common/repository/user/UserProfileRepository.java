@@ -1,4 +1,4 @@
-package net.linkednest.common.repository;
+package net.linkednest.common.repository.user;
 
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.entity.user.UserProfile;

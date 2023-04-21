@@ -19,6 +19,10 @@ import net.linkednest.common.repository.*;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.CommonResDto;
+import net.linkednest.common.repository.admin.AdminMenuCategoryRoleAccessRepository;
+import net.linkednest.common.repository.admin.AdminMenuRoleAccessPathRepository;
+import net.linkednest.common.repository.auth.AuthorityRepository;
+import net.linkednest.common.repository.user.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,9 +41,9 @@ public class AdminAuthorityService {
 
     private final AdminMenuService                      adminMenuService;
     private final AdminMenuCategoryService              adminMenuCategoryService;
-    private final AuthorityRepository                   authorityRepository;
-    private final UserRepository                        userRepository;
-    private final AdminMenuRoleAccessPathRepository     adminMenuRoleAccessPathRepository;
+    private final AuthorityRepository authorityRepository;
+    private final UserRepository userRepository;
+    private final AdminMenuRoleAccessPathRepository adminMenuRoleAccessPathRepository;
     private final AdminMenuCategoryRoleAccessRepository adminMenuCategoryRoleAccessRepository;
     private final RoleRepository                        roleRepository;
 

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.entity.user.UserProfile;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
-import net.linkednest.common.repository.UserProfileRepository;
+import net.linkednest.common.repository.user.UserProfileRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

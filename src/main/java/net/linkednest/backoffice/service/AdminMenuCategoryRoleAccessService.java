@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.dto.authority.ResMenuCategoryRoleAccessDto;
 import net.linkednest.common.entity.menu.AdminMenuCategory;
 import net.linkednest.common.entity.role.Role;
-import net.linkednest.common.repository.AdminMenuCategoryRoleAccessRepository;
+import net.linkednest.common.repository.admin.AdminMenuCategoryRoleAccessRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

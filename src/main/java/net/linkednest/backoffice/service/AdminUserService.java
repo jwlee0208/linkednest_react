@@ -12,8 +12,8 @@ import net.linkednest.common.entity.role.Role;
 import net.linkednest.common.entity.role.RoleAccessPath;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.entity.user.UserProfile;
-import net.linkednest.common.repository.UserProfileRepository;
-import net.linkednest.common.repository.UserRepository;
+import net.linkednest.common.repository.user.UserProfileRepository;
+import net.linkednest.common.repository.user.UserRepository;
 import net.linkednest.www.service.UserService;
 import org.springframework.stereotype.Service;
 
