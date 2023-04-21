@@ -1,11 +1,11 @@
 import { Box, Button, Fab, Icon } from "@mui/material";
 import { useNavigate }      from "react-router";
-import { useAppSelect }     from "../../../store/index.hooks";
-import { getLayoutInfo }    from "../../../store/modules/layout";
-import userSlice, { User }  from "../../../store/modules/user";
-import Login                from "../user/Login";
-import store                from "../../../store";
-import { getContentInfo }   from "../../../store/modules/content";
+import { useAppSelect }     from "../../../../store/index.hooks";
+import { getLayoutInfo }    from "../../../../store/modules/layout";
+import userSlice, { User }  from "../../../../store/modules/user";
+import Login                from "../../user/Login";
+import store                from "../../../../store";
+import { getContentInfo }   from "../../../../store/modules/content";
 import SideFloatingButtons from "./SideFloatingButtons";
 
 type SideAreaProps = {

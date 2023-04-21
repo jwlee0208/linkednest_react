@@ -1,6 +1,6 @@
 import { Box, Fab, styled } from "@mui/material";
-import { useAppSelect } from "../../../store/index.hooks";
-import { getContentInfo } from "../../../store/modules/content";
+import { useAppSelect } from "../../../../store/index.hooks";
+import { getContentInfo } from "../../../../store/modules/content";
 import FacebookIcon         from '@mui/icons-material/Facebook';
 import TwitterIcon          from '@mui/icons-material/Twitter';
 import HomeIcon             from '@mui/icons-material/Home';

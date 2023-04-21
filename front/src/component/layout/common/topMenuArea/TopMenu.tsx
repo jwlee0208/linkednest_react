@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Menu, MenuItem } from "@mui/material";
-import { BoardCategory_, Board_ } from "../../../store/modules/boardCategory";
+import { BoardCategory_, Board_ } from "../../../../store/modules/boardCategory";
 import { useNavigate } from "react-router";
 
 
