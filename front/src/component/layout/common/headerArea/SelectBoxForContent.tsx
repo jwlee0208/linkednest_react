@@ -1,5 +1,5 @@
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { ContentList_ } from "../../../store/modules/content";
+import { ContentList_ } from "../../../../store/modules/content";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
