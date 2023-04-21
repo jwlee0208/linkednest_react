@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Divider, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, ButtonGroup, Divider, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from 'react';
 import { axiosInstance } from "../../..";
@@ -17,6 +17,10 @@ function ArticleList() {
         createUserNo : 0,
         createDate   : '',    
     }]);
+
+    const [contentCode, setContentCode] = useState<string>('');
+    const [boardCategoryKeyword, setBoardCategoryKeyword] = useState<string>('');
+    const [boardKeyword, setBoardKeyword] = useState<string>('');
 
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
@@ -65,6 +69,11 @@ function ArticleList() {
                 boardKeyword         = pathArr[3];
             }
         }   
+
+        setContentCode(contentCode);
+        setBoardCategoryKeyword(boardCategoryKeyword);
+        setBoardKeyword(boardKeyword);
+
         console.log(contentCode, boardCategoryKeyword, boardKeyword);
     
         axiosInstance({
@@ -86,6 +95,13 @@ function ArticleList() {
         <Box sx={{p:2}}>
             <Typography variant="h4"> List</Typography>
             <Divider/>
+            <br/>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit">{contentCode}</Link>            
+                <Link underline="hover" color="inherit">{boardCategoryKeyword}</Link>            
+                <Typography color="text.primary">{boardKeyword}</Typography>
+            </Breadcrumbs>
+
             <ButtonGroup sx={{p:1, float:'right'}}>
                 <Button onClick={(e) => moveToCreate(e)}>Create</Button>
             </ButtonGroup>
