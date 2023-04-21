@@ -7,9 +7,10 @@ import LayoutType3                 from "./template/LayoutType3";
 import LayoutAdmin                 from "./template/admin/LayoutAdmin";
 import layoutSlice
    , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
-import contentSlice, { Content_, asyncGetContent, getContentInfo } from "../../store/modules/content";
+import contentSlice, { Content_ }  from "../../store/modules/content";
 import { axiosInstance } from "../..";
 import bannerSlice, { BannerListInfo_, BannerList_ } from "../../store/modules/banner";
+import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } from "../../store/modules/boardCategory";
 
 function Layout() {
 
@@ -41,6 +42,10 @@ function Layout() {
       bannerList : [],
     });
 
+    const [boardCategoryListInfo, setContentBoardCategoryInfo] = useState<ContentBoardCategoryInfo_>({
+      contentCode : '',
+      boardCategoryList : [],
+    });
 
     let pathArr = location.pathname.split("/");
     if (pathArr[1] !== ''){
@@ -61,6 +66,12 @@ function Layout() {
       dispatch(bannerSlice.actions.setBannerList(bannerListInfo));
     }
 
+    const setupContentBoardCategoryInfo = (boardCategoryList : BoardCategoryList_) => {
+      boardCategoryListInfo.contentCode = content.contentCode;
+      boardCategoryListInfo.boardCategoryList = boardCategoryList;
+      dispatch(boardCategorySlice.actions.setContentBoardCategoryInfo(boardCategoryListInfo));
+    }
+
     useEffect(()=>{
       content.contentCode = contentCode;
       axiosInstance.get(`/api/content/${content.contentCode}`)
@@ -71,6 +82,10 @@ function Layout() {
         axiosInstance.get(`/api/banner/list/${content.contentCode}`)
         .then((res) => setupBannerList(res.data))
         .catch((err) => console.log(err));              
+
+        axiosInstance.get(`/api/board/category/list/${content.contentCode}`)
+                    .then((res) => setupContentBoardCategoryInfo(res.data))
+                    .catch((err) => console.log(err));              
       }
               
       const baseCss = document.createElement("link");

@@ -87,6 +87,7 @@ public class SecurityConfig {
                                 , new AntPathRequestMatcher("/v3/**")
                                 , new AntPathRequestMatcher("/api/content/**")
                                 , new AntPathRequestMatcher("/api/banner/list/**")
+                                , new AntPathRequestMatcher("/api/board/**", HttpMethod.GET.name())
                         ).permitAll()   // 무조건 허용할 URL 선언
                 .and()
                     .authorizeHttpRequests()

@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.menu.ReqAdminMenuCategoryDto;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
-import net.linkednest.common.repository.AdminMenuCategoryRepository;
+import net.linkednest.common.repository.admin.AdminMenuCategoryRepository;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.entity.menu.AdminMenuCategory;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.dto.CommonResDto;
-import net.linkednest.common.repository.UserRepository;
+import net.linkednest.common.repository.user.UserRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 

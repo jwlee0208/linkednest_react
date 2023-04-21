@@ -1,7 +1,7 @@
 import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
-import { BottomNavigation, BottomNavigationAction, Box, Fab, Grid }           
+import { BottomNavigation, BottomNavigationAction, Grid }           
                           from "@mui/material";
 import Header             from "../common/Header";
 import Navbar             from "../common/Navbar";
@@ -15,7 +15,6 @@ import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
 import { getContentInfo } from "../../../store/modules/content";
-import { AddAPhoto, AddAlarm } from "@mui/icons-material";
 
 function LayoutType1() {
 

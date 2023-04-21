@@ -1,4 +1,4 @@
-package net.linkednest.common.repository;
+package net.linkednest.common.repository.auth;
 
 import net.linkednest.common.entity.role.Authority;
 import net.linkednest.common.entity.user.User;

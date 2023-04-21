@@ -32,6 +32,9 @@ public class BoardCategory {
         this.content = content;
     }
 
+    @Column(unique = true)
+    private String boardCategoryCode;
+    private String boardCategoryKeyword;
     private String boardCategoryName;
     private String boardCategoryDesc;
     private Boolean isActive;
@@ -54,6 +57,7 @@ public class BoardCategory {
     @JoinColumn(name = "updateUserNo")
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+
     private User updateUser;
     private Date updateDate;
 

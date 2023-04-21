@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate }     from 'react-router-dom';
-import { useAppSelect }    from "../../../store/index.hooks";
-import { getLayoutInfo }   from "../../../store/modules/layout";
 import userSlice, { User } from "../../../store/modules/user";
 import store               from "../../../store";
 import logo                from './logo.svg';
 
 import Button              from '@mui/material/Button';
-import Link                from '@mui/material/Link';
 import AdbIcon             from '@mui/icons-material/Adb';
 import MenuIcon            from '@mui/icons-material/Menu';
 import FormControl         from "@mui/material/FormControl";
-import InputLabel          from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Typography, AppBar, Avatar, IconButton
        , ButtonGroup, Box, Container, Menu
        , MenuItem, Toolbar, Tooltip } from "@mui/material";
@@ -43,7 +38,6 @@ function Header({
                                          , {menu : 'My Page', path : `/${contentCode}/mypage`}] 
                                         : [{menu : 'Home', path : '/'}];
     
-    const layoutInfo  = useAppSelect(getLayoutInfo);
     const navigate    = useNavigate();
  
     const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
