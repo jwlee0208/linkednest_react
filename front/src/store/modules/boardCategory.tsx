@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../reducer";
+import { error } from "console";
 
 export interface ContentBoardCategoryInfo_ {
     contentCode : string;
@@ -28,6 +29,18 @@ export interface Board_ {
     imagePath       : string;
     createDate      : string;
     updateDate      : string;
+}
+
+export interface BoardArticleList_ extends Array<BoardArticle_> {}
+export interface BoardArticle_ {
+    id : number;
+    boardId : number;
+    title : string;
+    content : string;
+    imagePath : string;
+    isActive : string;
+    createUserNo : number;
+    createDate : string;
 }
 
 export const initialState : ContentBoardCategoryInfo_ = {
