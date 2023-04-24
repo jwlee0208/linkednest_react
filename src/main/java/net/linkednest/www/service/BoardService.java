@@ -3,14 +3,18 @@ package net.linkednest.www.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.dto.board.ReqBoardArticleListDto;
+import net.linkednest.common.dto.board.ResBoardArticleDto;
+import net.linkednest.common.dto.board.ResBoardDto;
 import net.linkednest.common.entity.board.Board;
 import net.linkednest.common.entity.board.BoardArticle;
 import net.linkednest.common.entity.board.BoardCategory;
 import net.linkednest.common.repository.board.BoardArticleRepository;
 import net.linkednest.common.repository.board.BoardCategoryRepository;
+import net.linkednest.common.repository.board.BoardRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +26,24 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardCategoryRepository boardCategoryRepository;
+    private final BoardRepository boardRepository;
     private final BoardArticleRepository boardArticleRepository;
+    private final BoardArticleService boardArticleService;
 
-    public List getBoardArticleList(ReqBoardArticleListDto reqBoardArticleListObj) {
-        String contentCode          = StringUtils.defaultString(reqBoardArticleListObj.getContentCode());
-        String boardCategoryKeyword = StringUtils.defaultString(reqBoardArticleListObj.getBoardCategoryKeyword());
-        String boardKeyword         = StringUtils.defaultString(reqBoardArticleListObj.getBoardKeyword());
-
-        List<BoardArticle>      boardArticleList        = new ArrayList<>();
-        Optional<BoardCategory> boardCategoryOptional   = boardCategoryRepository.findByBoardCategoryCode(String.format("%s_%s", contentCode, boardCategoryKeyword));
-        if (boardCategoryOptional.isPresent()) {
-            BoardCategory   boardCategory = boardCategoryOptional.get();
-            Optional<Board> boardOptional = boardCategory.getBoardList().stream().filter(board -> StringUtils.equals(boardKeyword, board.getBoardKeyword())).findFirst();
-            if (boardOptional.isPresent()) {
-                Board board      = boardOptional.get();
-                boardArticleList = boardArticleRepository.findAllByBoard(board, Sort.by(Sort.Direction.DESC, "createDate"));
-            }
+    public ResBoardDto getBoardDetail(String boardCode) {
+        Optional<Board> boardOptional = this.boardRepository.findByBoardCode(boardCode);
+        if (boardOptional.isPresent()) {
+            Board boardObj = boardOptional.get();
+            ResBoardDto resBoardObj = new ResBoardDto();
+            resBoardObj.setBoardKeyword(boardObj.getBoardKeyword());
+            resBoardObj.setBoardCode(boardObj.getBoardCode());
+            resBoardObj.setBoardName(boardObj.getBoardName());
+            resBoardObj.setBoardCategoryId(boardObj.getBoardCategory().getId());
+            resBoardObj.setId(boardObj.getId());
+            return resBoardObj;
         }
-        return boardArticleList;
+        return null;
     }
+
+
 }

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from 'react';
 import { axiosInstance } from "../../..";
 import { BoardArticleList_, BoardArticle_, } from "../../../store/modules/boardCategory";
+
 function ArticleList() {
 
     const location = useLocation();
@@ -15,12 +16,13 @@ function ArticleList() {
         imagePath    : '',
         isActive     : '',
         createUserNo : 0,
+        createUserId : '',
         createDate   : '',    
     }]);
 
-    const [contentCode, setContentCode] = useState<string>('');
-    const [boardCategoryKeyword, setBoardCategoryKeyword] = useState<string>('');
-    const [boardKeyword, setBoardKeyword] = useState<string>('');
+    let [contentCode, setContentCode] = useState<string>('');
+    let [boardCategoryKeyword, setBoardCategoryKeyword] = useState<string>('');
+    let [boardKeyword, setBoardKeyword] = useState<string>('');
 
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
@@ -49,9 +51,6 @@ function ArticleList() {
     }
 
     useEffect(()=>{
-        let contentCode = null;
-        let boardKeyword = null;
-        let boardCategoryKeyword = null;
         if (location.state !== null) {
             const contentBoardCategory = location.state.contentBoardCategory;
             const board = location.state.board;    
@@ -69,22 +68,18 @@ function ArticleList() {
                 boardKeyword         = pathArr[3];
             }
         }   
-
         setContentCode(contentCode);
         setBoardCategoryKeyword(boardCategoryKeyword);
         setBoardKeyword(boardKeyword);
-
         console.log(contentCode, boardCategoryKeyword, boardKeyword);
     
-        axiosInstance({
-            method  : 'post',
-            url     : '/api/board/article/list',
-            data    : {
+        axiosInstance.post('/api/board/article/list',
+            JSON.stringify({
                 contentCode          : contentCode,
                 boardCategoryKeyword : boardCategoryKeyword,
                 boardKeyword         : boardKeyword
-            },
-        }).then(res => (
+            })
+        ).then(res => (
             setupBoardArticleList(res.data)
         )).catch(err => (
             alert(`[${err.code}][${err.response.status}] ${err.message}`)    
@@ -111,8 +106,8 @@ function ArticleList() {
                     <TableRow>
                         <TableCell width={'5%'}>No</TableCell>
                         <TableCell width={'45%'}>Title</TableCell>
-                        <TableCell width={'25%'}>작성자</TableCell>
-                        <TableCell width={'15%'}>작성일</TableCell>
+                        <TableCell width={'15%'}>작성자</TableCell>
+                        <TableCell width={'25%'}>작성일</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -121,8 +116,10 @@ function ArticleList() {
                         <TableRow key={`${boardArticle.boardId}_${boardArticle.id}`}>
                             <TableCell>{index + offset + 1}</TableCell>
                             <TableCell><Button onClick={(e) => handleMenuView(boardArticle as BoardArticle_, e)}>{boardArticle.title}</Button></TableCell>
-                            <TableCell>{boardArticle.createUserNo}</TableCell>
-                            <TableCell>{boardArticle.createDate}</TableCell>
+                            <TableCell>{boardArticle.createUserId}</TableCell>
+                            <TableCell>
+                                <Typography>{boardArticle.createDate}</Typography>                                
+                            </TableCell>
                         </TableRow>
                     ))
                 }                

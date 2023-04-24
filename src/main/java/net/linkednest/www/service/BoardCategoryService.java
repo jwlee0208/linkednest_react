@@ -32,35 +32,49 @@ public class BoardCategoryService {
             List<BoardCategory> boardCategoryList = boardCategoryRepository.findAllByContentAndIsActive(contentOptional.get(), true);
             if (!CollectionUtils.isEmpty(boardCategoryList)) {
                 for(BoardCategory boardCategoryObj : boardCategoryList) {
-                    ResBoardCategoryDto resBoardCategoryObj = new ResBoardCategoryDto();
-                    List<Board> boardList = boardCategoryObj.getBoardList();
-                    if(!CollectionUtils.isEmpty(boardList)) {
-                        List<ResBoardDto> resBoardList = new ArrayList<>();
-                        for(Board boardObj : boardList) {
-                            ResBoardDto resBoardObj = new ResBoardDto();
-                            BoardCategory boardCategory = boardObj.getBoardCategory();
-                            resBoardObj.setBoardCategoryId(boardCategory.getId());
-                            resBoardObj.setBoardName(boardObj.getBoardName());
-                            resBoardObj.setBoardCode(boardObj.getBoardCode());
-                            resBoardObj.setBoardKeyword(boardObj.getBoardKeyword());
-                            resBoardObj.setId(boardObj.getId());
-                            resBoardObj.setImgPath(boardObj.getImagePath());
-                            resBoardList.add(resBoardObj);
-                        }
-                        resBoardCategoryObj.setBoardList(resBoardList);
-                    }
-                    Content content = boardCategoryObj.getContent();
-                    resBoardCategoryObj.setContentId(content.getId());
-                    resBoardCategoryObj.setContentCode(content.getContentCode());
-                    resBoardCategoryObj.setBoardCategoryName(boardCategoryObj.getBoardCategoryName());
-                    resBoardCategoryObj.setBoardCategoryCode(boardCategoryObj.getBoardCategoryCode());
-                    resBoardCategoryObj.setBoardCategoryKeyword(boardCategoryObj.getBoardCategoryKeyword());
-                    resBoardCategoryObj.setId(boardCategoryObj.getId());
+                    ResBoardCategoryDto resBoardCategoryObj = this.getBoardCategoryDetail(boardCategoryObj);
                     resBoardCategoryList.add(resBoardCategoryObj);
                 }
             }
         }
         return resBoardCategoryList;
+    }
+
+    public ResBoardCategoryDto getBoardCategoryDetail(String boardCategoryCode) {
+        Optional<BoardCategory> boardCategoryOptional = boardCategoryRepository.findByBoardCategoryCode(boardCategoryCode);
+        if (boardCategoryOptional.isPresent()) {
+            BoardCategory boardCategoryObj = boardCategoryOptional.get();
+            return this.getBoardCategoryDetail(boardCategoryObj);
+        }
+        return null;
+    }
+
+    public ResBoardCategoryDto getBoardCategoryDetail(BoardCategory boardCategoryObj) {
+        ResBoardCategoryDto resBoardCategoryObj = new ResBoardCategoryDto();
+        List<Board> boardList = boardCategoryObj.getBoardList();
+        if(!CollectionUtils.isEmpty(boardList)) {
+            List<ResBoardDto> resBoardList = new ArrayList<>();
+            for(Board boardObj : boardList) {
+                ResBoardDto resBoardObj = new ResBoardDto();
+                BoardCategory boardCategory = boardObj.getBoardCategory();
+                resBoardObj.setBoardCategoryId(boardCategory.getId());
+                resBoardObj.setBoardName(boardObj.getBoardName());
+                resBoardObj.setBoardCode(boardObj.getBoardCode());
+                resBoardObj.setBoardKeyword(boardObj.getBoardKeyword());
+                resBoardObj.setId(boardObj.getId());
+                resBoardObj.setImgPath(boardObj.getImagePath());
+                resBoardList.add(resBoardObj);
+            }
+            resBoardCategoryObj.setBoardList(resBoardList);
+        }
+        Content content = boardCategoryObj.getContent();
+        resBoardCategoryObj.setContentId(content.getId());
+        resBoardCategoryObj.setContentCode(content.getContentCode());
+        resBoardCategoryObj.setBoardCategoryName(boardCategoryObj.getBoardCategoryName());
+        resBoardCategoryObj.setBoardCategoryCode(boardCategoryObj.getBoardCategoryCode());
+        resBoardCategoryObj.setBoardCategoryKeyword(boardCategoryObj.getBoardCategoryKeyword());
+        resBoardCategoryObj.setId(boardCategoryObj.getId());
+        return resBoardCategoryObj;
     }
 
 }

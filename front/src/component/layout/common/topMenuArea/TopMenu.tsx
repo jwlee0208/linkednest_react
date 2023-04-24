@@ -23,7 +23,8 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
     };
 
     const moveToPage = (contentBoardCategory : BoardCategory_, board : Board_, e : React.MouseEvent<HTMLElement>) => {
-        navigate(`/${contentBoardCategory.contentCode}/${contentBoardCategory.boardCategoryKeyword}/${board.boardKeyword}`, {state : {contentBoardCategory : contentBoardCategory, board : board}});
+        // navigate(`/${contentBoardCategory.contentCode}/${contentBoardCategory.boardCategoryKeyword}/${board.boardKeyword}`, {state : {contentBoardCategory : contentBoardCategory, board : board}});
+        window.location.href = `/${contentBoardCategory.contentCode}/${contentBoardCategory.boardCategoryKeyword}/${board.boardKeyword}`;
     };
 
     return (

@@ -2,6 +2,8 @@ import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typogr
 import { useLocation, useNavigate } from "react-router";
 import { BoardArticle_ } from "../../../store/modules/boardCategory";
 import { axiosInstance } from "../../..";
+import Parser                                from 'html-react-parser';
+import {format } from 'date-fns';
 
 function ArticleDetail() {
     const location = useLocation();
@@ -9,10 +11,12 @@ function ArticleDetail() {
     const boardArticle      = location.state.boardArticle;
     const pathArr           = location.pathname.split("/");
     const boardDefaultPath  = `/${pathArr[1]}/${pathArr[2]}/${pathArr[3]}`;
+    const boardCategoryKeyword  = `${pathArr[2]}`;
+    const boardKeyword          = `${pathArr[3]}`
 
     const moveToEdit = (boardArticle : BoardArticle_, e: React.MouseEvent<HTMLElement>) => {
         console.log('moveToEdit : ', boardArticle);
-        navigate(`${boardDefaultPath}/edit/${boardArticle.id}`, {state : {boardArticle : boardArticle}})
+        navigate(`${boardDefaultPath}/edit/${boardArticle.id}`, {state : {boardArticle : boardArticle, boardCategoryKeyword : boardCategoryKeyword, boardKeyword : boardKeyword}})
     }
 
     const handleToDelete = (boardArticleId : number, e: React.MouseEvent<HTMLElement>) => {
@@ -40,7 +44,9 @@ function ArticleDetail() {
             </Grid>
             <Grid container alignItems="center" sx={{ m: 1 }}>
                 <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">내용</FormLabel></Grid>
-                <Grid item xs={10}>{boardArticle.content}</Grid>
+                <Grid item xs={10}>
+                    <div dangerouslySetInnerHTML={{__html : Parser(decodeURI(boardArticle.content).replaceAll('\\"', '"')).toString()}}></div>
+                </Grid>
             </Grid>
             <Grid container alignItems="center" sx={{ m: 1 }}>
                 <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">작성자</FormLabel></Grid>
