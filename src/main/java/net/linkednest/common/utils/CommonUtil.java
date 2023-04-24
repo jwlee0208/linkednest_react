@@ -22,4 +22,7 @@ public class CommonUtil {
 		return strVal;
 	}
 
+	public static String removeTag(String html) {
+		return html.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+	}
 }

@@ -3,20 +3,20 @@ import { RootState } from "../../reducer";
 import { error } from "console";
 
 export interface ContentBoardCategoryInfo_ {
-    contentCode : string;
-    boardCategoryList : BoardCategoryList_;
+    contentCode         : string;
+    boardCategoryList   : BoardCategoryList_;
 }
 export interface BoardCategoryList_ extends Array<BoardCategory_> {}
 export interface BoardCategory_ {
-    id : number;
-    contentId : number;
-    contentCode : string;
-    boardCategoryName : string;
+    id                  : number;
+    contentId           : number;
+    contentCode         : string;
+    boardCategoryName   : string;
     boardCategoryKeyword: string;
-    boardCategoryCode: string;
-    boardCategoryDesc : string;
-    isActive : string;
-    boardList : BoardList_;
+    boardCategoryCode   : string;
+    boardCategoryDesc   : string;
+    isActive            : string;
+    boardList           : BoardList_;
 }
 export interface BoardList_ extends Array<Board_> {}
 export interface Board_ {
@@ -33,27 +33,28 @@ export interface Board_ {
 
 export interface BoardArticleList_ extends Array<BoardArticle_> {}
 export interface BoardArticle_ {
-    id : number;
-    boardId : number;
-    title : string;
-    content : string;
-    imagePath : string;
-    isActive : string;
-    createUserNo : number;
-    createDate : string;
+    id              : number;
+    boardId         : number;
+    title           : string;
+    content         : string;
+    imagePath       : string;
+    isActive        : string;
+    createUserNo    : number;
+    createUserId    : string;
+    createDate      : string;
 }
 
 export const initialState : ContentBoardCategoryInfo_ = {
-    contentCode : '',
-    boardCategoryList : [],
+    contentCode         : '',
+    boardCategoryList   : [],
 };
 
 const boardCategorySlice = createSlice ({
-    name : 'boardCategory',
+    name        : 'boardCategory',
     initialState,
-    reducers : {
+    reducers    : {
         setContentBoardCategoryInfo : (state, action) => {
-            state.contentCode = action.payload.contentCode;
+            state.contentCode       = action.payload.contentCode;
             state.boardCategoryList = action.payload.boardCategoryList;
         }
     }

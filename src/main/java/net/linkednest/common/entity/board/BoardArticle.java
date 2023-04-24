@@ -23,9 +23,9 @@ public class BoardArticle {
     @JsonIgnore
     private Board board;
     private String title;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String contentText;
     private String imagePath;
     private Boolean isActive;

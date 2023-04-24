@@ -23,4 +23,9 @@ public class BoardCategoryController {
         List<ResBoardCategoryDto> resBoardCategoryList = this.boardCategoryService.getContentBoardCategoryList(contentCode);
         return ResponseEntity.ok(resBoardCategoryList);
     }
+
+    @GetMapping(value = "/detail/{boardCategoryCode}")
+    public ResponseEntity<ResBoardCategoryDto> getBoardCategoryDetail(@PathVariable String boardCategoryCode) {
+        return ResponseEntity.ok(this.boardCategoryService.getBoardCategoryDetail(boardCategoryCode));
+    }
 }
