@@ -29,6 +29,7 @@ export interface Board_ {
     imagePath       : string;
     createDate      : string;
     updateDate      : string;
+    boardArticleList: BoardArticleList_
 }
 
 export interface BoardArticleList_ extends Array<BoardArticle_> {}

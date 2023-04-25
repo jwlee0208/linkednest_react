@@ -1,4 +1,4 @@
-import { Box, Fab, styled } from "@mui/material";
+import { Box, Fab, Typography, styled } from "@mui/material";
 import { useAppSelect } from "../../../../store/index.hooks";
 import { getContentInfo } from "../../../../store/modules/content";
 import FacebookIcon         from '@mui/icons-material/Facebook';
@@ -14,20 +14,20 @@ function SideFloatingButtons() {
         <Box id="floatingButtons" sx={{ width:'50px', float: `${contentInfo.layoutType === 1 ? 'right' : 'left'}`, display:'flex', justifyContent:'flex-end'}}>
         {
             contentInfo.contentSnsList.map((contentSns, index) => (
-                <Fab color="primary" aria-label={`${contentSns.snsType}`} sx={{ mt: (contentSns.contentSnsId+1)*10, position:'fixed'}} onClick={() => window.open(`${contentSns.snsUrl}`)} key={`${contentSns.snsType}`}>
+                <Fab variant='circular' color='inherit' aria-label={`${contentSns.snsType}`} sx={{ mt: (contentSns.contentSnsId+1)*10, position:'fixed'}} onClick={() => window.open(`${contentSns.snsUrl}`)} key={`${contentSns.snsType}`} >
                     {
                         (contentSns.snsType === 'fb') ? (
-                            <FacebookIcon/>        
+                            <FacebookIcon color="primary"/>        
                         ) : 
                         ((contentSns.snsType === 'tw') ? (
-                            <TwitterIcon/>
+                            <TwitterIcon color="info"/>
                         ) : 
                         ((contentSns.snsType === 'dc') ? (
-                            <ChatIcon/>
+                            <ChatIcon color="secondary"/>
                         ) : ((contentSns.snsType === 'yt') ? (
-                            <YouTubeIcon/>
+                            <YouTubeIcon color="error"/>
                         ) : (
-                            <HomeIcon sx={{m:1}}/>
+                            <HomeIcon sx={{m:1}} color="success"/>
                         ))))
                     }
                 </Fab>

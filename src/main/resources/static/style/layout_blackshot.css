@@ -1,1 +1,7 @@
-body {background-color: darkslategray;}
+/* body {background-color: darkslategray;} */
+
+#topMenuArea {background:black;}
+#topMenuArea div button p {color: azure;}
+#navbarArea {background-color: darkgrey;}
+#footerArea {background:black;}
+#footerArea p {color: azure;}

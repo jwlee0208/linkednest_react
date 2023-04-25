@@ -6,17 +6,12 @@ import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.dto.board.ReqBoardArticleDto;
 import net.linkednest.common.dto.board.ReqBoardArticleListDto;
 import net.linkednest.common.dto.board.ResBoardArticleDto;
-import net.linkednest.common.entity.user.User;
-import net.linkednest.common.security.CustomUserDetails;
+import net.linkednest.common.dto.board.ResBoardDto;
 import net.linkednest.www.service.BoardArticleService;
 import net.linkednest.www.service.BoardService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -30,14 +25,16 @@ public class BoardArticleController {
     public ResponseEntity<List<ResBoardArticleDto>> getBoardList(ReqBoardArticleListDto reqBoardArticleListObj) {
         return ResponseEntity.ok(boardArticleService.getBoardArticleList(reqBoardArticleListObj));
     }
+    @PostMapping(value = "/list/{contentCode}/{boardCategoryKeyword}")
+    public ResponseEntity<List<ResBoardDto>> getBoardArticleList(@PathVariable String contentCode, @PathVariable String boardCategoryKeyword) {
+        return ResponseEntity.ok(boardArticleService.getBoardArticleList(contentCode, boardCategoryKeyword));
+    }
     @PatchMapping(value = "")
-    public ResponseEntity<CommonResDto> updateBoardArticle(ReqBoardArticleDto reqBoardArticleObj, @AuthenticationPrincipal Authentication authentication) {
-        CustomUserDetails userDetailsObj = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj, userDetailsObj.getUser()));
+    public ResponseEntity<CommonResDto> updateBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
+        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj));
     }
     @PostMapping(value = "")
-    public ResponseEntity<CommonResDto> writeBoardArticle(ReqBoardArticleDto reqBoardArticleObj, @AuthenticationPrincipal Authentication authentication) {
-        CustomUserDetails userDetailsObj = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj, userDetailsObj.getUser()));
+    public ResponseEntity<CommonResDto> writeBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
+        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj));
     }
 }

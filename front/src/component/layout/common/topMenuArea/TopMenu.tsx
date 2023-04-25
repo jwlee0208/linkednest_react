@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { BoardCategory_, Board_ } from "../../../../store/modules/boardCategory";
 import { useNavigate } from "react-router";
 
@@ -28,15 +28,16 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
     };
 
     return (
-        <>
-            <div key={`${contentBoardCategory.boardCategoryKeyword}_1depth`}>
+        <Box id="topMenuArea" sx={{height: 50, textAlign:'center'}} key={`${contentBoardCategory.boardCategoryKeyword}_area`}>
+            <div key={`${contentBoardCategory.boardCategoryKeyword}_1depth`} style={{verticalAlign:'bottom'}}>
                 <Button id={`${contentBoardCategory.boardCategoryKeyword}_button`} 
                         key={`${contentBoardCategory.boardCategoryKeyword}`}
                         aria-controls={open ? `${contentBoardCategory.id}_menu` : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
+                        sx={{height: 50, }}
                         onClick={handleClick}>
-                            {contentBoardCategory.boardCategoryName}
+                            <Typography sx={{fontWeight:'bold'}} key={`${contentBoardCategory.boardCategoryKeyword}_text`}>{contentBoardCategory.boardCategoryName}</Typography>
                 </Button>
                 {
                     (contentBoardCategory.boardList !== null) ? (
@@ -59,7 +60,7 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
                     ) : (<></>)
                 }
             </div>          
-        </>
+        </Box>
     )
 }
 

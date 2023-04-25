@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.CommonResDto;
-import net.linkednest.common.dto.board.ReqBoardArticleDto;
-import net.linkednest.common.dto.board.ReqBoardArticleListDto;
-import net.linkednest.common.dto.board.ResBoardArticleDto;
-import net.linkednest.common.dto.board.ResBoardDto;
+import net.linkednest.common.dto.board.*;
 import net.linkednest.common.entity.board.Board;
 import net.linkednest.common.entity.board.BoardArticle;
 import net.linkednest.common.entity.board.BoardCategory;
@@ -16,9 +13,12 @@ import net.linkednest.common.repository.board.BoardArticleRepository;
 import net.linkednest.common.repository.board.BoardCategoryRepository;
 import net.linkednest.common.repository.board.BoardRepository;
 import net.linkednest.common.repository.user.UserRepository;
+import net.linkednest.common.security.CustomUserDetails;
 import net.linkednest.common.utils.CommonUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -66,16 +63,53 @@ public class BoardArticleService {
         return resBoardArticleList;
     }
 
+    public List<ResBoardDto> getBoardArticleList(String contentCode, String boardCategoryKeyword) {
+        List<ResBoardDto> resBoardList = new ArrayList<>();
+        String boardCategoryCode = String.format("%s_%s", contentCode, boardCategoryKeyword);
+        Optional<BoardCategory> boardCategoryOptional = boardCategoryRepository.findByBoardCategoryCode(boardCategoryCode);
+        if (boardCategoryOptional.isPresent()) {
+            BoardCategory boardCategoryObj = boardCategoryOptional.get();
 
-    public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj, User user) {
+            List<Board> boardList = boardRepository.findAllByBoardCategory(boardCategoryObj);
+            if (!CollectionUtils.isEmpty(boardList)) {
+                for(Board boardObj : boardList) {
+                    ResBoardDto resBoardObj = new ResBoardDto();
+                    resBoardObj.setBoardCategoryId(boardObj.getBoardCategory().getId());
+                    resBoardObj.setBoardName(boardObj.getBoardName());
+                    resBoardObj.setBoardCode(boardObj.getBoardCode());
+                    resBoardObj.setBoardKeyword(boardObj.getBoardKeyword());
+                    resBoardObj.setId(boardObj.getId());
+                    resBoardObj.setImgPath(boardObj.getImagePath());
+
+                    List<ResBoardArticleDto> resBoardArticleList = new ArrayList<>();
+
+                    Pageable pageable = PageRequest.of(0,5, Sort.Direction.DESC, "createDate");
+                    List<BoardArticle> boardArticleList = boardArticleRepository.findAllByBoard(boardObj, pageable);
+
+                    if (!CollectionUtils.isEmpty(boardArticleList)) {
+                        for(BoardArticle boardArticleObj : boardArticleList) {
+                            resBoardArticleList.add(this.getBoardArticle(boardArticleObj));
+                        }
+                        resBoardObj.setBoardArticleList(resBoardArticleList);
+                    }
+                    resBoardList.add(resBoardObj);
+                }
+            }
+
+        }
+        return resBoardList;
+    }
+
+
+    public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
         int returnCode = 10000;
         CommonResDto resObj = new CommonResDto();
-/*        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        Optional<User> userOptional = userRepository.findByUserId(userDetails.getUsername());*/
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails)principal;
         Long boardArticleId = reqBoardArticleObj.getId();
         Optional<Board> boardOptional = boardRepository.findById(reqBoardArticleObj.getBoardId());
-        if (boardOptional.isPresent()) {
+        if (boardOptional.isPresent() && ObjectUtils.isNotEmpty(userDetails)) {
+            User user = userDetails.getUser();
             Board boardObj = boardOptional.get();
             BoardArticle boardArticle = null;
             if (boardArticleId > 0L) {

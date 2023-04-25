@@ -70,6 +70,7 @@ function ArticleEdit() {
         imagePath       : '',
         createDate      : '',
         updateDate      : '',
+        boardArticleList: [],
     }]);
 
     const [board_, setBoard_] = useState<Board_>({
@@ -82,6 +83,7 @@ function ArticleEdit() {
         imagePath       : '',
         createDate      : '',
         updateDate      : '', 
+        boardArticleList: [],
     });
 
     const [boardArticle_, setBoardArticle_] = useState<BoardArticle_>({
@@ -99,14 +101,14 @@ function ArticleEdit() {
     const saveArticle = (e: React.MouseEvent<HTMLElement>) => {
         boardArticle_.boardId = board_.id;
         saveBoardArticle()
-            .then((res) => navigate(`/${contentCode}/${boardCategoryKeyword}/${boardKeyword}`))
+            .then((res)  => navigate(`/${contentCode}/${boardCategoryKeyword}/${boardKeyword}`))
             .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`));
     }
 
     async function saveBoardArticle () : Promise<BoardArticle_> {
         return await axiosInstance.post('/api/board/article', JSON.stringify({
-            id : boardArticle_.id,
-            title : boardArticle_.title,
+            id      : boardArticle_.id,
+            title   : boardArticle_.title,
             boardId : boardArticle_.boardId,
             content : boardArticle_.content,
         }));

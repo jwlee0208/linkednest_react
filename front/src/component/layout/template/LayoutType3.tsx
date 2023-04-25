@@ -18,8 +18,6 @@ import { getContentInfo } from "../../../store/modules/content";
 
 function LayoutType3() {
 
-    console.log("layout3>>");
-
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
     const contentInfo = useAppSelect(getContentInfo);
@@ -58,9 +56,9 @@ function LayoutType3() {
                 setValue(newValue);
               }}
             >
-              <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+              <BottomNavigationAction label="Recents"   icon={<RestoreIcon />} />
               <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-              <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+              <BottomNavigationAction label="Nearby"    icon={<LocationOnIcon />} />
             </BottomNavigation>
 
           </Hidden>

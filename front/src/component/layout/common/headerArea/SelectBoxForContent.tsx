@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { ContentList_ } from "../../../../store/modules/content";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
@@ -24,17 +24,16 @@ function SelectBoxForContent({
     }, [contentCode]);
 
     return (
-        <>
-              <InputLabel id="demo-simple-select-standard-label">Type List</InputLabel>
-                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" label="Type List" onChange={handleMoveType} value={contentCode}>
+        <FormControl>
+              <InputLabel id="content-select-standard-label">Type List</InputLabel>
+              <Select labelId="content-select-standard-label" id="content-select-standard" label="Type List" onChange={handleMoveType} value={contentCode}>
             {
               contentList.map(content => (
                 <MenuItem key={content.contentId} value={content.contentCode}>{content.contentName}</MenuItem>
               ))
             }  
-                </Select>
-        
-        </>
+              </Select>        
+        </FormControl>
     )
 }
 

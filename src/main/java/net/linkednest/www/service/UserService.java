@@ -168,7 +168,7 @@ public class UserService {
         resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
         resUserLoginDto.setIsLogin(returnCode == 10000);
 
-        this.setLoggedIn(request, userOptional.get(), "WEB_LOGIN");
+        this.setLoggedIn(request, userOptional.get(), CommonConstants.WEB_LOGIN_ACTION);
 
         return resUserLoginDto;
     }
@@ -178,7 +178,7 @@ public class UserService {
         CustomUserDetails userDetails = (CustomUserDetails)principal;
         if (ObjectUtils.isNotEmpty(userDetails)) {
             User user = userDetails.getUser();
-            this.setLoggedIn(request, user, "LOGOUT");
+            this.setLoggedIn(request, user, CommonConstants.LOGOUT_ACTION);
         }
     }
 

@@ -7,12 +7,14 @@ import TopMenu from './TopMenu';
 function TopBanner() {
 
     const contentBoardCategoryInfo = useAppSelect(getContentBoardCategoryInfo);
-
+    const menuCnt = contentBoardCategoryInfo.boardCategoryList.length;
     return (
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 50, width: '100%' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 50, width: '100%'}}>
 {
     contentBoardCategoryInfo.boardCategoryList.map((contentBoardCategory) => (
-                <TopMenu key={contentBoardCategory.boardCategoryKeyword} contentBoardCategory={contentBoardCategory}/>
+                <Box sx={{width : `${100/menuCnt}%`, height: 50, verticalAlign:'center'}} key={`${contentBoardCategory.boardCategoryKeyword}_Box`}>
+                    <TopMenu key={`${contentBoardCategory.boardCategoryKeyword}_topMenu`} contentBoardCategory={contentBoardCategory}/>
+                </Box>
     ))
 }                
             </Box>
