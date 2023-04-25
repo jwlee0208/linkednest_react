@@ -16,6 +16,7 @@ import net.linkednest.common.repository.board.BoardArticleRepository;
 import net.linkednest.common.repository.board.BoardCategoryRepository;
 import net.linkednest.common.repository.board.BoardRepository;
 import net.linkednest.common.repository.user.UserRepository;
+import net.linkednest.common.security.CustomUserDetails;
 import net.linkednest.common.utils.CommonUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,15 +68,18 @@ public class BoardArticleService {
     }
 
 
-    public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj, User user) {
+    public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
         int returnCode = 10000;
         CommonResDto resObj = new CommonResDto();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails)principal;
 /*        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails)principal;
         Optional<User> userOptional = userRepository.findByUserId(userDetails.getUsername());*/
         Long boardArticleId = reqBoardArticleObj.getId();
         Optional<Board> boardOptional = boardRepository.findById(reqBoardArticleObj.getBoardId());
-        if (boardOptional.isPresent()) {
+        if (boardOptional.isPresent() && ObjectUtils.isNotEmpty(userDetails)) {
+            User user = userDetails.getUser();
             Board boardObj = boardOptional.get();
             BoardArticle boardArticle = null;
             if (boardArticleId > 0L) {

@@ -14,10 +14,10 @@ function Home({bannerHeight} : HomeProps) {
         <Box borderColor="primary.main" border={1} sx={{mt:1, mb:1, height:{bannerHeight}}}>
           <Banner/>
         </Box>
-        <Box borderColor="secondary.main" border={1} sx={{mt:1, mb:1, height:"200px"}}>
+        <Box borderColor="secondary.main" border={1} sx={{mt:1, mb:1, minHeight:"200px"}}>
           <RecentNotice/>
         </Box>
-        <Box borderColor="skyblue" border={1} sx={{mt:1, mb:1, height:"200px"}}>
+        <Box borderColor="skyblue" border={1} sx={{mt:1, mb:1, minHeight:"200px"}}>
           <SiteMap/>
         </Box>
     </div>

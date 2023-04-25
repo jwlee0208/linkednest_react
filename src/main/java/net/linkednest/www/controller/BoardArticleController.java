@@ -10,9 +10,11 @@ import net.linkednest.common.entity.user.User;
 import net.linkednest.common.security.CustomUserDetails;
 import net.linkednest.www.service.BoardArticleService;
 import net.linkednest.www.service.BoardService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +33,11 @@ public class BoardArticleController {
         return ResponseEntity.ok(boardArticleService.getBoardArticleList(reqBoardArticleListObj));
     }
     @PatchMapping(value = "")
-    public ResponseEntity<CommonResDto> updateBoardArticle(ReqBoardArticleDto reqBoardArticleObj, @AuthenticationPrincipal Authentication authentication) {
-        CustomUserDetails userDetailsObj = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj, userDetailsObj.getUser()));
+    public ResponseEntity<CommonResDto> updateBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
+        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj));
     }
     @PostMapping(value = "")
-    public ResponseEntity<CommonResDto> writeBoardArticle(ReqBoardArticleDto reqBoardArticleObj, @AuthenticationPrincipal Authentication authentication) {
-        CustomUserDetails userDetailsObj = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj, userDetailsObj.getUser()));
+    public ResponseEntity<CommonResDto> writeBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
+        return ResponseEntity.ok(this.boardArticleService.editBoardArticle(reqBoardArticleObj));
     }
 }

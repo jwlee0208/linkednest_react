@@ -28,7 +28,7 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
     };
 
     return (
-        <Box id="topMenuArea" sx={{height: 50, textAlign:'center'}}>
+        <Box id="topMenuArea" sx={{height: 50, textAlign:'center'}} key={`${contentBoardCategory.boardCategoryKeyword}_area`}>
             <div key={`${contentBoardCategory.boardCategoryKeyword}_1depth`} style={{verticalAlign:'bottom'}}>
                 <Button id={`${contentBoardCategory.boardCategoryKeyword}_button`} 
                         key={`${contentBoardCategory.boardCategoryKeyword}`}
@@ -37,7 +37,7 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
                         aria-expanded={open ? 'true' : undefined}
                         sx={{height: 50, }}
                         onClick={handleClick}>
-                            <Typography sx={{fontWeight:'bold'}}>{contentBoardCategory.boardCategoryName}</Typography>
+                            <Typography sx={{fontWeight:'bold'}} key={`${contentBoardCategory.boardCategoryKeyword}_text`}>{contentBoardCategory.boardCategoryName}</Typography>
                 </Button>
                 {
                     (contentBoardCategory.boardList !== null) ? (
