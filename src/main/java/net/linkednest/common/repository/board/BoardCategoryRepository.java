@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface BoardCategoryRepository extends JpaRepository<BoardCategory, Long> {
     List<BoardCategory> findAllByContentAndIsActive(Content content, Boolean isActive);
+
     Optional<BoardCategory> findByBoardCategoryCode(String boardCategoryCode);
 }

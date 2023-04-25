@@ -3,6 +3,7 @@ package net.linkednest.common.dto.board;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ResBoardDto {
@@ -15,4 +16,5 @@ public class ResBoardDto {
     private String imgPath;
     private Date createDate;
     private Date updateDate;
+    private List<ResBoardArticleDto> boardArticleList;
 }

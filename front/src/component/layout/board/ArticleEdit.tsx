@@ -70,6 +70,7 @@ function ArticleEdit() {
         imagePath       : '',
         createDate      : '',
         updateDate      : '',
+        boardArticleList: [],
     }]);
 
     const [board_, setBoard_] = useState<Board_>({
@@ -82,6 +83,7 @@ function ArticleEdit() {
         imagePath       : '',
         createDate      : '',
         updateDate      : '', 
+        boardArticleList: [],
     });
 
     const [boardArticle_, setBoardArticle_] = useState<BoardArticle_>({

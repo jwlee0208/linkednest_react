@@ -12,8 +12,8 @@ function TopBanner() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 50, width: '100%'}}>
 {
     contentBoardCategoryInfo.boardCategoryList.map((contentBoardCategory) => (
-                <Box sx={{width : `${100/menuCnt}%`, height: 50, verticalAlign:'center'}}>
-                    <TopMenu key={contentBoardCategory.boardCategoryKeyword} contentBoardCategory={contentBoardCategory}/>
+                <Box sx={{width : `${100/menuCnt}%`, height: 50, verticalAlign:'center'}} key={`${contentBoardCategory.boardCategoryKeyword}_Box`}>
+                    <TopMenu key={`${contentBoardCategory.boardCategoryKeyword}_topMenu`} contentBoardCategory={contentBoardCategory}/>
                 </Box>
     ))
 }                

@@ -6,7 +6,7 @@ import { Box, Button, ButtonGroup, Divider, Pagination, Table, TableBody, TableC
                                             from "@mui/material";
 
 function MenuCategoryList () {
-
+    
     const navigate = useNavigate();
 
     const [menuCategoryList, setMenuCategoryList] = useState<MenuCategoryList_>([{
