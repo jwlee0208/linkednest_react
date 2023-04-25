@@ -5,10 +5,10 @@ import { useState, useEffect } from "react";
 import { BoardArticle_, BoardList_ } from "../../../store/modules/boardCategory";
 import { axiosInstance } from "../../..";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 function RecentNotice() {
-
+    const location = useLocation();
     const navigate = useNavigate();
     const contentInfo = useAppSelect(getContentInfo);
     console.log('contentInfo : ', contentInfo);
@@ -30,6 +30,14 @@ function RecentNotice() {
         setValue(newValue);
     };
 
+    let contentCode = contentInfo.contentCode;
+    if (contentCode === '') {
+        let pathArr = location.pathname.split("/");
+        if (pathArr[1] !== ''){
+          contentCode = pathArr[1];
+        }
+    }
+
     let boardListCnt = boardList.length;
     const handleMenuView = (boardCategoryKeyword : string, boardKeyword : string, boardArticle : BoardArticle_, e : React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -37,12 +45,11 @@ function RecentNotice() {
     }
 
     useEffect(() => {
-        axiosInstance.post(`/api/board/article/list/${contentInfo.contentCode}/news`)
+
+        axiosInstance.post(`/api/board/article/list/${contentCode}/news`)
             .then((res) => setBoardList(res.data))
             .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );
-
-        console.log('recentBoardArticle : ', boardList);    
-    }, []);
+    }, [contentCode]);
 
     return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
