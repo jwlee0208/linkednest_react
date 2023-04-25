@@ -1,7 +1,8 @@
-import { Box, Breadcrumbs, Button, ButtonGroup, Divider, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router";
-import { useEffect, useState } from 'react';
-import { axiosInstance } from "../../..";
+import { Box, Breadcrumbs, Button, ButtonGroup, Divider, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } 
+                                             from "@mui/material";
+import { useLocation, useNavigate }          from "react-router";
+import { useEffect, useState }               from 'react';
+import { axiosInstance }                     from "../../..";
 import { BoardArticleList_, BoardArticle_, } from "../../../store/modules/boardCategory";
 
 function ArticleList() {
@@ -20,12 +21,12 @@ function ArticleList() {
         createDate   : '',    
     }]);
 
-    let [contentCode, setContentCode] = useState<string>('');
-    let [boardCategoryKeyword, setBoardCategoryKeyword] = useState<string>('');
-    let [boardKeyword, setBoardKeyword] = useState<string>('');
+    let [contentCode            , setContentCode]           = useState<string>('');
+    let [boardCategoryKeyword   , setBoardCategoryKeyword]  = useState<string>('');
+    let [boardKeyword           , setBoardKeyword]          = useState<string>('');
 
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
+    const [limit                , setLimit]                 = useState(10);
+    const [page                 , setPage]                  = useState(1);
     const offset = (page - 1) * limit;
 
     let listCnt = boardArticleList.length;

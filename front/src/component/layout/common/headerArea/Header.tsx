@@ -1,7 +1,7 @@
 import React, { useEffect, useState } 
                            from "react";
 import { useNavigate }     from 'react-router-dom';
-import userSlice, { User } from "../../../../store/modules/user";
+import { User, asyncLogout } from "../../../../store/modules/user";
 import store               from "../../../../store";
 import logo                from './logo.svg';
 import Button              from '@mui/material/Button';
@@ -14,6 +14,7 @@ import { Typography, AppBar, Avatar, IconButton, ButtonGroup, Box, Container, Me
 import { axiosInstance }   from "../../../..";
 import { ContentList_ }    from "../../../../store/modules/content";
 import SelectBoxForContent from "./SelectBoxForContent";
+import { useAppDispatch } from "../../../../store/index.hooks";
 
 type HeaderProps = {
     user        : User,
@@ -39,7 +40,8 @@ function Header({
                                         : [{menu : 'Home', path : '/'}];
     
     const navigate    = useNavigate();
- 
+    const dispatch    = useAppDispatch();
+    
     const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -79,8 +81,8 @@ function Header({
 
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
-            store.dispatch(userSlice.actions.logout(user));
-            navigate(`/${param}`);    
+          dispatch(asyncLogout());
+            navigate(`/${contentCode}`);    
         } else {
             navigate(param);
         }

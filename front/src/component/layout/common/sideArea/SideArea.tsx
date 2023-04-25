@@ -1,12 +1,11 @@
 import { Box, Button, Fab, Icon } from "@mui/material";
 import { useNavigate }      from "react-router";
-import { useAppSelect }     from "../../../../store/index.hooks";
+import { useAppDispatch, useAppSelect }     from "../../../../store/index.hooks";
 import { getLayoutInfo }    from "../../../../store/modules/layout";
-import userSlice, { User }  from "../../../../store/modules/user";
+import { User, asyncLogout }  from "../../../../store/modules/user";
 import Login                from "../../user/Login";
-import store                from "../../../../store";
 import { getContentInfo }   from "../../../../store/modules/content";
-import SideFloatingButtons from "./SideFloatingButtons";
+import SideFloatingButtons  from "./SideFloatingButtons";
 
 type SideAreaProps = {
     user        : User,
@@ -21,13 +20,17 @@ function SideArea({
 } : SideAreaProps) {
 
     const navigate      = useNavigate();
+    const dispatch      = useAppDispatch();
     const layoutInfo    = useAppSelect(getLayoutInfo);
     const contentInfo   = useAppSelect(getContentInfo);
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
-        store.dispatch(userSlice.actions.logout(user));
+        dispatch(asyncLogout());
         navigate(`/${contentInfo.contentCode}`);    
+
+        // store.dispatch(userSlice.actions.logout(user));
+        // navigate(`/${contentInfo.contentCode}`);    
     };
     
     

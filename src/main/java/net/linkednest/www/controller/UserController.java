@@ -21,10 +21,13 @@ import net.linkednest.common.dto.user.signin.ResUserLoginDto;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.dto.user.signup.ResUserRegistDto;
 import net.linkednest.common.entity.user.User;
+import net.linkednest.common.security.CustomUserDetails;
 import net.linkednest.www.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -183,16 +186,16 @@ public class UserController {
       ),
     }
   )
-  public ResponseEntity<ResUserLoginDto> login(@RequestBody ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
+  public ResponseEntity<ResUserLoginDto> login(@RequestBody ReqUserLoginDto reqUserLoginDto, HttpServletRequest request, HttpServletResponse response) {
     String userId   = reqUserLoginDto.getUserId();
     String password = reqUserLoginDto.getPassword();
 
     log.info("[login] userId : {}, password : {}", userId, password);
-    ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, response);
+    ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, request, response);
     return new ResponseEntity<>(resUserLoginDto, resUserLoginDto.getReturnCode() == 10000 ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
   }
 
-  @PostMapping(value = "/logout")
+  @PostMapping(value = "/api/logout")
   @Operation(
           summary = "회원 로그아웃",
           description = "회원 로그아웃 액션입니다.",
@@ -205,6 +208,7 @@ public class UserController {
           }
   )
   public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) {
+    this.userService.logout(request);
     Map<String, Object> resObj = new HashMap<>();
     resObj.put("returnCode", "10000");
     resObj.put("isLogin"   , false);

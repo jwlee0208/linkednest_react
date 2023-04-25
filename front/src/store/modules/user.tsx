@@ -197,6 +197,28 @@ const userSlice = createSlice ({
         builder.addCase(asyncUserUpdate.fulfilled, (state, action) => {
             state.introduce = action.payload.introduce;        
         })
+        builder.addCase(asyncLogout.fulfilled, (state, action) => {
+            state.userNo                  = 0;
+            state.userId                  = '';
+            state.password                = '';
+            state.nickname                = '';
+            state.email                   = '';
+            state.introduce               = '';
+            state.accessToken             = '';
+            state.refreshToken            = '';
+            state.isLogin                 = false;
+            state.adminMenuCategoryList   = [];
+            state.userRoleInfoList        = [];
+            state.roleInfoList            = [];
+            state.birthday                = '';
+            state.sex                     = '';
+            state.phoneNo                 = '';
+            state.additionalPhoneNo       = '';
+            state.address                 = '';
+            state.detailAddress           = '';
+            state.zipcode                 = 0;
+            state.returnCode              = 0;       
+        })
     } 
 });
 
@@ -221,7 +243,13 @@ export const asyncUserUpdate = createAsyncThunk("USER_UPDATE", async (user : Use
 );
 
 export const asyncGetUser    = createAsyncThunk("GET_USER", async () : Promise<User> => {
-    const res = await axiosInstance.get("user/test01");
+    const res = await axiosInstance.get("/user/test01");
+    return res.data;
+});
+
+export const asyncLogout      = createAsyncThunk("LOGOUT_USER", async () : Promise<User> => {
+    const res = await axiosInstance.post("/api/logout");
+    res.data.refreshToken = res.headers.refresh_token;
     return res.data;
 });
 
