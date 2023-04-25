@@ -67,17 +67,16 @@ public class BoardArticleService {
     }
 
 
-    public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
+    public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj, User user) {
         int returnCode = 10000;
         CommonResDto resObj = new CommonResDto();
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+/*        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails)principal;
-        Optional<User> userOptional = userRepository.findByUserId(userDetails.getUsername());
+        Optional<User> userOptional = userRepository.findByUserId(userDetails.getUsername());*/
         Long boardArticleId = reqBoardArticleObj.getId();
         Optional<Board> boardOptional = boardRepository.findById(reqBoardArticleObj.getBoardId());
-        if (boardOptional.isPresent() && userOptional.isPresent()) {
+        if (boardOptional.isPresent()) {
             Board boardObj = boardOptional.get();
-            User userObj = userOptional.get();
             BoardArticle boardArticle = null;
             if (boardArticleId > 0L) {
                 Optional<BoardArticle> boardArticleOptional = boardArticleRepository.findById(boardArticleId);
@@ -99,11 +98,11 @@ public class BoardArticleService {
             if (boardArticleId > 0L) {
                 // update
                 boardArticle.setId(reqBoardArticleObj.getId());
-                boardArticle.setUpdateUser(userObj);
+                boardArticle.setUpdateUser(user);
                 boardArticle.setUpdateDate(new Date());
             } else {
                 // create
-                boardArticle.setCreateUser(userObj);
+                boardArticle.setCreateUser(user);
                 boardArticle.setCreateDate(new Date());
             }
 

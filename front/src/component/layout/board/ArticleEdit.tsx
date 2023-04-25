@@ -245,7 +245,7 @@ function ArticleEdit() {
                             value={boardCategory_.id.toString()}
                             label="BoardCategory"
                             onChange={handleCategoryChange}>
-                        <MenuItem value={0}>::: 선택 :::</MenuItem>        
+                        <MenuItem value={'0'}>::: 선택 :::</MenuItem>        
                 {
                     boardCategoryInfo.boardCategoryList.map(boardCategory => (
                         <MenuItem key={boardCategory.boardCategoryCode} value={boardCategory.id}>{boardCategory.boardCategoryName}</MenuItem>
@@ -263,7 +263,7 @@ function ArticleEdit() {
                             value={board_.id.toString()}
                             label="Board"
                             onChange={handleBoardChange}>
-                        <MenuItem value={0}>::: 선택 :::</MenuItem>        
+                        <MenuItem value={'0'}>::: 선택 :::</MenuItem>        
                 {
                     boardList_.map(board => (
                         <MenuItem key={`${board.boardCode}`} value={`${board.id}`}>{board.boardName}</MenuItem>
