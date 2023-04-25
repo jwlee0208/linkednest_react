@@ -1,21 +1,21 @@
-import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Link, Paper, Typography } 
+                                    from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
-import { BoardArticle_ } from "../../../store/modules/boardCategory";
-import { axiosInstance } from "../../..";
-import Parser                                from 'html-react-parser';
-import {format } from 'date-fns';
+import { BoardArticle_ }            from "../../../store/modules/boardCategory";
+import { axiosInstance }            from "../../..";
+import Parser                       from 'html-react-parser';
 
 function ArticleDetail() {
     const location = useLocation();
     const navigate = useNavigate();
-    const boardArticle      = location.state.boardArticle;
-    const pathArr           = location.pathname.split("/");
-    const boardDefaultPath  = `/${pathArr[1]}/${pathArr[2]}/${pathArr[3]}`;
+    const boardArticle          = location.state.boardArticle;
+    const pathArr               = location.pathname.split("/");
+    const boardDefaultPath      = `/${pathArr[1]}/${pathArr[2]}/${pathArr[3]}`;
+    const contentCode           = `${pathArr[1]}`;
     const boardCategoryKeyword  = `${pathArr[2]}`;
-    const boardKeyword          = `${pathArr[3]}`
+    const boardKeyword          = `${pathArr[3]}`;
 
     const moveToEdit = (boardArticle : BoardArticle_, e: React.MouseEvent<HTMLElement>) => {
-        console.log('moveToEdit : ', boardArticle);
         navigate(`${boardDefaultPath}/edit/${boardArticle.id}`, {state : {boardArticle : boardArticle, boardCategoryKeyword : boardCategoryKeyword, boardKeyword : boardKeyword}})
     }
 
@@ -31,41 +31,33 @@ function ArticleDetail() {
     }
 
     return (
-        <Box sx={{p : 2}}>
-            <Typography variant="h4">Article Detail</Typography>
-            <Divider/>
-            <Grid container alignItems="center" sx={{ m: 1 }}>
-                <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">게시글 아이디</FormLabel></Grid>
-                <Grid item xs={10}>{boardArticle.id}</Grid>
-            </Grid>
-            <Grid container alignItems="center" sx={{ m: 1 }}>
-                <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">제목</FormLabel></Grid>
-                <Grid item xs={10}>{boardArticle.title}</Grid>
-            </Grid>
-            <Grid container alignItems="center" sx={{ m: 1 }}>
-                <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">내용</FormLabel></Grid>
-                <Grid item xs={10}>
-                    <div dangerouslySetInnerHTML={{__html : Parser(decodeURI(boardArticle.content).replaceAll('\\"', '"')).toString()}}></div>
-                </Grid>
-            </Grid>
-            <Grid container alignItems="center" sx={{ m: 1 }}>
-                <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">작성자</FormLabel></Grid>
-                <Grid item xs={10}>{boardArticle.createUserNo}</Grid>
-            </Grid>
-            <Grid container alignItems="center" sx={{ m: 1 }}>
-                <Grid item xs={2}><FormLabel id="demo-row-radio-buttons-group-label">작성일자</FormLabel></Grid>
-                <Grid item xs={10}>{boardArticle.createDate}</Grid>
-            </Grid>
-
+    <Box sx={{p : 2}}>    
+        <Typography variant="h4" >Article Detail</Typography>
+        <Divider/>
+        <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}}>
+            <Link underline="hover" color="inherit">{contentCode}</Link>            
+            <Link underline="hover" color="inherit">{boardCategoryKeyword}</Link>   
+            <Link underline="hover" color="inherit">{boardKeyword}</Link>         
+            <Typography color="text.primary">view</Typography>
+        </Breadcrumbs>           
+        <Paper elevation={3} sx={{p:2}}>    
+            <Typography variant="h4">{boardArticle.title}</Typography>    
+            <Typography sx={{p:1}} align="left">Posted by {boardArticle.createUserId}</Typography>
+            <hr/>    
+            <Typography sx={{p:1}}>
+                <div dangerouslySetInnerHTML={{__html : Parser(decodeURI(boardArticle.content).replaceAll('\\"', '"')).toString()}}></div>
+            </Typography>
+            <Typography sx={{p:1}} align="left">Posted at {boardArticle.createDate}</Typography>
             <Grid container item>
-                <FormControl fullWidth sx={{ m: 1, align:'left',}}>
+                <FormControl fullWidth sx={{ m: 1}}>
                     <ButtonGroup>
                         <Button variant="outlined" size="large" onClick={(e) =>moveToEdit(boardArticle as BoardArticle_, e)}>Edit</Button>
                         <Button variant="outlined" size="large" onClick={(e) =>handleToDelete(boardArticle.id, e)}>Delete</Button>
                     </ButtonGroup>
                 </FormControl>
             </Grid>
-        </Box>        
+        </Paper> 
+    </Box>           
     )
 }
 
