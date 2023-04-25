@@ -1,16 +1,15 @@
-import React, {useEffect} from "react";
-import { useNavigate } from "react-router";
-import store from "../../../../store";
-import { useAppSelect } from "../../../../store/index.hooks";
-import { getLayoutInfo } from "../../../../store/modules/layout";
-import userSlice, { AdminMenuCategoryList, User } from "../../../../store/modules/user";
-import Login from "../../user/Login";
-import { Menu, MenuList, MenuItem, Toolbar, Tooltip, Typography, Paper, ListItemText, ListItemIcon } from "@mui/material";
-import { AppBar, Avatar, ButtonGroup, Container, IconButton, Box, Button, FormControl } from "@mui/material";
-
-import CategoryMenuRow  from "./CategoryMenuRow";
-import { getConfig } from "@testing-library/react";
-import { getContentInfo } from "../../../../store/modules/content";
+import React, {useEffect}   from "react";
+import { useNavigate }      from "react-router";
+import { useAppDispatch, useAppSelect } 
+                            from "../../../../store/index.hooks";
+import { getLayoutInfo }    from "../../../../store/modules/layout";
+import { AdminMenuCategoryList, User, asyncLogout } 
+                            from "../../../../store/modules/user";
+import Login                from "../../user/Login";
+import { MenuList }         from "@mui/material";
+import { Box, Button }      from "@mui/material";
+import CategoryMenuRow      from "./CategoryMenuRow";
+import { getContentInfo }   from "../../../../store/modules/content";
 
 type SideAreaProps = {
     user            : User,
@@ -27,6 +26,7 @@ function AdminSideArea({
 } : SideAreaProps) {
 
     const navigate      = useNavigate();
+    const dispatch      = useAppDispatch();
     const layoutInfo    = useAppSelect(getLayoutInfo);
     const contentInfo   = useAppSelect(getContentInfo);
 
@@ -36,7 +36,7 @@ function AdminSideArea({
 
     const handleLogoutAction = (event : React.MouseEvent) => {
         event.preventDefault();
-        store.dispatch(userSlice.actions.logout(user));
+        dispatch(asyncLogout());
         navigate(`/${contentInfo.contentCode}`);    
     };
 

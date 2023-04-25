@@ -1,5 +1,6 @@
 package net.linkednest.www.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,25 +9,35 @@ import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.common.dto.authority.ResRoleDto;
 import net.linkednest.common.dto.authority.ResUserRoleAccessPathDto;
 import net.linkednest.common.dto.authority.ResUserRoleDto;
+import net.linkednest.common.entity.content.Content;
 import net.linkednest.common.entity.menu.AdminMenu;
 import net.linkednest.common.entity.menu.AdminMenuCategory;
 import net.linkednest.common.entity.role.AdminMenuRoleAccessPath;
 import net.linkednest.common.entity.role.Authority;
+import net.linkednest.common.entity.user.LoggedIn;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.entity.user.UserRefreshToken;
+import net.linkednest.common.repository.ContentRepository;
 import net.linkednest.common.repository.admin.AdminMenuRoleAccessPathRepository;
 import net.linkednest.common.CommonConstants;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.repository.RoleRepository;
 import net.linkednest.common.repository.auth.UserRefreshTokenRepository;
+import net.linkednest.common.repository.user.LoggedInRepository;
 import net.linkednest.common.repository.user.UserRepository;
 import net.linkednest.common.dto.user.ResTokenDto;
 import net.linkednest.common.dto.user.signin.ReqUserLoginDto;
 import net.linkednest.common.dto.user.signin.ResUserLoginDto;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
+import net.linkednest.common.security.CustomUserDetails;
 import net.linkednest.common.security.JwtProvider;
+import net.linkednest.common.utils.CommonUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -43,6 +54,8 @@ public class UserService {
     private final RoleRepository                        roleRepository;
     private final UserRefreshTokenRepository            userRefreshTokenRepository;
     private final AdminMenuRoleAccessPathRepository     adminMenuRoleAccessPathRepository;
+    private final LoggedInRepository                    loggedInRepository;
+    private final ContentRepository                     contentRepository;
     private final PasswordEncoder                       passwordEncoder;
     private final JwtProvider                           jwtProvider;
 
@@ -105,7 +118,7 @@ public class UserService {
         }
         return true;
     }
-    public ResUserLoginDto login(ReqUserLoginDto reqUserLoginDto, HttpServletResponse response) {
+    public ResUserLoginDto login(ReqUserLoginDto reqUserLoginDto, HttpServletRequest request, HttpServletResponse response) {
 
         int returnCode = 10000;
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
@@ -155,7 +168,42 @@ public class UserService {
         resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
         resUserLoginDto.setIsLogin(returnCode == 10000);
 
+        this.setLoggedIn(request, userOptional.get(), "WEB_LOGIN");
+
         return resUserLoginDto;
+    }
+
+    public void logout(HttpServletRequest request) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails)principal;
+        if (ObjectUtils.isNotEmpty(userDetails)) {
+            User user = userDetails.getUser();
+            this.setLoggedIn(request, user, "LOGOUT");
+        }
+    }
+
+    @Async
+    public void setLoggedIn(HttpServletRequest request, User user, String actionType) {
+        String ipAddr = CommonUtil.getClientIp(request);
+        String refererUrl = request.getHeader("referer");
+        LoggedIn loggedIn = new LoggedIn();
+
+        if (StringUtils.isNotEmpty(refererUrl)) {
+            String[] pathArr = refererUrl.split("/");
+            if (ObjectUtils.isNotEmpty(pathArr)) {
+                String contentCode = pathArr[1];
+                Optional<Content> contentOptional = contentRepository.findByContentCode(contentCode);
+                if (contentOptional.isPresent()) {
+                    loggedIn.setContent(contentOptional.get());
+                }
+            }
+        }
+        loggedIn.setUser(user);
+        loggedIn.setActionType(actionType);
+        loggedIn.setActionDate(new Date());
+        loggedIn.setIpAddr(ipAddr);
+
+        loggedInRepository.save(loggedIn);
     }
 
     private void setRoleList(Authority r, List<ResRoleDto> roleDtoList) {

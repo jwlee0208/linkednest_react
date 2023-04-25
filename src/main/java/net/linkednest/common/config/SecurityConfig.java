@@ -81,8 +81,7 @@ public class SecurityConfig {
                                 , new AntPathRequestMatcher("/user")
                                 , new AntPathRequestMatcher("/login")
                                 , new AntPathRequestMatcher("/reIssueToken")
-                                , new AntPathRequestMatcher("/logout")
-                                , new AntPathRequestMatcher("/login")
+                                , new AntPathRequestMatcher("/api/logout")
                                 , new AntPathRequestMatcher("/swagger-ui/**")
                                 , new AntPathRequestMatcher("/v3/**")
                                 , new AntPathRequestMatcher("/api/content/**")
@@ -95,8 +94,8 @@ public class SecurityConfig {
                 .and()
                     .authorizeHttpRequests()
                         .anyRequest().permitAll()
-
         ;
+//        httpSecurity.logout().logoutUrl("/api/logout");
         return httpSecurity.build();
     }
 
