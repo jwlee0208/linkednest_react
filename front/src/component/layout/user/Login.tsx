@@ -7,7 +7,7 @@ import { getLayoutInfo }                from "../../../store/modules/layout";
 import { Box, FormControl, Grid }       from "@mui/material";
 import TextField                        from "@mui/material/TextField";
 import Button                           from "@mui/material/Button"
-import { getContentInfo } from "../../../store/modules/content";
+import { getContentInfo }               from "../../../store/modules/content";
 
 function Login() {
 

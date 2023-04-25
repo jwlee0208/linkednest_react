@@ -1,1 +1,5 @@
-body {background-color: darkslategray;}
+/* body {background-color: darkslategray;} */
+
+#topMenuArea {background:black;}
+#topMenuArea div button p {color: azure;}
+#navbarArea {background-color: darkgrey;}

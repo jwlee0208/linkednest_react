@@ -14,7 +14,7 @@ import { Typography, AppBar, Avatar, IconButton, ButtonGroup, Box, Container, Me
 import { axiosInstance }   from "../../../..";
 import { ContentList_ }    from "../../../../store/modules/content";
 import SelectBoxForContent from "./SelectBoxForContent";
-import { useAppDispatch } from "../../../../store/index.hooks";
+import { useAppDispatch }  from "../../../../store/index.hooks";
 
 type HeaderProps = {
     user        : User,

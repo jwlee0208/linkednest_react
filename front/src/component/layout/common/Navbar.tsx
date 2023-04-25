@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 function Navbar () {
     return (
-        <Box sx={{height:"50px", backgroundColor:"blue"}}>
+        <Box id="navbarArea" sx={{height:"50px", backgroundColor:"blue"}}>
             Navbar Area
         </Box>
     );
