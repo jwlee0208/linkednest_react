@@ -9,7 +9,7 @@ function MenuDetail () {
     const menu          = location.state.menu;  
 
     const moveToEdit = (menu : AdminMenu_, e: React.MouseEvent<HTMLElement>) => {
-        console.log('moveToEdit : ', menu);
+        // console.log('moveToEdit : ', menu);
         navigate('/admin/menu/edit', {state : {menu : menu}})
     }
 

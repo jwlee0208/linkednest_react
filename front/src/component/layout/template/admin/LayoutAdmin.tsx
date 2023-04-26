@@ -26,7 +26,7 @@ function LayoutAdmin() {
 
     let matchedUrlCnt = 0;
     
-console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList);
+// console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList);
 
     userinfo.adminMenuCategoryList.map(amcl => 
       amcl.adminMenuRoleAccessPathList.map(rapl => 
@@ -48,7 +48,7 @@ console.log('userinfo.adminMenuCategoryList : ', userinfo.adminMenuCategoryList)
       // dispatch(asyncAdminMenuCategoryList());
     },[]);
 
-    console.log(`layout${layoutInfo.layoutId}>>`);
+    // console.log(`layout${layoutInfo.layoutId}>>`);
 
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>

@@ -28,7 +28,7 @@ function ArticleEdit() {
 
     const inputTitle = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('title : ', e.target.value);
+        // console.log('title : ', e.target.value);
         setBoardArticle_({...boardArticle_, title : e.target.value});
     }
 
@@ -185,7 +185,7 @@ function ArticleEdit() {
             }    
         } 
 
-        console.log('boardCategory_ : ', boardCategory_);
+        // console.log('boardCategory_ : ', boardCategory_);
         if (boardCategory_.id === 0) {
             let pathArr = location.pathname.split('/');
             if (pathArr.length > 3) {

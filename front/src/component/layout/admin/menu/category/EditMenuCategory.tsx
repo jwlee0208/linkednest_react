@@ -31,13 +31,13 @@ function EditMenuCategory () {
     const inputMenuCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setMenuCategory({...menuCategory, categoryName : e.target.value});
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
     
     const handleIsActiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setMenuCategory({...menuCategory, isActive : e.target.value});
-        console.log('isActive : ', e.target.value);
+        // console.log('isActive : ', e.target.value);
     }
     
     const saveMenuCategory = (e: React.MouseEvent<HTMLElement>) => {

@@ -1,5 +1,6 @@
 import { Box, Breadcrumbs, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Link, Paper, Typography } 
                                     from "@mui/material";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useLocation, useNavigate } from "react-router";
 import { BoardArticle_ }            from "../../../store/modules/boardCategory";
 import { axiosInstance }            from "../../..";
@@ -42,7 +43,7 @@ function ArticleDetail() {
         </Breadcrumbs>           
         <Paper elevation={3} sx={{p:2}}>    
             <Typography variant="h4">{boardArticle.title}</Typography>    
-            <Typography sx={{p:1}} align="left">Posted by {boardArticle.createUserId}</Typography>
+            <Typography sx={{p:1}} align="left"><CalendarMonthIcon/>&nbsp;Posted by {boardArticle.createUserId}</Typography>
             <hr/>    
             <Typography sx={{p:1}}>
                 <div dangerouslySetInnerHTML={{__html : Parser(decodeURI(boardArticle.content).replaceAll('\\"', '"')).toString()}}></div>

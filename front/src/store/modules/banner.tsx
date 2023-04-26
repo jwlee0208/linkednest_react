@@ -30,7 +30,7 @@ const bannerSlice = createSlice({
     initialState,
     reducers : {
         setBannerList : (state, action) => {
-            console.log('setBannerList : ', action.payload.bannerList);
+            // console.log('setBannerList : ', action.payload.bannerList);
             state.contentCode = action.payload.contentCode;
             state.bannerList = action.payload.bannerList;
         }

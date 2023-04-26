@@ -9,7 +9,7 @@ function CategoryRoleDetail() {
     const menuCategoryRoleAccess = location.state.menuCategoryRoleAccess;
 
     const moveToEdit = (menuCategoryRoleAccess : MenuCategoryRoleAccess_, e: React.MouseEvent<HTMLElement>) => {
-        console.log('moveToEdit : ', menuCategoryRoleAccess);
+        // console.log('moveToEdit : ', menuCategoryRoleAccess);
         navigate('/admin/role/category/edit', {state : {menuCategoryRoleAccess : menuCategoryRoleAccess}})
     }
 

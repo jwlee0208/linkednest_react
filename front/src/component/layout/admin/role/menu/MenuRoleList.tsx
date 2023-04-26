@@ -48,7 +48,7 @@ function MenuRoleList() {
           , url             : '/admin/role/menu/list'
           , params          : {}
         }).then((res) => {
-            console.log('res.data : ', res.data);
+            // console.log('res.data : ', res.data);
             setMenuRoleList(res.data);
         });
     },[]);

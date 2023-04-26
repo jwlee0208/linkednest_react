@@ -46,7 +46,7 @@ function CategoryRoleList() {
           , url             : '/admin/role/category/list'
           , params          : {}
         }).then((res) => {
-            console.log('res.data : ', res.data);
+            // console.log('res.data : ', res.data);
             setMenuCategoryRoleAccessList(res.data);
         });
     },[]);
