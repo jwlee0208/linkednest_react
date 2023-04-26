@@ -25,7 +25,7 @@ function RecentNotice() {
         boardArticleList: [],        
     }])
 
-    const [value, setValue] = useState('1');
+    const [value, setValue] = useState('0');
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
@@ -45,10 +45,9 @@ function RecentNotice() {
     }
 
     useEffect(() => {
-
         axiosInstance.post(`/api/board/article/list/${contentCode}/news`)
             .then((res) => setBoardList(res.data))
-            .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );
+            .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );    
     }, [contentCode]);
 
     return (
@@ -57,15 +56,15 @@ function RecentNotice() {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList onChange={handleChange}>
 {
-    boardList.map((board)=>(
-        <Tab label={board.boardName} value={board.id.toString()} key={`${board.id}_tab`} sx={{width : `${100/boardListCnt}%`}}/>
+    boardList.map((board, index)=>(
+        <Tab label={board.boardName} value={index.toString()} key={`${board.id}_tab`} sx={{width : `${100/boardListCnt}%`}}/>
     ))
 }            
                 </TabList>
             </Box>
 {
-    boardList.map((board)=>(
-        <TabPanel value={board.id.toString()} key={`${board.id}_tabPanel`}>
+    boardList.map((board, index)=>(
+        <TabPanel value={index.toString()} key={`${board.id}_tabPanel`}>
             <TableContainer key={`${board.id}_tableContainer`}>
                 <Table>
                     <TableHead>
@@ -79,7 +78,7 @@ function RecentNotice() {
                     <TableBody>
                     {
                         board.boardArticleList !== null ? (
-                            board.boardArticleList.map((boardArticle) => (
+                            board.boardArticleList.map((boardArticle, boardArticleIndex) => (
                                 <TableRow key={`${boardArticle.boardId}_${boardArticle.id}`}>
                                 <TableCell>{boardArticle.id}</TableCell>
                                 <TableCell><Button onClick={(e) => handleMenuView('news', `${board.boardKeyword}`,boardArticle as BoardArticle_, e)}>{boardArticle.title}</Button></TableCell>
