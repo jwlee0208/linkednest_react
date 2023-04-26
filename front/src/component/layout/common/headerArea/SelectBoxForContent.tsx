@@ -23,12 +23,14 @@ function SelectBoxForContent({
     }, [contentCode]);
 
     return (
-        <FormControl>
-              <InputLabel id="content-select-standard-label">Content List</InputLabel>
+        <FormControl variant="standard">
+              <InputLabel id="content-select-standard-label" variant="standard">Content List</InputLabel>
               <Select labelId="content-select-standard-label" 
                       id="content-select-standard" 
                       label="Content List" 
                       onChange={handleMoveType} 
+                      variant="standard"
+                      size="small"
                       value={`${contentCodeValue}`}>
             {
               contentList.map(content => (
