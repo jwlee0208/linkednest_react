@@ -14,7 +14,7 @@ function SiteMap() {
     }
 
     return (
-    <Box>
+    <Box sx={{p:1}}>
         <Grid container item>
 {
     boardCategoryInfo.boardCategoryList.map((boardCategory) => (

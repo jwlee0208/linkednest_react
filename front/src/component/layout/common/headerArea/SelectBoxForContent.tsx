@@ -24,10 +24,10 @@ function SelectBoxForContent({
 
     return (
         <FormControl>
-              <InputLabel id="content-select-standard-label">Type List</InputLabel>
+              <InputLabel id="content-select-standard-label">Content List</InputLabel>
               <Select labelId="content-select-standard-label" 
                       id="content-select-standard" 
-                      label="Type List" 
+                      label="Content List" 
                       onChange={handleMoveType} 
                       value={`${contentCodeValue}`}>
             {

@@ -9,7 +9,7 @@ function TopBanner() {
     const contentBoardCategoryInfo = useAppSelect(getContentBoardCategoryInfo);
 
     return (
-            <Box  key={`${contentBoardCategoryInfo}_topBannerBox`} sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 50, width: '100%' }}>
+            <Box  key={`${contentBoardCategoryInfo}_topBannerBox`} sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 50, width: '100%'}}>
 {
     contentBoardCategoryInfo.boardCategoryList.map((contentBoardCategory) => (
                 <TopMenu key={contentBoardCategory.boardCategoryKeyword} contentBoardCategory={contentBoardCategory}/>

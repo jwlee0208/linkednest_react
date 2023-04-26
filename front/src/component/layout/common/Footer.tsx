@@ -7,13 +7,14 @@ function Footer() {
     const contentInfo = useAppSelect(getContentInfo);
 
     return (
-        <Grid container spacing={1} id="footerArea">
+        <Grid container id="footerArea">
             <Grid container item>
-                <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, borderColor:"gray", borderTop:1 }}>
+                <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>
                     <Typography  color="primary" variant="h6" align="center">
                         <FormControl fullWidth sx={{ m: 1 }}>
                             <Grid container>
                                 <Grid item xs={4}>
+
                                 {
                                     (contentInfo.contentCreator.creatorImgUrl !== null) ? (
                                         <Image src={contentInfo.contentCreator.creatorImgUrl} width={150}/>
@@ -27,7 +28,7 @@ function Footer() {
                         </FormControl>                            
                     </Typography>  
                 </Box>
-                <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, borderColor:"gray", borderTop:1 }}>
+                <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>
                     <Typography  color="primary" variant="h6" align="center">
                         <FormControl fullWidth sx={{ m: 1 }}>
                             <p>{contentInfo.contentCreator.creatorRights}</p>
