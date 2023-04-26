@@ -27,7 +27,9 @@ function Navbar () {
                 <Button id={`${boardCategoryObj.boardCategoryKeyword}_button`} 
                             key={`${boardCategoryObj.boardCategoryKeyword}`}
                             sx={{height: 50, }}
-                            onClick={handleChange}>
+                            // onClick={handleChange}
+                            onMouseEnter={handleChange}
+                            onMouseLeave={handleChange}>
                     <Typography sx={{fontWeight:'bold'}} key={`${boardCategoryObj.boardCategoryKeyword}_text`}>{boardCategoryObj.boardCategoryName}</Typography>
                 </Button> 
             </div>
@@ -44,7 +46,8 @@ function Navbar () {
     {(boardCategoryObj.boardList !==null) ? (
         boardCategoryObj.boardList.map((boardObj) => (
             <ListItem key={`${boardObj.boardCode}_subMenu`} sx={{justifyContent:'center'}}>
-                <Button onClick={(e) => moveToPage(boardCategoryObj as BoardCategory_, boardObj as Board_, e)} sx={{fontWeight:'bold'}}>{boardObj.boardName}</Button>
+                <Button onClick={(e) => moveToPage(boardCategoryObj as BoardCategory_, boardObj as Board_, e)} 
+                        sx={{fontWeight:'bold'}}>{boardObj.boardName}</Button>
             </ListItem>
         ))) : (<></>)
     }            
