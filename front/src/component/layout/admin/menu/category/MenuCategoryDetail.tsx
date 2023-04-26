@@ -11,7 +11,7 @@ function MenuCategoryDetail () {
     const menuCategory  = location.state.menuCategory;  
 
     const moveToEdit = (menuCategory : MenuCategory_, e: React.MouseEvent<HTMLElement>) => {
-        console.log('moveToEdit : ', menuCategory);
+        // console.log('moveToEdit : ', menuCategory);
         navigate('/admin/menu/category/edit', {state : {menuCategory : menuCategory}})
     }
 

@@ -9,7 +9,7 @@ function RoleDetail() {
     const role          = location.state.role;  
 
     const moveToEdit = (role : Role_, e: React.MouseEvent<HTMLElement>) => {
-        console.log('moveToEdit : ', role);
+        // console.log('moveToEdit : ', role);
         navigate('/admin/role/edit', {state : {role : role}})
     }
 

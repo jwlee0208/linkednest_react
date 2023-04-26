@@ -1,7 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { useEffect, useState } from "react";
 import { ContentList_ } from "../../../../store/modules/content";
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
 
 type SelectBoxProps = {
     contentCode : string,
@@ -12,24 +11,28 @@ function SelectBoxForContent({
     contentList,
 } : SelectBoxProps) {
 
-    const navigate = useNavigate();
+    const [contentCodeValue, setContentCodeValue] = useState(``);
     const handleMoveType = (e : SelectChangeEvent) => {
         e.preventDefault();
         const typeIdVal = e.target.value;
-        navigate(`/${typeIdVal}`);
+        window.location.href = `/${typeIdVal}`;
     }
 
     useEffect(() => {
-
+        setContentCodeValue(`${contentCode}`);
     }, [contentCode]);
 
     return (
         <FormControl>
               <InputLabel id="content-select-standard-label">Type List</InputLabel>
-              <Select labelId="content-select-standard-label" id="content-select-standard" label="Type List" onChange={handleMoveType} value={contentCode}>
+              <Select labelId="content-select-standard-label" 
+                      id="content-select-standard" 
+                      label="Type List" 
+                      onChange={handleMoveType} 
+                      value={`${contentCodeValue}`}>
             {
               contentList.map(content => (
-                <MenuItem key={content.contentId} value={content.contentCode}>{content.contentName}</MenuItem>
+                <MenuItem key={`${content.contentId}`} value={`${content.contentCode}`}>{content.contentName}</MenuItem>
               ))
             }  
               </Select>        

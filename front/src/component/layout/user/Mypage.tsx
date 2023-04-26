@@ -90,7 +90,7 @@ function Mypage() {
   }
 
   const inputIntroduceVal = (value : any) => {
-      console.log('introduce : ' + value); 
+      // console.log('introduce : ' + value); 
       setUser({...user, introduce : value}); 
   }  
 

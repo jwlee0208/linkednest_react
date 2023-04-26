@@ -84,7 +84,7 @@ function UserDetail() {
         returnCode              : 0,
     })
 
-    console.log('[UserDetail] userNo : ', location.state.userNo);
+    // console.log('[UserDetail] userNo : ', location.state.userNo);
 
     const [expanded, setExpanded] = useState<string | false>('panel1');
 
@@ -106,7 +106,7 @@ function UserDetail() {
             setUser(res.data);
         });
     
-        console.log('user : ', user);
+        // console.log('user : ', user);
 
     },[]);
 

@@ -24,13 +24,13 @@ function EditRole() {
     const inputRoleName = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setRole({...role, roleName : e.target.value});
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
     const inputRoleDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setRole({...role, roleDesc : e.target.value});
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
     const saveRole = (e: React.MouseEvent<HTMLElement>) => {

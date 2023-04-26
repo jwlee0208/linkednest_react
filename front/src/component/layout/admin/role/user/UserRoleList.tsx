@@ -25,7 +25,7 @@ function UserRoleList() {
 
     const handleEditUserRole = (roleId : number, userId : String, event : React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
-        console.log('[delete] roleId : ', roleId, 'userId : ', userId);
+        // console.log('[delete] roleId : ', roleId, 'userId : ', userId);
         navigate('/admin/role/user/edit', {state : {userId : userId, roleId : roleId}});
     }
 
@@ -42,7 +42,7 @@ function UserRoleList() {
             setUserRoleList(res.data);
         });
     
-        console.log('userRoleList : ', userRoleList);
+        // console.log('userRoleList : ', userRoleList);
 
     },[]);
 

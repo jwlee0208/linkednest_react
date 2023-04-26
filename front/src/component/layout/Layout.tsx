@@ -1,5 +1,6 @@
 import { useLocation }             from "react-router";
-import { useAppDispatch, useAppSelect }            from "../../store/index.hooks";
+import { useAppDispatch, useAppSelect }            
+                                   from "../../store/index.hooks";
 import { useEffect, useState }     from "react";
 import LayoutType1                 from "./template/LayoutType1";
 import LayoutType2                 from "./template/LayoutType2";
@@ -8,9 +9,11 @@ import LayoutAdmin                 from "./template/admin/LayoutAdmin";
 import layoutSlice
    , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
 import contentSlice, { Content_ }  from "../../store/modules/content";
-import { axiosInstance } from "../..";
-import bannerSlice, { BannerListInfo_, BannerList_ } from "../../store/modules/banner";
-import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } from "../../store/modules/boardCategory";
+import { axiosInstance }           from "../..";
+import bannerSlice, { BannerListInfo_, BannerList_ } 
+                                   from "../../store/modules/banner";
+import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } 
+                                   from "../../store/modules/boardCategory";
 
 function Layout() {
 
@@ -53,14 +56,14 @@ function Layout() {
     }
 
     const setupContent = (content : Content_) => {
-      console.log('content : ', content);
+      // console.log('content : ', content);
       dispatch(contentSlice.actions.setContent(content));
       layout.layoutId = content.layoutType.toString();
       dispatch(layoutSlice.actions.setLayoutId(layout));          
     }                   
 
     const setupBannerList = (bannerList : BannerList_) => {
-      console.log('layout >> bannerList : ', bannerList);
+      // console.log('layout >> bannerList : ', bannerList);
       bannerListInfo.contentCode = content.contentCode;
       bannerListInfo.bannerList = bannerList;
       dispatch(bannerSlice.actions.setBannerList(bannerListInfo));
@@ -76,16 +79,16 @@ function Layout() {
       content.contentCode = contentCode;
       axiosInstance.get(`/api/content/${content.contentCode}`)
                    .then((res) => setupContent(res.data))
-                   .catch(err => console.log(err));
+                   .catch(err => alert(`[${err.code}][${err.response.status}] ${err.message}`) );
 
       if (contentCode !== 'admin') {
         axiosInstance.get(`/api/banner/list/${content.contentCode}`)
         .then((res) => setupBannerList(res.data))
-        .catch((err) => console.log(err));              
+        .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
 
         axiosInstance.get(`/api/board/category/list/${content.contentCode}`)
                     .then((res) => setupContentBoardCategoryInfo(res.data))
-                    .catch((err) => console.log(err));              
+                    .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
       }
               
       const baseCss = document.createElement("link");

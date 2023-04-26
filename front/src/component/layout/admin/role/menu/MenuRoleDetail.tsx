@@ -1,7 +1,8 @@
-import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Typography } 
+                                    from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
-import { MenuRole_ } from ".";
-import { axiosInstance } from "../../../../..";
+import { MenuRole_ }                from ".";
+import { axiosInstance }            from "../../../../..";
 
 function MenuRoleDetail() {
     const navigate  = useNavigate();
@@ -9,7 +10,7 @@ function MenuRoleDetail() {
     const menuRole  = location.state.menuRole;  
 
     const moveToEdit = (menuRole : MenuRole_, e: React.MouseEvent<HTMLElement>) => {
-        console.log('moveToEdit : ', menuRole);
+        // console.log('moveToEdit : ', menuRole);
         navigate('/admin/role/menu/edit', {state : {menuRole : menuRole}})
     }
 

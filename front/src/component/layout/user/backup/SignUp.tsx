@@ -79,7 +79,7 @@ function SignUp() {
             return alert('Nickname을 입력하세요.');
         }
 
-        console.log('[signup] before encode : ' + JSON.stringify(user));
+        // console.log('[signup] before encode : ' + JSON.stringify(user));
 
         user.userId = base64_encode(user.userId);
         user.password = base64_encode(user.password);        

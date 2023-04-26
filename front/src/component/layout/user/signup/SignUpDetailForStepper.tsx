@@ -72,7 +72,7 @@ const SignUpDetailForStepper = forwardRef(({
             alert('Password를 입력하세요.');
             return false;
         } else if (!pwRegex.test(user.password)) {
-            console.log(user.password)
+            // console.log(user.password)
             alert('Password형식이 일치하지 않습니다.');
             return false;
         }
@@ -105,7 +105,7 @@ const SignUpDetailForStepper = forwardRef(({
 
         const phoneNo = user.phoneNo;
         let isValidPhonoNoRegEx = phoneNoRegex.test(phoneNo)
-        console.log('user.phoneNo : ', phoneNo, 'isValidPhonoNoRegEx : ', isValidPhonoNoRegEx)
+        // console.log('user.phoneNo : ', phoneNo, 'isValidPhonoNoRegEx : ', isValidPhonoNoRegEx)
 
         if (phoneNo !== '' && isValidPhonoNoRegEx === false) {
             alert('전화번호 번호 형식이 맞지 않습니다.');
@@ -178,7 +178,7 @@ const SignUpDetailForStepper = forwardRef(({
             return alert('Nickname을 입력하세요.');
         }
 
-        console.log('[signup] before encode : ' + JSON.stringify(user));
+        // console.log('[signup] before encode : ' + JSON.stringify(user));
 
         user.userId     = base64_encode(user.userId);
         user.password   = base64_encode(user.password);        

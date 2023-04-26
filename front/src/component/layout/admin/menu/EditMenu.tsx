@@ -41,20 +41,20 @@ function EditMenu () {
     const inputMenuName = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setMenu({...menu, name : e.target.value});
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
     const inputMenuUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setMenu({...menu, url : e.target.value});
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
 
     const handleIsShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setMenu({...menu, show : e.target.value});
-        console.log('isShow : ', e.target.value);
+        // console.log('isShow : ', e.target.value);
     }
     
     const saveMenu = (e: React.MouseEvent<HTMLElement>) => {

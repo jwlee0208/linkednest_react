@@ -1,17 +1,18 @@
-import { Box, Button, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography }                          from "@mui/material";
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import { getContentInfo }               from "../../../store/modules/content";
-import { useState, useEffect } from "react";
-import { BoardArticle_, BoardList_ } from "../../../store/modules/boardCategory";
-import { axiosInstance } from "../../..";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useLocation, useNavigate } from "react-router";
+import { Box, Button, Divider, Grid, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography }                          
+                                            from "@mui/material";
+import { useAppDispatch, useAppSelect }     from "../../../store/index.hooks";
+import { getContentInfo }                   from "../../../store/modules/content";
+import { useState, useEffect }              from "react";
+import { BoardArticle_, BoardList_ }        from "../../../store/modules/boardCategory";
+import { axiosInstance }                    from "../../..";
+import { TabContext, TabList, TabPanel }    from "@mui/lab";
+import { useLocation, useNavigate }         from "react-router";
 
 function RecentNotice() {
     const location = useLocation();
     const navigate = useNavigate();
     const contentInfo = useAppSelect(getContentInfo);
-    console.log('contentInfo : ', contentInfo);
+    // console.log('contentInfo : ', contentInfo);
     const [boardList, setBoardList] = useState<BoardList_>([{
         id              : 0,
         boardCategoryId : 0,
@@ -65,39 +66,40 @@ function RecentNotice() {
 {
     boardList.map((board, index)=>(
         <TabPanel value={index.toString()} key={`${board.id}_tabPanel`}>
-            <TableContainer key={`${board.id}_tableContainer`}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell width={'5%'}>No</TableCell>
-                            <TableCell width={'45%'}>Title</TableCell>
-                            <TableCell width={'15%'}>작성자</TableCell>
-                            <TableCell width={'25%'}>작성일</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
+            <Divider/>
+            <Grid container item key={`${board.id}_grid`}>
+                <Grid item xs={8}>
+                    <Typography sx={{fontWeight:'bold'}}>Title</Typography>    
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography sx={{fontWeight:'bold'}}>Writer</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography sx={{fontWeight:'bold'}}>Date</Typography>
+                </Grid>
+            </Grid>
+            <Divider/>
                     {
                         board.boardArticleList !== null ? (
                             board.boardArticleList.map((boardArticle, boardArticleIndex) => (
-                                <TableRow key={`${boardArticle.boardId}_${boardArticle.id}`}>
-                                <TableCell>{boardArticle.id}</TableCell>
-                                <TableCell><Button onClick={(e) => handleMenuView('news', `${board.boardKeyword}`,boardArticle as BoardArticle_, e)}>{boardArticle.title}</Button></TableCell>
-                                <TableCell>{boardArticle.createUserId}</TableCell>
-                                <TableCell>
-                                    <Typography>{boardArticle.createDate}</Typography>                                
-                                </TableCell>
-                            </TableRow>
-                        ))) : (<></>)
+
+            <Grid container item key={`${boardArticle.boardId}_${boardArticle.id}`}>
+                <Grid item xs={8}>
+                    <Button onClick={(e) => handleMenuView('news', `${board.boardKeyword}`,boardArticle as BoardArticle_, e)}>{boardArticle.title}</Button>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography>{boardArticle.createUserId}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography>{boardArticle.createDate}</Typography>
+                </Grid>
+            </Grid>
+                        ))) : (<>No Article</>)
                     }                
-                    </TableBody>    
-                </Table>
-            </TableContainer>
         </TabPanel>
     ))
 }            
         </TabContext>
-        <Tab></Tab>
-
     </Box>)
 }
 

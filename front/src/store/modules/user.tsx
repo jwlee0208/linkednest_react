@@ -173,7 +173,7 @@ const userSlice = createSlice ({
             }  
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
-            console.log(`action.payload.returnCode : ${action.payload.returnCode}`);
+            // console.log(`action.payload.returnCode : ${action.payload.returnCode}`);
             if (action.payload.returnCode === 10000) {
                 state.userNo                = action.payload.userNo;
                 state.accessToken           = action.payload.accessToken;
@@ -192,7 +192,7 @@ const userSlice = createSlice ({
             }
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
-            console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
+            // console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
         })
         builder.addCase(asyncUserUpdate.fulfilled, (state, action) => {
             state.introduce = action.payload.introduce;        

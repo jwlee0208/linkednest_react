@@ -72,7 +72,7 @@ function ArticleList() {
         setContentCode(contentCode);
         setBoardCategoryKeyword(boardCategoryKeyword);
         setBoardKeyword(boardKeyword);
-        console.log(contentCode, boardCategoryKeyword, boardKeyword);
+        // console.log(contentCode, boardCategoryKeyword, boardKeyword);
     
         axiosInstance.post('/api/board/article/list',
             JSON.stringify({
