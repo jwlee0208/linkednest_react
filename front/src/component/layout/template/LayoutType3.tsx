@@ -35,7 +35,7 @@ function LayoutType3() {
           <Grid component="header">
             <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId}/>
           </Grid>
-          <Grid>
+          <Grid sx={{display:'none'}}>
             <TopBanner/>
           </Grid>
           <Grid component="nav">
@@ -47,7 +47,7 @@ function LayoutType3() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid component="footer">
+        <Grid component="footer" sx={{pt:1}}>
           <Hidden smUp>
             <BottomNavigation
               showLabels

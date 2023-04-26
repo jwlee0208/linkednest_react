@@ -1,13 +1,14 @@
-import * as React from 'react';
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
-import { BoardCategory_, Board_ } from "../../../../store/modules/boardCategory";
+import * as React from 'react';
 import { useNavigate } from "react-router";
+import { BoardCategory_, Board_ } from "../../../../store/modules/boardCategory";
 
 
 type  TopMenuProps = {
     contentBoardCategory : BoardCategory_
 }
 function TopMenu({contentBoardCategory} : TopMenuProps) {
+
     const navigate    = useNavigate();
  
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,10 +36,10 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
                         aria-controls={open ? `${contentBoardCategory.id}_menu` : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
-                        sx={{height: 50, }}
+                        sx={{height: 50}}
                         onClick={handleClick}>
                             <Typography sx={{fontWeight:'bold'}} key={`${contentBoardCategory.boardCategoryKeyword}_text`}>{contentBoardCategory.boardCategoryName}</Typography>
-                </Button>
+                </Button> 
                 {
                     (contentBoardCategory.boardList !== null) ? (
                         <Menu id={`${contentBoardCategory.boardCategoryKeyword}_menu`}
@@ -59,7 +60,7 @@ function TopMenu({contentBoardCategory} : TopMenuProps) {
                     </Menu>
                     ) : (<></>)
                 }
-            </div>          
+            </div>    
         </Box>
     )
 }

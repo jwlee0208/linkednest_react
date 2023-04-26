@@ -100,7 +100,7 @@ function Header({
      }, [])
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" color="default">
           <Container maxWidth={false}>
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -116,7 +116,7 @@ function Header({
                 transformOrigin={{vertical: 'top',horizontal: 'left',}} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu_} sx={{display: { xs: 'block', md: 'none' },}}>
                 {pages.map((page) => (
                   <MenuItem key={page.menu} onClick={(e) => {handleCloseNavMenu(page.path, e)}}>
-                    <Typography textAlign="center">{page.menu}</Typography>
+                    <Typography textAlign="center" sx={{color:'WindowText'}}>{page.menu}</Typography>
                   </MenuItem>
                 ))}
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -134,7 +134,7 @@ function Header({
             </FormControl>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
-                <Button key={page.menu} onClick={(e)=>{handleCloseNavMenu(page.path, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>
+                <Button key={page.menu} onClick={(e)=>{handleCloseNavMenu(page.path, e)}} sx={{ my: 2, color: 'WindowText', display: 'block' }}>
                   {page.menu}
                 </Button>
               ))}
