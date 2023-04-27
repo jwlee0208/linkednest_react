@@ -35,9 +35,9 @@ function Header({
 } : HeaderProps) {
 
     const settings = [{menu : 'My Page', path : `/${contentCode}/mypage`}, {menu : 'Logout', path : '/logout'}];
-    const pages    = (isLogin === true) ? [{menu : 'Home', path : '/'}
+    const pages    = (isLogin === true) ? [{menu : 'Home', path : `/${contentCode}`}
                                          , {menu : 'My Page', path : `/${contentCode}/mypage`}] 
-                                        : [{menu : 'Home', path : '/'}];
+                                        : [{menu : 'Home', path : `/${contentCode}`}];
     
     const navigate    = useNavigate();
     const dispatch    = useAppDispatch();
@@ -102,7 +102,7 @@ function Header({
     return (
         <AppBar position="sticky" color="default">
           <Container maxWidth={false}>
-          <Toolbar disableGutters variant="dense" sx={{ height: '50px' }}>
+          <Toolbar disableGutters variant="dense" sx={{ height: '70px' }}>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography variant="h6" noWrap component="a" href="/"
               sx={{mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none',}}>
