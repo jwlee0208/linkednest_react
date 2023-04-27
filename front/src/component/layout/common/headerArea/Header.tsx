@@ -23,6 +23,7 @@ type HeaderProps = {
     accessToken : string;
     contentCode : string;
     layoutType  : string;
+    contentList : ContentList_;
 };
 
 function Header({
@@ -32,6 +33,7 @@ function Header({
     accessToken,
     contentCode,
     layoutType,
+    contentList,
 } : HeaderProps) {
 
     const settings = [{menu : 'My Page', path : `/${contentCode}/mypage`}, {menu : 'Logout', path : '/logout'}];
@@ -45,22 +47,6 @@ function Header({
     const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const [contentList, setContentList] = useState<ContentList_>([{
-      contentId   : 0,
-      contentName : '',
-      contentType : '',
-      contentCode : '',
-      layoutType  : 0,
-      status      : '',
-      usableLevel : 0,
-      contentSnsList : [],
-      contentCreator : {
-          contentCreatorId : 0,
-          creatorName      : '',
-          creatorRights    : '',
-          creatorImgUrl    : '',    
-      },
-    }]);
 
     const handleOpenNavMenu   = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -71,20 +57,20 @@ function Header({
     };
 
     const handleCloseNavMenu  = (param : string, event : React.MouseEvent<HTMLElement>) => {
-        navigate(param);
-        setAnchorElNav(null);
+      navigate(param);
+      setAnchorElNav(null);
     };
 
     const handleCloseNavMenu_ = () => {
-        setAnchorElNav(null);
+      setAnchorElNav(null);
     }
 
     const handleCloseUserMenu = (param : string, event : React.MouseEvent) => {
         if (param === '/logout') {
           dispatch(asyncLogout());
-            navigate(`/${contentCode}`);    
+          navigate(`/${contentCode}`);    
         } else {
-            navigate(param);
+          navigate(param);
         }
         setAnchorElUser(null);
     };
@@ -94,9 +80,6 @@ function Header({
     };
 
     useEffect(() => {
-       axiosInstance.get('/api/content/list')
-                   .then((res) => setContentList(res.data))
-                   .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  )
      }, [])
 
     return (
@@ -134,7 +117,9 @@ function Header({
             </FormControl>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
-                <Button key={page.menu} onClick={(e)=>{handleCloseNavMenu(page.path, e)}} sx={{ my: 2, color: 'WindowText', display: 'block' }}>
+                <Button key={page.menu} 
+                        onClick={(e)=>{handleCloseNavMenu(page.path, e)}} 
+                        sx={{ my: 2, color: 'WindowText', display: 'block' }}>
                   {page.menu}
                 </Button>
               ))}
@@ -146,10 +131,17 @@ function Header({
                   <Avatar alt="Remy Sharp" src="images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
-              <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top', horizontal: 'right',}} 
-                keepMounted transformOrigin={{vertical: 'top', horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu_}>
+              <Menu sx={{ mt: '45px' }} 
+                    id="menu-appbar" 
+                    anchorEl={anchorElUser} 
+                    anchorOrigin={{vertical: 'top', horizontal: 'right',}} 
+                    keepMounted 
+                    transformOrigin={{vertical: 'top', horizontal: 'right',}} 
+                    open={Boolean(anchorElUser)} 
+                    onClose={handleCloseUserMenu_}>
                 {settings.map((setting) => (
-                  <MenuItem key={setting.menu} onClick={(e)=>{handleCloseUserMenu(setting.path, e)}}>
+                  <MenuItem key={setting.menu} 
+                            onClick={(e)=>{handleCloseUserMenu(setting.path, e)}}>
                     <Typography textAlign="center">{setting.menu}</Typography>
                   </MenuItem>
                 ))}

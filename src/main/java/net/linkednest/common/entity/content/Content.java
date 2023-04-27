@@ -61,6 +61,16 @@ public class Content {
         boardCategoryList.forEach(o -> o.setContent(this));
     }
 
+    private String          homepageUrl;
+    private String          imagePath;
+    private String          logoImagePath;
+
+    @JsonBackReference
+    @JoinColumn(name = "contentCategoryId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private ContentCategory contentCategory;
+
     @JsonBackReference
     @JoinColumn(name = "createUserNo")
     @ManyToOne(fetch = FetchType.LAZY)

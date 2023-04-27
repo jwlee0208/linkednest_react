@@ -14,9 +14,13 @@ import React              from "react";
 import Hidden             from "@mui/material/Hidden";
 import BottomNavigation       from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import { getContentInfo } from "../../../store/modules/content";
+import { ContentList_, getContentInfo } from "../../../store/modules/content";
 
-function LayoutType3() {
+type layoutType3Props = {
+  contentList : ContentList_,
+}
+
+function LayoutType3({contentList} : layoutType3Props) {
 
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
@@ -33,7 +37,7 @@ function LayoutType3() {
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId}/>
+            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId} contentList={contentList}/>
           </Grid>
           <Grid sx={{display:'none'}}>
             <TopBanner/>

@@ -8,12 +8,13 @@ import LayoutType3                 from "./template/LayoutType3";
 import LayoutAdmin                 from "./template/admin/LayoutAdmin";
 import layoutSlice
    , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
-import contentSlice, { Content_ }  from "../../store/modules/content";
+import contentSlice, { ContentList_, Content_ }  from "../../store/modules/content";
 import { axiosInstance }           from "../..";
 import bannerSlice, { BannerListInfo_, BannerList_ } 
                                    from "../../store/modules/banner";
 import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } 
                                    from "../../store/modules/boardCategory";
+import LayoutType0 from "./template/LayoutType0";
 
 function Layout() {
 
@@ -28,6 +29,7 @@ function Layout() {
       contentName : '',
       contentType : '',
       contentCode : '',
+      contentDesc : '',
       layoutType  : 0,
       status      : '',
       usableLevel : 0,
@@ -38,6 +40,9 @@ function Layout() {
           creatorRights    : '',
           creatorImgUrl    : '',    
       },
+      homepageUrl    : '',
+      imagePath      : '',
+      logoImagePath  : '',  
     })
 
     const [bannerListInfo, setBannerListInfo] = useState<BannerListInfo_>({
@@ -53,6 +58,32 @@ function Layout() {
     let pathArr = location.pathname.split("/");
     if (pathArr[1] !== ''){
       contentCode = pathArr[1];
+    } else {
+      contentCode = 'portal';
+    }
+    const [contentList, setContentList] = useState<ContentList_>([{
+      contentId   : 0,
+      contentName : '',
+      contentType : '',
+      contentCode : '',
+      contentDesc : '',
+      layoutType  : 0,
+      status      : '',
+      usableLevel : 0,
+      contentSnsList : [],
+      contentCreator : {
+          contentCreatorId : 0,
+          creatorName      : '',
+          creatorRights    : '',
+          creatorImgUrl    : '',    
+      },
+      homepageUrl    : '',
+      imagePath      : '',
+      logoImagePath  : '',  
+    }]);
+
+    const setupContentList = (contentList : ContentList_) => {
+      setContentList(contentList); 
     }
 
     const setupContent = (content : Content_) => {
@@ -89,6 +120,11 @@ function Layout() {
         axiosInstance.get(`/api/board/category/list/${content.contentCode}`)
                     .then((res) => setupContentBoardCategoryInfo(res.data))
                     .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
+
+        axiosInstance.get('/api/content/list')
+                    .then((res) => setupContentList(res.data))
+                    .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  )
+             
       }
               
       const baseCss = document.createElement("link");
@@ -113,10 +149,10 @@ function Layout() {
     
     switch (layoutInfo.layoutId) {
       case "99" : return <LayoutAdmin/>
-      case "1"  : return <LayoutType1/>
-      case "2"  : return <LayoutType2/>
-      case "3"  : return <LayoutType3/>
-      default   : return <LayoutType1/>
+      case "1"  : return <LayoutType1 contentList={contentList}/>
+      case "2"  : return <LayoutType2 contentList={contentList}/>
+      case "3"  : return <LayoutType3 contentList={contentList}/>
+      default   : return <LayoutType0 contentList={contentList}/>
     }
 }
 

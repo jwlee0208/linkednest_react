@@ -28,6 +28,7 @@ public class ContentService {
         });
         return resList;
     }
+
     public ResContentDto getContentByContentCode(String contentCode) {
         ResContentDto resObj = new ResContentDto();
         Optional<Content> contentOptional = contentRepository.findByContentCode(contentCode);
@@ -52,6 +53,12 @@ public class ContentService {
             resObj.setStatus(content.getStatus());
             resObj.setUsableLevel(content.getUsableLevel());
             resObj.setIsActive(content.getIsActive());
+            if (ObjectUtils.isNotEmpty(content.getContentCategory())) {
+                resObj.setContentCategoryCode(content.getContentCategory().getCategoryCode());
+            }
+            resObj.setHomepageUrl(content.getHomepageUrl());
+            resObj.setImagePath(content.getImagePath());
+            resObj.setLogoImagePath(content.getLogoImagePath());
             List<ResContentSnsDto> resContentSnsList = new ArrayList<>();
             content.getContentSnsList().forEach(cs -> {
                 ResContentSnsDto resContentSnsObj = new ResContentSnsDto();
