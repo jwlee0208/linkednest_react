@@ -17,4 +17,8 @@ public class ResContentDto {
     private String                  status;
     private List<ResContentSnsDto>  contentSnsList;
     private ResContentCreator       contentCreator;
+    private String                  imagePath;
+    private String                  logoImagePath;
+    private String                  homepageUrl;
+    private String                  contentCategoryCode;
 }

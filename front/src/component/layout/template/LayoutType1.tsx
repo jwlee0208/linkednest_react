@@ -14,9 +14,12 @@ import RestoreIcon        from '@mui/icons-material/Restore';
 import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
-import { getContentInfo } from "../../../store/modules/content";
+import { ContentList_, getContentInfo } from "../../../store/modules/content";
 
-function LayoutType1() {
+type layoutType1Props = {
+  contentList : ContentList_,
+}
+function LayoutType1({contentList} : layoutType1Props) {
 
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
@@ -34,7 +37,7 @@ function LayoutType1() {
 
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId}/>
+            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId} contentList={contentList}/>
           </Grid>
           <Grid sx={{display:'none'}}>
             <TopBanner/>
