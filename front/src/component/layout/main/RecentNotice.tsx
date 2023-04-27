@@ -52,7 +52,7 @@ function RecentNotice() {
     }, [contentCode]);
 
     return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
+    <Box sx={{ width: '100%', typography: 'body1', p: 2 }}>
         <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList onChange={handleChange}>
@@ -67,7 +67,7 @@ function RecentNotice() {
     boardList.map((board, index)=>(
         <TabPanel value={index.toString()} key={`${board.id}_tabPanel`}>
             <Divider/>
-            <Grid container item key={`${board.id}_grid`}>
+            <Grid container item key={`${board.id}_grid`} sx={{p:1}}>
                 <Grid item xs={8}>
                     <Typography sx={{fontWeight:'bold'}}>Title</Typography>    
                 </Grid>

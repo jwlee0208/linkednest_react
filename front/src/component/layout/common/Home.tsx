@@ -1,4 +1,4 @@
-import { Box }      from "@mui/material";
+import { Box, Paper }      from "@mui/material";
 import Banner       from "../main/banner/Banner";
 import RecentNotice from "../main/RecentNotice";
 import SiteMap      from "../main/SiteMap";
@@ -14,12 +14,12 @@ function Home({bannerHeight} : HomeProps) {
         <Box borderColor="primary.main" sx={{mt:1, mb:1, height:{bannerHeight}}}>
           <Banner/>
         </Box>
-        <Box borderColor="secondary.main" sx={{mt:1, mb:1, minHeight:"200px", borderBottom:1, borderBottomColor:'#efefef', borderTop:1, borderTopColor:'#efefef'}}>
+        <Paper variant="outlined" elevation={3} sx={{m:1, minHeight:"200px"}}>
           <RecentNotice/>
-        </Box>
-        <Box borderColor="skyblue" sx={{mt:1, mb:1, minHeight:"200px", }}>
+        </Paper>
+        <Paper variant="outlined" elevation={3} sx={{m:1, minHeight:"200px", }}>
           <SiteMap/>
-        </Box>
+        </Paper>
     </div>
     </Box>
   );

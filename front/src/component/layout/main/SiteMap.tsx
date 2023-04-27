@@ -14,16 +14,15 @@ function SiteMap() {
     }
 
     return (
-    <Box sx={{p:1}}>
         <Grid container item>
 {
     boardCategoryInfo.boardCategoryList.map((boardCategory) => (
-            <Card key={`${boardCategoryInfo.contentCode}/${boardCategory.boardCategoryKeyword}`} sx={{p:1, width: `${100/boardCategoryCnt}%`}}>
+            <Card key={`${boardCategoryInfo.contentCode}/${boardCategory.boardCategoryKeyword}`} sx={{m:1, width: `${(100/boardCategoryCnt)-2}%`}}>
                 <Typography variant="h6" sx={{p:1}}>{boardCategory.boardCategoryName}</Typography>
     {
         (boardCategory.boardList !== null) ? (
             boardCategory.boardList.map((board) => (
-                <Box key={`${boardCategoryInfo.contentCode}/${boardCategory.boardCategoryKeyword}/${board.boardKeyword}`} sx={{pl: 1, pb: 1}}><Button onClick={(e) => movePage(`/${boardCategoryInfo.contentCode}/${boardCategory.boardCategoryKeyword}/${board.boardKeyword}`, e)}>{board.boardName}</Button></Box>
+                <Box key={`${boardCategoryInfo.contentCode}/${boardCategory.boardCategoryKeyword}/${board.boardKeyword}`} sx={{m: 1}}><Button onClick={(e) => movePage(`/${boardCategoryInfo.contentCode}/${boardCategory.boardCategoryKeyword}/${board.boardKeyword}`, e)}>{board.boardName}</Button></Box>
             ))        
 
         ) : (<></>)
@@ -33,7 +32,7 @@ function SiteMap() {
     ))
 }
         </Grid>
-    </Box>)
+    )
 
 }
 

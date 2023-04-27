@@ -1,4 +1,4 @@
-import { Box, Button, Fab, Icon } from "@mui/material";
+import { Box, Button, Fab, Icon, Paper } from "@mui/material";
 import { useNavigate }      from "react-router";
 import { useAppDispatch, useAppSelect }     from "../../../../store/index.hooks";
 import { getLayoutInfo }    from "../../../../store/modules/layout";
@@ -37,12 +37,12 @@ function SideArea({
     return (
         <Box component="menu" sx={{mr:3, overflow: 'hidden'}}>
             <SideFloatingButtons/>
-            <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{minHeight:"200px"}}>
+            <Paper variant="outlined" elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
                 <Box sx={{ m: 1 }}>
-                    Area1
+                        Area1
                 </Box>
-            </Box>    
-            <Box border={1} borderColor="gray" sx={{mt:1, mb:1}}>
+            </Paper>    
+            <Paper variant="outlined" elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
                 {isLogin === false ? 
                     <Login/> 
                     : (
@@ -52,12 +52,12 @@ function SideArea({
                         </Box>    
                     )
                 }  
-            </Box>
-            <Box border={1} borderColor="primary.main" bgcolor="gray" sx={{mt:1, mb:1, minHeight:"200px"}}>
+            </Paper>
+            <Paper variant="outlined" elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
                 <Box sx={{ m: 1 }}>
                     Area3
                 </Box>
-            </Box>  
+            </Paper>  
         </Box>
     );
 }
