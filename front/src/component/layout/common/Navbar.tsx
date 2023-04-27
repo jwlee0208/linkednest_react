@@ -19,25 +19,25 @@ function Navbar () {
     }
  
     return (
-     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 50, width: '100%'}}> 
+     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 60, width: '100%'}}> 
 {
     contentBoardCategoryInfo.boardCategoryList.map((boardCategoryObj) => (    
-        <Box id="topMenuArea" sx={{width:`${100/boardCategoryCnt}%`, height: 50, textAlign:'center'}} key={`${boardCategoryObj.boardCategoryKeyword}_area`}>
+        <Box id="topMenuArea" 
+             sx={{width:`${100/boardCategoryCnt}%`, height: 60, textAlign:'center'}} 
+             key={`${boardCategoryObj.boardCategoryKeyword}_area`} 
+             onMouseEnter={handleChange}>
             <div key={`${boardCategoryObj.boardCategoryKeyword}_1depth`} style={{verticalAlign:'bottom'}}>
                 <Button id={`${boardCategoryObj.boardCategoryKeyword}_button`} 
-                            key={`${boardCategoryObj.boardCategoryKeyword}`}
-                            sx={{height: 50, }}
-                            // onClick={handleChange}
-                            onMouseEnter={handleChange}
-                            onMouseLeave={handleChange}>
+                        key={`${boardCategoryObj.boardCategoryKeyword}`}
+                        sx={{height: 60, }}>
                     <Typography sx={{fontWeight:'bold'}} key={`${boardCategoryObj.boardCategoryKeyword}_text`}>{boardCategoryObj.boardCategoryName}</Typography>
                 </Button> 
             </div>
         </Box>            
     ))
 }        
-    <Fade in={checked} {...(checked ? { timeout: 1200 } : { timeout: 1200 })}>
-        <Box sx={{ width:'100%', position: "absolute", backgroundColor: '#ffffff', opacity:'0.9', top: 125, left: "50%", transform: "translateX(-50%)", zIndex:'80'}}>
+    <Fade in={checked} {...({timeout: 1200})} onMouseLeave={handleChange} >
+        <Box sx={{ width:'100%', position: "absolute", backgroundColor: "#ffffff", top: 135, left: "50%", transform: "translateX(-50%)", zIndex:10}}>
             <Grid container item>
 {
     contentBoardCategoryInfo.boardCategoryList.map((boardCategoryObj) => (
@@ -47,6 +47,7 @@ function Navbar () {
         boardCategoryObj.boardList.map((boardObj) => (
             <ListItem key={`${boardObj.boardCode}_subMenu`} sx={{justifyContent:'center'}}>
                 <Button onClick={(e) => moveToPage(boardCategoryObj as BoardCategory_, boardObj as Board_, e)} 
+                        // onMouseLeave={handleChange}
                         sx={{fontWeight:'bold'}}>{boardObj.boardName}</Button>
             </ListItem>
         ))) : (<></>)
