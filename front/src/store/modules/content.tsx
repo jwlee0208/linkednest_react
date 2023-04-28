@@ -42,6 +42,7 @@ export interface ContentCategory_ {
     depth               : number,
     isActive            : string;
     childCategoryList   : ContentCategoryList_,
+    contentList         : ContentList_,
 }
 
 export interface ContentSnsList_ extends Array<ContentSns_>{}

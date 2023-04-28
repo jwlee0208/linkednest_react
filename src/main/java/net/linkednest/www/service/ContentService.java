@@ -6,7 +6,9 @@ import net.linkednest.common.dto.content.ResContentCreator;
 import net.linkednest.common.dto.content.ResContentDto;
 import net.linkednest.common.dto.content.ResContentSnsDto;
 import net.linkednest.common.entity.content.Content;
+import net.linkednest.common.entity.content.ContentCategory;
 import net.linkednest.common.entity.content.ContentCreator;
+import net.linkednest.common.entity.content.ContentSns;
 import net.linkednest.common.repository.ContentRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,7 @@ public class ContentService {
         }
         return null;
     }
-    private ResContentDto getContent(Content content) {
+    public ResContentDto getContent(Content content) {
         ResContentDto resObj = new ResContentDto();
         if (ObjectUtils.isNotEmpty(content)) {
             resObj.setContentId(content.getId());
@@ -59,27 +61,41 @@ public class ContentService {
             resObj.setHomepageUrl(content.getHomepageUrl());
             resObj.setImagePath(content.getImagePath());
             resObj.setLogoImagePath(content.getLogoImagePath());
-            List<ResContentSnsDto> resContentSnsList = new ArrayList<>();
-            content.getContentSnsList().forEach(cs -> {
-                ResContentSnsDto resContentSnsObj = new ResContentSnsDto();
-                resContentSnsObj.setContentSnsId(cs.getId());
-                resContentSnsObj.setContent(cs.getContent());
-                resContentSnsObj.setSnsType(cs.getSnsType());
-                resContentSnsObj.setSnsUrl(cs.getSnsUrl());
-                resContentSnsList.add(resContentSnsObj);
-            });
-            resObj.setContentSnsList(resContentSnsList);
+            resObj.setContentSnsList(this.getContentSnsList(content.getContentSnsList()));
 
             ContentCreator contentCreator = content.getContentCreator();
             if (ObjectUtils.isNotEmpty(contentCreator)) {
-                ResContentCreator resContentCreator = new ResContentCreator();
-                resContentCreator.setCreatorId(contentCreator.getId());
-                resContentCreator.setCreatorName(contentCreator.getCreaterName());
-                resContentCreator.setCreatorRights(contentCreator.getCreaterRights());
-                resContentCreator.setCreatorImgUrl(contentCreator.getCreaterImgUrl());
-                resObj.setContentCreator(resContentCreator);
+                resObj.setContentCreator(this.getContentCreater(contentCreator));
             }
         }
         return resObj;
+    }
+
+    private List<ResContentSnsDto> getContentSnsList(List<ContentSns> contentSnsList) {
+        List<ResContentSnsDto> resContentSnsList = new ArrayList<>();
+        contentSnsList.forEach(cs -> {
+            resContentSnsList.add(this.getContentSns(cs));
+        });
+        return resContentSnsList;
+    }
+    private ResContentSnsDto getContentSns(ContentSns contentSns) {
+        ResContentSnsDto resContentSnsObj = new ResContentSnsDto();
+        resContentSnsObj.setContentSnsId(contentSns.getId());
+        resContentSnsObj.setContent(contentSns.getContent());
+        resContentSnsObj.setSnsType(contentSns.getSnsType());
+        resContentSnsObj.setSnsUrl(contentSns.getSnsUrl());
+        return  resContentSnsObj;
+    }
+    private ResContentCreator getContentCreater(ContentCreator contentCreator) {
+        ResContentCreator resContentCreator = new ResContentCreator();
+        resContentCreator.setCreatorId(contentCreator.getId());
+        resContentCreator.setCreatorName(contentCreator.getCreaterName());
+        resContentCreator.setCreatorRights(contentCreator.getCreaterRights());
+        resContentCreator.setCreatorImgUrl(contentCreator.getCreaterImgUrl());
+        return resContentCreator;
+    }
+
+    public List<Content> getContentListByCategory(ContentCategory contentCategory) {
+        return contentRepository.findAllByContentCategory(contentCategory);
     }
 }

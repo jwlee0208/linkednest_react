@@ -13,4 +13,5 @@ public class ResContentCategoryDto {
     private Integer depth;
     private Boolean isActive;
     private List<ResContentCategoryDto> childCategoryList;
+    private List<ResContentDto> contentList;
 }
