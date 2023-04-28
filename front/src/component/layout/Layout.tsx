@@ -53,6 +53,7 @@ function Layout() {
       depth               : 0,
       isActive            : '',
       childCategoryList   : [],
+      contentList         : [],
     }]);
 
     const [bannerListInfo, setBannerListInfo] = useState<BannerListInfo_>({
@@ -116,7 +117,12 @@ function Layout() {
       dispatch(boardCategorySlice.actions.setContentBoardCategoryInfo(boardCategoryListInfo));
     }
 
-    useEffect(()=>{
+    const setupContentCategoryList = (contentCategoryList : ContentCategoryList_) => {
+      setContentCategoryList(contentCategoryList);
+      console.log('contentCategoryList : ', contentCategoryList);
+    }
+
+    useEffect(() => {
       content.contentCode = contentCode;
       axiosInstance.get(`/api/content/${content.contentCode}`)
                    .then((res) => setupContent(res.data))
@@ -137,7 +143,7 @@ function Layout() {
       }
 
       axiosInstance.get('/api/content/category/list')
-                  .then((res) => setContentCategoryList(res.data))
+                  .then((res) => setupContentCategoryList(res.data))
                   .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );    
               
       const baseCss = document.createElement("link");

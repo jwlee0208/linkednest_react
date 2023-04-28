@@ -7,6 +7,7 @@ import { Box, Fab } from "@mui/material";
 import ArticleList from "../board/ArticleList";
 import ArticleDetail from "../board/ArticleDetail";
 import ArticleEdit from "../board/ArticleEdit";
+import CategoryInfoContentList from "../main/CategoryInfoContentList";
 
 
 type ContentProps = {
@@ -28,6 +29,7 @@ function Content ({
         <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/write" element={<ArticleEdit/>}/>
         <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/edit/:boardArticleId" element={<ArticleEdit/>}/>        
         <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/:boardArticleId" element={<ArticleDetail/>}/>
+        <Route path='/:contentCode/category/detail' element={<CategoryInfoContentList/>}/>
       </Routes>
       </Box>
     )
