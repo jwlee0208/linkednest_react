@@ -17,11 +17,12 @@ import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
 import * as React from 'react';
-import { ContentList_ } from '../../../../store/modules/content';
+import { ContentCategoryList_, ContentList_ } from '../../../../store/modules/content';
 import { User, asyncLogout } from '../../../../store/modules/user';
 import { Avatar, Button, ButtonGroup, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { useAppDispatch } from '../../../../store/index.hooks';
+import ContentCategory from './ContentCategory';
 
 
 type PortalMenuProps = {
@@ -32,6 +33,7 @@ type PortalMenuProps = {
     contentCode : string;
     layoutType  : string;
     contentList : ContentList_;
+    contentCategoryList : ContentCategoryList_,
 };
 
 const drawerWidth = 390;
@@ -93,6 +95,7 @@ function PortalHeader({
     contentCode,
     layoutType,
     contentList,
+    contentCategoryList,
 } : PortalMenuProps) {
 
   const theme = useTheme();
@@ -249,7 +252,9 @@ function PortalHeader({
         </List>
         <Divider />
         <List>
-            <Typography>&nbsp;&nbsp;&nbsp;To-Do...</Typography>
+          <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2}}>Category</Typography>
+          <Divider />
+          <ContentCategory contentCategoryList={contentCategoryList}/>
         </List>
       </Drawer>
     </Box>
