@@ -8,7 +8,7 @@ import LayoutType3                 from "./template/LayoutType3";
 import LayoutAdmin                 from "./template/admin/LayoutAdmin";
 import layoutSlice
    , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
-import contentSlice, { ContentList_, Content_ }  from "../../store/modules/content";
+import contentSlice, { ContentCategoryList_, ContentList_, Content_ }  from "../../store/modules/content";
 import { axiosInstance }           from "../..";
 import bannerSlice, { BannerListInfo_, BannerList_ } 
                                    from "../../store/modules/banner";
@@ -44,6 +44,16 @@ function Layout() {
       imagePath      : '',
       logoImagePath  : '',  
     })
+
+    const [contentCategoryList, setContentCategoryList] = useState<ContentCategoryList_>([{
+      id                  : 0,
+      parentId            : 0,
+      categoryCode        : '',
+      categoryName        : '',
+      depth               : 0,
+      isActive            : '',
+      childCategoryList   : [],
+    }]);
 
     const [bannerListInfo, setBannerListInfo] = useState<BannerListInfo_>({
       contentCode : '',
@@ -124,8 +134,11 @@ function Layout() {
         axiosInstance.get('/api/content/list')
                     .then((res) => setupContentList(res.data))
                     .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  )
-             
       }
+
+      axiosInstance.get('/api/content/category/list')
+                  .then((res) => setContentCategoryList(res.data))
+                  .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );    
               
       const baseCss = document.createElement("link");
       baseCss.crossOrigin = '*';
@@ -152,7 +165,7 @@ function Layout() {
       case "1"  : return <LayoutType1 contentList={contentList}/>
       case "2"  : return <LayoutType2 contentList={contentList}/>
       case "3"  : return <LayoutType3 contentList={contentList}/>
-      default   : return <LayoutType0 contentList={contentList}/>
+      default   : return <LayoutType0 contentList={contentList} contentCategoryList={contentCategoryList}/>
     }
 }
 

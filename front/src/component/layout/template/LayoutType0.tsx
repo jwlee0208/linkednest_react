@@ -8,7 +8,7 @@ import BottomNavigationAction           from "@mui/material/BottomNavigationActi
 import Hidden                           from "@mui/material/Hidden";
 import React                            from "react";
 import { useAppSelect }                 from "../../../store/index.hooks";
-import { ContentList_, getContentInfo } from "../../../store/modules/content";
+import { ContentCategoryList_, ContentList_, getContentInfo } from "../../../store/modules/content";
 import { getLayoutInfo }                from "../../../store/modules/layout";
 import { getUserInfo }                  from "../../../store/modules/user";
 import Footer                           from "../common/Footer";
@@ -16,10 +16,11 @@ import PortalHeader                     from '../common/headerArea/PortalHeader'
 import PortalBanner                     from '../main/banner/PortalBanner';
 
 type layoutType0Props = {
-    contentList : ContentList_,
+    contentList         : ContentList_,
+    contentCategoryList : ContentCategoryList_,
 }
 
-function LayoutType0 ({contentList} : layoutType0Props) {
+function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
 
     const layoutInfo  = useAppSelect(getLayoutInfo);
     const userinfo    = useAppSelect(getUserInfo);
@@ -35,8 +36,14 @@ function LayoutType0 ({contentList} : layoutType0Props) {
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <PortalHeader isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId} contentList={contentList}/>
-            {/* <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId} contentList={contentList}/> */}
+            <PortalHeader isLogin={isLogin} 
+                          accessToken={accessToken} 
+                          userId={userId} 
+                          user={userinfo}  
+                          contentCode={contentInfo.contentCode} 
+                          layoutType={layoutInfo.layoutId} 
+                          contentList={contentList} 
+                          contentCategoryList={contentCategoryList}/>
           </Grid>
           <Grid container spacing={1} sx={{pt:10}}>
             <Grid component="article" item xs={12}>

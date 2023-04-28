@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosInstance } from "../..";
-import { RootState } from "../../reducer";
+import { createAsyncThunk, createSlice }    from "@reduxjs/toolkit";
+import { axiosInstance }                    from "../..";
+import { RootState }                        from "../../reducer";
 
 export interface ContentList_ extends Array<Content_> {}
 
@@ -22,15 +22,26 @@ export interface Content_ {
 
 export interface ContentSns_ {
     contentSnsId : number,
-    snsType : string,
-    snsUrl : string,
+    snsType      : string,
+    snsUrl       : string,
 }
 
 export interface ContentCreator_ {
-    contentCreatorId : number,
-    creatorName : string,
-    creatorRights : string,
-    creatorImgUrl : string,
+    contentCreatorId    : number,
+    creatorName         : string,
+    creatorRights       : string,
+    creatorImgUrl       : string,
+}
+
+export interface ContentCategoryList_ extends Array<ContentCategory_>{}
+export interface ContentCategory_ {
+    id                  : number,
+    parentId            : number,
+    categoryCode        : string,
+    categoryName        : string,
+    depth               : number,
+    isActive            : string;
+    childCategoryList   : ContentCategoryList_,
 }
 
 export interface ContentSnsList_ extends Array<ContentSns_>{}

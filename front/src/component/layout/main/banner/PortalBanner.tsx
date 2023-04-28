@@ -16,18 +16,18 @@ type PortalBannerProps = {
 function PortalBanner({contentList} : PortalBannerProps) {
     const buttonArea = (contentSns : ContentSns_) => {
         switch (contentSns.snsType) {
-            case 'fb' : return <FacebookIcon color="primary"/>
-            case 'tw' : return <TwitterIcon color="info"/>
-            case 'dc' : return <ChatIcon color="secondary"/>
-            case 'yt' : return <YouTubeIcon color="error"/>
+            case 'fb' : return <FacebookIcon    color="primary"/>
+            case 'tw' : return <TwitterIcon     color="info"/>
+            case 'dc' : return <ChatIcon        color="secondary"/>
+            case 'yt' : return <YouTubeIcon     color="error"/>
             default : return <HomeIcon sx={{m:1}} color="success"/>
         }
     }
 
     return (
         <Carousel sx={{m:1, height: '500px'}} 
-        NextIcon={<ArrowRightIcon/>} 
-        PrevIcon={<ArrowLeftIcon/>}>
+                    NextIcon={<ArrowRightIcon/>} 
+                    PrevIcon={<ArrowLeftIcon/>}>
 {
             contentList.map((content) => (
             <Card key={`${content.contentCode}_cardBanner`} sx={{ display: 'flex' }}>
@@ -45,7 +45,10 @@ function PortalBanner({contentList} : PortalBannerProps) {
                         </IconButton>
                         {
                 content.contentSnsList.map((contentSns, index) => (
-                    <IconButton href={`${contentSns.snsUrl}`} sx={{borderColor:'#efefef', border:1, ml: 1}} size="large" key={`${content.contentCode}_${contentSns.snsType}_btn`}>
+                    <IconButton href={`${contentSns.snsUrl}`} 
+                                sx={{borderColor:'#efefef', border:1, ml: 1}} 
+                                size="large" 
+                                key={`${content.contentCode}_${contentSns.snsType}_btn`}>
                         {
                             buttonArea(contentSns)
                         }
@@ -54,7 +57,10 @@ function PortalBanner({contentList} : PortalBannerProps) {
             }
                     </Box>
                 </Box>
-                <CardMedia component='img' sx={{width : '75%', maxHeight:'500px'}} image={content.imagePath} alt={content.contentDesc}/>
+                <CardMedia component='img' 
+                            sx={{width : '75%', maxHeight:'500px'}} 
+                            image={content.imagePath} 
+                            alt={content.contentDesc}/>
             </Card>    
             ))
 }
