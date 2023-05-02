@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { ContentCategoryList_, ContentCategory_ } from "../../../../store/modules/content";
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { ContentCategoryList_, ContentCategory_ } from "../../../../store/modules/content";
 
 type ContentCategoryProps = {
     contentCategoryList : ContentCategoryList_
@@ -10,11 +10,36 @@ type ContentCategoryProps = {
 function ContentCategory({contentCategoryList} : ContentCategoryProps) {
 
     const navigate = useNavigate();
-    const movePage = (contentCategory : ContentCategory_, e : MouseEvent<HTMLElement>) => {
+
+    const [contentCategory_, setContentCategory_] = useState<ContentCategory_>({
+        id                  : 0,
+        parentId            : 0,
+        categoryCode        : '',
+        categoryName        : '',
+        depth               : 0,
+        isActive            : '',
+        childCategoryList   : [],
+        contentList         : [],
+    });
+
+    const movePage = (contentCategory : ContentCategory_, e : MouseEvent) => {
         e.preventDefault();
         console.log('aaaaaaaaaa');
-        navigate(`/portal/category/detail`, {state : {contentCategory : contentCategory}});
+        setContentCategory_(contentCategory);
+        navigate(`/portal/category/detail`, { replace: true, state : {contentCategory : contentCategory} });
     }
+
+    const contentCategoryTxtVariant = (depth : number) => {
+        switch (depth) {
+            case 1 : return 'h6'
+            case 2 : return 'subtitle1'
+            default : return 'subtitle2'
+        }
+    }
+
+    useEffect(() => {
+
+    }, [contentCategory_]);
 
     return (
     <>
@@ -22,7 +47,7 @@ function ContentCategory({contentCategoryList} : ContentCategoryProps) {
     contentCategoryList.map((contentCategory) => (
         <Box key={contentCategory.categoryCode} sx={{pl:1}}>
             <Button key={contentCategory.categoryCode} sx={{color:'black'}} onClick={(e) => movePage(contentCategory, e)}>
-                    <Typography variant={contentCategory.depth === 1 ? 'h6' : (contentCategory.depth === 2 ? 'subtitle1' : 'subtitle2')} 
+                    <Typography variant={contentCategoryTxtVariant(contentCategory.depth)} 
                                 sx={{fontWeight : `${contentCategory.depth === 1 ? 'bold' : ''}` }}>
                         {contentCategory.categoryName}
                     </Typography>

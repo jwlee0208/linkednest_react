@@ -8,12 +8,15 @@ import BottomNavigationAction           from "@mui/material/BottomNavigationActi
 import Hidden                           from "@mui/material/Hidden";
 import React                            from "react";
 import { useAppSelect }                 from "../../../store/index.hooks";
-import { ContentCategoryList_, ContentList_, getContentInfo } from "../../../store/modules/content";
+import { ContentCategoryList_, ContentCategory_, ContentList_, getContentInfo } from "../../../store/modules/content";
 import { getLayoutInfo }                from "../../../store/modules/layout";
 import { getUserInfo }                  from "../../../store/modules/user";
 import Footer                           from "../common/Footer";
 import PortalHeader                     from '../common/headerArea/PortalHeader';
 import PortalBanner                     from '../main/banner/PortalBanner';
+import Content from '../common/Content';
+import PortalContent from '../common/PortalContent';
+import { Navigate, useLocation } from 'react-router';
 
 type layoutType0Props = {
     contentList         : ContentList_,
@@ -31,7 +34,12 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
 
     const [value, setValue] = React.useState(0);
 
-
+    const location = useLocation();
+    let contentCategoryInfo = null;
+    if (location.state !== null) {
+        contentCategoryInfo = location.state.contentCategory as ContentCategory_;
+    }  
+    
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
@@ -47,9 +55,8 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
           </Grid>
           <Grid container spacing={1} sx={{pt:10}}>
             <Grid component="article" item xs={12}>
-                <PortalBanner contentList={contentList}/>
-            </Grid>
-          </Grid>
+                <PortalContent isLogin={isLogin} contentList={contentList} contentCategory={contentCategoryInfo as ContentCategory_}/>            </Grid>
+          </Grid>    
         </Grid>
         <Grid component="footer" sx={{pt:1}}>
           <Hidden smUp>

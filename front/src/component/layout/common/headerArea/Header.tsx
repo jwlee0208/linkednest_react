@@ -3,7 +3,6 @@ import React, { useEffect, useState }
 import { useNavigate }     from 'react-router-dom';
 import { User, asyncLogout } from "../../../../store/modules/user";
 import store               from "../../../../store";
-import logo                from './logo.svg';
 import Button              from '@mui/material/Button';
 import AdbIcon             from '@mui/icons-material/Adb';
 import MenuIcon            from '@mui/icons-material/Menu';

@@ -24,7 +24,6 @@ import { useNavigate } from 'react-router';
 import { useAppDispatch } from '../../../../store/index.hooks';
 import ContentCategory from './ContentCategory';
 
-
 type PortalMenuProps = {
     user        : User,
     isLogin     : boolean;
