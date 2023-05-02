@@ -1,38 +1,36 @@
-import React, { useState, useEffect, useMemo, forwardRef, useImperativeHandle }  from "react";
-import { encode as base64_encode }              from 'base-64';
-import { asyncSignUp, User }                    from "../../../../store/modules/user";
-import { useAppDispatch }                       from "../../../../store/index.hooks";
-import { Box, FormControl, Grid }               from "@mui/material";
-import Button                                   from "@mui/material/Button"
-import TextField                                from "@mui/material/TextField";
-import FormLabel                                from "@mui/material/FormLabel";
-import RadioGroup                               from "@mui/material/RadioGroup";
-import FormControlLabel                         from "@mui/material/FormControlLabel";
-import Radio                                    from "@mui/material/Radio";
-import Typography                               from "@mui/material/Typography/Typography";
-import { AdapterDayjs }                         from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider }                 from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker }                           from '@mui/x-date-pickers/DatePicker';
-import { format }                               from 'date-fns';
-import Parser                                   from 'html-react-parser';
-import PhoneInput                               from "react-phone-input-2";
-import 'react-phone-input-2/lib/style.css'
-import ReactQuill                               from 'react-quill';
+import { Box, FormControl, Grid } from "@mui/material";
+import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography/Typography";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { encode as base64_encode } from 'base-64';
+import { format } from 'date-fns';
+import Parser from 'html-react-parser';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/react-quill';
+import { emailRegex, phoneNoRegex, pwRegex } from ".";
+import { useAppDispatch } from "../../../../store/index.hooks";
+import { User, asyncSignUp } from "../../../../store/modules/user";
 
 type SignUpProps = {
     stepId : number,
     keyRef : any,
 }
 
-const phoneNoRegex = new RegExp(/^\d{12,13}$/);
-const pwRegex      = new RegExp(/^.*(?=.{8,10})(?=.*[a-zA-Z])(?=.*?[A-Z])(?=.*\d)(?=.+?[\W|_])[a-zA-Z0-9!@#$%^&*()-_+={}\|\\\/]+$/);
-const emailRegex   = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-
 const SignUpDetailForStepper = forwardRef(({
     stepId, keyRef
 } : SignUpProps) => {
 
+    const childRef = useRef();
     const dispatch      = useAppDispatch();
     const [user, setUser] = useState<User>({
           userNo                  : 0,
@@ -128,6 +126,8 @@ const SignUpDetailForStepper = forwardRef(({
         validStep0_,
         validStep1_,
         validStep2_,
+        inputUsernameVal,
+        inputPwVal,
     }));
 
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -183,8 +183,7 @@ const SignUpDetailForStepper = forwardRef(({
         user.userId     = base64_encode(user.userId);
         user.password   = base64_encode(user.password);        
 
-        const res = dispatch(asyncSignUp(user));
-        
+        dispatch(asyncSignUp(user));
     }
 
     useEffect(()=>{
@@ -226,7 +225,7 @@ const SignUpDetailForStepper = forwardRef(({
 {
     stepId === 0 ? 
     (
-    <>    
+    <>     
         <Grid container item>
             <FormControl fullWidth sx={{ m: 1 }}>
                 <TextField id="outlined-basic" name="userId"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 

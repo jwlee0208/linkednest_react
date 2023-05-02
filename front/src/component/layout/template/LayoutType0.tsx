@@ -1,22 +1,21 @@
 
-import FavoriteIcon                     from '@mui/icons-material/Favorite';
-import LocationOnIcon                   from '@mui/icons-material/LocationOn';
-import RestoreIcon                      from '@mui/icons-material/Restore';
-import { Grid }                         from "@mui/material";
-import BottomNavigation                 from "@mui/material/BottomNavigation";
-import BottomNavigationAction           from "@mui/material/BottomNavigationAction";
-import Hidden                           from "@mui/material/Hidden";
-import React                            from "react";
-import { useAppSelect }                 from "../../../store/index.hooks";
-import { ContentCategoryList_, ContentCategory_, ContentList_, getContentInfo } from "../../../store/modules/content";
-import { getLayoutInfo }                from "../../../store/modules/layout";
-import { getUserInfo }                  from "../../../store/modules/user";
-import Footer                           from "../common/Footer";
-import PortalHeader                     from '../common/headerArea/PortalHeader';
-import PortalBanner                     from '../main/banner/PortalBanner';
-import Content from '../common/Content';
-import PortalContent from '../common/PortalContent';
-import { Navigate, useLocation } from 'react-router';
+import FavoriteIcon             from '@mui/icons-material/Favorite';
+import LocationOnIcon           from '@mui/icons-material/LocationOn';
+import RestoreIcon              from '@mui/icons-material/Restore';
+import { Grid }                 from "@mui/material";
+import BottomNavigation         from "@mui/material/BottomNavigation";
+import BottomNavigationAction   from "@mui/material/BottomNavigationAction";
+import Hidden                   from "@mui/material/Hidden";
+import React                    from "react";
+import { useLocation }          from 'react-router';
+import { useAppSelect }         from "../../../store/index.hooks";
+import { ContentCategoryList_, ContentCategory_, ContentList_, getContentInfo } 
+                                from "../../../store/modules/content";
+import { getLayoutInfo }        from "../../../store/modules/layout";
+import { getUserInfo }          from "../../../store/modules/user";
+import Footer                   from "../common/Footer";
+import PortalContent            from '../common/PortalContent';
+import PortalHeader             from '../common/headerArea/PortalHeader';
 
 type layoutType0Props = {
     contentList         : ContentList_,
@@ -71,7 +70,6 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
               <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
               <BottomNavigationAction label="Nearby"    icon={<LocationOnIcon />} />
             </BottomNavigation>
-
           </Hidden>
           <Hidden smDown>
             <Footer/>

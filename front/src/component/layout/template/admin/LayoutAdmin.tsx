@@ -20,7 +20,7 @@ function LayoutAdmin() {
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
     const adminMenuCategoryList = userinfo.adminMenuCategoryList;
-    const contentInfo = useAppSelect(getContentInfo);
+    // const contentInfo = useAppSelect(getContentInfo);
 
     const isAdminIndexPage = (location.pathname === '/admin' || location.pathname === '/admin/index') ;
 

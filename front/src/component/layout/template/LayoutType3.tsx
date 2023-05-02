@@ -12,8 +12,8 @@ import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
 import Hidden             from "@mui/material/Hidden";
-import BottomNavigation       from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import BottomNavigation                 from "@mui/material/BottomNavigation";
+import BottomNavigationAction           from "@mui/material/BottomNavigationAction";
 import { ContentList_, getContentInfo } from "../../../store/modules/content";
 
 type layoutType3Props = {

@@ -46,9 +46,9 @@ function ContentCategory({contentCategoryList} : ContentCategoryProps) {
 {
     contentCategoryList.map((contentCategory) => (
         <Box key={contentCategory.categoryCode} sx={{pl:1}}>
-            <Button key={contentCategory.categoryCode} sx={{color:'black'}} onClick={(e) => movePage(contentCategory, e)}>
+            <Button key={contentCategory.categoryCode} sx={{color:'black', width:'100%', align:'left'}} onClick={(e) => movePage(contentCategory, e)}>
                     <Typography variant={contentCategoryTxtVariant(contentCategory.depth)} 
-                                sx={{fontWeight : `${contentCategory.depth === 1 ? 'bold' : ''}` }}>
+                                sx={{textAlign: 'left', fontWeight : `${contentCategory.depth === 1 ? 'bold' : ''}`, width:'100%'}}>
                         {contentCategory.categoryName}
                     </Typography>
             </Button>        
@@ -59,7 +59,7 @@ function ContentCategory({contentCategoryList} : ContentCategoryProps) {
         contentCategory.childCategoryList !== null ? 
         (
             <ContentCategory contentCategoryList={contentCategory.childCategoryList}/>
-        ) : (<Box>-</Box>)
+        ) : (<Box></Box>)
     }
         </Box>
     ))
