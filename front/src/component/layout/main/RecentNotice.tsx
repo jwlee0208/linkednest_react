@@ -1,18 +1,19 @@
-import { Box, Button, Divider, Grid, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography }                          
-                                            from "@mui/material";
-import { useAppDispatch, useAppSelect }     from "../../../store/index.hooks";
-import { getContentInfo }                   from "../../../store/modules/content";
-import { useState, useEffect }              from "react";
-import { BoardArticle_, BoardList_ }        from "../../../store/modules/boardCategory";
-import { axiosInstance }                    from "../../..";
 import { TabContext, TabList, TabPanel }    from "@mui/lab";
+import { Box, Button, Divider, Grid, Tab, Typography } 
+                                            from "@mui/material";
+import { useEffect, useState }              from "react";
 import { useLocation, useNavigate }         from "react-router";
+import { axiosInstance }                    from "../../..";
+import { useAppSelect }                     from "../../../store/index.hooks";
+import { BoardArticle_, BoardList_ }        from "../../../store/modules/boardCategory";
+import { getContentInfo }                   from "../../../store/modules/content";
 
 function RecentNotice() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const contentInfo = useAppSelect(getContentInfo);
-    // console.log('contentInfo : ', contentInfo);
+    const location      = useLocation();
+    const navigate      = useNavigate();
+    const contentInfo   = useAppSelect(getContentInfo);
+
+    const [value    , setValue]     = useState('0');
     const [boardList, setBoardList] = useState<BoardList_>([{
         id              : 0,
         boardCategoryId : 0,
@@ -26,7 +27,7 @@ function RecentNotice() {
         boardArticleList: [],        
     }])
 
-    const [value, setValue] = useState('0');
+
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
