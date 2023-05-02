@@ -54,7 +54,7 @@ function LayoutType1({contentList} : layoutType1Props) {
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} sx={{pl:20, pr:20}}>
               <Grid component="article" item xs={9}>
                 <Content isLogin={isLogin}/>
               </Grid>

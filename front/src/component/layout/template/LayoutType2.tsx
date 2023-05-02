@@ -54,7 +54,7 @@ function LayoutType2({contentList} : layoutType2Props) {
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} sx={{pl:20, pr:20}}>
               <Grid component="aside" item xs={3}>
                 <SideArea isLogin={isLogin} userId={userId} user={userinfo} />
               </Grid>

@@ -45,7 +45,7 @@ function LayoutType3({contentList} : layoutType3Props) {
           <Grid component="nav">
             <Navbar/>
           </Grid>
-          <Grid container spacing={1}>
+          <Grid container spacing={1} sx={{pl:20, pr:20}}>
             <Grid component="article" item xs={12}>
               <Content isLogin={isLogin}/>
             </Grid>
