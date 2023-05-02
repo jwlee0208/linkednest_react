@@ -1,15 +1,15 @@
-import { Box } from "@mui/material";
-import { Navigate, Route, Routes } from "react-router";
-import { ContentCategory_, ContentList_ } from "../../../store/modules/content";
-import CategoryInfoContentList from "../main/portal/CategoryInfoContentList";
-import PortalBanner from "../main/portal/PortalBanner";
-import Login from "../user/Login";
-import Mypage from "../user/Mypage";
-import SignupForStepper from "../user/signup/SignupForStepper";
+import { Box }                              from "@mui/material";
+import { Navigate, Route, Routes }          from "react-router";
+import { ContentCategory_, ContentList_ }   from "../../../store/modules/content";
+import CategoryInfoContentList              from "../main/portal/CategoryInfoContentList";
+import PortalBanner                         from "../main/portal/PortalBanner";
+import Login                                from "../user/Login";
+import Mypage                               from "../user/Mypage";
+import SignupForStepper                     from "../user/signup/SignupForStepper";
 
 type PortalContentProps = {
-    isLogin : boolean;
-    contentList : ContentList_;
+    isLogin         : boolean;
+    contentList     : ContentList_;
     contentCategory : ContentCategory_;
 };
 
