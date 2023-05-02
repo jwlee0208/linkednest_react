@@ -14,7 +14,6 @@ function Footer() {
                         <FormControl fullWidth sx={{ m: 1 }}>
                             <Grid container>
                                 <Grid item xs={4}>
-
                                 {
                                     (contentInfo.contentCreator.creatorImgUrl !== null) ? (
                                         <Image src={contentInfo.contentCreator.creatorImgUrl} width={150}/>

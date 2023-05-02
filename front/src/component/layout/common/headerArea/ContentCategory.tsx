@@ -1,7 +1,7 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
-import { MouseEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { ContentCategoryList_, ContentCategory_ } from "../../../../store/modules/content";
+import { Box, Button, Divider, Typography }         from "@mui/material";
+import { MouseEvent, useEffect, useState }          from "react";
+import { useNavigate }                              from "react-router";
+import { ContentCategoryList_, ContentCategory_ }   from "../../../../store/modules/content";
 
 type ContentCategoryProps = {
     contentCategoryList : ContentCategoryList_
