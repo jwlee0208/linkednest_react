@@ -14,7 +14,8 @@ import RestoreIcon        from '@mui/icons-material/Restore';
 import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
-import { ContentList_, getContentInfo } from "../../../store/modules/content";
+import { ContentList_, getContentInfo } 
+                          from "../../../store/modules/content";
 
 type layoutType1Props = {
   contentList : ContentList_,

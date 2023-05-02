@@ -1,5 +1,4 @@
-import React from 'react';
-import {BrowserRouter, useLocation, useParams} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './App.scss';
 import Layout from './component/layout/Layout';
 

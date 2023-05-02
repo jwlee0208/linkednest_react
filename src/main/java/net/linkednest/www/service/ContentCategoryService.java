@@ -52,6 +52,7 @@ public class ContentCategoryService {
     }
 
     public ResContentCategoryDto getContentCategoryInfo(String categoryCode) throws Exception {
+
         ContentCategory contentCategory = this.getContentCategory(categoryCode);
         return this.getContentCategory(contentCategory);
     }

@@ -1,14 +1,14 @@
-import Carousel from "react-material-ui-carousel";
+import { Box, Card, CardContent, CardMedia, IconButton, Typography } 
+                                     from "@mui/material";
+import Carousel                      from "react-material-ui-carousel";
 import { ContentList_, ContentSns_ } from "../../../../store/modules/content";
-import { Box, Card, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
-
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import ChatIcon from '@mui/icons-material/Chat';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import { default as Home, default as HomeIcon } from '@mui/icons-material/Home';
+import ArrowLeftIcon                 from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon                from '@mui/icons-material/ArrowRight';
+import ChatIcon                      from '@mui/icons-material/Chat';
+import FacebookIcon                  from '@mui/icons-material/Facebook';
+import { default as HomeIcon }       from '@mui/icons-material/Home';
+import TwitterIcon                   from '@mui/icons-material/Twitter';
+import YouTubeIcon                   from '@mui/icons-material/YouTube';
 
 type PortalBannerProps = {
     contentList : ContentList_

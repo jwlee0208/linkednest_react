@@ -17,13 +17,13 @@ import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
 import * as React from 'react';
+import { useState, MouseEvent } from 'react';
 import { ContentCategoryList_, ContentList_ } from '../../../../store/modules/content';
 import { User, asyncLogout } from '../../../../store/modules/user';
 import { Avatar, Button, ButtonGroup, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { useAppDispatch } from '../../../../store/index.hooks';
 import ContentCategory from './ContentCategory';
-
 
 type PortalMenuProps = {
     user        : User,
@@ -122,15 +122,15 @@ function PortalHeader({
   const navigate    = useNavigate();
   const dispatch    = useAppDispatch();
   
-  const [anchorElNav, setAnchorElNav]   = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav]   = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
 
-  const handleOpenNavMenu   = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenNavMenu   = (event: MouseEvent<HTMLElement>) => {
       setAnchorElNav(event.currentTarget);
   };
   
-  const handleOpenUserMenu  = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenUserMenu  = (event: MouseEvent<HTMLElement>) => {
       setAnchorElUser(event.currentTarget);
   };
 
@@ -232,7 +232,7 @@ function PortalHeader({
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2}}>Contents</Typography>
+        <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2, backgroundColor:'#efefef'}}>Contents</Typography>
         <Divider />
         <List>
 {
@@ -250,9 +250,8 @@ function PortalHeader({
     ))
 }    
         </List>
-        <Divider />
         <List>
-          <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2}}>Category</Typography>
+          <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2, backgroundColor:'#efefef'}}>Category</Typography>
           <Divider />
           <ContentCategory contentCategoryList={contentCategoryList}/>
         </List>

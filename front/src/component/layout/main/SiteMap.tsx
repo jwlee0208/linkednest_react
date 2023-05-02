@@ -1,12 +1,11 @@
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
-import { useAppSelect } from "../../../store/index.hooks";
-import { getContentBoardCategoryInfo } from "../../../store/modules/boardCategory";
-import { useLocation } from "react-router";
+import { Box, Button, Card, Grid, Typography }  from "@mui/material";
+import { useAppSelect }                         from "../../../store/index.hooks";
+import { getContentBoardCategoryInfo }          from "../../../store/modules/boardCategory";
 
 function SiteMap() {
 
-    const boardCategoryInfo = useAppSelect(getContentBoardCategoryInfo);
-    let boardCategoryCnt = boardCategoryInfo.boardCategoryList.length;
+    const   boardCategoryInfo   = useAppSelect(getContentBoardCategoryInfo);
+    let     boardCategoryCnt    = boardCategoryInfo.boardCategoryList.length;
 
     const movePage = (urlPath : string, e : React.MouseEvent<HTMLElement>) => {
         e.preventDefault();

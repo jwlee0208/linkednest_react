@@ -13,8 +13,8 @@ import RestoreIcon        from '@mui/icons-material/Restore';
 import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
-import BottomNavigation       from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import BottomNavigation                 from "@mui/material/BottomNavigation";
+import BottomNavigationAction           from "@mui/material/BottomNavigationAction";
 import { ContentList_, getContentInfo } from "../../../store/modules/content";
 
 type layoutType2Props = {
