@@ -42,6 +42,7 @@ public class ContentCategoryService {
         return resContentCategoryList;
     }
 
+
     public ContentCategory getContentCategory(String categoryCode) {
         Optional<ContentCategory> contentCategoryOptional = contentCategoryRepository.findByCategoryCode(categoryCode);
         ContentCategory contentCategory = null;
