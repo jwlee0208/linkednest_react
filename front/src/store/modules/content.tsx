@@ -33,17 +33,6 @@ export interface ContentCreator_ {
     creatorImgUrl       : string,
 }
 
-export interface ContentCategoryList_ extends Array<ContentCategory_>{}
-export interface ContentCategory_ {
-    id                  : number,
-    parentId            : number,
-    categoryCode        : string,
-    categoryName        : string,
-    depth               : number,
-    isActive            : string;
-    childCategoryList   : ContentCategoryList_,
-    contentList         : ContentList_,
-}
 
 export interface ContentSnsList_ extends Array<ContentSns_>{}
 

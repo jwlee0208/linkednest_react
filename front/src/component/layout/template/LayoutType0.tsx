@@ -9,13 +9,15 @@ import Hidden                   from "@mui/material/Hidden";
 import React                    from "react";
 import { useLocation }          from 'react-router';
 import { useAppSelect }         from "../../../store/index.hooks";
-import { ContentCategoryList_, ContentCategory_, ContentList_, getContentInfo } 
+import { ContentList_, getContentInfo } 
                                 from "../../../store/modules/content";
+import { ContentCategoryList_, ContentCategory_ }
+                                from "../../../store/modules/contentCategory";
 import { getLayoutInfo }        from "../../../store/modules/layout";
 import { getUserInfo }          from "../../../store/modules/user";
-import Footer                   from "../../common/Footer";
-import PortalContent            from '../../common/PortalContent';
-import PortalHeader             from '../../common/headerArea/PortalHeader';
+import Footer                   from "../common/Footer";
+import PortalContent            from '../common/PortalContent';
+import PortalHeader             from '../common/headerArea/PortalHeader';
 
 type layoutType0Props = {
     contentList         : ContentList_,

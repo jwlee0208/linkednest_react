@@ -1,20 +1,22 @@
-import { useLocation }             from "react-router";
+import { useLocation }              from "react-router";
 import { useAppDispatch, useAppSelect }            
-                                   from "../../store/index.hooks";
-import { useEffect, useState }     from "react";
-import LayoutType1                 from "./template/LayoutType1";
-import LayoutType2                 from "./template/LayoutType2";
-import LayoutType3                 from "./template/LayoutType3";
-import LayoutAdmin                 from "./template/admin/LayoutAdmin";
-import layoutSlice
-   , { getLayoutInfo, LayoutInfo } from "../../store/modules/layout";
-import contentSlice, { ContentCategoryList_, ContentList_, Content_ }  from "../../store/modules/content";
-import { axiosInstance }           from "../..";
+                                    from "../../store/index.hooks";
+import { useEffect, useState }      from "react";
+import LayoutType1                  from "./template/LayoutType1";
+import LayoutType2                  from "./template/LayoutType2";
+import LayoutType3                  from "./template/LayoutType3";
+import LayoutAdmin                  from "./template/admin/LayoutAdmin";
+import layoutSlice, { getLayoutInfo, LayoutInfo }  
+                                    from "../../store/modules/layout";
+import contentSlice, { ContentList_, Content_ }  
+                                    from "../../store/modules/content";
+import { ContentCategoryList_ }     from "../../store/modules/contentCategory";
+import { axiosInstance }            from "../..";
 import bannerSlice, { BannerListInfo_, BannerList_ } 
-                                   from "../../store/modules/banner";
+                                    from "../../store/modules/banner";
 import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } 
-                                   from "../../store/modules/boardCategory";
-import LayoutType0 from "./template/LayoutType0";
+                                    from "../../store/modules/boardCategory";
+import LayoutType0                  from "./template/LayoutType0";
 
 function Layout() {
 

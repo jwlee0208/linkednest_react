@@ -4,10 +4,10 @@ import { useAppSelect }   from "../../../../store/index.hooks";
 import { getUserInfo }    from "../../../../store/modules/user";
 import { Grid, Hidden }   from "@mui/material";
 import { getLayoutInfo }  from "../../../../store/modules/layout";
-import AdminSideArea      from "../../../common/admin/AdminSideArea";
-import AdminHeader        from "../../../common/admin/AdminHeader";
-import AdminContent       from "../../../common/admin/AdminContent";
-import Footer             from "../../../common/Footer";
+import AdminSideArea      from "../../common/admin/AdminSideArea";
+import AdminHeader        from "../../common/admin/AdminHeader";
+import AdminContent       from "../../common/admin/AdminContent";
+import Footer             from "../../common/Footer";
 import { getContentInfo } from "../../../../store/modules/content";
 
 function LayoutAdmin() {

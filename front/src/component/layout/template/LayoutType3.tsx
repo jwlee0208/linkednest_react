@@ -2,11 +2,6 @@ import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
 import { Grid }           from "@mui/material";
-import Header             from "../../common/headerArea/Header";
-import Footer             from "../../common/Footer";
-import Navbar             from "../../common/Navbar";
-import TopBanner          from "../../common/topMenuArea/TopBanner";
-import Content            from "../../common/Content";
 import RestoreIcon        from '@mui/icons-material/Restore';
 import FavoriteIcon       from '@mui/icons-material/Favorite';
 import LocationOnIcon     from '@mui/icons-material/LocationOn';
@@ -15,6 +10,11 @@ import Hidden             from "@mui/material/Hidden";
 import BottomNavigation                 from "@mui/material/BottomNavigation";
 import BottomNavigationAction           from "@mui/material/BottomNavigationAction";
 import { ContentList_, getContentInfo } from "../../../store/modules/content";
+import Header             from "../common/headerArea/Header";
+import TopBanner          from "../common/topMenuArea/TopBanner";
+import Navbar             from "../common/Navbar";
+import Content            from "../common/Content";
+import Footer             from "../common/Footer";
 
 type layoutType3Props = {
   contentList : ContentList_,
