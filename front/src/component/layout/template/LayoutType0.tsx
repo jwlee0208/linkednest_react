@@ -13,9 +13,9 @@ import { ContentCategoryList_, ContentCategory_, ContentList_, getContentInfo }
                                 from "../../../store/modules/content";
 import { getLayoutInfo }        from "../../../store/modules/layout";
 import { getUserInfo }          from "../../../store/modules/user";
-import Footer                   from "../common/Footer";
-import PortalContent            from '../common/PortalContent';
-import PortalHeader             from '../common/headerArea/PortalHeader';
+import Footer                   from "../../common/Footer";
+import PortalContent            from '../../common/PortalContent';
+import PortalHeader             from '../../common/headerArea/PortalHeader';
 
 type layoutType0Props = {
     contentList         : ContentList_,
