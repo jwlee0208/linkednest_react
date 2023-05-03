@@ -74,6 +74,41 @@ function SignupForStepper() {
     setActiveStep(0);
   };
 
+  const completeStep = () => {
+    return <React.Fragment>
+      <Typography sx={{ mt: 2, mb: 1 }}>
+        All steps completed - you&apos;re finished
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+        <Box sx={{ flex: '1 1 auto' }} />
+        <Button onClick={handleReset}>Reset</Button>
+      </Box>
+    </React.Fragment>
+  }
+
+  const processStep = () => {
+    return <React.Fragment>    
+    <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, m : 5, pl:30, pr:30}}>  
+      <SignUpDetailForStepper stepId={activeStep} keyRef={signUpRef}/>
+    </Box>      
+
+    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, ml : 5, mr : 5, pl:30, pr:30 }}>
+      <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+        Back
+      </Button>
+      <Box sx={{ flex: '1 1 auto' }} />
+      {isStepOptional(activeStep) && (
+        <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+          Skip
+        </Button>
+      )}
+      <Button onClick={handleNext}>
+        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+      </Button>
+    </Box>
+  </React.Fragment>
+  }
+
   useLayoutEffect(() => {
     
   },[]);
@@ -101,44 +136,7 @@ function SignupForStepper() {
           );
         })}
       </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>    
-          <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, m : 5}}>  
-            <SignUpDetailForStepper stepId={activeStep} keyRef={signUpRef}/>
-            {/* <Typography sx={{ mt: 2, mb: 1, ml : 10, mr : 10 }}>Step {activeStep + 1}</Typography> */}
-          </Box>      
-      
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, ml : 5, mr : 5 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
+      {activeStep === steps.length ? completeStep() : processStep()}
     </Box>
   );
 }

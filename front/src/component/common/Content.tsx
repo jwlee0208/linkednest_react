@@ -16,8 +16,6 @@ function Content ({
     isLogin
 } : ContentProps ) {
 
-console.log('Content >>>');
-
     return (
       <Box>
         <Routes>

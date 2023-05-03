@@ -1,7 +1,7 @@
 import { Box, Breadcrumbs, Divider, Grid, Link, Pagination, Typography } 
                             from "@mui/material";
 import { useState }         from 'react';
-import { ContentCategory_ } from "../../../store/modules/content";
+import { ContentCategory_ } from "../../../store/modules/contentCategory";
 import ContentCard          from "./ContentCard";
 
 type CategoryInfoContentListProps = {

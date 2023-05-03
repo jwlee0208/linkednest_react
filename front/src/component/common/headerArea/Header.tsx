@@ -1,8 +1,6 @@
-import React, { useEffect, useState } 
-                           from "react";
-import { useNavigate }     from 'react-router-dom';
-import { User, asyncLogout } from "../../../store/modules/user";
-import store               from "../../../store";
+import React, { useEffect }   from "react";
+import { useNavigate }        from 'react-router-dom';
+import { User, asyncLogout }  from "../../../store/modules/user";
 import Button              from '@mui/material/Button';
 import AdbIcon             from '@mui/icons-material/Adb';
 import MenuIcon            from '@mui/icons-material/Menu';
@@ -10,7 +8,6 @@ import FormControl         from "@mui/material/FormControl";
 import { Typography, AppBar, Avatar, IconButton, ButtonGroup, Box, Container, Menu
        , MenuItem, Toolbar, Tooltip } 
                            from "@mui/material";
-import { axiosInstance }   from "../../..";
 import { ContentList_ }    from "../../../store/modules/content";
 import SelectBoxForContent from "./SelectBoxForContent";
 import { useAppDispatch }  from "../../../store/index.hooks";

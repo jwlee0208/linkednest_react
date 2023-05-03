@@ -1,29 +1,32 @@
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MenuIcon from '@mui/icons-material/Menu';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { styled, useTheme } from '@mui/material/styles';
-import Image from 'mui-image';
-import * as React from 'react';
+import ChevronLeftIcon          from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon         from '@mui/icons-material/ChevronRight';
+import MenuIcon                 from '@mui/icons-material/Menu';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } 
+                                from '@mui/material/AppBar';
+import Box                      from '@mui/material/Box';
+import CssBaseline              from '@mui/material/CssBaseline';
+import Divider                  from '@mui/material/Divider';
+import Drawer                   from '@mui/material/Drawer';
+import IconButton               from '@mui/material/IconButton';
+import List                     from '@mui/material/List';
+import ListItem                 from '@mui/material/ListItem';
+import ListItemButton           from '@mui/material/ListItemButton';
+import ListItemIcon             from '@mui/material/ListItemIcon';
+import ListItemText             from '@mui/material/ListItemText';
+import Toolbar                  from '@mui/material/Toolbar';
+import Typography               from '@mui/material/Typography';
+import { styled, useTheme }     from '@mui/material/styles';
+import Image                    from 'mui-image';
+import * as React               from 'react';
 import { useState, MouseEvent } from 'react';
-import { ContentCategoryList_, ContentList_ } from '../../../store/modules/content';
-import { User, asyncLogout } from '../../../store/modules/user';
-import { Avatar, Button, ButtonGroup, Menu, MenuItem, Tooltip } from '@mui/material';
-import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../../../store/index.hooks';
-import ContentCategory from './ContentCategory';
+import { ContentList_ }         from '../../../store/modules/content';
+import { ContentCategoryList_ } from '../../../store/modules/contentCategory';
+import { User, asyncLogout }    from '../../../store/modules/user';
+import { Avatar, Button, ButtonGroup, Menu, MenuItem, Tooltip } 
+                                from '@mui/material';
+import { useNavigate }          from 'react-router';
+import { useAppDispatch }       from '../../../store/index.hooks';
+import ContentCategory          from './ContentCategory';
 
 type PortalMenuProps = {
     user        : User,
@@ -157,6 +160,29 @@ function PortalHeader({
       setAnchorElUser(null);
   };
 
+  const viewSignInArea = () => {
+    switch (layoutType) {
+      case '3'  : return <></>
+      case '0'  : return <></>
+      default   : return <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }} variant='outlined'>SignIn</Button>
+    }
+  }
+
+  const viewContentList = () => {
+    return contentList.map((content) => (
+      <ListItem key={content.contentCode} disablePadding>
+        <ListItemButton>
+          <ListItemText onClick={(e) => movePage(`${content.homepageUrl}`, e)} primary={content.contentName} sx={{width:'50%', fontWeight:'bold'}}/>
+          <ListItemIcon sx={{width:'50%'}}>
+              <IconButton href={content.homepageUrl}>
+                  <Image src={content.logoImagePath} height={20}/>
+              </IconButton>
+          </ListItemIcon>
+        </ListItemButton>
+      </ListItem>        
+    ))
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -201,11 +227,7 @@ function PortalHeader({
         <Box sx={{ width:'100%', flexGrow: 0 }}>        
           <ButtonGroup sx={{float:'right'}}>
             <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }} variant='contained'>SignUp</Button>  
-            {
-              layoutType === '3' || layoutType === '0' ? (
-                <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }} variant='outlined'>SignIn</Button>          
-              ) : (<></>)
-            }
+            { viewSignInArea() }
           </ButtonGroup>        
         </Box>      
     )
@@ -235,20 +257,7 @@ function PortalHeader({
         <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2, backgroundColor:'#efefef'}}>Contents</Typography>
         <Divider />
         <List>
-{
-    contentList.map((content) => (
-            <ListItem key={content.contentCode} disablePadding>
-              <ListItemButton>
-                <ListItemText onClick={(e) => movePage(`${content.homepageUrl}`, e)} primary={content.contentName} sx={{width:'50%', fontWeight:'bold'}}/>
-                <ListItemIcon sx={{width:'50%'}}>
-                    <IconButton href={content.homepageUrl}>
-                        <Image src={content.logoImagePath} height={20}/>
-                    </IconButton>
-                </ListItemIcon>
-              </ListItemButton>
-            </ListItem>        
-    ))
-}    
+        { viewContentList() }    
         </List>
         <List>
           <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2, backgroundColor:'#efefef'}}>Category</Typography>

@@ -10,6 +10,7 @@ import Button                                from "@mui/material/Button"
 import Parser                                from 'html-react-parser';
 import ReactQuill                            from 'react-quill';
 import { getContentInfo }                    from "../../store/modules/content";
+import { inputEmailVal, inputNicknameVal, inputUsernameVal } from ".";
 
 function Mypage() {
 
@@ -74,20 +75,6 @@ function Mypage() {
     navigate(`/${contentInfo.contentCode}`);
   }
 
-  const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    return false;
-  }
-
-  const inputNicknameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      return false;
-  }
-
-  const inputEmailVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      return false;
-  }
 
   const inputIntroduceVal = (value : any) => {
       // console.log('introduce : ' + value); 

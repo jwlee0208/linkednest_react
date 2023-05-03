@@ -1,6 +1,7 @@
 import { Box }                              from "@mui/material";
 import { Navigate, Route, Routes }          from "react-router";
-import { ContentCategory_, ContentList_ }   from "../../store/modules/content";
+import { ContentList_ }                     from "../../store/modules/content";
+import { ContentCategory_ }                 from "../../store/modules/contentCategory";
 import CategoryInfoContentList              from "../main/portal/CategoryInfoContentList";
 import PortalBanner                         from "../main/portal/PortalBanner";
 import Login                                from "../user/Login";
