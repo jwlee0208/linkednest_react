@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { decode as base64_decode }       from 'base-64';
 import { axiosInstance }                 from '../..';
-import { MenuCategoryList_ }             from '../../component/admin/menu';
 import { RootState }                     from '../../reducer';
+import { MenuCategoryList_ }             from '../../component/function/admin/menu';
 
 export interface UserProfile {
     sex         : string;
@@ -171,7 +171,6 @@ const userSlice = createSlice ({
             }  
         })
         builder.addCase(asyncLogin.fulfilled, (state, action) => {
-            // console.log(`action.payload.returnCode : ${action.payload.returnCode}`);
             if (action.payload.returnCode === 10000) {
                 state.userNo                = action.payload.userNo;
                 state.accessToken           = action.payload.accessToken;
@@ -190,7 +189,6 @@ const userSlice = createSlice ({
             }
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
-            // console.log("[asyncGetUser] return payload : " + JSON.stringify(action.payload));
         })
         builder.addCase(asyncUserUpdate.fulfilled, (state, action) => {
             state.introduce = action.payload.introduce;        

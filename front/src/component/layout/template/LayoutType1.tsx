@@ -3,12 +3,12 @@ import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
 import { BottomNavigation, BottomNavigationAction, Grid }           
                           from "@mui/material";
-import Header             from "../../common/headerArea/Header";
-import Navbar             from "../../common/Navbar";
-import TopBanner          from "../../common/topMenuArea/TopBanner";
-import Footer             from "../../common/Footer";
-import SideArea           from "../../common/sideArea/SideArea";
-import Content            from "../../common/Content";
+import Header             from "../common/headerArea/Header";
+import Navbar             from "../common/Navbar";
+import TopBanner          from "../common/topMenuArea/TopBanner";
+import Footer             from "../common/Footer";
+import SideArea           from "../common/sideArea/SideArea";
+import Content            from "../common/Content";
 import Hidden             from "@mui/material/Hidden";
 import RestoreIcon        from '@mui/icons-material/Restore';
 import FavoriteIcon       from '@mui/icons-material/Favorite';
