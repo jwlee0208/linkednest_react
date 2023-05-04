@@ -32,12 +32,32 @@ Convert Linkednest Project For Spring Boot &amp; React
 - front : related with front-end (for react)
   - src
     - component
-      - layout
+      - function
+        - admin
+          - crm
+            - board
+            - category
+          - menu
+            - category
+          - role
+            - category
+            - menu
+            - user
+          - user
         - board
-        - common
-        - main
-        - template
         - user
+        - main
+          - banner
+          - portal
+          - siteMap
+      - layout
+        - common
+          - admin
+          - headerArea
+          - sideArea
+          - topMenunArea
+        - template
+          - admin
     - reducer
     - store
       - modules
