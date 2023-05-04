@@ -1,33 +1,13 @@
-import { Box, Button, Divider, Typography }         from "@mui/material";
-import { MouseEvent, useEffect, useState }          from "react";
-import { useNavigate }                              from "react-router";
-import { ContentCategoryList_, ContentCategory_ }   from "../../../../store/modules/contentCategory";
+import { Box, Button, Divider, Typography } from "@mui/material";
+import { useEffect }                        from "react";
+import { ContentCategoryList_ }             from "../../../../store/modules/contentCategory";
 
 type ContentCategoryProps = {
-    contentCategoryList : ContentCategoryList_
+    contentCategoryList : ContentCategoryList_,
+    handleCloseNavMenu  : any,
 }
 
-function ContentCategory({contentCategoryList} : ContentCategoryProps) {
-
-    const navigate = useNavigate();
-
-    const [contentCategory_, setContentCategory_] = useState<ContentCategory_>({
-        id                  : 0,
-        parentId            : 0,
-        categoryCode        : '',
-        categoryName        : '',
-        depth               : 0,
-        isActive            : '',
-        childCategoryList   : [],
-        contentList         : [],
-    });
-
-    const movePage = (contentCategory : ContentCategory_, e : MouseEvent) => {
-        e.preventDefault();
-        console.log('aaaaaaaaaa');
-        setContentCategory_(contentCategory);
-        navigate(`/portal/category/detail`, { replace: true, state : {contentCategory : contentCategory} });
-    }
+function ContentCategory({contentCategoryList, handleCloseNavMenu} : ContentCategoryProps) {
 
     const contentCategoryTxtVariant = (depth : number) => {
         switch (depth) {
@@ -39,14 +19,15 @@ function ContentCategory({contentCategoryList} : ContentCategoryProps) {
 
     useEffect(() => {
 
-    }, [contentCategory_]);
+    }, []);
 
     return (
     <>
 {
     contentCategoryList.map((contentCategory) => (
         <Box key={contentCategory.categoryCode} sx={{pl:1}}>
-            <Button key={contentCategory.categoryCode} sx={{color:'black', width:'100%', align:'left'}} onClick={(e) => movePage(contentCategory, e)}>
+            <Button key={contentCategory.categoryCode} sx={{color:'black', width:'100%', align:'left'}} 
+                    onClick={(e) => handleCloseNavMenu('/portal/category/detail', contentCategory, e)}>
                     <Typography variant={contentCategoryTxtVariant(contentCategory.depth)} 
                                 sx={{textAlign: 'left', fontWeight : `${contentCategory.depth === 1 ? 'bold' : ''}`, width:'100%'}}>
                         {contentCategory.categoryName}
@@ -58,7 +39,7 @@ function ContentCategory({contentCategoryList} : ContentCategoryProps) {
     {
         contentCategory.childCategoryList !== null ? 
         (
-            <ContentCategory contentCategoryList={contentCategory.childCategoryList}/>
+            <ContentCategory contentCategoryList={contentCategory.childCategoryList} handleCloseNavMenu={handleCloseNavMenu}/>
         ) : (<Box></Box>)
     }
         </Box>
