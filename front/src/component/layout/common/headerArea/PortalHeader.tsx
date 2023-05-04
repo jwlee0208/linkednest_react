@@ -20,7 +20,7 @@ import Image                    from 'mui-image';
 import * as React               from 'react';
 import { useState, MouseEvent } from 'react';
 import { ContentList_ }         from '../../../../store/modules/content';
-import { ContentCategoryList_ } from '../../../../store/modules/contentCategory';
+import { ContentCategoryList_, ContentCategory_ } from '../../../../store/modules/contentCategory';
 import { User, asyncLogout }    from '../../../../store/modules/user';
 import { Avatar, Button, ButtonGroup, Menu, MenuItem, Tooltip } 
                                 from '@mui/material';
@@ -142,6 +142,13 @@ function PortalHeader({
     setAnchorElNav(null);
   };
 
+  const handleCloseNavMenuForChild  = (param : string, contentCategory : ContentCategory_, event : React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    navigate(param, {state : {contentCategory : contentCategory}});
+    setOpen(false);
+  };
+
+
   const handleCloseNavMenu_ = () => {
     setAnchorElNav(null);
   }
@@ -262,7 +269,7 @@ function PortalHeader({
         <List>
           <Typography variant='h5' sx={{fontWeight: 'bold', pl: 2, pt:2, pb:2, backgroundColor:'#efefef'}}>Category</Typography>
           <Divider />
-          <ContentCategory contentCategoryList={contentCategoryList}/>
+          <ContentCategory contentCategoryList={contentCategoryList} handleCloseNavMenu={handleCloseNavMenuForChild}/>
         </List>
       </Drawer>
     </Box>
