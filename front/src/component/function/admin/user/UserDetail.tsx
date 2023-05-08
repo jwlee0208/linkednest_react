@@ -76,6 +76,7 @@ function UserDetail() {
         address                 : '',
         detailAddress           : '',
         zipcode                 : 0,
+        token                   : '',
         userProfile             : {
             sex         : '',
             phoneNo     : '',

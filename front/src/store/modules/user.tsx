@@ -72,6 +72,7 @@ export interface User {
     address                 : string;
     detailAddress           : string;
     zipcode                 : number;
+    token                   : string;
     userProfile             : UserProfile;
     returnCode              : number;
 }
@@ -96,6 +97,7 @@ export const initialState : User = {
     address                 : '',
     detailAddress           : '',
     zipcode                 : 0,
+    token                   : "",             
     userProfile             : {
         sex         : '',
         phoneNo     : '',
@@ -128,6 +130,7 @@ const userSlice = createSlice ({
             state.address                 = '';
             state.detailAddress           = '';
             state.zipcode                 = 0;
+            state.token                   = "";           
             state.returnCode              = 0;
         }, 
         initUserState : (state, action) => {
@@ -150,6 +153,7 @@ const userSlice = createSlice ({
             state.address                 = '';
             state.detailAddress           = '';
             state.zipcode                 = 0;
+            state.token                   = "";
             state.returnCode              = 0;
         },
         updateAccessToken : (state, action) => {

@@ -36,6 +36,7 @@ function SignUp() {
         , address               : ''
         , detailAddress         : ''
         , zipcode               : 0
+        , token                 : ''
         , userProfile             : {
             sex         : '',
             phoneNo     : '',
