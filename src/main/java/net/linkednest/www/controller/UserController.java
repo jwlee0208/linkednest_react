@@ -192,7 +192,8 @@ public class UserController {
 
     log.info("[login] userId : {}, password : {}", userId, password);
     ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, request, response);
-    return new ResponseEntity<>(resUserLoginDto, resUserLoginDto.getReturnCode() == 10000 ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
+//    return new ResponseEntity<>(resUserLoginDto, resUserLoginDto.getReturnCode() == 10000 ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity<ResUserLoginDto>(resUserLoginDto, HttpStatus.OK);
   }
 
   @PostMapping(value = "/api/logout")

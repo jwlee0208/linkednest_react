@@ -43,6 +43,7 @@ function Mypage() {
     , address               : ''
     , detailAddress         : ''
     , zipcode               : 0
+    , reCaptchaToken        : ''
     , userProfile             : {
       sex         : '',
       phoneNo     : '',
