@@ -8,6 +8,7 @@ import { useNavigate }                              from "react-router-dom";
 import { useAppDispatch, useAppSelect }             from "../../../store/index.hooks";
 import { getContentInfo }                           from "../../../store/modules/content";
 import { User, asyncLogin }                         from "../../../store/modules/user";
+import * as config                                  from '../../../config';
 
 function Login() {
 
@@ -15,6 +16,9 @@ function Login() {
     const navigate      = useNavigate();
     const contentInfo   = useAppSelect(getContentInfo);
 
+    const siteKeyVal = config.GOOGLE_RECAPTCHA_SITE_KEY;
+    // process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY;
+    console.log('Login >> siteKeyVal : ', siteKeyVal);
     const recaptchaRef : any    = createRef<ReCAPTCHA>();
 
     const [loading, setLoading] = useState(false);
@@ -120,7 +124,7 @@ function Login() {
                         <FormControl fullWidth sx={{ m: 1, width:'100%'}}>
                             <ReCAPTCHA  ref={recaptchaRef} 
                                         size="normal" 
-                                        sitekey="6LeqdfIlAAAAAPR4f8Ss4g-prgiuRmAOteyNDok0" 
+                                        sitekey={siteKeyVal} 
                                         onChange={setReCaptchaToken}/>
                         </FormControl>    
                     </Grid>
