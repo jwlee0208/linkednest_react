@@ -51,7 +51,6 @@ export interface AdminMenu {
     isShow  : boolean,
 }
 
-
 export interface User {
     userNo                  : number,
     userId                  : string;
@@ -170,7 +169,7 @@ const userSlice = createSlice ({
                 state.email     = action.payload.email;
                 state.nickname  = action.payload.nickname;        
             } else {
-                alert(`Signup Failure : [err : ${action.payload.returnCode}]`);
+                alert(`Signup Failure : [errCode : ${action.payload.returnCode}]`);
                 window.location.reload();
             }  
         })
@@ -188,8 +187,8 @@ const userSlice = createSlice ({
                 state.userRoleInfoList      = action.payload.userRoleInfoList;
                 state.roleInfoList          = action.payload.roleInfoList; 
             } else {
-                alert(`Login Failure : [err : ${action.payload.returnCode}]`);
-                window.location.href='/';
+                alert(`Login Failure : [errCode : ${action.payload.returnCode}]`);
+                window.location.reload();
             }
         })
         builder.addCase(asyncGetUser.fulfilled, (state, action) => {
