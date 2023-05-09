@@ -2,7 +2,7 @@ import { Box, Checkbox, FormControl, FormControlLabel, Typography } from '@mui/m
 import { ChangeEvent, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
-function ReCaptcha() {
+function ReCaptchaV3() {
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [ recaptchaToken, setRecaptchaToken ] = useState('');
 
@@ -38,4 +38,4 @@ function ReCaptcha() {
 }
     
 
-export default ReCaptcha;
+export default ReCaptchaV3;

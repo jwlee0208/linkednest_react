@@ -72,7 +72,7 @@ export interface User {
     address                 : string;
     detailAddress           : string;
     zipcode                 : number;
-    token                   : string;
+    reCaptchaToken          : string;
     userProfile             : UserProfile;
     returnCode              : number;
 }
@@ -97,7 +97,7 @@ export const initialState : User = {
     address                 : '',
     detailAddress           : '',
     zipcode                 : 0,
-    token                   : "",             
+    reCaptchaToken          : "",             
     userProfile             : {
         sex         : '',
         phoneNo     : '',
@@ -130,7 +130,7 @@ const userSlice = createSlice ({
             state.address                 = '';
             state.detailAddress           = '';
             state.zipcode                 = 0;
-            state.token                   = "";           
+            state.reCaptchaToken          = "";           
             state.returnCode              = 0;
         }, 
         initUserState : (state, action) => {
@@ -153,7 +153,7 @@ const userSlice = createSlice ({
             state.address                 = '';
             state.detailAddress           = '';
             state.zipcode                 = 0;
-            state.token                   = "";
+            state.reCaptchaToken          = "";
             state.returnCode              = 0;
         },
         updateAccessToken : (state, action) => {
@@ -217,7 +217,8 @@ const userSlice = createSlice ({
             state.address                 = '';
             state.detailAddress           = '';
             state.zipcode                 = 0;
-            state.returnCode              = 0;       
+            state.returnCode              = 0;
+            state.reCaptchaToken          = '';       
         })
     } 
 });

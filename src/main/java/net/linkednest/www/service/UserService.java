@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
+import net.linkednest.common.utils.ReCaptchaUtil;
 import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.common.dto.authority.ResRoleDto;
 import net.linkednest.common.dto.authority.ResUserRoleAccessPathDto;
@@ -37,11 +38,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -122,53 +123,69 @@ public class UserService {
 
         int returnCode = 10000;
         ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
-
-        String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUserId()));
-        String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
-
-        Optional<User> userOptional = this.getUser(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            // password check
-            boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
-            if (isMatchedPw) {
-                resUserLoginDto.setIsLogin(true);
-                resUserLoginDto.setUserNo(user.getUserNo());
-                resUserLoginDto.setEmail(user.getEmail());
-                resUserLoginDto.setUserId(user.getUserId());
-                resUserLoginDto.setNickname(user.getNickname());
-                resUserLoginDto.setIntroduce(user.getIntroduce());
-                resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getUserRoles())); // accessToken 발급
-
-                List<ResUserRoleDto>            userRoleDtoList          = new ArrayList<>();
-                List<ResRoleDto>                roleDtoList              = new ArrayList<>();
-                List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
-
-                user.getUserRoles()
-                        .forEach(r -> {
-                            setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
-                            setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
-                            setAdminMenuCategoryList(r  , adminMenuCategoryDtoList);    // user의 adminMenu 접근 가능 category & menu list 조회
-                        });
-                resUserLoginDto.setRoleInfoList(roleDtoList);
-                resUserLoginDto.setUserRoleInfoList(userRoleDtoList);
-                resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
-
-                // refresh token 발급(or 재사용)
-                UserRefreshToken mergedRefreshToken = this.mergeRefreshToken(user);
-
-                response.setHeader(CommonConstants.REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
-            } else {
-                returnCode = 20001;
+        User user = null;
+        // google reCaptcha token 유효성 체크
+        String reCaptchaToken = StringUtils.defaultString(reqUserLoginDto.getReCaptchaToken());
+        try {
+            boolean isVerified = ReCaptchaUtil.verify(reCaptchaToken);
+            if (!isVerified) {
+                returnCode = 20003;
             }
-        } else {
-            returnCode = 20002;
+        } catch (IOException ioe) {
+            returnCode = 50000;
         }
+
+        if (returnCode == 10000) {
+            String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUserId()));
+            String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
+
+            Optional<User> userOptional = this.getUser(userId);
+            if (userOptional.isPresent()) {
+                user = userOptional.get();
+                // password check
+                boolean isMatchedPw = passwordEncoder.matches(password, user.getPassword());
+                if (isMatchedPw) {
+                    resUserLoginDto.setIsLogin(true);
+                    resUserLoginDto.setUserNo(user.getUserNo());
+                    resUserLoginDto.setEmail(user.getEmail());
+                    resUserLoginDto.setUserId(user.getUserId());
+                    resUserLoginDto.setNickname(user.getNickname());
+                    resUserLoginDto.setIntroduce(user.getIntroduce());
+                    resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getUserRoles())); // accessToken 발급
+
+                    List<ResUserRoleDto>            userRoleDtoList          = new ArrayList<>();
+                    List<ResRoleDto>                roleDtoList              = new ArrayList<>();
+                    List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
+
+                    user.getUserRoles()
+                            .forEach(r -> {
+                                setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
+                                setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
+                                setAdminMenuCategoryList(r  , adminMenuCategoryDtoList);    // user의 adminMenu 접근 가능 category & menu list 조회
+                            });
+                    resUserLoginDto.setRoleInfoList(roleDtoList);
+                    resUserLoginDto.setUserRoleInfoList(userRoleDtoList);
+                    resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
+
+                    // refresh token 발급(or 재사용)
+                    UserRefreshToken mergedRefreshToken = this.mergeRefreshToken(user);
+
+                    response.setHeader(CommonConstants.REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
+                } else {
+                    returnCode = 20001;
+                }
+            } else {
+                returnCode = 20002;
+            }
+        }
+
         resUserLoginDto.setReturnCode(returnCode);
         resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
         resUserLoginDto.setIsLogin(returnCode == 10000);
 
-        this.setLoggedIn(request, userOptional.get(), CommonConstants.WEB_LOGIN_ACTION);
+        if (ObjectUtils.isNotEmpty(user) && returnCode == 10000) {
+            this.setLoggedIn(request, user, CommonConstants.WEB_LOGIN_ACTION);
+        }
 
         return resUserLoginDto;
     }

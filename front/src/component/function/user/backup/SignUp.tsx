@@ -36,7 +36,7 @@ function SignUp() {
         , address               : ''
         , detailAddress         : ''
         , zipcode               : 0
-        , token                 : ''
+        , reCaptchaToken        : ''
         , userProfile             : {
             sex         : '',
             phoneNo     : '',

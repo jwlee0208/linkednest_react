@@ -11,4 +11,6 @@ public class ReqUserLoginDto {
     private String userId;
     @Schema(description = "패스워드", required = true, minLength = 8, maxLength = 16, example = "asdf1234")
     private String password;
+    @Schema(description = "google reCaptcha token", required = true)
+    private String reCaptchaToken;
 }

@@ -51,8 +51,13 @@ logging:
 
 google:
   recaptcha:
-    url : https://www.google.com/recaptcha/api/siteverify
-    key:
-      site: 6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4
-      private: 6Leh2u4lAAAAAAcLQVTlpSbyCaFeGHFr-KKuXl0n
+    url: https://www.google.com/recaptcha/api/siteverify
+    v2:
+      key:
+        site: 6LeqdfIlAAAAAPR4f8Ss4g-prgiuRmAOteyNDok0
+        private: 6LeqdfIlAAAAABTCqccXaBnUatbGVkFbbOHrP--G
+    v3:
+      key:
+        site: 6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4
+        private: 6Leh2u4lAAAAAAcLQVTlpSbyCaFeGHFr-KKuXl0n
 

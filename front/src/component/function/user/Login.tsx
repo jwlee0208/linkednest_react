@@ -1,24 +1,21 @@
-import React, { useState, useEffect, useRef, useCallback }   from "react";
-import { useNavigate }                  from "react-router-dom";
-import { encode as base64_encode }      from 'base-64';
-import { Box, Checkbox, FormControl, Grid, Typography }       from "@mui/material";
-import TextField                        from "@mui/material/TextField";
-import Button                           from "@mui/material/Button"
+import { Box, FormControl, Grid } from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { encode as base64_encode } from 'base-64';
+import React, { createRef, useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import { getLayoutInfo }                from "../../../store/modules/layout";
-import { getContentInfo }               from "../../../store/modules/content";
-import { User, asyncLogin }             from "../../../store/modules/user";
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import ReCaptcha from "./ReCaptcha";
-import ReactDOM from "react-dom";
+import { getContentInfo } from "../../../store/modules/content";
+import { User, asyncLogin } from "../../../store/modules/user";
 
 function Login() {
 
     const dispatch      = useAppDispatch();
     const navigate      = useNavigate();
-    const layoutInfo    = useAppSelect(getLayoutInfo);
     const contentInfo   = useAppSelect(getContentInfo);
 
+    const recaptchaRef : any    = createRef<ReCAPTCHA>();
 
     const [loading, setLoading] = useState(false);
     const [msg, setMsg]         = useState("");
@@ -43,7 +40,7 @@ function Login() {
         , address               : ''
         , detailAddress         : ''
         , zipcode               : 0
-        , token                 : ''
+        , reCaptchaToken        : ''
         , userProfile             : {
             sex         : '',
             phoneNo     : '',
@@ -79,6 +76,13 @@ function Login() {
         setLoading(true);
     }
 
+    const setReCaptchaToken = async (reCaptchaToken : any) => {
+        if (reCaptchaToken !== null && reCaptchaToken !== undefined && reCaptchaToken !== '') {
+            setUser({...user, reCaptchaToken : reCaptchaToken});
+        } else {
+            return;
+        }
+    }
 
     useEffect(()=>{
         if (msg) {
@@ -105,10 +109,14 @@ function Login() {
                     </FormControl>    
                 </Grid>
                 <Grid container item>
-                    <FormControl fullWidth sx={{ m: 1, width:'100%', height:50 }}>
-                        <GoogleReCaptchaProvider reCaptchaKey="6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4" useRecaptchaNet={true} language="ko">
-                            <ReCaptcha/>
-                        </GoogleReCaptchaProvider>
+                    <FormControl fullWidth sx={{ m: 1, width:'100%'}}>
+                        <ReCAPTCHA  ref={recaptchaRef} 
+                                    size="normal" 
+                                    sitekey="6LeqdfIlAAAAAPR4f8Ss4g-prgiuRmAOteyNDok0" 
+                                    onChange={setReCaptchaToken}/>
+{/*                         <GoogleReCaptchaProvider reCaptchaKey="6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4" useRecaptchaNet={true} language="ko">
+                            <ReCaptchaV3/>
+                        </GoogleReCaptchaProvider> */}
                     </FormControl>    
                 </Grid>
                 <Grid container item>
