@@ -1,13 +1,13 @@
-import { Box, FormControl, Grid } from "@mui/material";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { encode as base64_encode } from 'base-64';
-import React, { createRef, useEffect, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelect } from "../../../store/index.hooks";
-import { getContentInfo } from "../../../store/modules/content";
-import { User, asyncLogin } from "../../../store/modules/user";
+import { Box, FormControl, Grid, Skeleton }         from "@mui/material";
+import Button                                       from "@mui/material/Button";
+import TextField                                    from "@mui/material/TextField";
+import { encode as base64_encode }                  from 'base-64';
+import React, { createRef, useEffect, useState }    from "react";
+import ReCAPTCHA                                    from "react-google-recaptcha";
+import { useNavigate }                              from "react-router-dom";
+import { useAppDispatch, useAppSelect }             from "../../../store/index.hooks";
+import { getContentInfo }                           from "../../../store/modules/content";
+import { User, asyncLogin }                         from "../../../store/modules/user";
 
 function Login() {
 
@@ -60,11 +60,13 @@ function Login() {
 
     const LoginAction = (e : React.FormEvent) => {
         e.preventDefault();
+
         if (!user.userId) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
             return alert('Password를 입력하세요.');
         }
+        setLoading(true);
 
         user.userId     = base64_encode(user.userId);
         user.password   = base64_encode(user.password);    
@@ -73,7 +75,6 @@ function Login() {
         
         setMsg("Login Success");
         navigate(`/${contentInfo.contentCode}`);
-        setLoading(true);
     }
 
     const setReCaptchaToken = async (reCaptchaToken : any) => {
@@ -93,38 +94,51 @@ function Login() {
         }
     }, [msg]);
 
+    const inputArea = () => {
+        switch (loading) {
+            case true : return (
+                <Box sx={{height:350}}>
+                    <Skeleton height="80px"/>
+                    <Skeleton height="80px"/>
+                    <Skeleton height="100px"/>
+                    <Skeleton height="70px" />
+                </Box>    
+            )
+            default : return (
+                <Grid container>
+                    <Grid container item>
+                        <FormControl fullWidth sx={{ m: 1 }}>
+                            <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your Email" autoComplete="off"/> 
+                        </FormControl>    
+                    </Grid>
+                    <Grid container item>
+                        <FormControl fullWidth sx={{ m: 1 }}>
+                            <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
+                        </FormControl>    
+                    </Grid>
+                    <Grid container item>
+                        <FormControl fullWidth sx={{ m: 1, width:'100%'}}>
+                            <ReCAPTCHA  ref={recaptchaRef} 
+                                        size="normal" 
+                                        sitekey="6LeqdfIlAAAAAPR4f8Ss4g-prgiuRmAOteyNDok0" 
+                                        onChange={setReCaptchaToken}/>
+                        </FormControl>    
+                    </Grid>
+                    <Grid container item>
+                        <FormControl fullWidth sx={{ m: 1 }}>
+                            <Button type="submit" variant="outlined" size="large" disabled={loading}>Login</Button>
+                        </FormControl>
+                    </Grid>
+                </Grid>    
+            )
+        }
+    }
+
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
         <div className="Login">
             <form onSubmit={LoginAction}>
-            <Grid container>
-                <Grid container item>
-                    <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your Email" autoComplete="off"/> 
-                    </FormControl>    
-                </Grid>
-                <Grid container item>
-                    <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
-                    </FormControl>    
-                </Grid>
-                <Grid container item>
-                    <FormControl fullWidth sx={{ m: 1, width:'100%'}}>
-                        <ReCAPTCHA  ref={recaptchaRef} 
-                                    size="normal" 
-                                    sitekey="6LeqdfIlAAAAAPR4f8Ss4g-prgiuRmAOteyNDok0" 
-                                    onChange={setReCaptchaToken}/>
-{/*                         <GoogleReCaptchaProvider reCaptchaKey="6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4" useRecaptchaNet={true} language="ko">
-                            <ReCaptchaV3/>
-                        </GoogleReCaptchaProvider> */}
-                    </FormControl>    
-                </Grid>
-                <Grid container item>
-                    <FormControl fullWidth sx={{ m: 1 }}>
-                        <Button type="submit" variant="outlined" size="large" disabled={loading}>Login</Button>
-                    </FormControl>
-                </Grid>
-            </Grid>    
+                {inputArea()}
             </form>
         </div>
       </Box>
