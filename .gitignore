@@ -64,3 +64,4 @@ yarn-error.log*
 gradle/wrapper
 settings.gradle
 .fake
+front/src/config.tsx

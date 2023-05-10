@@ -41,7 +41,7 @@ function ArticleDetail() {
             <Link underline="hover" color="inherit">{boardKeyword}</Link>         
             <Typography color="text.primary">view</Typography>
         </Breadcrumbs>           
-        <Paper elevation={3} sx={{p:2}}>    
+        <Paper elevation={0} variant="outlined" sx={{p:2}}>    
             <Typography variant="h4">{boardArticle.title}</Typography>    
             <Typography sx={{p:1}} align="left"><CalendarMonthIcon/>&nbsp;Posted by {boardArticle.createUserId}</Typography>
             <hr/>    
