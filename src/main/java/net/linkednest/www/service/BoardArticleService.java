@@ -77,6 +77,7 @@ public class BoardArticleService {
                     resBoardObj.setBoardCategoryId(boardObj.getBoardCategory().getId());
                     resBoardObj.setBoardName(boardObj.getBoardName());
                     resBoardObj.setBoardCode(boardObj.getBoardCode());
+                    resBoardObj.setBoardType(boardObj.getBoardType());
                     resBoardObj.setBoardKeyword(boardObj.getBoardKeyword());
                     resBoardObj.setId(boardObj.getId());
                     resBoardObj.setImgPath(boardObj.getImagePath());
@@ -161,6 +162,7 @@ public class BoardArticleService {
         resBoardArticleObj.setId(boardArticle.getId());
         resBoardArticleObj.setBoardId(boardArticle.getBoard().getId());
         resBoardArticleObj.setContent(boardArticle.getContent());
+        resBoardArticleObj.setContentText(boardArticle.getContentText());
         resBoardArticleObj.setImagePath(boardArticle.getImagePath());
         resBoardArticleObj.setTitle(boardArticle.getTitle());
         resBoardArticleObj.setIsActive(boardArticle.getIsActive());
@@ -174,5 +176,4 @@ public class BoardArticleService {
         resBoardArticleObj.setCreateUserId(boardArticle.getCreateUser().getUserId());
         return resBoardArticleObj;
     }
-
 }

@@ -64,6 +64,7 @@ function ArticleEdit() {
     const [boardList_, setBoardList_] = useState<BoardList_>([{
         id              : 0,
         boardCategoryId : 0,
+        boardType       : '',
         boardName       : '',
         boardKeyword    : '',
         boardCode       : '',
@@ -77,6 +78,7 @@ function ArticleEdit() {
     const [board_, setBoard_] = useState<Board_>({
         id              : 0,
         boardCategoryId : 0,
+        boardType       : '',
         boardName       : '',
         boardKeyword    : '',
         boardCode       : '',
@@ -92,6 +94,7 @@ function ArticleEdit() {
         boardId         : 0,
         title           : '',
         content         : '',
+        contentText     : '',
         imagePath       : '',
         isActive        : '',
         createUserNo    : 0,

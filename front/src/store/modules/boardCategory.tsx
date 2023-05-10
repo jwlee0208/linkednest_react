@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../reducer";
-import { error } from "console";
+import { createSlice }  from "@reduxjs/toolkit";
+import { RootState }    from "../../reducer";
 
 export interface ContentBoardCategoryInfo_ {
     contentCode         : string;
@@ -22,6 +21,7 @@ export interface BoardList_ extends Array<Board_> {}
 export interface Board_ {
     id              : number;
     boardCategoryId : number;
+    boardType       : string;
     boardName       : string;
     boardKeyword    : string;
     boardCode       : string;
@@ -38,6 +38,7 @@ export interface BoardArticle_ {
     boardId         : number;
     title           : string;
     content         : string;
+    contentText     : string;
     imagePath       : string;
     isActive        : string;
     createUserNo    : number;

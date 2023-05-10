@@ -101,7 +101,7 @@ const SignUpDetailForStepper = forwardRef(({
         }
 
         const phoneNo = user.phoneNo;
-        let isValidPhonoNoRegEx = phoneNoRegex.test(phoneNo)
+        let isValidPhonoNoRegEx = phoneNoRegex.test(phoneNo);
 
         if (phoneNo !== '' && isValidPhonoNoRegEx === false) {
             alert('전화번호 번호 형식이 맞지 않습니다.');

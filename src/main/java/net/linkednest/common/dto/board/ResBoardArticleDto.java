@@ -12,6 +12,7 @@ public class ResBoardArticleDto {
     private Long boardId;
     private String title;
     private String content;
+    private String contentText;
     private String imagePath;
     private Boolean isActive;
     private Long createUserNo;

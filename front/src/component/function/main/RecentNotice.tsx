@@ -17,6 +17,7 @@ function RecentNotice() {
     const [boardList, setBoardList] = useState<BoardList_>([{
         id              : 0,
         boardCategoryId : 0,
+        boardType       : '',
         boardName       : '',
         boardKeyword    : '',
         boardCode       : '',

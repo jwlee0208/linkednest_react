@@ -39,6 +39,7 @@ public class BoardService {
             resBoardObj.setBoardCode(boardObj.getBoardCode());
             resBoardObj.setBoardName(boardObj.getBoardName());
             resBoardObj.setBoardCategoryId(boardObj.getBoardCategory().getId());
+            resBoardObj.setBoardType(boardObj.getBoardType());
             resBoardObj.setId(boardObj.getId());
             return resBoardObj;
         }
