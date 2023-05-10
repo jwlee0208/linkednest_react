@@ -56,7 +56,6 @@ axiosInstance.interceptors.response.use(
     const originalReq = config;
 
 console.log('[axios response] status : ', status);
-
     if (status === 401) {
       const userinfo      = store.getState().userSlice;
       const refreshToken  = userinfo.refreshToken;
@@ -66,7 +65,6 @@ console.log('[axios response] status : ', status);
           url     : '/reIssueToken',
           data    : {refreshToken : refreshToken},
         });
-        // console.log("[interceptor response] return data : " + JSON.stringify(data) + ", returnCode : " + data.returnCode);
         if (data.returnCode === 10000) {
 
           store.dispatch(userSlice.actions.updateAccessToken(data))

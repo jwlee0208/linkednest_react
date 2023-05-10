@@ -33,12 +33,12 @@ function SideArea({
     return (
         <Box component="menu" sx={{mr:3, overflow: 'hidden'}}>
             <SideFloatingButtons/>
-            <Paper variant="outlined" elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
+            <Paper elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
                 <Box sx={{ m: 1 }}>
                         Area1
                 </Box>
             </Paper>    
-            <Paper variant="outlined" elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
+            <Paper elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
                 {isLogin === false ? 
                     <Login/> 
                     : (
@@ -49,7 +49,7 @@ function SideArea({
                     )
                 }  
             </Paper>
-            <Paper variant="outlined" elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
+            <Paper elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
                 <Box sx={{ m: 1 }}>
                     Area3
                 </Box>

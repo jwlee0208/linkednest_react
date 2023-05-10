@@ -191,8 +191,6 @@ const userSlice = createSlice ({
                 window.location.reload();
             }
         })
-        builder.addCase(asyncGetUser.fulfilled, (state, action) => {
-        })
         builder.addCase(asyncUserUpdate.fulfilled, (state, action) => {
             state.introduce = action.payload.introduce;        
         })
@@ -241,11 +239,6 @@ export const asyncUserUpdate = createAsyncThunk("USER_UPDATE", async (user : Use
         return res.data;
     }    
 );
-
-export const asyncGetUser    = createAsyncThunk("GET_USER", async () : Promise<User> => {
-    const res = await axiosInstance.get("/user/test01");
-    return res.data;
-});
 
 export const asyncLogout      = createAsyncThunk("LOGOUT_USER", async () : Promise<User> => {
     const res = await axiosInstance.post("/api/logout");

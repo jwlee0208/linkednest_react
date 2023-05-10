@@ -9,13 +9,10 @@ import Header             from "../common/headerArea/Header";
 import Footer             from "../common/Footer";
 import SideArea           from "../common/sideArea/SideArea";
 import Content            from "../common/Content";
-import RestoreIcon        from '@mui/icons-material/Restore';
-import FavoriteIcon       from '@mui/icons-material/Favorite';
-import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
-import BottomNavigation                 from "@mui/material/BottomNavigation";
-import BottomNavigationAction           from "@mui/material/BottomNavigationAction";
-import { ContentList_, getContentInfo } from "../../../store/modules/content";
+import { ContentList_, getContentInfo } 
+                          from "../../../store/modules/content";
+import MyBottomNav        from "../common/MyBottomNav";
 
 type layoutType2Props = {
   contentList : ContentList_,
@@ -29,10 +26,6 @@ function LayoutType2({contentList} : layoutType2Props) {
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
-
-    const [value, setValue] = React.useState(0);
-
-    // console.log(`layout${layoutInfo.layoutId}>>`);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
@@ -66,18 +59,7 @@ function LayoutType2({contentList} : layoutType2Props) {
         </Grid>
         <Grid component="footer" sx={{pt:1}}>
           <Hidden smUp>
-            <BottomNavigation
-              showLabels
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-            >
-              <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-              <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-              <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-            </BottomNavigation>
-
+            <MyBottomNav/>
           </Hidden>
           <Hidden smDown>
             <Footer/>

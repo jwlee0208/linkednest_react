@@ -18,7 +18,7 @@ function Login() {
 
     const siteKeyVal = config.GOOGLE_RECAPTCHA_SITE_KEY;
     // process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY;
-    console.log('Login >> siteKeyVal : ', siteKeyVal);
+    console.log('Login >> process.env.NODE_ENV : ', process.env.NODE_ENV);
     const recaptchaRef : any    = createRef<ReCAPTCHA>();
 
     const [loading, setLoading] = useState(false);
@@ -112,12 +112,12 @@ function Login() {
                 <Grid container>
                     <Grid container item>
                         <FormControl fullWidth sx={{ m: 1 }}>
-                            <TextField id="outlined-basic" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your Email" autoComplete="off"/> 
+                            <TextField id="userId" label="Email" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your Email" autoComplete="off"/> 
                         </FormControl>    
                     </Grid>
                     <Grid container item>
                         <FormControl fullWidth sx={{ m: 1 }}>
-                            <TextField id="outlined-basic" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
+                            <TextField id="password" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
                         </FormControl>    
                     </Grid>
                     <Grid container item>

@@ -1,4 +1,4 @@
-import { Box, Button, Fade, Grid, List, ListItem, Typography } 
+import { Box, Button, Fade, Grid, List, ListItem, Paper, Typography } 
                         from "@mui/material";
 import { useState }     from 'react';
 import { BoardCategory_, Board_, ContentBoardCategoryInfo_, getContentBoardCategoryInfo } 
@@ -61,18 +61,20 @@ function Navbar () {
     }
 
     return (
-     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 60, width: '100%'}}>
-    {   viewContentBoardCategoryInfo()   }        
-        <Fade in={checked} {...({timeout: 1200})} onMouseLeave={handleChange} >
-            <Box sx={{ width:'100%', position: "absolute", backgroundColor: "#ffffff", top: 135, left: "50%", transform: "translateX(-50%)", zIndex:10}}>
-                <Grid container item>
-    {
-                    viewCategoryList(contentBoardCategoryInfo)
-    }
-                </Grid>
-            </Box>
-        </Fade>
-    </Box>    
+    <Paper elevation={24}>    
+        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', height: 60, width: '100%'}}>
+        {   viewContentBoardCategoryInfo()   }        
+            <Fade in={checked} {...({timeout: 1200})} onMouseLeave={handleChange} >
+                <Box sx={{ width:'100%', position: "absolute", backgroundColor: "#ffffff", top: 135, left: "50%", transform: "translateX(-50%)", zIndex:10}}>
+                    <Grid container item>
+        {
+                        viewCategoryList(contentBoardCategoryInfo)
+        }
+                    </Grid>
+                </Box>
+            </Fade>
+        </Box>    
+    </Paper>
     );
 }
 

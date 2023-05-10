@@ -1,8 +1,7 @@
 import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
-import { BottomNavigation, BottomNavigationAction, Grid }           
-                          from "@mui/material";
+import { Grid }           from "@mui/material";
 import Header             from "../common/headerArea/Header";
 import Navbar             from "../common/Navbar";
 import TopBanner          from "../common/topMenuArea/TopBanner";
@@ -10,12 +9,10 @@ import Footer             from "../common/Footer";
 import SideArea           from "../common/sideArea/SideArea";
 import Content            from "../common/Content";
 import Hidden             from "@mui/material/Hidden";
-import RestoreIcon        from '@mui/icons-material/Restore';
-import FavoriteIcon       from '@mui/icons-material/Favorite';
-import LocationOnIcon     from '@mui/icons-material/LocationOn';
 import React              from "react";
 import { ContentList_, getContentInfo } 
                           from "../../../store/modules/content";
+import MyBottomNav        from "../common/MyBottomNav";
 
 type layoutType1Props = {
   contentList : ContentList_,
@@ -28,8 +25,6 @@ function LayoutType1({contentList} : layoutType1Props) {
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
-
-    const [value, setValue] = React.useState(0);
 
     return (
         <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
@@ -64,18 +59,7 @@ function LayoutType1({contentList} : layoutType1Props) {
         </Grid>
         <Grid component="footer" sx={{pt:1}}>
           <Hidden smUp>
-            <BottomNavigation
-              showLabels
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-            >
-              <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-              <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-              <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-            </BottomNavigation>
-
+            <MyBottomNav/>
           </Hidden>
           <Hidden smDown>
             <Footer/>

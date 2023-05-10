@@ -63,7 +63,6 @@ const SignUpDetailForStepper = forwardRef(({
     });
 
     function validStep0_() {
-        // console.log('call validStep0_');
         if (!user.userId) {
             alert('ID를 입력하세요.');
             return false;
@@ -72,7 +71,6 @@ const SignUpDetailForStepper = forwardRef(({
             alert('Password를 입력하세요.');
             return false;
         } else if (!pwRegex.test(user.password)) {
-            // console.log(user.password)
             alert('Password형식이 일치하지 않습니다.');
             return false;
         }
@@ -93,7 +91,6 @@ const SignUpDetailForStepper = forwardRef(({
     }
 
     function validStep1_() {
-        // console.log('call validStep1_');
         if (user.sex === '') {
             alert('성별을 선택해주세요.');
             return false;
@@ -105,7 +102,6 @@ const SignUpDetailForStepper = forwardRef(({
 
         const phoneNo = user.phoneNo;
         let isValidPhonoNoRegEx = phoneNoRegex.test(phoneNo)
-        // console.log('user.phoneNo : ', phoneNo, 'isValidPhonoNoRegEx : ', isValidPhonoNoRegEx)
 
         if (phoneNo !== '' && isValidPhonoNoRegEx === false) {
             alert('전화번호 번호 형식이 맞지 않습니다.');
@@ -119,7 +115,6 @@ const SignUpDetailForStepper = forwardRef(({
     }
 
     function validStep2_() {
-        // console.log('call validStep2_');
         // to-do
         return true;
     }
@@ -180,8 +175,6 @@ const SignUpDetailForStepper = forwardRef(({
             return alert('Nickname을 입력하세요.');
         }
 
-        // console.log('[signup] before encode : ' + JSON.stringify(user));
-
         user.userId     = base64_encode(user.userId);
         user.password   = base64_encode(user.password);        
 
@@ -219,91 +212,85 @@ const SignUpDetailForStepper = forwardRef(({
             },
         }), []);
 
-    return (
-      <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
-      <div className="SignUp">
-        <form onSubmit={SignupAction}>
-        <Grid container>
-{
-    stepId === 0 ? 
-    (
-    <>     
-        <Grid container item>
-            <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="userId"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
-            </FormControl>    
-        </Grid>
-        <Grid container item>
-            <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="password" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
-            </FormControl>    
-        </Grid>
-        <Grid container item>
-            <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="email" label="Email" variant="filled" color="success" onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email" autoComplete="off"/> 
-            </FormControl>    
-        </Grid>
-        <Grid container item>
-            <FormControl fullWidth sx={{ m: 1 }}>
-                <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname" autoComplete="off"/>
-            </FormControl>    
-        </Grid>
-    </>
-    ) 
-    : (<></>)
-}
-{    
-    stepId === 1 ? (
-        <>
-            <Grid container item>
-                <FormControl fullWidth sx={{ m: 1 }}>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
-                    <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        onChange={handleSexChange}
-                        value={user.sex}
-                    >
-                        <FormControlLabel value="female"    control={<Radio />} label="Female"  checked={user.sex === 'female' || user.sex === ''}/>
-                        <FormControlLabel value="male"      control={<Radio />} label="Male"    checked={user.sex === 'male'}/>
-                    </RadioGroup>
+    const step00Area = () => {
+        return (
+            <>     
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <TextField id="outlined-basic" name="userId"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
+                    </FormControl>    
+                </Grid>
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <TextField id="outlined-basic" name="password" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
+                    </FormControl>    
+                </Grid>
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <TextField id="outlined-basic" name="email" label="Email" variant="filled" color="success" onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email" autoComplete="off"/> 
+                    </FormControl>    
+                </Grid>
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname" autoComplete="off"/>
+                    </FormControl>    
+                </Grid>
+            </>
+        )
+    }   
+    
+    const step01Area = () => {
+        return (
+            <>
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            onChange={handleSexChange}
+                            value={user.sex}
+                        >
+                            <FormControlLabel value="female"    control={<Radio />} label="Female"  checked={user.sex === 'female' || user.sex === ''}/>
+                            <FormControlLabel value="male"      control={<Radio />} label="Male"    checked={user.sex === 'male'}/>
+                        </RadioGroup>
 
-                </FormControl>        
-            </Grid>
-            <Grid container item>
-                <FormControl fullWidth sx={{ m: 1 }}>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Introduce</FormLabel>
-                    <ReactQuill onChange={inputIntroduceVal} modules={modules} theme="snow" style={{minHeight: '250px',  width: '100%', borderBlockColor:'black', marginBottom: '50px'}} value={user.introduce}/>    
-                </FormControl>
-            </Grid>        
-            <Grid container item>
-                <FormControl fullWidth sx={{ m: 1 }}>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Phone No</FormLabel>
-                    <React.Fragment>
-                        <PhoneInput onChange={inputPhoneNoVal}
-                                    value={user.phoneNo} 
-                                    country={navigator.language.split("-")[1].toLowerCase()}
-                                    onlyCountries={['kr', 'us', 'ca', 'tw', 'gb', 'au', 'de', 'fr', 'it']}
-                                     />
-                    </React.Fragment>
-                </FormControl>
-            </Grid> 
-            <Grid container item>
-                <FormControl fullWidth sx={{ m: 1 }}>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Birth Date</FormLabel>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker onChange={handleDateChange} />
-                    </LocalizationProvider>    
-                </FormControl>
-            </Grid>       
+                    </FormControl>        
+                </Grid>
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">Introduce</FormLabel>
+                        <ReactQuill onChange={inputIntroduceVal} modules={modules} theme="snow" style={{minHeight: '250px',  width: '100%', borderBlockColor:'black', marginBottom: '50px'}} value={user.introduce}/>    
+                    </FormControl>
+                </Grid>        
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">Phone No</FormLabel>
+                        <React.Fragment>
+                            <PhoneInput onChange={inputPhoneNoVal}
+                                        value={user.phoneNo} 
+                                        country={navigator.language.split("-")[1].toLowerCase()}
+                                        onlyCountries={['kr', 'us', 'ca', 'tw', 'gb', 'au', 'de', 'fr', 'it']}
+                                        />
+                        </React.Fragment>
+                    </FormControl>
+                </Grid> 
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">Birth Date</FormLabel>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker onChange={handleDateChange} />
+                        </LocalizationProvider>    
+                    </FormControl>
+                </Grid>       
+            </>            
+        )
+    }
 
-        </>
-    ) : (<></>)
-}
-{    
-    stepId === 2 ? (
-        <Box sx={{width : '100%', pl: 10, pr : 10}}>
+    const step02Area = () => {
+        return (
+            <Box sx={{width : '100%', pl: 10, pr : 10}}>
             <Grid container alignItems="center">
                 <Grid item xs={2}>
                     <FormLabel id="demo-row-radio-buttons-group-label">UserId</FormLabel>
@@ -382,8 +369,26 @@ const SignUpDetailForStepper = forwardRef(({
                 </FormControl>
             </Grid>
         </Box>
-    ) : (<></>)
-}
+        )
+    }
+
+    const stepArea = (stepSeq : number) => {
+        switch (stepSeq) {
+            case 0 : return step00Area();
+            case 1 : return step01Area();
+            case 2 : return step02Area();
+            default : return step00Area();
+        }
+    }
+
+    return (
+      <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
+      <div className="SignUp">
+        <form onSubmit={SignupAction}>
+        <Grid container>
+        {
+            stepArea(stepId)
+        }
         </Grid>    
         </form>
       </div>
