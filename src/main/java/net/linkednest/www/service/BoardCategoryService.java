@@ -58,6 +58,7 @@ public class BoardCategoryService {
                 ResBoardDto resBoardObj = new ResBoardDto();
                 BoardCategory boardCategory = boardObj.getBoardCategory();
                 resBoardObj.setBoardCategoryId(boardCategory.getId());
+                resBoardObj.setBoardType(boardObj.getBoardType());
                 resBoardObj.setBoardName(boardObj.getBoardName());
                 resBoardObj.setBoardCode(boardObj.getBoardCode());
                 resBoardObj.setBoardKeyword(boardObj.getBoardKeyword());

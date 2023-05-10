@@ -9,6 +9,7 @@ import java.util.List;
 public class ResBoardDto {
     private Long id;
     private Long boardCategoryId;
+    private String boardType;
     private String boardName;
     private String boardCode;
     private String boardKeyword;

@@ -22,6 +22,7 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private BoardCategory boardCategory;
+    private String boardType;
     private String boardName;
     private String boardCode;
     private String boardKeyword;
