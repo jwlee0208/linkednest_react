@@ -1,4 +1,4 @@
-import { Grid }                 from "@mui/material";
+import { Box, Grid }                 from "@mui/material";
 import Hidden                   from "@mui/material/Hidden";
 import React                    from "react";
 import { useLocation }          from 'react-router';
@@ -13,6 +13,7 @@ import Footer                   from "../common/Footer";
 import PortalContent            from '../common/PortalContent';
 import PortalHeader             from '../common/headerArea/PortalHeader';
 import MyBottomNav              from '../common/MyBottomNav';
+import ContentImageList from "../../function/main/portal/ContentImageList";
 
 type layoutType0Props = {
     contentList         : ContentList_,
@@ -49,7 +50,8 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
           </Grid>
           <Grid container spacing={1} sx={{pt:10}}>
             <Grid component="article" item xs={12}>
-                <PortalContent isLogin={isLogin} contentList={contentList} contentCategory={contentCategoryInfo as ContentCategory_}/>            </Grid>
+                <PortalContent isLogin={isLogin} contentList={contentList} contentCategory={contentCategoryInfo as ContentCategory_}/>
+            </Grid>
           </Grid>    
         </Grid>
         <Grid component="footer" sx={{pt:1}}>
