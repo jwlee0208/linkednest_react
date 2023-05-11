@@ -1,8 +1,8 @@
 import { Box }                     from "@mui/material";
 import { Navigate, Route, Routes } from "react-router";
-import ArticleDetail               from "../../function/board/ArticleDetail";
-import ArticleEdit                 from "../../function/board/ArticleEdit";
-import ArticleList                 from "../../function/board/ArticleList";
+import ArticleDetail               from "../../function/board/article/ArticleDetail";
+import ArticleEdit                 from "../../function/board/article/ArticleEdit";
+import ArticleList                 from "../../function/board/article/ArticleList";
 import Home                        from "./Home";
 import Mypage                      from "../../function/user/Mypage";
 import Login                       from "../../function/user/Login";
@@ -20,6 +20,9 @@ function Content ({
       <Box>
         <Routes>
           <Route path='/'                    element={<Home bannerHeight="480px"/>} />
+          <Route path='/signup' element={<SignupForStepper />} />
+          <Route path='/login'  element={<Login />} />
+          <Route path='/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/:contentCode/login"/>} />
           <Route path='/:contentCode'        element={<Home bannerHeight="480px"/>} />
           <Route path='/:contentCode/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/:contentCode/login"/>} />
           <Route path='/:contentCode/login'  element={<Login />} />

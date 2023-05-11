@@ -2,7 +2,6 @@ package net.linkednest.common.repository.board;
 
 import net.linkednest.common.entity.board.Board;
 import net.linkednest.common.entity.board.BoardArticle;
-import net.linkednest.common.entity.board.BoardCategory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

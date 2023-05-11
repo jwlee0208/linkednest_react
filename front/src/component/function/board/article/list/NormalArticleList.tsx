@@ -1,13 +1,12 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { BoardArticleList_, BoardArticle_ } from "../../../../store/modules/boardCategory";
+import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
 import { ArticleListProps } from ".";
+import { BoardArticle_ } from "../../../../../store/modules/boardCategory";
+import { useState } from "react";
 
 
 function NormalArticleList({
-    boardArticleList,
-    offset,
-    limit,
+    boardArticleList
 } : ArticleListProps) {
     const location = useLocation();
     const navigate = useNavigate();
@@ -17,7 +16,20 @@ function NormalArticleList({
         navigate(`${location.pathname}/${boardArticle.id}`, {state : {boardArticle : boardArticle}});
     }
 
+    const [limit                , setLimit]                 = useState(10);
+    const [page                 , setPage]                  = useState(1);
+    const offset = (page - 1) * limit;
+
+    let listCnt = boardArticleList.length;
+    let pageCnt = Math.ceil(listCnt/10);
+ 
+    const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
+        e.preventDefault();
+        setPage(value);
+    };
+
     return (
+        <Box>
     <TableContainer>
         <Table>
             <TableHead>
@@ -44,7 +56,8 @@ function NormalArticleList({
             </TableBody>    
         </Table>
     </TableContainer>
-
+    <Pagination count={pageCnt} shape="rounded" onChange={handleChange} sx={{p:2, justifyContent:"center", display: "flex"}} />
+    </Box>
     )
 }
 

@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.CommonResDto;
-import net.linkednest.common.dto.board.*;
+import net.linkednest.common.dto.board.ReqBoardArticleDto;
+import net.linkednest.common.dto.board.ReqBoardArticleListDto;
+import net.linkednest.common.dto.board.ResBoardArticleDto;
+import net.linkednest.common.dto.board.ResBoardDto;
 import net.linkednest.common.entity.board.Board;
 import net.linkednest.common.entity.board.BoardArticle;
 import net.linkednest.common.entity.board.BoardCategory;
@@ -21,12 +24,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -40,9 +45,18 @@ public class BoardArticleService {
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   // yyyy-MM-dd HH:mm:ss
 
     public List<ResBoardArticleDto> getBoardArticleList(ReqBoardArticleListDto reqBoardArticleListObj) {
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        log.info("[{}.{}] reqBoardArticleListObj : {}", this.getClass().getName().toString(), methodName, reqBoardArticleListObj);
+
+
+
         String contentCode          = StringUtils.defaultString(reqBoardArticleListObj.getContentCode());
         String boardCategoryKeyword = StringUtils.defaultString(reqBoardArticleListObj.getBoardCategoryKeyword());
         String boardKeyword         = StringUtils.defaultString(reqBoardArticleListObj.getBoardKeyword());
+        int offset                  = reqBoardArticleListObj.getOffset();
+        int limit                   = reqBoardArticleListObj.getLimit();
+        if (limit == 0) limit = 10;
+        log.info("[{}.{}] offset : {}, limit : {}", this.getClass().getName(), methodName, offset, limit);
 
         List<BoardArticle>      boardArticleList        = new ArrayList<>();
         List<ResBoardArticleDto> resBoardArticleList    = new ArrayList<>();
@@ -52,7 +66,16 @@ public class BoardArticleService {
             Optional<Board> boardOptional = boardCategory.getBoardList().stream().filter(board -> StringUtils.equals(boardKeyword, board.getBoardKeyword())).findFirst();
             if (boardOptional.isPresent()) {
                 Board board      = boardOptional.get();
-                boardArticleList = boardArticleRepository.findAllByBoard(board, Sort.by(Sort.Direction.DESC, "createDate"));
+
+                log.info("[{}.{}] board : {}", this.getClass().getName(), "getBoardArticleList", board.getId());
+
+                Pageable pageable = PageRequest.of((int) Math.floor(offset/limit), limit, Sort.by(Sort.Direction.DESC, "createDate"));
+                boardArticleList = boardArticleRepository.findAllByBoard(board, pageable);
+
+                log.info("[{}.{}] boardArticleList : {}", this.getClass().getName(), "getBoardArticleList", boardArticleList);
+
+
+//                boardArticleList = boardArticleRepository.findAllByBoard(board, Sort.by(Sort.Direction.DESC, "createDate"));
                 if (!CollectionUtils.isEmpty(boardArticleList)) {
                     for(BoardArticle boardArticle : boardArticleList) {
                         resBoardArticleList.add(this.getBoardArticle(boardArticle));
@@ -63,7 +86,7 @@ public class BoardArticleService {
         return resBoardArticleList;
     }
 
-    public List<ResBoardDto> getBoardArticleList(String contentCode, String boardCategoryKeyword) {
+    public List<ResBoardDto> getBoardArticleList(String contentCode, String boardCategoryKeyword, int offset, int limit) {
         List<ResBoardDto> resBoardList = new ArrayList<>();
         String boardCategoryCode = String.format("%s_%s", contentCode, boardCategoryKeyword);
         Optional<BoardCategory> boardCategoryOptional = boardCategoryRepository.findByBoardCategoryCode(boardCategoryCode);
@@ -84,7 +107,7 @@ public class BoardArticleService {
 
                     List<ResBoardArticleDto> resBoardArticleList = new ArrayList<>();
 
-                    Pageable pageable = PageRequest.of(0,5, Sort.Direction.DESC, "createDate");
+                    Pageable pageable = PageRequest.of(offset, limit, Sort.Direction.DESC, "createDate");
                     List<BoardArticle> boardArticleList = boardArticleRepository.findAllByBoard(boardObj, pageable);
 
                     if (!CollectionUtils.isEmpty(boardArticleList)) {
@@ -100,7 +123,6 @@ public class BoardArticleService {
         }
         return resBoardList;
     }
-
 
     public CommonResDto editBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {
         int returnCode = 10000;

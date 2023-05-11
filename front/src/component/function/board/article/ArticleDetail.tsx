@@ -2,8 +2,8 @@ import { Box, Breadcrumbs, Button, ButtonGroup, Divider, FormControl, Grid, Link
                                     from "@mui/material";
 import CalendarMonthIcon            from '@mui/icons-material/CalendarMonth';
 import { useLocation, useNavigate } from "react-router";
-import { BoardArticle_ }            from "../../../store/modules/boardCategory";
-import { axiosInstance }            from "../../..";
+import { BoardArticle_ }            from "../../../../store/modules/boardCategory";
+import { axiosInstance }            from "../../../..";
 import Parser                       from 'html-react-parser';
 
 function ArticleDetail() {

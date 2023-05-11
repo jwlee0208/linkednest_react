@@ -8,5 +8,6 @@ public class ReqBoardArticleListDto {
     private String contentCode;
     private String boardCategoryKeyword;
     private String boardKeyword;
-
+    private int offset;
+    private int limit;
 }
