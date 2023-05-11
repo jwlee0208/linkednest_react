@@ -9,7 +9,7 @@ type BannerProps = {
 function BannerDetail({info} : BannerProps) {
     return (
         <Paper title={info.bannerName}>
-            <Image src={info.mainImageUrl} style={{margin:"auto", display:"flex", maxHeight:"400px"}} alt={info.bannerDesc}/>
+            <Image src={info.mainImageUrl} style={{borderRadius:4, margin:"auto", display:"flex", maxHeight:"400px"}} alt={info.bannerDesc}/>
         </Paper>
     )
 }

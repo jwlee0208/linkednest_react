@@ -9,6 +9,7 @@ import { default as HomeIcon }       from '@mui/icons-material/Home';
 import TwitterIcon                   from '@mui/icons-material/Twitter';
 import YouTubeIcon                   from '@mui/icons-material/YouTube';
 import { ContentList_, ContentSns_ } from "../../../../store/modules/content";
+import ContentImageList from "./ContentImageList";
 
 type PortalBannerProps = {
     contentList : ContentList_
@@ -25,13 +26,14 @@ function PortalBanner({contentList} : PortalBannerProps) {
     }
 
     return (
-        <Carousel sx={{m:1, height: '500px'}} 
+    <>    
+        <Carousel sx={{m:1, height: '500px', pl:2, pr:2}} 
                     NextIcon={<ArrowRightIcon/>} 
                     PrevIcon={<ArrowLeftIcon/>}>
 {
             contentList.map((content) => (
             <Card key={`${content.contentCode}_cardBanner`} sx={{ display: 'flex' }}>
-                <Box sx={{display: 'flex', width: '25%', flexDirection: 'column', pl:2, pr:2}}>
+                <Box sx={{borderRadius:4, borderColor:'InfoText', border:1, mr:1, display: 'flex', width: '25%', flexDirection: 'column', pl:2, pr:2}}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '420px'}}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
                             <Typography component="div" variant="h5" sx={{fontWeight:'bold'}}>{content.contentName}</Typography>
@@ -39,7 +41,7 @@ function PortalBanner({contentList} : PortalBannerProps) {
                             <Typography component="div" variant="subtitle1" sx={{lineHeight:'2.5em'}}>{content.contentDesc}</Typography>    
                         </CardContent>
                     </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'end', pt: 1, pl: 2, pb: 1, backgroundColor:'#efefef' }}>
+                    <Box sx={{borderRadius:4, display: 'flex', alignItems: 'end', pt: 1, pl: 2, pb: 1, backgroundColor:'#efefef' }}>
                         <IconButton href={`${content.homepageUrl}`} sx={{float:'left', borderColor:'#efefef', border:1}} size="small">
                             <HomeIcon sx={{m:1}} color="inherit"/>
                         </IconButton>
@@ -58,13 +60,17 @@ function PortalBanner({contentList} : PortalBannerProps) {
                     </Box>
                 </Box>
                 <CardMedia component='img' 
-                            sx={{width : '75%', maxHeight:'500px'}} 
+                            sx={{width : '75%', maxHeight:'500px', borderRadius:4}} 
                             image={content.imagePath} 
                             alt={content.contentDesc}/>
             </Card>    
             ))
 }
-</Carousel>
+        </Carousel>
+        <Box sx={{width:'100%', p:1}}>
+            <ContentImageList contentList={contentList}/>
+        </Box>  
+    </>
     )
 }
 
