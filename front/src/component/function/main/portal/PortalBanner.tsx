@@ -27,7 +27,7 @@ function PortalBanner({contentList} : PortalBannerProps) {
 
     return (
     <>    
-        <Carousel sx={{m:1, height: '500px'}} 
+        <Carousel sx={{m:1, height: '500px', pl:2, pr:2}} 
                     NextIcon={<ArrowRightIcon/>} 
                     PrevIcon={<ArrowLeftIcon/>}>
 {
