@@ -26,8 +26,10 @@ public class BoardArticleController {
         return ResponseEntity.ok(boardArticleService.getBoardArticleList(reqBoardArticleListObj));
     }
     @PostMapping(value = "/list/{contentCode}/{boardCategoryKeyword}")
-    public ResponseEntity<List<ResBoardDto>> getBoardArticleList(@PathVariable String contentCode, @PathVariable String boardCategoryKeyword) {
-        return ResponseEntity.ok(boardArticleService.getBoardArticleList(contentCode, boardCategoryKeyword));
+    public ResponseEntity<List<ResBoardDto>> getBoardArticleList(
+            @PathVariable String contentCode
+          , @PathVariable String boardCategoryKeyword) {
+        return ResponseEntity.ok(boardArticleService.getBoardArticleList(contentCode, boardCategoryKeyword, 0, 5));
     }
     @PatchMapping(value = "")
     public ResponseEntity<CommonResDto> updateBoardArticle(ReqBoardArticleDto reqBoardArticleObj) {

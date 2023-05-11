@@ -5,11 +5,11 @@ import { useEffect, useMemo, useState } from "react";
 import ReactQuill                       from "react-quill";
 import 'react-quill/dist/react-quill';
 import { useLocation, useNavigate }     from "react-router";
-import { axiosInstance }                from "../../..";
-import { useAppSelect }                 from "../../../store/index.hooks";
+import { axiosInstance }                from "../../../..";
+import { useAppSelect }                 from "../../../../store/index.hooks";
 import { BoardArticle_, BoardCategory_, BoardList_, Board_, getContentBoardCategoryInfo } 
-                                        from "../../../store/modules/boardCategory";
-import { getUserInfo }                  from "../../../store/modules/user";
+                                        from "../../../../store/modules/boardCategory";
+import { getUserInfo }                  from "../../../../store/modules/user";
 
 
 function ArticleEdit() {
@@ -19,10 +19,7 @@ function ArticleEdit() {
     const boardCategoryInfo = useAppSelect(getContentBoardCategoryInfo);
 
     const location = useLocation();
-    let   editType = 'create';
-    if (location.state !== null) {
-        editType = 'edit';
-    }
+    let   editType = (location.state !== null) ? 'create' : 'edit';
 
     const [contentCode          , setContentCode]           = useState<string>('');
     const [boardCategoryKeyword , setBoardCategoryKeyword]  = useState<string>('');

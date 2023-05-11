@@ -79,7 +79,7 @@ function Header({
      }, [])
 
     return (
-        <AppBar position="sticky" color="default">
+        <AppBar id="headerAppBar" position="sticky" color="default">
           <Container maxWidth={false}>
           <Toolbar disableGutters variant="dense" sx={{ height: '70px' }}>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

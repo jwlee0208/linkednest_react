@@ -1,21 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Breadcrumbs, Button, ButtonGroup, Divider, Link, Pagination, Typography } from "@mui/material";
-import { useEffect, useState } from 'react';
+import { Box, Breadcrumbs, Button, ButtonGroup, Divider, Link, Pagination, Typography } 
+                                    from "@mui/material";
+import { useEffect, useState }      from 'react';
 import { useLocation, useNavigate } from "react-router";
-import { axiosInstance } from "../../..";
-import { useAppSelect } from "../../../store/index.hooks";
-import { BoardArticleList_, getContentBoardCategoryInfo } from "../../../store/modules/boardCategory";
-import { getUserInfo } from "../../../store/modules/user";
-import MansoryArticleList from "./list/MansoryArticleList";
-import NormalArticleList from "./list/NormalArticleList";
-
+import { axiosInstance }            from "../../../..";
+import { useAppSelect }             from "../../../../store/index.hooks";
+import { BoardArticleList_, getContentBoardCategoryInfo } 
+                                    from "../../../../store/modules/boardCategory";
+import { getUserInfo }              from "../../../../store/modules/user";
+import MansoryArticleList           from "./list/MansonryArticleList";
+import NormalArticleList            from "./list/NormalArticleList";
 
 function ArticleList() {
 
-    let [boardType, setBoardType] = useState<string>('');
-    const [boardTitle, setBoardTitle] = useState<string>('');
+    const [alertOnBottom, setAlertOnBottom] = useState(true);
 
-    const userInfo = useAppSelect(getUserInfo);
+
+    let     [boardType, setBoardType]   = useState<string>('');
+    const   [boardTitle, setBoardTitle] = useState<string>('');
+
+    const userInfo          = useAppSelect(getUserInfo);
     const boardCategoryInfo = useAppSelect(getContentBoardCategoryInfo);
 
     const location = useLocation();
@@ -45,17 +49,6 @@ function ArticleList() {
         createDate   : '',    
     }]);
 
-    const [limit                , setLimit]                 = useState(10);
-    const [page                 , setPage]                  = useState(1);
-    const offset = (page - 1) * limit;
-
-    let listCnt = boardArticleList.length;
-    let pageCnt = Math.ceil(listCnt/10);
- 
-    const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
-        e.preventDefault();
-        setPage(value);
-    };
 
     const setupBoardArticleList = (boardArticleList_ : BoardArticleList_) => {
         setBoardArticleList(boardArticleList_);
@@ -86,7 +79,6 @@ function ArticleList() {
             if (filteredBoardInfo.length > 0) {
                 setBoardTitle(filteredBoardInfo[0].boardName);
                 setBoardType(filteredBoardInfo[0].boardType);
-console.log('boardType : ', boardType);
                 return boardType;
             }
         } 
@@ -98,15 +90,18 @@ console.log('boardType : ', boardType);
 
         if (boardType === 'image') {
             return (
-                <MansoryArticleList boardArticleList={boardArticleList} offset={offset} limit={limit} />
+                <MansoryArticleList contentCode={contentCode} 
+                                    boardCategoryKeyword={boardCategoryKeyword} 
+                                    boardKeyword={boardKeyword} 
+                                    alertOnBottom={alertOnBottom}/>
             )
         }   
         return (
-            <NormalArticleList boardArticleList={boardArticleList} offset={offset} limit={limit} />
+            <NormalArticleList boardArticleList={boardArticleList} />
         )    
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (location.state !== null) {
             const contentBoardCategory = location.state.contentBoardCategory;
             const board = location.state.board;  
@@ -128,7 +123,9 @@ console.log('boardType : ', boardType);
                 setBoardKeyword(pathArr[3]);
             }
         }   
-    
+
+        boardTypeStr();
+
         axiosInstance.post('/api/board/article/list',
             JSON.stringify({
                 contentCode          : contentCode,
@@ -136,7 +133,6 @@ console.log('boardType : ', boardType);
                 boardKeyword         : boardKeyword
             })
         ).then(res => {
-            boardTypeStr();
             setupBoardArticleList(res.data)
         }).catch(err => (
             alert(`[${err.code}][${err.response.status}] ${err.message}`)    
@@ -173,11 +169,8 @@ console.log('boardType : ', boardType);
             </Breadcrumbs>
             {createButton()}
             <Box sx={{pt:2, pb:2}}>
-                {                    
-                articleList()
-                }
+                {articleList()}
             </Box>
-            <Pagination count={pageCnt} shape="rounded" onChange={handleChange} sx={{p:2, justifyContent:"center", display: "flex"}} />
         </Box>    
     )
 }
