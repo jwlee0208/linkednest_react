@@ -61,37 +61,50 @@ public class UserService {
     private final JwtProvider                           jwtProvider;
 
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
-        log.info("[{}.{}] userRegistObj : {}", this.getClass().getName(), "registUser", userRegistDto.toString());
-        User newUser = new User();
-
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        String reCaptchaToken = StringUtils.defaultString(userRegistDto.getReCaptchaToken());
+        boolean isReCaptchaVerified = false;
         try {
-            newUser.setUserId(new String(Base64.getDecoder().decode(userRegistDto.getUserId())));
-            newUser.setEmail(userRegistDto.getEmail());
-            newUser.setNickname(userRegistDto.getNickname());
-            newUser.setPassword(passwordEncoder.encode(new String(Base64.getDecoder().decode(userRegistDto.getPassword()))));
-            newUser.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
+            isReCaptchaVerified = ReCaptchaUtil.verifyV3(reCaptchaToken);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
 
-            Authority authority = new Authority();
-            authority.setRole(roleRepository.getReferenceById(1L));
-            newUser.setUserRoles(Collections.singletonList(authority));
-
-            log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName(), "registUser", newUser.toString());
+        if (isReCaptchaVerified) {
+            log.info("[{}.{}] userRegistObj : {}", this.getClass().getName(), methodName, userRegistDto.toString());
+            User newUser = new User();
 
             try {
-                User createdUser = userRepository.saveAndFlush(newUser);
-                log.info("[{}.{}] createdUser : {}", this.getClass().getName(), "registUser", createdUser);
+                newUser.setUserId(new String(Base64.getDecoder().decode(userRegistDto.getUserId())));
+                newUser.setEmail(userRegistDto.getEmail());
+                newUser.setNickname(userRegistDto.getNickname());
+                newUser.setPassword(passwordEncoder.encode(new String(Base64.getDecoder().decode(userRegistDto.getPassword()))));
+                newUser.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
+
+                Authority authority = new Authority();
+                authority.setRole(roleRepository.getReferenceById(1L));
+                newUser.setUserRoles(Collections.singletonList(authority));
+
+                log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName(), methodName, newUser.toString());
+
                 try {
-                    this.userProfileService.saveUserProfile(userRegistDto, createdUser);
+                    User createdUser = userRepository.saveAndFlush(newUser);
+                    log.info("[{}.{}] createdUser : {}", this.getClass().getName(), methodName, createdUser);
+                    try {
+                        this.userProfileService.saveUserProfile(userRegistDto, createdUser);
+                    } catch (Exception e) {
+                        log.error("[{}.{}] userProfileService.saveUserProfile ERROR OCCURRED reqDto : {}, errorMsg : {}", this.getClass().getName(), methodName, userRegistDto.toString(), e.getMessage());
+                        return false;
+                    }
                 } catch (Exception e) {
-                    log.error("[{}.{}] userProfileService.saveUserProfile ERROR OCCURRED reqDto : {}, errorMsg : {}", this.getClass().getName(), "registUser", userRegistDto.toString(), e.getMessage());
+                    log.error("[{}.{}] userRepository.save ERROR OCCURRED entity : {}, errorMsg : {}", this.getClass().getName(), methodName, newUser, e.getMessage());
                     return false;
                 }
             } catch (Exception e) {
-                log.error("[{}.{}] userRepository.save ERROR OCCURRED entity : {}, errorMsg : {}", this.getClass().getName(), "registUser", newUser, e.getMessage());
+                log.error("[{}.{}] userRepository.save ERROR OCCURRED entity : {}, errorMsg : {}", this.getClass().getName(), methodName, newUser, e.getMessage());e.printStackTrace();
                 return false;
             }
-        } catch (Exception e) {
-            log.error("[{}.{}] userRepository.save ERROR OCCURRED entity : {}, errorMsg : {}", this.getClass().getName(), "registUser", newUser, e.getMessage());e.printStackTrace();
+        } else {
             return false;
         }
         return true;
@@ -127,7 +140,7 @@ public class UserService {
         // google reCaptcha token 유효성 체크
         String reCaptchaToken = StringUtils.defaultString(reqUserLoginDto.getReCaptchaToken());
         try {
-            boolean isVerified = ReCaptchaUtil.verify(reCaptchaToken);
+            boolean isVerified = ReCaptchaUtil.verifyV2(reCaptchaToken);
             if (!isVerified) {
                 returnCode = 20003;
             }
@@ -250,9 +263,9 @@ public class UserService {
 
     public void setAdminMenuCategoryList(Authority r, List<ResAdminMenuCategoryDto> adminMenuCategoryDtoList) {
         List<AdminMenuRoleAccessPath> amrapList = adminMenuRoleAccessPathRepository.findAllByRoleId(r.getRole().getId(), Sort.by(Sort.Direction.ASC, "adminMenu.adminMenuCategory.sortSeq", "adminMenu.sortSeq"));
-
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         amrapList.forEach(a -> {
-            log.info("[{}.{}] AdminMenuRoleAccessPath : {}", this.getClass().getName(), "setAdminMenuCategoryList", a.getAdminMenu().getMenuName());
+            log.info("[{}.{}] AdminMenuRoleAccessPath : {}", this.getClass().getName(), methodName, a.getAdminMenu().getMenuName());
             AdminMenu am  = a.getAdminMenu();
             AdminMenuCategory amc = am.getAdminMenuCategory();
             String              categoryName = amc.getCategoryName();

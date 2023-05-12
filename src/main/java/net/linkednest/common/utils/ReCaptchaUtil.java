@@ -14,14 +14,23 @@ import java.io.IOException;
 public class ReCaptchaUtil {
 
     private final static String reCaptchaValidUrl = "https://www.google.com/recaptcha/api/siteverify";
-    private final static String reCaptchaPrivateKey = "6LeqdfIlAAAAABTCqccXaBnUatbGVkFbbOHrP--G";
+    private final static String reCaptchaPrivateKeyV2 = "6LeqdfIlAAAAABTCqccXaBnUatbGVkFbbOHrP--G";
+    private final static String reCaptchaPrivateKeyV3 = "6Leh2u4lAAAAAAcLQVTlpSbyCaFeGHFr-KKuXl0n";
 
-    public static boolean verify(String reCaptchaToken) throws IOException {
+    public static boolean verifyV2(String reCaptchaToken) throws IOException {
+        return ReCaptchaUtil.verify(reCaptchaToken, reCaptchaPrivateKeyV2);
+    }
+
+    public static boolean verifyV3(String reCaptchaToken) throws IOException {
+        return ReCaptchaUtil.verify(reCaptchaToken, reCaptchaPrivateKeyV3);
+    }
+    public static boolean verify(String reCaptchaToken, String reCaptchaPrivateKey) throws IOException {
 
         log.info("[{}.{}] reCaptchaValidUrl : {}", "ReCaptchaConfig", "verify", reCaptchaValidUrl);
 
         WebClient webClient = WebClient.create();
         JSONObject reqJsonObj = new JSONObject();
+
         reqJsonObj.put("secret"     , reCaptchaPrivateKey);
         reqJsonObj.put("response"   , reCaptchaToken);
 

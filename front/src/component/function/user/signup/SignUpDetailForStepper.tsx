@@ -12,7 +12,7 @@ import { LocalizationProvider }             from '@mui/x-date-pickers/Localizati
 import { encode as base64_encode }          from 'base-64';
 import { format }                           from 'date-fns';
 import Parser                               from 'html-react-parser';
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } 
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } 
                                             from "react";
 import PhoneInput                           from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
@@ -21,6 +21,8 @@ import 'react-quill/dist/react-quill';
 import { useAppDispatch }                   from "../../../../store/index.hooks";
 import { User, asyncSignUp }                from "../../../../store/modules/user";
 import { emailRegex, phoneNoRegex, pwRegex } from ".";
+import { GoogleReCaptcha, GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 
 type SignUpProps = {
     stepId : number,
@@ -30,6 +32,7 @@ type SignUpProps = {
 const SignUpDetailForStepper = forwardRef(({
     stepId, keyRef
 } : SignUpProps) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const childRef = useRef();
     const dispatch      = useAppDispatch();
@@ -163,8 +166,17 @@ const SignUpDetailForStepper = forwardRef(({
     const handleDateChange = (value : any) => {        
         setUser({...user, birthday : format(new Date(value), 'yyyyMMdd').toString()});
     }
+    
     const SignupAction = (e : React.FormEvent) => {
         e.preventDefault();
+
+        // if (!executeRecaptcha) {
+        //     return;
+        // }
+
+        // const executeRecaptchaResult = await executeRecaptcha('signup');
+        // setUser({...user, reCaptchaToken : executeRecaptchaResult});
+
         if (!user.userId) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
@@ -182,6 +194,17 @@ const SignUpDetailForStepper = forwardRef(({
     }
 
     useEffect(()=>{
+        if (!executeRecaptcha) {
+            return;
+        }
+        const handleReCaptchaVerify = async () => {
+            const token = await executeRecaptcha('signup');
+            console.log('useEffect > handleReCaptchaVerify > token : ', token);
+            setUser({...user, reCaptchaToken : token})
+            console.log('useEffect > handleReCaptchaVerify > user : ', user);
+        };
+        handleReCaptchaVerify();
+
         const quillCss = document.createElement("link");
         quillCss.crossOrigin    = '*';
         quillCss.rel            = 'stylesheet';
@@ -192,7 +215,7 @@ const SignUpDetailForStepper = forwardRef(({
         return () => {
           document.head.removeChild(quillCss);
         }
-    }, []);
+    }, [executeRecaptcha]);
 
     const modules = useMemo(
         () => ({
@@ -210,7 +233,7 @@ const SignUpDetailForStepper = forwardRef(({
                     ['link', 'image'],
                 ],
             },
-        }), []);
+    }), []);
 
     const step00Area = () => {
         return (
@@ -383,15 +406,13 @@ const SignUpDetailForStepper = forwardRef(({
 
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
-      <div className="SignUp">
-        <form onSubmit={SignupAction}>
-        <Grid container>
-        {
-            stepArea(stepId)
-        }
-        </Grid>    
-        </form>
-      </div>
+        <div className="SignUp">
+            <form onSubmit={SignupAction}>
+                <Grid container>
+                { stepArea(stepId) }
+                </Grid>                        
+            </form>
+        </div>
       </Box>
     );
 })
