@@ -6,6 +6,7 @@ import StepLabel                          from '@mui/material/StepLabel';
 import Button                             from '@mui/material/Button';
 import Typography                         from '@mui/material/Typography';
 import SignUpDetailForStepper             from './SignUpDetailForStepper';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const steps = ['User Info', 'User Profile', 'Create Account'];
 
@@ -88,8 +89,11 @@ function SignupForStepper() {
 
   const processStep = () => {
     return <React.Fragment>    
-    <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, m : 5, pl:30, pr:30}}>  
-      <SignUpDetailForStepper stepId={activeStep} keyRef={signUpRef}/>
+    <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1, m : 5, pl:30, pr:30}}>
+      <GoogleReCaptchaProvider reCaptchaKey="6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4">
+        <SignUpDetailForStepper stepId={activeStep} keyRef={signUpRef}/>
+      </GoogleReCaptchaProvider>
+
     </Box>      
 
     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, ml : 5, mr : 5, pl:30, pr:30 }}>

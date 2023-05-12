@@ -28,4 +28,6 @@ public class ReqUserRegistDto {
     private String detailAddress;
     private Integer zipcode;
 
+    private String reCaptchaToken;
+
 }
