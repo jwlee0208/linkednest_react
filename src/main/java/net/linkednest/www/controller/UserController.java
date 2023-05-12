@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 //@CrossOrigin(origins = { "http://localhost:3000" })
 public class UserController {
+  public static final String SUCCESS = "SUCCESS";
+  public static final String FAIL = "FAIL";
   private final UserService userService;
 
   @PostMapping(
@@ -81,7 +83,7 @@ public class UserController {
     resUserRegistDto.setUserId(userId);
     resUserRegistDto.setNickname(nickname);
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
-    resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
+    resUserRegistDto.setReturnMsg(isSaved ? SUCCESS : FAIL);
     return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
   }
 
@@ -129,7 +131,7 @@ public class UserController {
     resUserRegistDto.setNickname(nickname);
     resUserRegistDto.setIntroduce(introduce);
     resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
-    resUserRegistDto.setReturnMsg(isSaved ? "SUCCESS" : "FAIL");
+    resUserRegistDto.setReturnMsg(isSaved ? SUCCESS : FAIL);
     return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
   }
 
@@ -166,7 +168,7 @@ public class UserController {
       resUserDto.setNickname(userOptional.get().getNickname());
     }
     resUserDto.setReturnCode(isExistUser ? 10000 : 50000);
-    resUserDto.setReturnMsg(isExistUser ? "SUCCESS" : "FAIL");
+    resUserDto.setReturnMsg(isExistUser ? SUCCESS : FAIL);
 
     return new ResponseEntity<>(resUserDto, (isExistUser ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR));
   }

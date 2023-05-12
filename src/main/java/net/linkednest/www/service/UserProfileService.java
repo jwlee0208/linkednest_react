@@ -27,6 +27,7 @@ public class UserProfileService {
         try {
             userProfileRepository.save(userProfile);
         } catch (Exception e) {
+
             log.error("[{}.{}] userProfileService.saveUserProfile ERROR OCCURRED reqDto : {}, errorMsg : {}", this.getClass().getName(), "saveUserProfile", reqUserRegistDto.toString(), e.getMessage());
             e.printStackTrace();
         }

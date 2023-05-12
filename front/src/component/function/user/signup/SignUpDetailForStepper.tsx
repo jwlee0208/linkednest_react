@@ -167,7 +167,7 @@ const SignUpDetailForStepper = forwardRef(({
         setUser({...user, birthday : format(new Date(value), 'yyyyMMdd').toString()});
     }
     
-    const SignupAction = (e : React.FormEvent) => {
+    const signupAction = (e : React.FormEvent) => {
         e.preventDefault();
 
         // if (!executeRecaptcha) {
@@ -191,6 +191,11 @@ const SignUpDetailForStepper = forwardRef(({
         user.password   = base64_encode(user.password);        
 
         dispatch(asyncSignUp(user));
+    }
+
+    const getCountry = () => {
+        console.log('navigator.language : ', navigator.language);
+        return navigator.language;
     }
 
     useEffect(()=>{
@@ -292,8 +297,8 @@ const SignUpDetailForStepper = forwardRef(({
                         <FormLabel id="demo-row-radio-buttons-group-label">Phone No</FormLabel>
                         <React.Fragment>
                             <PhoneInput onChange={inputPhoneNoVal}
-                                        value={user.phoneNo} 
-                                        country={navigator.language.split("-")[1].toLowerCase()}
+                                        value={user.phoneNo}
+                                        country={'us'}
                                         onlyCountries={['kr', 'us', 'ca', 'tw', 'gb', 'au', 'de', 'fr', 'it']}
                                         />
                         </React.Fragment>
@@ -407,7 +412,7 @@ const SignUpDetailForStepper = forwardRef(({
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
         <div className="SignUp">
-            <form onSubmit={SignupAction}>
+            <form onSubmit={signupAction}>
                 <Grid container>
                 { stepArea(stepId) }
                 </Grid>                        
