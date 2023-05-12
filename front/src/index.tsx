@@ -55,7 +55,6 @@ axiosInstance.interceptors.response.use(
     const {config, response : {status}, } = error;
     const originalReq = config;
 
-console.log('[axios response] status : ', status);
     if (status === 401) {
       const userinfo      = store.getState().userSlice;
       const refreshToken  = userinfo.refreshToken;
@@ -81,6 +80,8 @@ console.log('[axios response] status : ', status);
       }
     } else if (status === 403) {
       alert("Can't Accessable");
+    } else if (status === 500) {
+      alert(`[CODE : ${status}][${error.name}] ${error.message}`);
     }
     return Promise.reject(error);
   }

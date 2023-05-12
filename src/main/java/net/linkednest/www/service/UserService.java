@@ -2,9 +2,11 @@ package net.linkednest.www.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
+import net.linkednest.common.exception.CustomException;
 import net.linkednest.common.utils.ReCaptchaUtil;
 import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
 import net.linkednest.common.dto.authority.ResRoleDto;
@@ -35,6 +37,7 @@ import net.linkednest.common.security.JwtProvider;
 import net.linkednest.common.utils.CommonUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,7 +52,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserProfileService                    userProfileService;
     private final UserRepository                        userRepository;
     private final RoleRepository                        roleRepository;
@@ -60,15 +62,11 @@ public class UserService {
     private final PasswordEncoder                       passwordEncoder;
     private final JwtProvider                           jwtProvider;
 
+    @Transactional(rollbackOn = {DataIntegrityViolationException.class})
     public Boolean registUser(ReqUserRegistDto userRegistDto) {
         String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         String reCaptchaToken = StringUtils.defaultString(userRegistDto.getReCaptchaToken());
-        boolean isReCaptchaVerified = false;
-        try {
-            isReCaptchaVerified = ReCaptchaUtil.verifyV3(reCaptchaToken);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        boolean isReCaptchaVerified = ReCaptchaUtil.verifyV3(reCaptchaToken);
 
         if (isReCaptchaVerified) {
             log.info("[{}.{}] userRegistObj : {}", this.getClass().getName(), methodName, userRegistDto.toString());
@@ -139,16 +137,10 @@ public class UserService {
         User user = null;
         // google reCaptcha token 유효성 체크
         String reCaptchaToken = StringUtils.defaultString(reqUserLoginDto.getReCaptchaToken());
-        try {
-            boolean isVerified = ReCaptchaUtil.verifyV2(reCaptchaToken);
-            if (!isVerified) {
-                returnCode = 20003;
-            }
-        } catch (IOException ioe) {
-            returnCode = 50000;
-        }
 
-        if (returnCode == 10000) {
+        boolean isVerified = ReCaptchaUtil.verifyV2(reCaptchaToken);
+
+        if (isVerified) {
             String userId   = new String(Base64.getDecoder().decode(reqUserLoginDto.getUserId()));
             String password = new String(Base64.getDecoder().decode(reqUserLoginDto.getPassword()));
 
@@ -190,6 +182,8 @@ public class UserService {
             } else {
                 returnCode = 20002;
             }
+        } else {
+            returnCode = 20003;
         }
 
         resUserLoginDto.setReturnCode(returnCode);
