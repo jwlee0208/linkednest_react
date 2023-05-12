@@ -130,8 +130,15 @@ const SignUpDetailForStepper = forwardRef(({
         inputPwVal,
     }));
 
+    const inputCommonVal = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        const {name, value} = e.target;
+        setUser({...user, [name] : value});
+    }
+
     const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
+        console.log('e.target.name : ', e.target.name, 'e.target.value : ', e.target.value);
         setUser({...user, userId : e.target.value});
     }
 
@@ -245,22 +252,22 @@ const SignUpDetailForStepper = forwardRef(({
             <>     
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="outlined-basic" name="userId"  label="User ID" variant="filled" color="success" onChange={inputUsernameVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
+                        <TextField id="userId" name="userId"  label="User ID" variant="filled" color="success" onChange={inputCommonVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
                     </FormControl>    
                 </Grid>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="outlined-basic" name="password" label="Password" variant="filled" color="success" onChange={inputPwVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
+                        <TextField id="password" name="password" label="Password" variant="filled" color="success" onChange={inputCommonVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
                     </FormControl>    
                 </Grid>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="outlined-basic" name="email" label="Email" variant="filled" color="success" onChange={inputEmailVal} value={user.email} type="email" helperText="Please enter your Email" autoComplete="off"/> 
+                        <TextField id="email" name="email" label="Email" variant="filled" color="success" onChange={inputCommonVal} value={user.email} type="email" helperText="Please enter your Email" autoComplete="off"/> 
                     </FormControl>    
                 </Grid>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="outlined-basic" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputNicknameVal} value={user.nickname} type="text" helperText="Please enter your Nickname" autoComplete="off"/>
+                        <TextField id="nickname" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputCommonVal} value={user.nickname} type="text" helperText="Please enter your Nickname" autoComplete="off"/>
                     </FormControl>    
                 </Grid>
             </>
