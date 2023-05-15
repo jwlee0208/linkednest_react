@@ -84,7 +84,7 @@ public class JwtProvider {
             log.info("[{}.{}] isNotExpired : {}", this.getClass().getName(), "validateToken", isNotExpired);
             return isNotExpired;
         } else {
-            log.info("[{}.{}] bearer header is not existed : {}", this.getClass().getName(), "validateToken", (!token.substring(0, "Bearer ".length()).equalsIgnoreCase("Bearer ")));
+//            log.info("[{}.{}] bearer header is not existed : {}", this.getClass().getName(), "validateToken", (!token.substring(0, "Bearer ".length()).equalsIgnoreCase("Bearer ")));
             return false;
         }
     }

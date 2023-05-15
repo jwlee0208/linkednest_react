@@ -18,6 +18,7 @@ export interface Content_ {
     homepageUrl    : string,
     imagePath      : string,
     logoImagePath  : string,
+    backgroundImagePath : string,
 }
 
 export interface ContentSns_ {
@@ -55,6 +56,7 @@ export const initialState : Content_ = {
     homepageUrl    : '',
     imagePath      : '',
     logoImagePath  : '',
+    backgroundImagePath : '',
 };
 
 const contentSlice = createSlice ({
@@ -72,6 +74,7 @@ const contentSlice = createSlice ({
             state.contentSnsList = action.payload.contentSnsList;
             state.imagePath      = action.payload.imagePath;
             state.logoImagePath  = action.payload.logoImagePath;
+            state.backgroundImagePath  = action.payload.backgroundImagePath;
             state.homepageUrl    = action.payload.homepageUrl;
             state.contentDesc    = action.payload.contentDesc;
             const contentCreator = action.payload.contentCreator;
@@ -95,6 +98,7 @@ const contentSlice = createSlice ({
             state.contentSnsList = action.payload.contentSnsList;
             state.imagePath      = action.payload.imagePath;
             state.logoImagePath  = action.payload.logoImagePath;
+            state.backgroundImagePath  = action.payload.backgroundImagePath;
             state.homepageUrl    = action.payload.homepageUrl;
             state.contentDesc    = action.payload.contentDesc;
             const contentCreator = action.payload.contentCreator;

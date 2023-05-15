@@ -26,8 +26,10 @@ function LayoutType3({contentList} : layoutType3Props) {
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
 
+    const backgroundImagePath = contentInfo.backgroundImagePath;
+
     return (
-        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
             <Header isLogin={isLogin} 
@@ -44,13 +46,13 @@ function LayoutType3({contentList} : layoutType3Props) {
           <Grid component="nav">
             <Navbar/>
           </Grid>
-          <Grid container spacing={1} sx={{pl:20, pr:20}}>
-            <Grid component="article" item xs={12}>
+          <Grid container sx={{backgroundImage : `url(${backgroundImagePath})`}}>
+            <Grid component="article" item xs={12} sx={{pl:20, pr:20}}>
               <Content isLogin={isLogin}/>
             </Grid>
           </Grid>
         </Grid>
-        <Grid component="footer" sx={{pt:1}}>
+        <Grid component="footer">
           <Hidden smUp>
               <MyBottomNav/>
           </Hidden>

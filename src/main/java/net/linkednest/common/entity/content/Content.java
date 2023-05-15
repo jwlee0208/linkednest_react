@@ -65,6 +65,8 @@ public class Content {
     private String          imagePath;
     private String          logoImagePath;
 
+    private String          backgroundImagePath;
+
     @JsonBackReference
     @JoinColumn(name = "contentCategoryId")
     @ManyToOne(fetch = FetchType.LAZY)

@@ -3,6 +3,9 @@
 
 #topMenuArea {background:#be66ff;}
 #topMenuArea div button p {color: azure;}
-#navbarArea {background-color: #E5CCFF;}
+#contentBoardCategoryArea { margin-top: 280px; }
+#navbarArea {background-color: #E5CCFF; height: 40px; vertical-align:'bottom';}
+#topMenuArea > div { height: 40px; }
+#topMenuArea > div > button { height: 40px; }
 #footerArea {background:darkgray;}
 #footerArea p {color: azure;}

@@ -36,7 +36,7 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
     }  
     
     return (
-        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
             <PortalHeader isLogin={isLogin} 

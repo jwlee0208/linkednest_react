@@ -1,7 +1,10 @@
 /* body {background-color: darkslategray;} */
-#headerAppBar button {color: black;}
-#topMenuArea {background:black;}
-#topMenuArea div button p {color: azure;}
+#headerAppBar button { color: black; }
+#topMenuArea { background:darkblue; height: 50px; vertical-align:'bottom'; }
+#navbarArea div { height: 50px; }
+#contentBoardCategoryArea { margin-top:250px; }
+#topMenuArea div > button { height: 50px; }
+#topMenuArea div > button > p { color: azure; }
 #navbarArea {background-color: darkgrey;}
-#footerArea {background:black;}
-#footerArea p {color: azure;}
+#footerArea {background:gray;}
+#footerArea p {color: midnightblue;}
