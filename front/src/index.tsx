@@ -81,6 +81,18 @@ axiosInstance.interceptors.response.use(
     } else if (status === 403) {
       alert("Can't Accessable");
     } else if (status === 500) {
+      const userinfo = store.getState().userSlice;
+      console.log("request interceptor start >>>");
+  
+      if (userinfo.isLogin === true) {
+        let reqAccessToken = userinfo.accessToken;
+        if (reqAccessToken === '') {
+          userinfo.isLogin = false;
+          userinfo.userId = '';
+          userinfo.nickname = '';
+        }   
+      }
+  
       alert(`[CODE : ${status}][${error.name}] ${error.message}`);
     }
     return Promise.reject(error);

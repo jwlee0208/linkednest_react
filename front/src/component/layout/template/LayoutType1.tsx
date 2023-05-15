@@ -13,6 +13,7 @@ import React              from "react";
 import { ContentList_, getContentInfo } 
                           from "../../../store/modules/content";
 import MyBottomNav        from "../common/MyBottomNav";
+import SideFloatingButtons from "../common/sideArea/SideFloatingButtons";
 
 type layoutType1Props = {
   contentList : ContentList_,
@@ -30,10 +31,20 @@ function LayoutType1({contentList} : layoutType1Props) {
 
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
-
         <Grid sx={{flex:'1'}}>  
+          <Hidden smDown>
+            <Grid sx={{mr:5, ml : 5}}>
+              <SideFloatingButtons/>
+            </Grid>
+          </Hidden>
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo}  contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId} contentList={contentList}/>
+            <Header isLogin={isLogin} 
+                    accessToken={accessToken} 
+                    userId={userId} 
+                    user={userinfo}  
+                    contentCode={contentInfo.contentCode} 
+                    layoutType={layoutInfo.layoutId} 
+                    contentList={contentList}/>
           </Grid>
           <Grid sx={{display:'none'}}>
             <TopBanner/>
@@ -49,7 +60,7 @@ function LayoutType1({contentList} : layoutType1Props) {
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container sx={{pl:20, pr:20, backgroundImage : `url(${backgroundImagePath})`}}>
+            <Grid container sx={{pl:10, pr:10, backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="article" item xs={9}>
                 <Content isLogin={isLogin}/>
               </Grid>

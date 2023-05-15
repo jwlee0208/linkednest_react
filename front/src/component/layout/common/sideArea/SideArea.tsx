@@ -32,7 +32,7 @@ function SideArea({
     
     return (
         <Box component="menu" sx={{mr:3, overflow: 'hidden'}}>
-            <SideFloatingButtons/>
+            {/* <SideFloatingButtons/> */}
             <Paper elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
                 <Box sx={{ m: 1 }}>
                         Area1
