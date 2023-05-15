@@ -17,6 +17,8 @@ import bannerSlice, { BannerListInfo_, BannerList_ }
 import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } 
                                     from "../../store/modules/boardCategory";
 import LayoutType0                  from "./template/LayoutType0";
+import userSlice, { getUserInfo } from "../../store/modules/user";
+import store from "../../store";
 
 function Layout() {
 
@@ -126,7 +128,17 @@ function Layout() {
       console.log('contentCategoryList : ', contentCategoryList);
     }
 
+    const user = useAppSelect(getUserInfo);
+
     useEffect(() => {
+
+      if (user.isLogin === true && user.accessToken === '') {
+        store.dispatch(userSlice.actions.logout(user));
+      } 
+
+
+
+
       content.contentCode = contentCode;
       axiosInstance.get(`/api/content/${content.contentCode}`)
                    .then((res) => setupContent(res.data))

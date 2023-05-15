@@ -121,11 +121,14 @@ function Login() {
                         </FormControl>    
                     </Grid>
                     <Grid container item>
-                        <FormControl fullWidth sx={{ m: 1, width:'100%'}}>
+                        <FormControl fullWidth sx={{ m: 1 }}>
                             <ReCAPTCHA  ref={recaptchaRef} 
                                         size="normal" 
+                                        badge="inline"
                                         sitekey={siteKeyVal} 
-                                        onChange={setReCaptchaToken}/>
+                                        theme={contentInfo.layoutType === 2 ? 'dark' : 'light'}
+                                        onChange={setReCaptchaToken}
+                                        />
                         </FormControl>    
                     </Grid>
                     <Grid container item>

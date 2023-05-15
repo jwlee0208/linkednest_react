@@ -1,7 +1,7 @@
 import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
-import { Grid }           from "@mui/material";
+import { Box, Grid }           from "@mui/material";
 import Hidden             from "@mui/material/Hidden";
 import Navbar             from "../common/Navbar";
 import TopBanner          from "../common/topMenuArea/TopBanner";
@@ -13,6 +13,7 @@ import React              from "react";
 import { ContentList_, getContentInfo } 
                           from "../../../store/modules/content";
 import MyBottomNav        from "../common/MyBottomNav";
+import SideFloatingButtons from "../common/sideArea/SideFloatingButtons";
 
 type layoutType2Props = {
   contentList : ContentList_,
@@ -40,6 +41,11 @@ function LayoutType2({contentList} : layoutType2Props) {
                     layoutType={layoutInfo.layoutId} 
                     contentList={contentList}/>
           </Grid>
+          <Hidden smDown>
+            <Grid sx={{mr:3, ml: 3}}>
+              <SideFloatingButtons/>
+            </Grid>  
+          </Hidden>
           <Grid sx={{display:'none'}}>
             <TopBanner/>
           </Grid>
@@ -54,7 +60,7 @@ function LayoutType2({contentList} : layoutType2Props) {
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container spacing={1} sx={{pl:20, pr:20, backgroundImage : `url(${backgroundImagePath})`}}>
+            <Grid container spacing={1} sx={{pl:5, pr:5, backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="aside" item xs={3}>
                 <SideArea isLogin={isLogin} userId={userId} user={userinfo} />
               </Grid>

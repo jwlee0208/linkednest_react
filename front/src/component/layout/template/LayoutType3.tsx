@@ -12,6 +12,7 @@ import Navbar             from "../common/Navbar";
 import Content            from "../common/Content";
 import Footer             from "../common/Footer";
 import MyBottomNav        from "../common/MyBottomNav";
+import SideFloatingButtons from "../common/sideArea/SideFloatingButtons";
 
 type layoutType3Props = {
   contentList : ContentList_,
@@ -31,6 +32,11 @@ function LayoutType3({contentList} : layoutType3Props) {
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
+          <Hidden smDown>
+            <Grid sx={{mr:5, ml : 5}}>
+              <SideFloatingButtons/>
+            </Grid>
+          </Hidden>
           <Grid component="header">
             <Header isLogin={isLogin} 
                     accessToken={accessToken} 
@@ -47,9 +53,16 @@ function LayoutType3({contentList} : layoutType3Props) {
             <Navbar/>
           </Grid>
           <Grid container sx={{backgroundImage : `url(${backgroundImagePath})`}}>
-            <Grid component="article" item xs={12} sx={{pl:20, pr:20}}>
-              <Content isLogin={isLogin}/>
-            </Grid>
+            <Hidden smDown>
+              <Grid component="article" item xs={12} sx={{pl:20, pr:20}}>
+                <Content isLogin={isLogin}/>
+              </Grid>
+            </Hidden>
+            <Hidden smUp>
+              <Grid component="article" item xs={12} sx={{pl:1, pr:1}}>
+                <Content isLogin={isLogin}/>
+              </Grid>
+            </Hidden>
           </Grid>
         </Grid>
         <Grid component="footer">
