@@ -8,7 +8,7 @@ import { BottomScrollListener }             from 'react-bottom-scroll-listener';
 import { useLocation, useNavigate }         from "react-router";
 import { axiosInstance }                    from "../../../../..";
 import { BoardArticleList_, BoardArticle_ } from "../../../../../store/modules/boardCategory";
-import { htmlTagRegex } from "../../../user/signup";
+import { htmlTagRegex }                     from "../../../user/signup";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -105,7 +105,8 @@ function MansonryArticleList({
   }
 
   const imageList = (boardArticleList : BoardArticleList_) => {
-    if (boardArticleList.length > 0) {
+    let isExistBoardArticleList = boardArticleList.length > 0 && boardArticleList[0].id > 0;
+    if (isExistBoardArticleList === true) {
       return (
         // <ImageList variant="masonry" cols={4} gap={10} key={`${boardCategoryKeyword}_${boardKeyword}_images`}>
         <ImageList variant="masonry" cols={2} gap={100} key={`${boardCategoryKeyword}_${boardKeyword}_images`}>
@@ -120,7 +121,8 @@ function MansonryArticleList({
                 key={`${boardCategoryKeyword}_${boardKeyword}_${boardArticle.boardId}_img`}
               />
               <ImageListItemBar position="top" 
-                                title={`Title : ${boardArticle.title}`} sx={{fontWeight:'bold'}}
+                                title={`Title : ${boardArticle.title}`} 
+                                sx={{fontWeight:'bold'}}
               />
 
               <ImageListItemBar position="bottom" 
@@ -132,7 +134,7 @@ function MansonryArticleList({
         </ImageList>      
       )
     }
-    return (<></>)
+    return (<Box><Typography align="center">No Content</Typography></Box>)
   }
 
   const masonryList = (boardArticleList : BoardArticleList_, offset : number, limit : number) => {

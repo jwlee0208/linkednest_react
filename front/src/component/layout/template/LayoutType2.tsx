@@ -60,7 +60,7 @@ function LayoutType2({contentList} : layoutType2Props) {
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container spacing={1} sx={{pl:5, pr:5, backgroundImage : `url(${backgroundImagePath})`}}>
+            <Grid container spacing={1} sx={{pl:5, pr:15, backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="aside" item xs={3}>
                 <SideArea isLogin={isLogin} userId={userId} user={userinfo} />
               </Grid>

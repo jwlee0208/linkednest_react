@@ -60,7 +60,7 @@ function LayoutType1({contentList} : layoutType1Props) {
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container sx={{pl:5, pr:5, backgroundImage : `url(${backgroundImagePath})`}}>
+            <Grid container sx={{pl:10, pr:10, backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="article" item xs={9}>
                 <Content isLogin={isLogin}/>
               </Grid>
