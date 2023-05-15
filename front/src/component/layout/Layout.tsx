@@ -45,6 +45,7 @@ function Layout() {
       homepageUrl    : '',
       imagePath      : '',
       logoImagePath  : '',  
+      backgroundImagePath : '',
     })
 
     const [contentCategoryList, setContentCategoryList] = useState<ContentCategoryList_>([{
@@ -93,6 +94,7 @@ function Layout() {
       homepageUrl    : '',
       imagePath      : '',
       logoImagePath  : '',  
+      backgroundImagePath : '',
     }]);
 
     const setupContentList = (contentList : ContentList_) => {

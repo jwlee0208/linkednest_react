@@ -11,6 +11,7 @@ import net.linkednest.common.entity.content.ContentCreator;
 import net.linkednest.common.entity.content.ContentSns;
 import net.linkednest.common.repository.ContentRepository;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -59,8 +60,9 @@ public class ContentService {
                 resObj.setContentCategoryCode(content.getContentCategory().getCategoryCode());
             }
             resObj.setHomepageUrl(content.getHomepageUrl());
-            resObj.setImagePath(content.getImagePath());
-            resObj.setLogoImagePath(content.getLogoImagePath());
+            resObj.setImagePath(StringUtils.defaultString(content.getImagePath()));
+            resObj.setLogoImagePath(StringUtils.defaultString(content.getLogoImagePath()));
+            resObj.setBackgroundImagePath(StringUtils.defaultString(content.getBackgroundImagePath()));
             resObj.setContentSnsList(this.getContentSnsList(content.getContentSnsList()));
 
             ContentCreator contentCreator = content.getContentCreator();

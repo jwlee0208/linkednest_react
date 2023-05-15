@@ -26,12 +26,19 @@ function LayoutType2({contentList} : layoutType2Props) {
     const isLogin     = userinfo.isLogin;
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
+    const backgroundImagePath = contentInfo.backgroundImagePath;
 
     return (
-        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <Header isLogin={isLogin} accessToken={accessToken} userId={userId} user={userinfo} contentCode={contentInfo.contentCode} layoutType={layoutInfo.layoutId} contentList={contentList}/>
+            <Header isLogin={isLogin} 
+                    accessToken={accessToken} 
+                    userId={userId} 
+                    user={userinfo} 
+                    contentCode={contentInfo.contentCode} 
+                    layoutType={layoutInfo.layoutId} 
+                    contentList={contentList}/>
           </Grid>
           <Grid sx={{display:'none'}}>
             <TopBanner/>
@@ -40,14 +47,14 @@ function LayoutType2({contentList} : layoutType2Props) {
             <Navbar/>
           </Grid>
           <Hidden smUp>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} sx={{backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="article" item xs={12}>
                 <Content isLogin={isLogin}/>
               </Grid>
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container spacing={1} sx={{pl:20, pr:20}}>
+            <Grid container spacing={1} sx={{pl:20, pr:20, backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="aside" item xs={3}>
                 <SideArea isLogin={isLogin} userId={userId} user={userinfo} />
               </Grid>
@@ -57,7 +64,7 @@ function LayoutType2({contentList} : layoutType2Props) {
             </Grid>
           </Hidden>
         </Grid>
-        <Grid component="footer" sx={{pt:1}}>
+        <Grid component="footer">
           <Hidden smUp>
             <MyBottomNav/>
           </Hidden>

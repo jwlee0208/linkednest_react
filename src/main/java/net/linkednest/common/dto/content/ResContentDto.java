@@ -19,6 +19,7 @@ public class ResContentDto {
     private ResContentCreator       contentCreator;
     private String                  imagePath;
     private String                  logoImagePath;
+    private String                  backgroundImagePath;
     private String                  homepageUrl;
     private String                  contentCategoryCode;
 }

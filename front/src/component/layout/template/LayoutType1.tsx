@@ -26,8 +26,10 @@ function LayoutType1({contentList} : layoutType1Props) {
     const accessToken = userinfo.accessToken; 
     const userId      = userinfo.userId; 
 
+    const backgroundImagePath = contentInfo.backgroundImagePath;
+
     return (
-        <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
+      <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
 
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
@@ -40,14 +42,14 @@ function LayoutType1({contentList} : layoutType1Props) {
             <Navbar/>
           </Grid>
           <Hidden smUp>
-            <Grid container spacing={1}>
+            <Grid container sx={{backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="article" item xs={12}>
                 <Content isLogin={isLogin}/>
               </Grid>
             </Grid>  
           </Hidden>
           <Hidden smDown>
-            <Grid container spacing={1} sx={{pl:20, pr:20}}>
+            <Grid container sx={{pl:20, pr:20, backgroundImage : `url(${backgroundImagePath})`}}>
               <Grid component="article" item xs={9}>
                 <Content isLogin={isLogin}/>
               </Grid>
@@ -57,7 +59,7 @@ function LayoutType1({contentList} : layoutType1Props) {
             </Grid>
           </Hidden>
         </Grid>
-        <Grid component="footer" sx={{pt:1}}>
+        <Grid component="footer">
           <Hidden smUp>
             <MyBottomNav/>
           </Hidden>
