@@ -40,7 +40,7 @@ function SideArea({
             </Paper>    
             <Paper elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
                 {isLogin === false ? 
-                    <Login/> 
+                    <Login refer={`/${contentInfo.contentCode}`}/> 
                     : (
                         <Box sx={{ m: 2 }}>
                             <Box>{userId}님<br/>

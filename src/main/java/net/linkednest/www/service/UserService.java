@@ -91,6 +91,7 @@ public class UserService {
                     try {
                         this.userProfileService.saveUserProfile(userRegistDto, createdUser);
                     } catch (Exception e) {
+                        userRepository.delete(createdUser);
                         log.error("[{}.{}] userProfileService.saveUserProfile ERROR OCCURRED reqDto : {}, errorMsg : {}", this.getClass().getName(), methodName, userRegistDto.toString(), e.getMessage());
                         return false;
                     }

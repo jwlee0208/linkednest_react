@@ -12,7 +12,7 @@ import { LocalizationProvider }             from '@mui/x-date-pickers/Localizati
 import { encode as base64_encode }          from 'base-64';
 import { format }                           from 'date-fns';
 import Parser                               from 'html-react-parser';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } 
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } 
                                             from "react";
 import PhoneInput                           from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
@@ -21,19 +21,21 @@ import 'react-quill/dist/react-quill';
 import { useAppDispatch }                   from "../../../../store/index.hooks";
 import { User, asyncSignUp }                from "../../../../store/modules/user";
 import { emailRegex, phoneNoRegex, pwRegex } from ".";
-import { GoogleReCaptcha, GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useNavigate } from "react-router";
 
 type SignUpProps = {
-    stepId : number,
-    keyRef : any,
+    stepId  : number,
+    keyRef  : any,
+    refer   : string,
 }
 
 const SignUpDetailForStepper = forwardRef(({
-    stepId, keyRef
+    stepId, keyRef, refer,
 } : SignUpProps) => {
     const { executeRecaptcha } = useGoogleReCaptcha();
 
+    const navigate = useNavigate();
     const childRef = useRef();
     const dispatch      = useAppDispatch();
     const [user, setUser] = useState<User>({
@@ -126,35 +128,13 @@ const SignUpDetailForStepper = forwardRef(({
         validStep0_,
         validStep1_,
         validStep2_,
-        inputUsernameVal,
-        inputPwVal,
+        signupAction,
     }));
 
     const inputCommonVal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const {name, value} = e.target;
         setUser({...user, [name] : value});
-    }
-
-    const inputUsernameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        console.log('e.target.name : ', e.target.name, 'e.target.value : ', e.target.value);
-        setUser({...user, userId : e.target.value});
-    }
-
-    const inputPwVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setUser({...user, password : e.target.value});
-    }
-
-    const inputNicknameVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setUser({...user, nickname : e.target.value});
-    }
-
-    const inputEmailVal = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setUser({...user, email : e.target.value});
     }
 
     function inputIntroduceVal (value : any) {
@@ -174,16 +154,7 @@ const SignUpDetailForStepper = forwardRef(({
         setUser({...user, birthday : format(new Date(value), 'yyyyMMdd').toString()});
     }
     
-    const signupAction = (e : React.FormEvent) => {
-        e.preventDefault();
-
-        // if (!executeRecaptcha) {
-        //     return;
-        // }
-
-        // const executeRecaptchaResult = await executeRecaptcha('signup');
-        // setUser({...user, reCaptchaToken : executeRecaptchaResult});
-
+    const signupAction = () => {
         if (!user.userId) {
             return alert('ID를 입력하세요.');
         } else if (!user.password) {
@@ -197,7 +168,9 @@ const SignUpDetailForStepper = forwardRef(({
         user.userId     = base64_encode(user.userId);
         user.password   = base64_encode(user.password);        
 
-        dispatch(asyncSignUp(user));
+        const res = dispatch(asyncSignUp(user));
+
+        return res;
     }
 
     const getCountry = () => {
@@ -210,10 +183,15 @@ const SignUpDetailForStepper = forwardRef(({
             return;
         }
         const handleReCaptchaVerify = async () => {
-            const token = await executeRecaptcha('signup');
-            console.log('useEffect > handleReCaptchaVerify > token : ', token);
-            setUser({...user, reCaptchaToken : token})
-            console.log('useEffect > handleReCaptchaVerify > user : ', user);
+            await executeRecaptcha('signup').then((token) => {
+                console.log('useEffect > handleReCaptchaVerify > token : ', token);
+                setUser({...user, reCaptchaToken : token})
+                console.log('useEffect > handleReCaptchaVerify > user : ', user);
+            }).catch((err) => {
+                console.log('useEffect > handleReCaptchaVerify > error : ', JSON.stringify(err));
+                window.location.reload();    
+            });
+            
         };
         handleReCaptchaVerify();
 
@@ -285,6 +263,7 @@ const SignUpDetailForStepper = forwardRef(({
                             aria-labelledby="demo-row-radio-buttons-group-label"
                             name="row-radio-buttons-group"
                             onChange={handleSexChange}
+                            defaultValue='male'
                             value={user.sex}
                         >
                             <FormControlLabel value="female"    control={<Radio />} label="Female"  checked={user.sex === 'female' || user.sex === ''}/>
@@ -398,11 +377,12 @@ const SignUpDetailForStepper = forwardRef(({
                     </FormControl>
                 </Grid>
             </Grid>
-            <Grid container item>
+{/*             <Grid container item>
                 <FormControl fullWidth sx={{ m: 1, align:'left',}}>
                     <Button type="submit" variant="outlined" size="large">Sign Up</Button>
                 </FormControl>
             </Grid>
+ */}        
         </Box>
         )
     }
@@ -419,7 +399,8 @@ const SignUpDetailForStepper = forwardRef(({
     return (
       <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 1 }}>  
         <div className="SignUp">
-            <form onSubmit={signupAction}>
+            {/* <form onSubmit={signupAction}> */}
+            <form>
                 <Grid container>
                 { stepArea(stepId) }
                 </Grid>                        

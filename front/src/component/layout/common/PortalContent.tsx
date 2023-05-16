@@ -7,6 +7,8 @@ import Login                        from "../../function/user/Login";
 import SignupForStepper             from "../../function/user/signup/SignupForStepper";
 import PortalBanner                 from "../../function/main/portal/PortalBanner";
 import CategoryInfoContentList      from "../../function/main/portal/CategoryInfoContentList";
+import { getReferrer } from ".";
+import PortalLogin from "../../function/user/signin/PortalLogin";
 
 type PortalContentProps = {
     isLogin         : boolean;
@@ -15,17 +17,28 @@ type PortalContentProps = {
 };
 
 function PortalContent ({
-    isLogin, contentList, contentCategory
+      isLogin
+    , contentList
+    , contentCategory
 } : PortalContentProps ) {
+
+    const getMyPage = () => {
+      if (isLogin === true) {
+        return <Mypage />
+      }
+      return <Navigate replace to="/:contentCode/login"/>
+    }
 
     return (
       <Box>
         <Routes>
           <Route path='/'                    element={<PortalBanner contentList={contentList}/>} />
+          <Route path='/login'               element={<PortalLogin refer={getReferrer()}/>} />
+          <Route path='/signup'              element={<SignupForStepper refer={getReferrer()}/>} />
           <Route path='/:contentCode'        element={<PortalBanner contentList={contentList}/>} />
-          <Route path='/:contentCode/mypage' element={isLogin === true ? <Mypage /> : <Navigate replace to="/:contentCode/login"/>} />
-          <Route path='/:contentCode/login'  element={<Login />} />
-          <Route path='/:contentCode/signup' element={<SignupForStepper />} />
+          <Route path='/:contentCode/mypage' element={getMyPage()} />
+          <Route path='/:contentCode/login'  element={<PortalLogin refer={getReferrer()}/>} />
+          <Route path='/:contentCode/signup' element={<SignupForStepper refer={getReferrer()}/>} />
           <Route path='/:contentCode/category/detail' element={<CategoryInfoContentList contentCategory={contentCategory}/>} />
         </Routes>
       </Box>

@@ -50,7 +50,9 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
           </Grid>
           <Grid container spacing={1} sx={{pt:10}}>
             <Grid component="article" item xs={12}>
-                <PortalContent isLogin={isLogin} contentList={contentList} contentCategory={contentCategoryInfo as ContentCategory_}/>
+                <PortalContent isLogin={isLogin} 
+                               contentList={contentList} 
+                               contentCategory={contentCategoryInfo as ContentCategory_}/>
             </Grid>
           </Grid>    
         </Grid>
