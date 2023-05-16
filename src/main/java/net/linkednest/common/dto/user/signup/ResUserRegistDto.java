@@ -15,7 +15,6 @@ public class ResUserRegistDto extends CommonResDto {
     private String userId;
     @Schema(description = "사용자 닉네임", defaultValue = "nick01", name = "nickname", required = true)
     private String nickname;
-
     @Schema(description = "사용자 소개", required = false)
     private String introduce;
 }

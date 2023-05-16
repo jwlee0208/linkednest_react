@@ -10,6 +10,7 @@ import { Box, Button }      from "@mui/material";
 import CategoryMenuRow      from "./CategoryMenuRow";
 import { getContentInfo }   from "../../../../store/modules/content";
 import Login                from "../../../function/user/Login";
+import { getReferrer } from "..";
 
 type SideAreaProps = {
     user            : User,
@@ -46,7 +47,7 @@ function AdminSideArea({
                 <Box border={1} borderColor="gray" sx={{ mt: 1, mb: 1 }} key={1}>
                     {
                     isLogin === false ?
-                        <Login key={0} />
+                        <Login key={0} refer={getReferrer()}/>
                         : (
                             <Box sx={{ m: 2 }} key={3}>
                                 <Box>{userId}님<br />

@@ -75,6 +75,47 @@ function Header({
         setAnchorElUser(null);
     };
 
+    const headerBtnArea = () => {
+      if (isLogin === true) {
+        return (
+          <Box sx={{ flexGrow: 0 }}>                
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" src="images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
+          <Menu sx={{ mt: '45px' }} 
+                id="menu-appbar" 
+                anchorEl={anchorElUser} 
+                anchorOrigin={{vertical: 'top', horizontal: 'right',}} 
+                keepMounted 
+                transformOrigin={{vertical: 'top', horizontal: 'right',}} 
+                open={Boolean(anchorElUser)} 
+                onClose={handleCloseUserMenu_}>
+            {settings.map((setting) => (
+              <MenuItem key={setting.menu} 
+                        onClick={(e)=>{handleCloseUserMenu(setting.path, e)}}>
+                <Typography textAlign="center">{setting.menu}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>              
+        )
+      }
+      return (
+        <Box sx={{ flexGrow: 0 }}>        
+          <ButtonGroup>
+            <Button onClick={(e)=>{handleCloseNavMenu(`/portal/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
+            {
+              layoutType === '3' ? (
+                <Button onClick={(e)=>{handleCloseNavMenu(`/portal/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
+              ) : (<></>)
+            }
+          </ButtonGroup>        
+        </Box>      
+      )
+    }
+
     useEffect(() => {
      }, [])
 
@@ -120,42 +161,7 @@ function Header({
                 </Button>
               ))}
             </Box>
-            {(isLogin === true) ? (
-            <Box sx={{ flexGrow: 0 }}>                
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu sx={{ mt: '45px' }} 
-                    id="menu-appbar" 
-                    anchorEl={anchorElUser} 
-                    anchorOrigin={{vertical: 'top', horizontal: 'right',}} 
-                    keepMounted 
-                    transformOrigin={{vertical: 'top', horizontal: 'right',}} 
-                    open={Boolean(anchorElUser)} 
-                    onClose={handleCloseUserMenu_}>
-                {settings.map((setting) => (
-                  <MenuItem key={setting.menu} 
-                            onClick={(e)=>{handleCloseUserMenu(setting.path, e)}}>
-                    <Typography textAlign="center">{setting.menu}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>              
-    ) : (
-        <Box sx={{ flexGrow: 0 }}>        
-          <ButtonGroup>
-            <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
-            {
-              layoutType === '3' ? (
-                <Button onClick={(e)=>{handleCloseNavMenu(`/${contentCode}/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
-              ) : (<></>)
-            }
-          </ButtonGroup>        
-        </Box>      
-    )
-  }
+            { headerBtnArea() }
           </Toolbar>
         </Container>
       </AppBar>

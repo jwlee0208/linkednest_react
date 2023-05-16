@@ -14,6 +14,7 @@ import java.util.Optional;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.user.ResTokenDto;
 import net.linkednest.common.dto.user.get.ResUserDto;
 import net.linkednest.common.dto.user.signin.ReqUserLoginDto;
@@ -24,6 +25,7 @@ import net.linkednest.common.entity.user.User;
 import net.linkednest.common.security.CustomUserDetails;
 import net.linkednest.www.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -74,17 +76,26 @@ public class UserController {
     String password = reqUserRegistDto.getPassword();
     String nickname = reqUserRegistDto.getNickname();
 
-    log.info("[registUser] userId : {}, password : {}, nickname : {}", userId, password, nickname);
+    log.info("[{}.{}] userId : {}, password : {}, nickname : {}", this.getClass().getName(), "registUser", userId, password, nickname);
 
     Boolean isSaved = userService.registUser(reqUserRegistDto);
 
+    log.info("[{}.{}] isSaved : {}", this.getClass().getName(), "registUser", isSaved);
+
+    int returnCode = 10000;
+    int httpStatusCode = HttpStatus.CREATED.value();
+
+    if (!isSaved) {
+      returnCode = 50000;
+      httpStatusCode = HttpStatus.OK.value();
+    }
     ResUserRegistDto resUserRegistDto = new ResUserRegistDto();
 
     resUserRegistDto.setUserId(userId);
     resUserRegistDto.setNickname(nickname);
-    resUserRegistDto.setReturnCode(isSaved ? 10000 : 50000);
-    resUserRegistDto.setReturnMsg(isSaved ? SUCCESS : FAIL);
-    return new ResponseEntity<>(resUserRegistDto, isSaved ? HttpStatus.CREATED : HttpStatus.OK);
+    resUserRegistDto.setReturnCode(returnCode);
+    resUserRegistDto.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
+    return new ResponseEntity<ResUserRegistDto>(resUserRegistDto, HttpStatusCode.valueOf(httpStatusCode));
   }
 
   @PutMapping(value = "/user")

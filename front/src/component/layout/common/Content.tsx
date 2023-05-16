@@ -7,6 +7,7 @@ import Home                        from "./Home";
 import Mypage                      from "../../function/user/Mypage";
 import Login                       from "../../function/user/Login";
 import SignupForStepper            from "../../function/user/signup/SignupForStepper";
+import { getReferrer } from ".";
 
 type ContentProps = {
     isLogin : boolean;
@@ -20,13 +21,13 @@ function Content ({
       <Box sx={{mt:3, mb:3, backgroundColor:'#efefef', borderRadius:4}}>
         <Routes>
           <Route path='/'                     element={<Home bannerHeight="480px"/>} />
-          <Route path='/signup'               element={<SignupForStepper />} />
-          <Route path='/login'                element={<Login />} />
+          {/* <Route path='/signup'               element={<SignupForStepper />} /> */}
+          {/* <Route path='/login'                element={<Login />} /> */}
           <Route path='/mypage'               element={isLogin === true ? <Mypage /> : <Navigate replace to="/:contentCode/login"/>} />
           <Route path='/:contentCode'         element={<Home bannerHeight="480px"/>} />
           <Route path='/:contentCode/mypage'  element={isLogin === true ? <Mypage /> : <Navigate replace to="/:contentCode/login"/>} />
-          <Route path='/:contentCode/login'   element={<Login />} />
-          <Route path='/:contentCode/signup'  element={<SignupForStepper />} />
+          <Route path='/:contentCode/login'   element={<Login refer={getReferrer()}/>} />
+          <Route path='/:contentCode/signup'  element={<SignupForStepper refer={getReferrer()}/>} />
           <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword"                      element={<ArticleList/>}/>
           <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/write"                element={<ArticleEdit/>}/>
           <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/edit/:boardArticleId" element={<ArticleEdit/>}/>        

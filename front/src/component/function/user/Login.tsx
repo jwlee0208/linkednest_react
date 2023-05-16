@@ -10,7 +10,10 @@ import { getContentInfo }                           from "../../../store/modules
 import { User, asyncLogin }                         from "../../../store/modules/user";
 import * as config                                  from '../../../config';
 
-function Login() {
+type LoginProps = {
+    refer : string
+}
+function Login({refer} : LoginProps) {
 
     const dispatch      = useAppDispatch();
     const navigate      = useNavigate();
@@ -75,10 +78,11 @@ function Login() {
         user.userId     = base64_encode(user.userId);
         user.password   = base64_encode(user.password);    
 
-        dispatch(asyncLogin(user));      
-        
+        const res = dispatch(asyncLogin(user));      
+        console.log('login res : ', res, ' , json.parse : ', JSON.stringify(res));
+        console.log('login refer : ', refer);
         setMsg("Login Success");
-        navigate(`/${contentInfo.contentCode}`);
+        navigate(`${refer}`);
     }
 
     const setReCaptchaToken = async (reCaptchaToken : any) => {
