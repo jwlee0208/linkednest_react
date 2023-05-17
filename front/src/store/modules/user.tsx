@@ -162,8 +162,9 @@ const userSlice = createSlice ({
     },
     extraReducers : (builder) => {
         builder.addCase(asyncSignUp.fulfilled, (state, action) => {
-            state.isLogin = (action.payload.returnCode === 10000) ? true : false;
+            // state.isLogin = (action.payload.returnCode === 10000) ? true : false;
             if (action.payload.returnCode === 10000) {
+                state.isLogin   = false;
                 state.userNo    = action.payload.userNo;
                 state.userId    = action.payload.userId;
                 state.email     = action.payload.email;

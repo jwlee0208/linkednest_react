@@ -230,22 +230,58 @@ const SignUpDetailForStepper = forwardRef(({
             <>     
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="userId" name="userId"  label="User ID" variant="filled" color="success" onChange={inputCommonVal} value={user.userId} type="text" helperText="Please enter your ID" autoComplete="off"/> 
+                        <TextField id="userId" 
+                                   name="userId"
+                                   label="User ID"
+                                   variant="filled"
+                                   color="success" 
+                                   onChange={inputCommonVal} 
+                                   value={user.userId}      
+                                   type="text" 
+                                   helperText="Please enter your ID" 
+                                   autoComplete="off"/> 
                     </FormControl>    
                 </Grid>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="password" name="password" label="Password" variant="filled" color="success" onChange={inputCommonVal} value={user.password} type="password" helperText="Please enter your password" autoComplete="off"/>
+                        <TextField id="password" 
+                                   name="password"
+                                   label="Password"
+                                   variant="filled"
+                                   color="success"
+                                   onChange={inputCommonVal}
+                                   value={user.password}
+                                   type="password"
+                                   helperText="Please enter your password"
+                                   autoComplete="off"/>
                     </FormControl>    
                 </Grid>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="email" name="email" label="Email" variant="filled" color="success" onChange={inputCommonVal} value={user.email} type="email" helperText="Please enter your Email" autoComplete="off"/> 
+                        <TextField id="email" 
+                                   name="email"
+                                   label="Email"       
+                                   variant="filled" 
+                                   color="success" 
+                                   onChange={inputCommonVal} 
+                                   value={user.email} 
+                                   type="email" 
+                                   helperText="Please enter your Email" 
+                                   autoComplete="off"/> 
                     </FormControl>    
                 </Grid>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1 }}>
-                        <TextField id="nickname" name="nickname" label="Nickname" variant="filled" color="success" onChange={inputCommonVal} value={user.nickname} type="text" helperText="Please enter your Nickname" autoComplete="off"/>
+                        <TextField id="nickname" 
+                                   name="nickname"    
+                                   label="Nickname"    
+                                   variant="filled" 
+                                   color="success" 
+                                   onChange={inputCommonVal} 
+                                   value={user.nickname} 
+                                   type="text" 
+                                   helperText="Please enter your Nickname" 
+                                   autoComplete="off"/>
                     </FormControl>    
                 </Grid>
             </>
@@ -269,7 +305,6 @@ const SignUpDetailForStepper = forwardRef(({
                             <FormControlLabel value="female"    control={<Radio />} label="Female"  checked={user.sex === 'female' || user.sex === ''}/>
                             <FormControlLabel value="male"      control={<Radio />} label="Male"    checked={user.sex === 'male'}/>
                         </RadioGroup>
-
                     </FormControl>        
                 </Grid>
                 <Grid container item>
@@ -304,72 +339,72 @@ const SignUpDetailForStepper = forwardRef(({
 
     const step02Area = () => {
         return (
-            <Box sx={{width : '100%', pl: 10, pr : 10}}>
+        <Box sx={{width : '100%', pl: 5, pr : 5}}>
             <Grid container alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">UserId</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Typography>{user.userId}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>
             <Grid container alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">E-Mail</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Typography>{user.email}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>                
             <Grid container alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">Nickname</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Typography>{user.nickname}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>                
             <Grid container alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">phoneNo</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Typography>{user.phoneNo}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>
             <Grid container  alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">Sex</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Typography>{user.sex}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>                                        
             <Grid container  alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">Birth Day</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Typography>{user.birthday}</Typography>
                     </FormControl>
                 </Grid>
             </Grid>                                        
             <Grid container  alignItems="center">
-                <Grid item xs={2}>
+                <Grid item xs={5}>
                     <FormLabel id="demo-row-radio-buttons-group-label">Introduce</FormLabel>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={7}>
                     <FormControl fullWidth sx={{ m: 1 }}>
                         <Box>
                             {Parser(decodeURI(user.introduce).replaceAll('\\"', '"'))}
@@ -377,12 +412,6 @@ const SignUpDetailForStepper = forwardRef(({
                     </FormControl>
                 </Grid>
             </Grid>
-{/*             <Grid container item>
-                <FormControl fullWidth sx={{ m: 1, align:'left',}}>
-                    <Button type="submit" variant="outlined" size="large">Sign Up</Button>
-                </FormControl>
-            </Grid>
- */}        
         </Box>
         )
     }

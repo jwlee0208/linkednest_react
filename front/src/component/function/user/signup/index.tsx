@@ -19,16 +19,29 @@ export const MobileBox = styled(Box)({
     display       : 'flex',
     flexDirection : 'row', 
 });
+
+export const MobileStepperBox = styled(Box)({
+    paddingTop    : 10,
+    paddingLeft   : 5,
+    paddingRight  : 5,
+    paddingBottom : 5,
+});
   
 export const DesktopBox = styled(Box)({
-    paddingTop    : 100,
-    paddingLeft   : 340,
-    paddingRight  : 340,
+    paddingTop    : 50,
+    paddingLeft   : 500,
+    paddingRight  : 500,
     display       : 'flex',
     flexDirection : 'row', 
 });
-  
-export const moveToHome = () => {
-    window.location.href = "/";
+
+export const DesktopStepperBox = styled(Box)({
+    paddingTop    : 20,
+    paddingLeft   : 500,
+    paddingRight  : 500,
+});
+
+export const moveToLogin = () => {
+    window.location.href = "/portal/login";
 }
 

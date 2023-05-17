@@ -8,7 +8,7 @@ import Typography                         from '@mui/material/Typography';
 import SignUpDetailForStepper             from './SignUpDetailForStepper';
 import { GoogleReCaptchaProvider }        from 'react-google-recaptcha-v3';
 import { Divider, Hidden }                from '@mui/material';
-import { DesktopBox, MobileBox, SignupForStepperProps, moveToHome, steps } from '.';
+import { DesktopBox, DesktopStepperBox, MobileBox, MobileStepperBox, SignupForStepperProps, moveToLogin, steps } from '.';
 
 
 function SignupForStepper({refer} : SignupForStepperProps) {
@@ -68,24 +68,39 @@ function SignupForStepper({refer} : SignupForStepperProps) {
     });
   };
 
-
   const handleReset = () => {
     setActiveStep(0);
   };
 
+  const mobileSignUpBtnArea = () => {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'100%'}}>
+        <Box sx={{ flex: '1 1 auto' }} />
+        <Button onClick={moveToLogin} variant='outlined' sx={{mr:4, ml:4}} size='medium' fullWidth={true}>Login</Button>
+      </Box>        
+
+    )
+  }
+
+  const desktopSignUpBtnArea = () => {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'100%', pr:80, pl:80}}>
+        <Box sx={{ flex: '1 1 auto' }} />
+        <Button onClick={moveToLogin} variant='outlined' sx={{mr:10, ml:10}} size='medium' fullWidth={true}>Login</Button>
+      </Box>        
+    )
+  }
+
   const completeStep = () => {
     const signupResult = signUpRef.current?.signupAction();
     return (
-      <>
-        <Typography sx={{ mt: 2, mb: 1 }}>
+      <Box sx={{width:'100%', textAlign:'center'}}>
+        <Typography sx={{ mt: 15, mb: 15}} variant='body1'>
           All steps completed - you&apos;re finished
-          {JSON.stringify(signupResult)}
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-          <Box sx={{ flex: '1 1 auto' }} />
-          <Button onClick={moveToHome}>Home</Button>
-        </Box>        
-      </>
+        <Hidden smDown>{desktopSignUpBtnArea()}</Hidden>
+        <Hidden smUp>{mobileSignUpBtnArea()}</Hidden>
+      </Box>
     )
   }
 
@@ -143,32 +158,55 @@ function SignupForStepper({refer} : SignupForStepperProps) {
     )
   }
 
+  const commonStepperArea = () => {
+    return (
+      <Box sx={{width:'100%'}}>
+        <Typography variant='h4' sx={{fontWeight:'bold', pr:3, pl:3}}>Sign Up</Typography>
+        <Divider sx={{pt:3, mb:5, mr:3, ml:3}}/>
+        <Stepper activeStep={activeStep} alternativeLabel sx={{ml:2, mr:2, pt:3, pb:2, borderRadius:2, backgroundColor:'#efefef'}}>
+          {steps.map((label, index) => {
+            const stepProps: { completed?: boolean } = {};
+            const labelProps: {
+              optional?: React.ReactNode;
+            } = {};
+            if (isStepOptional(index)) {
+              labelProps.optional = (
+                <Typography variant="caption">Optional</Typography>
+              );
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>      
+      </Box>
+    )
+  }
+
+  const stepperArea = (type : string) => {
+    if (type === 'mobile') {
+      return (<MobileStepperBox>{commonStepperArea()}</MobileStepperBox>)
+    }
+    return (<DesktopStepperBox>{commonStepperArea()}</DesktopStepperBox>)
+  }
+
+  const detailStepArea = () => {
+    if (activeStep === steps.length) {
+      return completeStep();
+    }
+    return processStep();
+  }
+
   return (
     <Box sx={{ width: '100%'}}>
-      <Typography variant='h4' sx={{fontWeight:'bold'}}>Sign Up</Typography>
-      <Divider sx={{pt:3, mb:5}}/>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => {
-          const stepProps: { completed?: boolean } = {};
-          const labelProps: {
-            optional?: React.ReactNode;
-          } = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? completeStep() : processStep()}
+      <Hidden smDown>{stepperArea('desktop')}</Hidden>
+      <Hidden smUp>{stepperArea('mobile')}</Hidden>
+      {detailStepArea()}
     </Box>
   );
 }
