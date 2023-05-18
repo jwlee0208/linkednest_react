@@ -21,10 +21,10 @@ const Item = styled(Paper)(({ theme }) => ({
 const noImage = "http://localhost:9091/images/noImage.jpg";
 
 type MansonryArticleListProps = {
-  contentCode : string,
-  boardCategoryKeyword : string,
-  boardKeyword : string,
-  alertOnBottom : boolean,
+  contentCode           : string,
+  boardCategoryKeyword  : string,
+  boardKeyword          : string,
+  alertOnBottom         : boolean,
 }
 
 function MansonryArticleList({
@@ -34,10 +34,10 @@ function MansonryArticleList({
   , alertOnBottom
 } : MansonryArticleListProps) {
 
-  const [limit                , setLimit]                 = useState(10);
-  const [page                 , setPage]                  = useState(1);
-  const [offset               , setOffset]                = useState<number>(0);    
-  const [allowScroll          , setAllowScroll]          = useState<boolean>(true);
+  const [limit                , setLimit]       = useState(10);
+  const [page                 , setPage]        = useState(1);
+  const [offset               , setOffset]      = useState<number>(0);    
+  const [allowScroll          , setAllowScroll] = useState<boolean>(true);
 
   const handleContainerOnBottom = () => {
     // console.log('I am at bottom in optional container! ' + Math.round(performance.now()));
@@ -51,16 +51,17 @@ function MansonryArticleList({
       console.log('calOffset : ', calOffset, ', offset : ', offset);
       setOffset(calOffset);
       setPage(page+1);
-    
-      axiosInstance.post('/api/board/article/list',
-        JSON.stringify({
-            contentCode          : contentCode,
-            boardCategoryKeyword : boardCategoryKeyword,
-            boardKeyword         : boardKeyword,
-            offset               : offset,
-            limit                : limit,
-        })
-        ).then(res => {
+
+      let reqBody = JSON.stringify({
+        contentCode          : contentCode,
+        boardCategoryKeyword : boardCategoryKeyword,
+        boardKeyword         : boardKeyword,
+        offset               : offset,
+        limit                : limit,
+      });
+
+      axiosInstance.post('/api/board/article/list', reqBody)
+        .then(res => {
           // console.log('boardArticleList >> resData : ', res.data, 'boardArticleList : ', boardArticleList);
           if (res.data !== '' && res.data.length > 0) {
             if (boardArticleList[0].id > 0) {
@@ -124,7 +125,6 @@ function MansonryArticleList({
                                 title={`Title : ${boardArticle.title}`} 
                                 sx={{fontWeight:'bold'}}
               />
-
               <ImageListItemBar position="bottom" 
                                 subtitle={Parser(decodeURI(boardArticle.content).replaceAll('\\"', '"')).toString().replace(htmlTagRegex, '')}
                                 // sx={{mt:2, pt:1, pl: 1, verticalAlign: 'center', bgcolor:'#efefef', borderRadius:'0.5rem'}} 
