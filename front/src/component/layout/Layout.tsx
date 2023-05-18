@@ -77,6 +77,7 @@ function Layout() {
     } else {
       contentCode = 'portal';
     }
+    
     const [contentList, setContentList] = useState<ContentList_>([{
       contentId   : 0,
       contentName : '',

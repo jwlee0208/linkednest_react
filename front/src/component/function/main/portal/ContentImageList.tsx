@@ -1,7 +1,8 @@
-import { Box, ImageList, ImageListItem, ImageListItemBar, Paper, Typography } from "@mui/material"
+import { Box, Grid, ImageList, ImageListItem, ImageListItemBar, Paper, Skeleton, Typography } 
+                                  from "@mui/material"
 import { ContentList_, Content_ } from "../../../../store/modules/content"
-import { styled }                           from '@mui/material/styles';
-import { MouseEvent } from "react";
+import { styled }                 from '@mui/material/styles';
+import { MouseEvent, useEffect, useState }   from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,16 +20,37 @@ function ContentImageList({
     contentList 
 } : ContentImageListProps) {
 
+    const [loading, setLoading] = useState(false);
     
     const moveTo = (content : Content_, event : MouseEvent<HTMLElement>) => {
         event.preventDefault();
         window.location.href = `/${content.contentCode}`;
     }
 
-    return (
-    <div>    
-        <Box sx={{p:2}}>
-            <Typography variant="h6" sx={{fontWeight:'bold', color: 'GrayText'}}>Games</Typography>
+    const loadingContentListArea = () => {
+        return (
+            <Grid container xs={12}>
+                <Grid item xs={4} sx={{p:2}}>
+                    <Skeleton height={300}/>
+                    <Skeleton height={70}/>
+                    <Skeleton height={150}/>                    
+                </Grid>
+                <Grid item xs={4} sx={{p:2}}>
+                    <Skeleton height={300}/>
+                    <Skeleton height={70}/>
+                    <Skeleton height={150}/>                    
+                </Grid>
+                <Grid item xs={4} sx={{p:2}}>
+                    <Skeleton height={300}/>
+                    <Skeleton height={70}/>
+                    <Skeleton height={150}/>                    
+                </Grid>
+            </Grid>
+        )
+    }
+
+    const loadedContentListArea = () => {
+        return (
             <ImageList variant="standard" cols={3} gap={100} >
         {
             contentList.map((content) => (
@@ -58,9 +80,30 @@ function ContentImageList({
             ))
         }        
             </ImageList>
+        )
+    }
 
-        </Box>
-    </div>    
+    const contentListArea = () => {
+        if (loading) {
+            return loadingContentListArea();
+        }
+        return loadedContentListArea();
+    }
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 500);
+    },[])
+
+    return (
+        <div>    
+            <Box sx={{p:2}}>
+                <Typography variant="h6" sx={{fontWeight:'bold', color: 'GrayText'}}>Games</Typography>
+                {contentListArea()}
+            </Box>
+        </div>    
     )
 }
 

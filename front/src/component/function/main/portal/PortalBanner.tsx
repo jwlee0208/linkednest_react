@@ -8,12 +8,13 @@ import FacebookIcon                  from '@mui/icons-material/Facebook';
 import { default as HomeIcon }       from '@mui/icons-material/Home';
 import TwitterIcon                   from '@mui/icons-material/Twitter';
 import YouTubeIcon                   from '@mui/icons-material/YouTube';
-import { ContentList_, ContentSns_ } from "../../../../store/modules/content";
+import { ContentList_, ContentSns_, Content_ } from "../../../../store/modules/content";
 import ContentImageList from "./ContentImageList";
 
 type PortalBannerProps = {
     contentList : ContentList_
 }
+
 function PortalBanner({contentList} : PortalBannerProps) {
     const buttonArea = (contentSns : ContentSns_) => {
         switch (contentSns.snsType) {
@@ -25,13 +26,35 @@ function PortalBanner({contentList} : PortalBannerProps) {
         }
     }
 
-    return (
-    <>    
-        <Carousel sx={{m:1, height: '500px', pl:2, pr:2}} 
-                    NextIcon={<ArrowRightIcon/>} 
-                    PrevIcon={<ArrowLeftIcon/>}>
-{
-            contentList.map((content) => (
+    const contentSnsBtnArea = (content : Content_) => {
+        return (
+            content.contentSnsList.map((contentSns, index) => (
+                <IconButton href={`${contentSns.snsUrl}`} 
+                            sx={{borderColor:'#efefef', border:1, ml: 1}} 
+                            size="large" 
+                            key={`${content.contentCode}_${contentSns.snsType}_btn`}>
+                    {buttonArea(contentSns)}
+                </IconButton>    
+            ))
+        )
+    }
+
+    const carouselArea = () => {
+        return (
+            <Carousel sx={{m:1, height: '500px', pl:2, pr:2}} 
+                        NextIcon={<ArrowRightIcon/>} 
+                        PrevIcon={<ArrowLeftIcon/>}>
+            {
+                contentList.map((content) => (
+                    carouselCardArea(content)
+                ))
+            }
+            </Carousel>
+        )
+    }
+
+    const carouselCardArea = (content : Content_) => {
+        return (
             <Card key={`${content.contentCode}_cardBanner`} sx={{ display: 'flex' }}>
                 <Box sx={{borderRadius:4, borderColor:'InfoText', border:1, mr:1, display: 'flex', width: '25%', flexDirection: 'column', pl:2, pr:2}}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '420px'}}>
@@ -45,18 +68,7 @@ function PortalBanner({contentList} : PortalBannerProps) {
                         <IconButton href={`${content.homepageUrl}`} sx={{float:'left', borderColor:'#efefef', border:1}} size="small">
                             <HomeIcon sx={{m:1}} color="inherit"/>
                         </IconButton>
-                        {
-                content.contentSnsList.map((contentSns, index) => (
-                    <IconButton href={`${contentSns.snsUrl}`} 
-                                sx={{borderColor:'#efefef', border:1, ml: 1}} 
-                                size="large" 
-                                key={`${content.contentCode}_${contentSns.snsType}_btn`}>
-                        {
-                            buttonArea(contentSns)
-                        }
-                    </IconButton>    
-                ))
-            }
+                        { contentSnsBtnArea(content) }
                     </Box>
                 </Box>
                 <CardMedia component='img' 
@@ -64,9 +76,15 @@ function PortalBanner({contentList} : PortalBannerProps) {
                             image={content.imagePath} 
                             alt={content.contentDesc}/>
             </Card>    
-            ))
-}
-        </Carousel>
+
+        )
+    }
+
+    return (
+    <>  
+        <Box sx={{width:'100%', p:0}}>
+            {carouselArea()}
+        </Box>  
         <Box sx={{width:'100%', p:1}}>
             <ContentImageList contentList={contentList}/>
         </Box>  
