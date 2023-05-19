@@ -93,11 +93,11 @@ function Header({
                           aria-haspopup="true"
                           aria-expanded={Boolean(anchorElUser) ? "true" : undefined}> */}
                 <Hidden smDown>
-                  <Grid container xs={12} sx={{width:'100%', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                  <Grid container item xs={12} sx={{width:'100%', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                     <Grid item xs={4}>
                       <Avatar alt={`${user.nickname}`} src="images/avatar/2.jpg" title={user.nickname}/>
                     </Grid>
-                    <Grid xs={8} sx={{fontSize:17, textAlign:'center', pt:1}}>
+                    <Grid item xs={8} sx={{fontSize:17, textAlign:'center', pt:1}}>
                       Hello,{user.nickname}
                     </Grid>
                   </Grid>
@@ -213,75 +213,85 @@ function Header({
     }
 
     const userAccountArea = () => {
+      if (isLogin === true) {
+        return (
+          <>
+            <Box sx={{flexGrow: 1, display: 'flex', flexDirection:'row-reverse' }}>
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? 'headerMenuAppBar' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                >
+                  <Hidden smDown>
+                    <Typography variant="subtitle1" sx={{pr:1}}>Hello, {user.nickname}</Typography>
+                  </Hidden>
+                  <Avatar sx={{ width: 32, height: 32 }} title={user.nickname}>{user.nickname}</Avatar>
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Menu
+              anchorEl={anchorEl}
+              id="headerMenuAppBar"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <Divider/>
+              {settings.map((setting) => (
+                  <MenuItem key={setting.menu} onClick={(e)=>{handleCloseUserMenu(setting.path, e)}}>
+                    {getUserSettingIcon(setting.code)}
+                    <Typography textAlign="left">{setting.menu}</Typography>
+                  </MenuItem>
+              ))}
+            </Menu>
+          </>
+        )
+      }  
       return (
-        <>
-          <Box sx={{flexGrow: 1, display: 'flex', flexDirection:'row-reverse' }}>
-            <Tooltip title="Account settings">
-              <IconButton
-                onClick={handleClick}
-                size="small"
-                sx={{ ml: 2 }}
-                aria-controls={open ? 'headerMenuAppBar' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <Hidden smDown>
-                  <Typography variant="subtitle1" sx={{pr:1}}>Hello, {user.nickname}</Typography>
-                </Hidden>
-                <Avatar sx={{ width: 32, height: 32 }} title={user.nickname}>{user.nickname}</Avatar>
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Menu
-            anchorEl={anchorEl}
-            id="headerMenuAppBar"
-            open={open}
-            onClose={handleClose}
-            onClick={handleClose}
-            PaperProps={{
-              elevation: 0,
-              sx: {
-                overflow: 'visible',
-                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                mt: 1.5,
-                '& .MuiAvatar-root': {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1,
-                },
-                '&:before': {
-                  content: '""',
-                  display: 'block',
-                  position: 'absolute',
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: 'background.paper',
-                  transform: 'translateY(-50%) rotate(45deg)',
-                  zIndex: 0,
-                },
-              },
-            }}
-            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          >
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Settings fontSize="small" />
-              </ListItemIcon>
-              Settings
-            </MenuItem>
-            <Divider/>
-            {settings.map((setting) => (
-                <MenuItem key={setting.menu} onClick={(e)=>{handleCloseUserMenu(setting.path, e)}}>
-                  {getUserSettingIcon(setting.code)}
-                  <Typography textAlign="left">{setting.menu}</Typography>
-                </MenuItem>
-            ))}
-          </Menu>
-        </>
+        <Box sx={{flexGrow: 1, display: 'flex', flexDirection:'row-reverse'  }}>        
+          <ButtonGroup>
+            <Button onClick={(e)=>{handleCloseNavMenu(`/portal/signup`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignUp</Button>  
+            <Button onClick={(e)=>{handleCloseNavMenu(`/portal/login`, e)}} sx={{ my: 2, color: 'white', display: 'block' }}>SignIn</Button>          
+          </ButtonGroup>        
+        </Box>      
       )
     } 
 

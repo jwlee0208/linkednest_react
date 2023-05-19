@@ -7,17 +7,17 @@ import { ContentCategory_ } from "../../../../store/modules/contentCategory";
 type CategoryInfoContentListProps = {
     contentCategory : ContentCategory_;
 }
+
 function CategoryInfoContentList({contentCategory} : CategoryInfoContentListProps) {
  
     const [limit                , setLimit]                 = useState(10);
     const [page                 , setPage]                  = useState(1);
     const offset = (page - 1) * limit;
 
-
     const viewCards = () => {
         if (contentCategory.contentList !== null) {
             return contentCategory.contentList.slice(offset, offset+limit).map((content, index) => (
-                <Grid item spacing={4} key={`${content.contentCode}_grid`}>
+                <Grid item key={`${content.contentCode}_grid`}>
                     <ContentCard content={content} key={content.contentCode}/>
                 </Grid>
             ))    

@@ -29,7 +29,7 @@ function ContentImageList({
 
     const loadingContentListArea = () => {
         return (
-            <Grid container xs={12}>
+            <Grid container item xs={12}>
                 <Grid item xs={4} sx={{p:2}}>
                     <Skeleton height={300}/>
                     <Skeleton height={70}/>
