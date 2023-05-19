@@ -77,7 +77,7 @@ function Layout() {
     } else {
       contentCode = 'portal';
     }
-    
+
     const [contentList, setContentList] = useState<ContentList_>([{
       contentId   : 0,
       contentName : '',
@@ -133,35 +133,58 @@ function Layout() {
 
     useEffect(() => {
 
+      content.contentCode = contentCode;
+
       if (user.isLogin === true && user.accessToken === '') {
         store.dispatch(userSlice.actions.logout(user));
       } 
 
+      const setupContentState = () => {
+        let retryCntForSetupContentState = 0;
+        try {
+          axiosInstance.get(`/api/content/${content.contentCode}`)
+                      .then((res) => setupContent(res.data))
+                      .catch(err => alert(`[${err.code}][${err.response.status}] ${err.message}`) );
+        } catch (e) {
+          if (retryCntForSetupContentState < 3) {
+            setupContentState();
+            retryCntForSetupContentState++;
+          }  
+        }
+      }
 
-
-
-      content.contentCode = contentCode;
-      axiosInstance.get(`/api/content/${content.contentCode}`)
-                   .then((res) => setupContent(res.data))
-                   .catch(err => alert(`[${err.code}][${err.response.status}] ${err.message}`) );
-
-      if (contentCode !== 'admin') {
-        axiosInstance.get(`/api/banner/list/${content.contentCode}`)
-        .then((res) => setupBannerList(res.data))
-        .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
-
+      const setContentBoardCategoryInfoState = () => {
         axiosInstance.get(`/api/board/category/list/${content.contentCode}`)
                     .then((res) => setupContentBoardCategoryInfo(res.data))
                     .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
+      }
 
+      const setBannerListState = () => {
+        axiosInstance.get(`/api/banner/list/${content.contentCode}`)
+                    .then((res) => setupBannerList(res.data))
+                    .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
+      }
+
+      const setContentListState = () => {
         axiosInstance.get('/api/content/list')
                     .then((res) => setupContentList(res.data))
                     .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`)  )
       }
 
-      axiosInstance.get('/api/content/category/list')
-                  .then((res) => setupContentCategoryList(res.data))
-                  .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );    
+      const setContentCategoryListState = () => {
+        axiosInstance.get('/api/content/category/list')
+                    .then((res) => setupContentCategoryList(res.data))
+                    .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );    
+      }
+
+      setupContentState();
+      setContentCategoryListState();
+
+      if (contentCode !== 'admin') {
+        setBannerListState();
+        setContentListState();
+        setContentBoardCategoryInfoState();
+      }
               
       const baseCss = document.createElement("link");
       baseCss.crossOrigin = '*';

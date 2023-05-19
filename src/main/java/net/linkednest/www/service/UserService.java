@@ -82,6 +82,7 @@ public class UserService {
                 Authority authority = new Authority();
                 authority.setRole(roleRepository.getReferenceById(1L));
                 newUser.setUserRoles(Collections.singletonList(authority));
+                newUser.setCreateDate(new Date());
 
                 log.info("[{}.{}] userRegist >> decoded : {}", this.getClass().getName(), methodName, newUser.toString());
 
@@ -120,7 +121,7 @@ public class UserService {
                 user.setEmail(userRegistDto.getEmail());
                 user.setNickname(userRegistDto.getNickname());
                 user.setIntroduce(StringUtils.defaultString(userRegistDto.getIntroduce()));
-
+                user.setUpdateDate(new Date());
                 log.info("[{}.{}] before update user : {}", this.getClass().getName(), "updateUser", user);
 
                 userRepository.save(user);

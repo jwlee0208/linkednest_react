@@ -9,6 +9,7 @@ import lombok.ToString;
 import net.linkednest.common.entity.role.Authority;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,20 +21,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userNo;
-
     @Column(unique = true)
     private String userId;
-
     private String password;
-
     private String nickname;
-
     @Column(unique = true)
     private String email;
-
     @Column(columnDefinition = "TEXT")
     private String introduce;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
@@ -52,5 +47,9 @@ public class User {
     public void setRefreshToken(UserRefreshToken userRefreshToken) {
         this.refreshToken = userRefreshToken;
     }
+
+    private Date createDate;
+
+    private Date updateDate;
 
 }

@@ -1,5 +1,4 @@
 import { Box, FormControl, Grid }           from "@mui/material";
-import Button                               from "@mui/material/Button";
 import FormControlLabel                     from "@mui/material/FormControlLabel";
 import FormLabel                            from "@mui/material/FormLabel";
 import Radio                                from "@mui/material/Radio";
@@ -30,7 +29,7 @@ type SignUpProps = {
     refer   : string,
 }
 
-const SignUpDetailForStepper = forwardRef(({
+const SignUpDetailForStepper = ({
     stepId, keyRef, refer,
 } : SignUpProps) => {
     const { executeRecaptcha } = useGoogleReCaptcha();
@@ -178,21 +177,43 @@ const SignUpDetailForStepper = forwardRef(({
         return navigator.language;
     }
 
-    useEffect(()=>{
+    let retryReCaptchaRetryCnt = 0;
+
+    useEffect(() => {
+        console.log('retryReCaptchaRetryCnt : ', retryReCaptchaRetryCnt);
+
         if (!executeRecaptcha) {
             return;
         }
         const handleReCaptchaVerify = async () => {
-            await executeRecaptcha('signup').then((token) => {
-                console.log('useEffect > handleReCaptchaVerify > token : ', token);
-                setUser({...user, reCaptchaToken : token})
-                console.log('useEffect > handleReCaptchaVerify > user : ', user);
-            }).catch((err) => {
-                console.log('useEffect > handleReCaptchaVerify > error : ', JSON.stringify(err));
-                window.location.reload();    
-            });
-            
+            try {
+                await executeRecaptcha('signup')
+                .then((token) => {
+                    console.log('useEffect > handleReCaptchaVerify > token : ', token);
+                    setUser({...user, reCaptchaToken : token})
+                    console.log('useEffect > handleReCaptchaVerify > user : ', user);
+                }).catch((err) => {
+                    console.log('useEffect > handleReCaptchaVerify > error : ', JSON.stringify(err));
+                    console.log('[inner catch] retryReCaptchaRetryCnt : ', retryReCaptchaRetryCnt);
+                    retryReCaptchaRetryCnt++;
+
+                    if (retryReCaptchaRetryCnt < 3) {
+                        handleReCaptchaVerify();
+                    }    
+                    // window.location.reload();    
+                });
+            } catch (e) {
+                console.log('handleReCaptchaVerify > e : ', JSON.stringify(e));
+                console.log('[catch] retryReCaptchaRetryCnt : ', retryReCaptchaRetryCnt);
+                retryReCaptchaRetryCnt++;
+
+                if (retryReCaptchaRetryCnt < 3) {
+                    handleReCaptchaVerify();
+                }     
+            }
         };
+
+
         handleReCaptchaVerify();
 
         const quillCss = document.createElement("link");
@@ -205,7 +226,7 @@ const SignUpDetailForStepper = forwardRef(({
         return () => {
           document.head.removeChild(quillCss);
         }
-    }, [executeRecaptcha]);
+    }, [executeRecaptcha, retryReCaptchaRetryCnt]);
 
     const modules = useMemo(
         () => ({
@@ -437,7 +458,7 @@ const SignUpDetailForStepper = forwardRef(({
         </div>
       </Box>
     );
-})
+}
 
 export default SignUpDetailForStepper;
   

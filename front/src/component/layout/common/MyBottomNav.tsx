@@ -38,7 +38,7 @@ function MyBottomNav () {
     
     return (
         <BottomNavigation showLabels value={value} onChange={(event, newValue) => {setValue(newValue);}}>
-            {myPageArea(userinfo.isLogin)}
+            {/* {myPageArea(userinfo.isLogin)} */}
             <BottomNavigationAction label="Home"      icon={<HomeIcon />} onClick={(e) => moveTo(e, 'home')}/>
         </BottomNavigation>
     )
