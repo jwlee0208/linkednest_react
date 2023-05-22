@@ -22,6 +22,9 @@ function PortalContent ({
     , contentCategory
 } : PortalContentProps ) {
 
+    let referer = document.referrer;
+//    console.log('referer 1111 > ', window.history.state, ', referer 222 : ', document.referrer)
+
     const getMyPage = () => {
       if (isLogin === true) {
         return <Mypage />
@@ -33,11 +36,11 @@ function PortalContent ({
       <Box>
         <Routes>
           <Route path='/'                    element={<PortalBanner contentList={contentList}/>} />
-          <Route path='/login'               element={<PortalLogin refer={getReferrer()}/>} />
+          <Route path='/login'               element={<PortalLogin refer={referer}/>} />
           <Route path='/signup'              element={<SignupForStepper refer={getReferrer()}/>} />
           <Route path='/:contentCode'        element={<PortalBanner contentList={contentList}/>} />
           <Route path='/:contentCode/mypage' element={getMyPage()} />
-          <Route path='/:contentCode/login'  element={<PortalLogin refer={getReferrer()}/>} />
+          <Route path='/:contentCode/login'  element={<PortalLogin refer={referer}/>} />
           <Route path='/:contentCode/signup' element={<SignupForStepper refer={getReferrer()}/>} />
           <Route path='/:contentCode/category/detail' element={<CategoryInfoContentList contentCategory={contentCategory}/>} />
         </Routes>

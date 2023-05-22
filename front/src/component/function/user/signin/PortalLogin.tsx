@@ -22,7 +22,7 @@ function PortalLogin({refer} : PortalLoginProps) {
             <>
                 <Typography variant="h4" sx={{fontWeight:'bold'}}>Login</Typography>
                 <Divider sx={{mt:3, mb:5}}/>
-                <Login refer={refer}/>
+                <Login refer={refer} isNeedRedirect={true}/>
             </>
         )
     }

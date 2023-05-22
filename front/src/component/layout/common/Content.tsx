@@ -32,9 +32,9 @@ function Content ({
     }
 
     function LoginNavigate () {
-      let pathVal = `/${getContentId()}`;
+      let pathVal = window.location.href; //`/${getContentId()}`;
       if (isLogin === true) return <Navigate replace to={pathVal}/>
-      return <Login refer={getReferrer()}/>
+      return <Login refer={getReferrer()} isNeedRedirect={false}/>
     }
 
     function SignUpNavigate() {

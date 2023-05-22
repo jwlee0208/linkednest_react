@@ -1,6 +1,6 @@
 import { Box, Grid }                 from "@mui/material";
 import Hidden                   from "@mui/material/Hidden";
-import React                    from "react";
+import React, { useEffect }                    from "react";
 import { useLocation }          from 'react-router';
 import { useAppSelect }         from "../../../store/index.hooks";
 import { ContentList_, getContentInfo } 
@@ -34,7 +34,7 @@ function LayoutType0 ({contentList, contentCategoryList} : layoutType0Props) {
     if (location.state !== null) {
         contentCategoryInfo = location.state.contentCategory as ContentCategory_;
     }  
-    
+
     return (
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  

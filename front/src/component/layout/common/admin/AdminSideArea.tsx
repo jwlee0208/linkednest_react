@@ -47,7 +47,7 @@ function AdminSideArea({
                 <Box border={1} borderColor="gray" sx={{ mt: 1, mb: 1 }} key={1}>
                     {
                     isLogin === false ?
-                        <Login key={0} refer={getReferrer()}/>
+                        <Login key={0} refer={window.location.href} isNeedRedirect={false}/>
                         : (
                             <Box sx={{ m: 2 }} key={3}>
                                 <Box>{userId}님<br />

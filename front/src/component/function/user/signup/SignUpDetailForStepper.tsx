@@ -21,7 +21,7 @@ import { useAppDispatch }                   from "../../../../store/index.hooks"
 import { User, asyncSignUp }                from "../../../../store/modules/user";
 import { emailRegex, phoneNoRegex, pwRegex } from ".";
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { useNavigate } from "react-router";
+import { useNavigate  } from "react-router";
 
 type SignUpProps = {
     stepId  : number,
@@ -180,6 +180,10 @@ const SignUpDetailForStepper = ({
     let retryReCaptchaRetryCnt = 0;
 
     useEffect(() => {
+
+        // this.state =  { referer: reactReferer.referer() };
+        console.log('document.referrer : ', document.referrer);
+
         console.log('retryReCaptchaRetryCnt : ', retryReCaptchaRetryCnt);
 
         if (!executeRecaptcha) {

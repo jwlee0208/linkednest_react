@@ -1,5 +1,5 @@
 import { Box, Button, Paper }           from "@mui/material";
-import { useNavigate }                  from "react-router";
+import { useLocation, useNavigate }                  from "react-router";
 import { User, asyncLogout }            from "../../../../store/modules/user";
 import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
 import { getLayoutInfo }                from "../../../../store/modules/layout";
@@ -40,7 +40,7 @@ function SideArea({
             </Paper>    
             <Paper elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
                 {isLogin === false ? 
-                    <Login refer={`/${contentInfo.contentCode}`}/> 
+                    <Login refer={`/${document.location.href}`} isNeedRedirect={false}/> 
                     : (
                         <Box sx={{ m: 2 }}>
                             <Box>{userId}님<br/>
