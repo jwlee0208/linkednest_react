@@ -37,7 +37,7 @@ function AdminContent ({
       <Routes>
         {/* to-do : 추후 동적으로 처리하도록 */}
         <Route path='/admin/index'                element={<Index/>}/>
-        <Route path='/admin/login'                element={<Login refer={getReferrer()}/>} />
+        <Route path='/admin/login'                element={<Login refer={getReferrer()} isNeedRedirect={false}/>} />
         <Route path='/admin/board/category/list'  element={<BoardCategoryList/>}/>
         <Route path='/admin/board/list'           element={<BoardList/>}/>
         <Route path="/admin/role/list"            element={<RoleList/>}/>

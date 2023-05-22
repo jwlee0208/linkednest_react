@@ -4,7 +4,7 @@ import TextField                                    from "@mui/material/TextFiel
 import { encode as base64_encode }                  from 'base-64';
 import React, { createRef, useEffect, useState }    from "react";
 import ReCAPTCHA                                    from "react-google-recaptcha";
-import { useNavigate }                              from "react-router-dom";
+import { Navigate, useNavigate }                              from "react-router-dom";
 import { useAppDispatch, useAppSelect }             from "../../../store/index.hooks";
 import { getContentInfo }                           from "../../../store/modules/content";
 import { User, asyncLogin }                         from "../../../store/modules/user";
@@ -12,8 +12,10 @@ import * as config                                  from '../../../config';
 
 type LoginProps = {
     refer : string
+    isNeedRedirect : boolean
 }
-function Login({refer} : LoginProps) {
+
+function Login({refer, isNeedRedirect} : LoginProps) {
 
     const dispatch      = useAppDispatch();
     const navigate      = useNavigate();
@@ -65,6 +67,13 @@ function Login({refer} : LoginProps) {
         setUser({...user, password : e.target.value});
     }
 
+    const redirectUrl = () => {
+        if (refer !== '') {
+            return refer.replace(window.location.origin.toString(),'');
+        }
+        return '/';
+    }
+
     const LoginAction = (e : React.FormEvent) => {
         e.preventDefault();
 
@@ -82,7 +91,10 @@ function Login({refer} : LoginProps) {
         console.log('login res : ', res, ' , json.parse : ', JSON.stringify(res));
         console.log('login refer : ', refer);
         setMsg("Login Success");
-        navigate(`${refer}`);
+        console.log('login > refer: ', refer);
+        if (isNeedRedirect === true) {
+            navigate(redirectUrl())
+        }
     }
 
     const setReCaptchaToken = async (reCaptchaToken : any) => {

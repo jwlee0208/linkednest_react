@@ -54,7 +54,8 @@ function Header({
     };
 
     const handleCloseNavMenu  = (param : string, event : React.MouseEvent<HTMLElement>) => {
-      navigate(param);
+      // navigate(param);
+      window.location.href = param; 
       setAnchorElNav(null);
     };
 

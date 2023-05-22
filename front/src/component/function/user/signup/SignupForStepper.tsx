@@ -9,9 +9,10 @@ import SignUpDetailForStepper             from './SignUpDetailForStepper';
 import { GoogleReCaptchaProvider }        from 'react-google-recaptcha-v3';
 import { Divider, Hidden }                from '@mui/material';
 import { DesktopBox, DesktopStepperBox, MobileBox, MobileStepperBox, SignupForStepperProps, moveToLogin, steps } from '.';
-
+import { useNavigate } from 'react-router';
 
 function SignupForStepper({refer} : SignupForStepperProps) {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped]       = useState(new Set<number>());
   const signUpRef                   = useRef<any>();  // 하위 컴포넌트의 함수 호출 위해 선언
@@ -97,6 +98,7 @@ function SignupForStepper({refer} : SignupForStepperProps) {
       <Box sx={{width:'100%', textAlign:'center'}}>
         <Typography sx={{ mt: 15, mb: 15}} variant='body1'>
           All steps completed - you&apos;re finished
+
         </Typography>
         <Hidden smDown>{desktopSignUpBtnArea()}</Hidden>
         <Hidden smUp>{mobileSignUpBtnArea()}</Hidden>
