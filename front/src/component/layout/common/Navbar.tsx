@@ -23,10 +23,10 @@ function Navbar () {
     const viewContentBoardCategoryInfo = () => {
         return contentBoardCategoryInfo.boardCategoryList.map((boardCategoryObj) => (    
             <Box id="topMenuArea" 
-                 sx={{width:`${100/boardCategoryCnt}%`, textAlign:'center'}} 
+                 sx={{ width:`${100/boardCategoryCnt}%`, textAlign:'center' }} 
                  key={`${boardCategoryObj.boardCategoryKeyword}_area`} 
                 //  onMouseEnter={handleChange}>
-                 onClick={handleChange}   >
+                 onClick={handleChange}>
                 <div key={`${boardCategoryObj.boardCategoryKeyword}_1depth`} style={{verticalAlign:'bottom'}}>
                     <Button id={`${boardCategoryObj.boardCategoryKeyword}_button`} 
                             key={`${boardCategoryObj.boardCategoryKeyword}`}
@@ -62,24 +62,22 @@ function Navbar () {
     }
 
     return (
-    <Paper elevation={24} >    
-        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', width: '100%'}}>
+    <Paper elevation={24}>    
+        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', width: '100%' }}>
         {   viewContentBoardCategoryInfo()   }        
             <Fade in={checked} {...({timeout: 200})} onMouseLeave={handleChange}>
                 <Box id="contentBoardCategoryArea"
-                     sx={{ width:'100%', position: "absolute", backgroundColor: "#ffffff", left: "50%", transform: "translateX(-50%)", zIndex:10}}
-                >
-                    <Grid container item>
-        {
-                        viewCategoryList(contentBoardCategoryInfo)
-        }
-                    </Grid>
+                     sx={{ width:'100%', position: "absolute", backgroundColor: "#ffffff", left: "50%", transform: "translateX(-50%)", zIndex:10}}>
+                    <Paper elevation={24}>    
+                        <Grid container item>
+                        { viewCategoryList(contentBoardCategoryInfo) }
+                        </Grid>
+                    </Paper>    
                 </Box>
             </Fade>
         </Box>    
     </Paper>
     );
 }
-
 
 export default Navbar;

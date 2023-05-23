@@ -3,9 +3,11 @@ import { useLocation, useNavigate }                  from "react-router";
 import { User, asyncLogout }            from "../../../../store/modules/user";
 import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
 import { getLayoutInfo }                from "../../../../store/modules/layout";
-import { getContentInfo }               from "../../../../store/modules/content";
 import SideFloatingButtons              from "./SideFloatingButtons";
 import Login                            from "../../../function/user/Login";
+import { useEffect } from "react";
+import SideAreaBottom from "./SideAreaBottom";
+import SideAreaMId from "./SideAreaMid";
 
 type SideAreaProps = {
     user        : User,
@@ -19,41 +21,23 @@ function SideArea({
     userId, 
 } : SideAreaProps) {
 
-    const navigate      = useNavigate();
-    const dispatch      = useAppDispatch();
-    const layoutInfo    = useAppSelect(getLayoutInfo);
-    const contentInfo   = useAppSelect(getContentInfo);
 
-    const handleLogoutAction = (event : React.MouseEvent) => {
-        event.preventDefault();
-        dispatch(asyncLogout());
-        navigate(`/${contentInfo.contentCode}`);    
-    };
-    
+    useEffect(() => {
+
+    })
+
+
+
     return (
-        <Box component="menu" sx={{mr:3, overflow: 'hidden'}}>
+        <Box component="menu" sx={{mr:3, overflow: 'hidden', opacity:0.7}}>
             {/* <SideFloatingButtons/> */}
             <Paper elevation={3} sx={{minHeight:"200px", backgroundColor:'#efefef'}}>
                 <Box sx={{ m: 1 }}>
                         Area1
                 </Box>
             </Paper>    
-            <Paper elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
-                {isLogin === false ? 
-                    <Login refer={`/${document.location.href}`} isNeedRedirect={false}/> 
-                    : (
-                        <Box sx={{ m: 2 }}>
-                            <Box>{userId}님<br/>
-                            <Button variant="outlined" size="medium" onClick={(e) => handleLogoutAction(e)}>Logout</Button></Box>
-                        </Box>    
-                    )
-                }  
-            </Paper>
-            <Paper elevation={3} sx={{minHeight:"200px", mt:1, mb:1, backgroundColor:'#efefef'}}>
-                <Box sx={{ m: 1 }}>
-                    Area3
-                </Box>
-            </Paper>  
+            <SideAreaMId userId={user.userId} isLogin={user.isLogin}/>
+            <SideAreaBottom/>
         </Box>
     );
 }

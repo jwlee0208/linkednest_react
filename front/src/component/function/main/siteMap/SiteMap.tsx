@@ -1,4 +1,4 @@
-import { Grid }                         from "@mui/material";
+import { Box, Divider, Grid, Typography }                         from "@mui/material";
 import SiteMapCard                      from "./SIteMapCard";
 import { useAppSelect }                 from "../../../../store/index.hooks";
 import { getContentBoardCategoryInfo }  from "../../../../store/modules/boardCategory";
@@ -8,6 +8,9 @@ function SiteMap() {
     const   boardCategoryInfo   = useAppSelect(getContentBoardCategoryInfo);
 
     return (
+        <Box sx={{p:2}}>
+        <Typography variant="h4">Site Map</Typography>
+        <Divider/>
         <Grid container item>
         {
             boardCategoryInfo.boardCategoryList.map((boardCategory) => (
@@ -15,6 +18,7 @@ function SiteMap() {
             ))
         }
         </Grid>
+        </Box>
     )
 }
 

@@ -2,7 +2,6 @@
   "name": "front",
   "version": "0.1.2",
   "private": true,
-  "proxy": "http://localhost:9091",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -92,5 +91,6 @@
     "@types/mui-image": "^1.0.1",
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/redux-logger": "^3.0.9"
-  }
+  },
+  "proxy": "http://localhost:9091"
 }
