@@ -217,13 +217,18 @@ function ArticleEdit() {
         setupBreadcrumbs();
         setupEditor();
 
-        if (editType === 'edit') {
+console.log('articleEdit > location.state : ', location.state, ', editType : ', editType);
+
+        if (editType === 'edit' && location.state !== null) {
             const boardArticleStateObj = location.state.boardArticle;
             setBoardArticle_(boardArticleStateObj);
             boardArticle_.content = Parser(decodeURI(boardArticleStateObj.content).replaceAll('\\"', '"')).toString();
-        } else if (editType === 'create') {
+        } else {
             setBoardArticle_({...boardArticle_, createUserNo : userInfo.userNo});            
-        }    
+        }
+        // if (editType === 'create') {
+            // setBoardArticle_({...boardArticle_, createUserNo : userInfo.userNo});            
+        // }    
     }, [boardCategoryKeyword, boardKeyword]);
     
     return (

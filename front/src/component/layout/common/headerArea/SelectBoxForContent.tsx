@@ -25,13 +25,14 @@ function SelectBoxForContent({
 
     return (
         <FormControl variant="standard">
-              <InputLabel id="content-select-standard-label" variant="standard">Content List</InputLabel>
+              <InputLabel id="content-select-standard-label" variant="standard" sx={{color:'#ffffff'}}>Content List</InputLabel>
               <Select labelId="content-select-standard-label" 
                       id="content-select-standard" 
                       label="Content List" 
                       onChange={handleMoveType} 
                       variant="standard"
                       size="small"
+                      sx={{color:'#ffffff'}}
                       value={`${contentCodeValue}`}>
             {
               contentList.map(content => (

@@ -81,7 +81,8 @@ function Header({
       flexGrow: 0, 
       display: 'flex', 
       alignItems: 'center', 
-      textAlign: 'left' 
+      textAlign: 'left',  
+      backgroundColor:'#2c3e50'
     });
 
     const headerBtnArea = () => {
@@ -228,9 +229,9 @@ function Header({
                   aria-expanded={open ? 'true' : undefined}
                 >
                   <Hidden smDown>
-                    <Typography variant="subtitle1" sx={{pr:1}}>Hello, {user.nickname}</Typography>
+                    <Typography variant="subtitle1" sx={{pr:1, color:'#ffffff'}}>Hello, {user.nickname}</Typography>
                   </Hidden>
-                  <Avatar sx={{ width: 32, height: 32 }} title={user.nickname}>{user.nickname}</Avatar>
+                  <Avatar sx={{ width: 32, height: 32, color:'#2c3e50' }} title={user.nickname}>{user.nickname}</Avatar>
                 </IconButton>
               </Tooltip>
             </Box>
@@ -297,7 +298,7 @@ function Header({
     } 
 
     return (
-        <AppBar id="headerAppBar" position="sticky" color="default">
+        <AppBar id="headerAppBar" position="sticky" color="default" sx={{backgroundColor:'#2c3e50', color:'#ffffff', opacity:0.9}}>
           <Container maxWidth={false}>
             <Toolbar disableGutters variant="dense" sx={{ height: '70px' }}>
               <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

@@ -1,4 +1,4 @@
-import { Box }                     from "@mui/material";
+import { Box, Paper }                     from "@mui/material";
 import { Navigate, Route, Router, Routes, useLocation, useParams } from "react-router";
 import ArticleDetail               from "../../function/board/article/ArticleDetail";
 import ArticleEdit                 from "../../function/board/article/ArticleEdit";
@@ -50,7 +50,7 @@ function Content ({
 
     }
     return (
-      <Box sx={{mt:3, mb:3, backgroundColor:'#efefef', borderRadius:4}}>
+      <Paper elevation={24} sx={{mt:3, mb:3, backgroundColor:'#ffffff', opacity:0.8 }}>
         <Routes>
           <Route path='/'                     element={<Home bannerHeight="480px"/>} />
           {/* <Route path='/signup'               element={<SignupForStepper />} /> */}
@@ -65,7 +65,7 @@ function Content ({
           <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/edit/:boardArticleId" element={<ArticleEdit/>}/>        
           <Route path="/:contentCode/:boardCategoryKeyword/:boardKeyword/:boardArticleId"      element={<ArticleDetail/>}/>
         </Routes>
-      </Box>
+      </Paper>
     )
 }
 
