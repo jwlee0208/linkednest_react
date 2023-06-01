@@ -1,10 +1,10 @@
 import { Box, Paper } from "@mui/material";
+import axios from "axios";
 import { useEffect } from "react";
 
 function SideAreaBottom() {
 
-    useEffect(() => {
-        
+    useEffect(() => {        
         const fbScript = document.createElement('script');
         fbScript.crossOrigin = 'anonymous';
         fbScript.src='https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v16.0&appId=292888480735625&autoLogAppEvents=1';

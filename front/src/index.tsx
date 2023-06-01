@@ -12,7 +12,7 @@ import './index.scss';
 import userSlice from './store/modules/user';
 
 export const axiosInstance = axios.create({
-  // baseURL : "http://localhost:9091",
+  baseURL : "http://localhost:9091",
   headers : {
     "Content-Type" : "application/json",
     withCredentials : false
