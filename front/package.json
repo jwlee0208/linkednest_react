@@ -26,6 +26,7 @@
     "dayjs": "^1.11.7",
     "env-cmd": "^10.1.0",
     "html-react-parser": "^3.0.15",
+    "http-proxy-middleware": "^2.0.6",
     "immutable": "^4.3.0",
     "iterable": "^6.0.1-beta.5",
     "jwt-decode": "^3.1.2",
@@ -62,8 +63,8 @@
   "scripts": {
     "start:window": "set PORT=3001 && react-scripts start",
     "start:linux" : "export PORT=3001 && react-scripts start",
-    "start:dev"   : "env-cmd -f ./src/.env.dev react-scripts start",
-    "start:prod"  : "env-cmd -f ./src/.env.prod react-scripts start",
+    "start:dev"   : "env-cmd -f ./src/.env.dev react-scripts start set NODE_ENV=development",
+    "start:prod"  : "env-cmd -f ./src/.env.prod react-scripts start set NODE_ENV=prod",
     "build"       : "react-scripts build",
     "build:dev"   : "env-cmd -f ./src/.env.dev react-scripts build",
     "build:prod"  : "env-cmd -f ./src/.env.prod react-scripts build",

@@ -12,12 +12,13 @@ import './index.scss';
 import userSlice from './store/modules/user';
 
 export const axiosInstance = axios.create({
-  baseURL : "http://localhost:9091",
+  baseURL : `${process.env.REACT_APP_API_DOMAIN}`,
+  withCredentials : (`${process.env.REACT_APP_WITH_CREDENTIALS}`) === 'true',
+  timeout : 3000,
   headers : {
     "Content-Type" : "application/json",
-    withCredentials : false
+    "Access-Control-Allow-Origin" : window.location.origin,
   },
-  timeout : 3000,
 });
 
 interface Token{

@@ -44,6 +44,7 @@ public class SecurityConfig {
                             CorsConfiguration corsConfiguration = new CorsConfiguration();
                             corsConfiguration.setAllowedOrigins(
                                     List.of("*")
+//                                    List.of("https://api.linkednest.site", "https://www.linkednest.site", "https://uw.linkednest.site", "https://lat.linkednest.site", "https://blacks.linkednest.site")
                             );
                             corsConfiguration.setAllowedMethods(
                                     List.of(
@@ -52,14 +53,19 @@ public class SecurityConfig {
                                             , HttpMethod.DELETE.name()
                                             , HttpMethod.PATCH.name()
                                             , HttpMethod.PUT.name()
+                                            , HttpMethod.OPTIONS.name()
                                     )
                             );
                             corsConfiguration.setAllowedHeaders(
                                     List.of(
                                               HttpHeaders.AUTHORIZATION
                                             , HttpHeaders.CONTENT_TYPE
+                                            , HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS
+                                            , HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS
+                                            , HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN
                                     )
                             );
+                            // corsConfiguration.setAllowCredentials(true);
                             corsConfiguration.addExposedHeader("REFRESH_TOKEN");    // response 헤더에 REFRESH_TOKEN 헤더 허용
                             return corsConfiguration;
                         };
@@ -87,6 +93,7 @@ public class SecurityConfig {
                                 , new AntPathRequestMatcher("/api/content/**")
                                 , new AntPathRequestMatcher("/api/banner/list/**")
                                 , new AntPathRequestMatcher("/api/board/**", HttpMethod.GET.name())
+                                , new AntPathRequestMatcher(HttpMethod.OPTIONS.name())
                         ).permitAll()   // 무조건 허용할 URL 선언
                 .and()
                     .authorizeHttpRequests()
