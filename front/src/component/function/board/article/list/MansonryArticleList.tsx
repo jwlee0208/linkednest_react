@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const noImage = "http://localhost:9091/images/noImage.jpg";
+const noImage = `http://${process.env.REACT_APP_API_DOMAIN}/images/noImage.jpg`;
 
 type MansonryArticleListProps = {
   contentCode           : string,

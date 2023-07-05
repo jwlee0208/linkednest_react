@@ -9,15 +9,19 @@ import reportWebVitals            from './reportWebVitals';
 import axios                      from 'axios';
 import store                      from './store';
 import './index.scss';
-import userSlice from './store/modules/user';
+import userSlice                  from './store/modules/user';
+import { CookiesProvider }        from 'react-cookie';
+import { getCookie }              from './cookie';
+
 
 export const axiosInstance = axios.create({
-  baseURL : "http://localhost:9091",
+  baseURL : `${process.env.REACT_APP_API_DOMAIN}`,
+  withCredentials : (`${process.env.REACT_APP_WITH_CREDENTIALS}`) === 'true',
+  timeout : 3000,
   headers : {
     "Content-Type" : "application/json",
-    withCredentials : false
+    "Access-Control-Allow-Origin" : window.location.origin,
   },
-  timeout : 3000,
 });
 
 interface Token{
@@ -29,10 +33,16 @@ interface Token{
 axiosInstance.interceptors.request.use(
   function (config) {
     const userinfo = store.getState().userSlice;
-    console.log("request interceptor start >>>");
+console.log("request interceptor start >>>");
+    let cookieAccessToken = getCookie("accessToken");
 
-    if (userinfo.isLogin === true) {
+console.log(`>>> cookieAccessToken : ${cookieAccessToken}`);
+
+    if (userinfo.isLogin === true   || (cookieAccessToken !== '' && cookieAccessToken  !== undefined)) {
       let reqAccessToken           = userinfo.accessToken;
+      if (reqAccessToken === '') {
+        reqAccessToken = cookieAccessToken;
+      }
       config.headers.Authorization = `Bearer ${reqAccessToken}`;
     }
     return config;
@@ -111,11 +121,13 @@ root.render(
     {/* <ThemeProvider theme={theme}> */}
     <CssBaseline />
     <Container maxWidth={false} disableGutters={true}>  
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persist}>
-          <App/>
-        </PersistGate>
-      </Provider>
+      <CookiesProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persist}>
+            <App/>
+          </PersistGate>
+        </Provider>
+      </CookiesProvider>
     </Container>
     {/* </ThemeProvider> */}
     {/* </React.StrictMode> */}

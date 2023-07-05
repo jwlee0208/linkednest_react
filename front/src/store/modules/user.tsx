@@ -3,6 +3,7 @@ import { decode as base64_decode }       from 'base-64';
 import { axiosInstance }                 from '../..';
 import { RootState }                     from '../../reducer';
 import { MenuCategoryList_ }             from '../../component/function/admin/menu';
+import { setCookie } from '../../cookie';
 
 export interface UserProfile {
     sex         : string;
@@ -186,7 +187,13 @@ const userSlice = createSlice ({
                 state.introduce             = action.payload.introduce;
                 state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
                 state.userRoleInfoList      = action.payload.userRoleInfoList;
-                state.roleInfoList          = action.payload.roleInfoList; 
+                state.roleInfoList          = action.payload.roleInfoList;  
+                
+                setCookie(`accessToken`, state.accessToken, {
+                    path: '/',
+                    maxAge: 24 * 60 * 60,
+                    domain: '.linkednest.site'
+                });                
             } else {
                 alert(`Login Failure : [errCode : ${action.payload.returnCode}]`);
                 window.location.reload();
