@@ -3,7 +3,7 @@ import { decode as base64_decode }       from 'base-64';
 import { axiosInstance }                 from '../..';
 import { RootState }                     from '../../reducer';
 import { MenuCategoryList_ }             from '../../component/function/admin/menu';
-import { setCookie } from '../../cookie';
+import { rmCookie, setCookie }           from '../../cookie';
 
 export interface UserProfile {
     sex         : string;
@@ -224,6 +224,7 @@ const userSlice = createSlice ({
             state.zipcode                 = 0;
             state.returnCode              = 0;
             state.reCaptchaToken          = '';       
+            rmCookie('accessToken');
         })
     } 
 });
