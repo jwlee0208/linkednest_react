@@ -21,7 +21,7 @@ import userSlice, { getUserInfo } from "../../store/modules/user";
 import store from "../../store";
 
 function Layout() {
-
+  
     let   contentCode = ''; 
     const location    = useLocation();
     const dispatch    = useAppDispatch();
