@@ -3,7 +3,7 @@ module.exports = {
       {
          name      : "front",
          script    : "npm",
-         instances : 'max',
+         instances : '1',
          exec_mode : "cluster",
          args      : "run start:prod",
          watch     : true,
@@ -25,7 +25,7 @@ module.exports = {
       {
          name      : "front2",
          script    : "npm",
-         instances : 'max',
+         instances : '1',
          exec_mode : "cluster",
          args      : "run start:prod",
          watch     : true,
