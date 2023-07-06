@@ -15,7 +15,7 @@ import { getCookie }              from './cookie';
 
 
 export const axiosInstance = axios.create({
-  baseURL : `${process.env.REACT_APP_API_DOMAIN}`,
+  // baseURL : `${process.env.REACT_APP_API_DOMAIN}`,
   withCredentials : (`${process.env.REACT_APP_WITH_CREDENTIALS}`) === 'true',
   timeout : 3000,
   headers : {
