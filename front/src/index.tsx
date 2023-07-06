@@ -69,11 +69,7 @@ axiosInstance.interceptors.response.use(
       const userinfo      = store.getState().userSlice;
       const refreshToken  = userinfo.refreshToken;
       try {
-        const {data} = await axiosInstance({
-          method  : 'post',
-          url     : '/reIssueToken',
-          data    : {refreshToken : refreshToken},
-        });
+        const {data} = await axiosInstance.post('/reIssueToken', {refreshToken : refreshToken});
         if (data.returnCode === 10000) {
 
           store.dispatch(userSlice.actions.updateAccessToken(data))
