@@ -11,7 +11,8 @@ import store                      from './store';
 import './index.scss';
 import userSlice                  from './store/modules/user';
 import { CookiesProvider }        from 'react-cookie';
-import { getCookie }              from './cookie';
+import { getCookie, setCookie }              from './cookie';
+import { encode as base64_encode }       from 'base-64';
 
 
 export const axiosInstance = axios.create({
@@ -69,7 +70,11 @@ axiosInstance.interceptors.response.use(
       const userinfo      = store.getState().userSlice;
       const refreshToken  = userinfo.refreshToken;
       try {
-        const {data} = await axiosInstance.post('/reIssueToken', {refreshToken : refreshToken});
+        const {data} = await axiosInstance({
+          method  : 'post',
+          url     : '/reIssueToken',
+          data    : {refreshToken : refreshToken},
+        });
         if (data.returnCode === 10000) {
 
           store.dispatch(userSlice.actions.updateAccessToken(data))
@@ -78,6 +83,12 @@ axiosInstance.interceptors.response.use(
           const newRefreshToken     = data.refreshToken;
           originalReq.Authorization = `Bearer ${newAccessToken}`;
           
+          setCookie(`accessToken`, newAccessToken, {
+            path: '/',
+            maxAge: 24 * 60 * 60,
+            domain: '.linkednest.site'
+          });
+
           return await axiosInstance(originalReq);  
         }
       } catch (err) {

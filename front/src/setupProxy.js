@@ -31,4 +31,11 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    createProxyMiddleware('/tokenLogin', {
+      target: `${process.env.REACT_APP_API_DOMAIN}`,
+      changeOrigin: true,
+    })
+  );
+
 };

@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.backoffice.dto.menu.ResAdminMenuCategoryDto;
+import net.linkednest.common.dto.user.signin.ReqUserTokenLoginDto;
 import net.linkednest.common.exception.CustomException;
 import net.linkednest.common.utils.ReCaptchaUtil;
 import net.linkednest.common.dto.authority.ResAdminMenuRoleAccessPathDto;
@@ -40,6 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -199,12 +201,89 @@ public class UserService {
         return resUserLoginDto;
     }
 
+    public ResUserLoginDto tokenLogin(ReqUserTokenLoginDto reqUserTokenLoginDto, HttpServletRequest request, HttpServletResponse response) {
+
+        int returnCode = 10000;
+        ResUserLoginDto resUserLoginDto = new ResUserLoginDto();
+        User user = null;
+        boolean isVerified = true;
+
+        if (isVerified) {
+            String userId       = new String(Base64.getDecoder().decode(reqUserTokenLoginDto.getUserId()));
+            String accessToken  = jwtProvider.resolveToken(request);
+            boolean isValidToken = (accessToken != null && jwtProvider.validateToken(accessToken));
+            log.info("[{}.{}] isValidToken : {}", this.getClass().getName(), "tokenLogin", isValidToken);
+            if (isValidToken) {
+                log.info("[{}.{}] token : {}", this.getClass().getName(), "tokenLogin", accessToken);
+                // accessToken 확인
+                accessToken = accessToken.split(" ")[1].trim();
+                log.info("[{}.{}] accessToken 확인 : {}", this.getClass().getName(), "tokenLogin", accessToken);
+                String tokenUserId  = jwtProvider.getUserId(accessToken);
+
+                log.info("[{}.{}] tokenUserId : {}, paramUserId : {}", this.getClass().getName(), "tokenLogin", tokenUserId, userId);
+
+                Optional<User> userOptional = this.getUser(userId);
+                if (userOptional.isPresent()) {
+                    user = userOptional.get();
+                    // accessToken 체크
+                    boolean isValidUserId      = StringUtils.equals(userId, tokenUserId);
+                    if (isValidToken && isValidUserId) {
+                        resUserLoginDto.setIsLogin(true);
+                        resUserLoginDto.setUserNo(user.getUserNo());
+                        resUserLoginDto.setEmail(user.getEmail());
+                        resUserLoginDto.setUserId(user.getUserId());
+                        resUserLoginDto.setNickname(user.getNickname());
+                        resUserLoginDto.setIntroduce(user.getIntroduce());
+                        resUserLoginDto.setAccessToken(jwtProvider.createToken(user.getUserId(), user.getUserRoles())); // accessToken 발급
+
+                        List<ResUserRoleDto>            userRoleDtoList          = new ArrayList<>();
+                        List<ResRoleDto>                roleDtoList              = new ArrayList<>();
+                        List<ResAdminMenuCategoryDto>   adminMenuCategoryDtoList = new ArrayList<>();
+
+                        user.getUserRoles()
+                                .forEach(r -> {
+                                    setRoleList(r               , roleDtoList);                 // user에 부여된 role 정보 리스트 조회
+                                    setUserRoleAccessPathList(r , userRoleDtoList);             // user에 설정된 role에 해당하는, 접근 가능한 AccessPath(url, httpMethod) 정보 리스트 조회
+                                    setAdminMenuCategoryList(r  , adminMenuCategoryDtoList);    // user의 adminMenu 접근 가능 category & menu list 조회
+                                });
+                        resUserLoginDto.setRoleInfoList(roleDtoList);
+                        resUserLoginDto.setUserRoleInfoList(userRoleDtoList);
+                        resUserLoginDto.setAdminMenuCategoryList(adminMenuCategoryDtoList);
+
+                        // refresh token 발급(or 재사용)
+                        UserRefreshToken mergedRefreshToken = this.mergeRefreshToken(user);
+
+                        response.setHeader(CommonConstants.REFRESH_TOKEN, mergedRefreshToken.getRefreshToken());
+                    } else {
+                        returnCode = 20001;
+                    }
+                } else {
+                    returnCode = 20002;
+                }
+            }
+        } else {
+            returnCode = 20003;
+        }
+
+        resUserLoginDto.setReturnCode(returnCode);
+        resUserLoginDto.setReturnMsg(ResponseCodeMsg.of(returnCode).getResMsg());
+        resUserLoginDto.setIsLogin(returnCode == 10000);
+
+        if (ObjectUtils.isNotEmpty(user) && returnCode == 10000) {
+            this.setLoggedIn(request, user, CommonConstants.WEB_TOKEN_LOGIN_ACTION);
+        }
+
+        return resUserLoginDto;
+    }
+
     public void logout(HttpServletRequest request) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUserDetails userDetails = (CustomUserDetails)principal;
-        if (ObjectUtils.isNotEmpty(userDetails)) {
-            User user = userDetails.getUser();
-            this.setLoggedIn(request, user, CommonConstants.LOGOUT_ACTION);
+        if (!principal.equals("anonymousUser")) {
+            CustomUserDetails userDetails = (CustomUserDetails)principal;
+            if (ObjectUtils.isNotEmpty(userDetails)) {
+                User user = userDetails.getUser();
+                this.setLoggedIn(request, user, CommonConstants.LOGOUT_ACTION);
+            }
         }
     }
 

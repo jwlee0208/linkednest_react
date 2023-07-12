@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 token = token.split(" ")[1].trim();
                 log.info("[{}.{}] accessToken 확인 : {}", this.getClass().getName(), "doFilterInternal", token);
                 Authentication authentication = jwtProvider.getAuthentication(token);
-                log.info("[{}.{}] isAuthenticated : {}", this.getClass().getName(), "doFilterInternal", authentication.isAuthenticated());
+                log.info("[{}.{}] isSecuriuAuthenticated : {}", this.getClass().getName(), "doFilterInternal", authentication.isAuthenticated());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -51,3 +51,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
+

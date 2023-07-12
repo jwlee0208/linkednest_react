@@ -18,6 +18,7 @@ import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.user.ResTokenDto;
 import net.linkednest.common.dto.user.get.ResUserDto;
 import net.linkednest.common.dto.user.signin.ReqUserLoginDto;
+import net.linkednest.common.dto.user.signin.ReqUserTokenLoginDto;
 import net.linkednest.common.dto.user.signin.ResUserLoginDto;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.dto.user.signup.ResUserRegistDto;
@@ -206,6 +207,26 @@ public class UserController {
     log.info("[login] userId : {}, password : {}", userId, password);
     ResUserLoginDto resUserLoginDto = userService.login(reqUserLoginDto, request, response);
 //    return new ResponseEntity<>(resUserLoginDto, resUserLoginDto.getReturnCode() == 10000 ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity<ResUserLoginDto>(resUserLoginDto, HttpStatus.OK);
+  }
+
+  @PostMapping(value = "/tokenLogin", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Operation(
+          summary = "회원 토큰 로그인",
+          description = "회원 토큰 로그인 액션입니다.",
+          tags = { "User" },
+          responses = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "회원 토큰 로그인 성공",
+                          content = @Content(
+                                  schema = @Schema(implementation = ResUserLoginDto.class)
+                          )
+                  ),
+          }
+  )
+  public ResponseEntity<ResUserLoginDto> tokenLogin(@RequestBody ReqUserTokenLoginDto reqUserTokenLoginDto, HttpServletRequest request, HttpServletResponse response) {
+    ResUserLoginDto resUserLoginDto = userService.tokenLogin(reqUserTokenLoginDto, request, response);
     return new ResponseEntity<ResUserLoginDto>(resUserLoginDto, HttpStatus.OK);
   }
 
