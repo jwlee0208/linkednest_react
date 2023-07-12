@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { decode as base64_decode }       from 'base-64';
+import { decode as base64_decode, encode as base64_encode }       from 'base-64';
 import { axiosInstance }                 from '../..';
 import { RootState }                     from '../../reducer';
 import { MenuCategoryList_ }             from '../../component/function/admin/menu';
@@ -193,12 +193,47 @@ const userSlice = createSlice ({
                     path: '/',
                     maxAge: 24 * 60 * 60,
                     domain: '.linkednest.site'
-                });                
+                });
+                setCookie(`userId`, base64_encode(state.userId), {
+                    path: '/',
+                    maxAge: 24 * 60 * 60,
+                    domain: '.linkednest.site'
+                });                                
             } else {
                 alert(`Login Failure : [errCode : ${action.payload.returnCode}]`);
                 window.location.reload();
             }
         })
+        builder.addCase(asyncTokenLogin.fulfilled, (state, action) => {
+            if (action.payload.returnCode === 10000) {
+                state.userNo                = action.payload.userNo;
+                state.accessToken           = action.payload.accessToken;
+                state.refreshToken          = action.payload.refreshToken;
+                state.isLogin               = action.payload.isLogin;
+                state.userId                = action.payload.userId;
+                state.email                 = action.payload.email;
+                state.nickname              = action.payload.nickname;
+                state.introduce             = action.payload.introduce;
+                state.adminMenuCategoryList = action.payload.adminMenuCategoryList;
+                state.userRoleInfoList      = action.payload.userRoleInfoList;
+                state.roleInfoList          = action.payload.roleInfoList;  
+                
+                setCookie(`accessToken`, state.accessToken, {
+                    path: '/',
+                    maxAge: 24 * 60 * 60,
+                    domain: '.linkednest.site'
+                }); 
+                setCookie(`userId`, base64_encode(state.userId), {
+                    path: '/',
+                    maxAge: 24 * 60 * 60,
+                    domain: '.linkednest.site'
+                });                                
+            } else {
+                alert(`Login Failure : [errCode : ${action.payload.returnCode}]`);
+                window.location.reload();
+            }
+        })
+
         builder.addCase(asyncUserUpdate.fulfilled, (state, action) => {
             state.introduce = action.payload.introduce;        
         })
@@ -236,6 +271,11 @@ export const asyncLogin      = createAsyncThunk("LOGIN_USER", async (user : User
         return res.data;
     }    
 );
+
+export const asyncTokenLogin = createAsyncThunk("TOKEN_LOGIN_USER", async (userId : String) : Promise<User> => {
+    const res = await axiosInstance.post("/tokenLogin", {"userId": userId});
+    return res.data;
+});
 
 export const asyncSignUp     = createAsyncThunk("SIGN_UP", async (user : User) : Promise<User> => {
         const res = await axiosInstance.post("/user", user);

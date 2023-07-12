@@ -17,8 +17,9 @@ import bannerSlice, { BannerListInfo_, BannerList_ }
 import boardCategorySlice, { BoardCategoryList_, ContentBoardCategoryInfo_ } 
                                     from "../../store/modules/boardCategory";
 import LayoutType0                  from "./template/LayoutType0";
-import userSlice, { getUserInfo } from "../../store/modules/user";
+import userSlice, { asyncTokenLogin, getUserInfo } from "../../store/modules/user";
 import store from "../../store";
+import { getCookie } from "../../cookie";
 
 function Layout() {
   
@@ -104,6 +105,7 @@ function Layout() {
       setContentList(contentList); 
     }
 
+
     const setupContent = (content : Content_) => {
       // console.log('content : ', content);
       dispatch(contentSlice.actions.setContent(content));
@@ -138,6 +140,10 @@ function Layout() {
       if (user.isLogin === true && user.accessToken === '') {
         store.dispatch(userSlice.actions.logout(user));
       } 
+      if (user.isLogin === false && getCookie('accessToken') !== undefined) {
+        const res = dispatch(asyncTokenLogin(getCookie('userId')));      
+        console.log('login res : ', res, ' , json.parse : ', JSON.stringify(res));
+      }
 
       const setupContentState = () => {
         let retryCntForSetupContentState = 0;

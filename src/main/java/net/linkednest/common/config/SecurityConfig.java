@@ -80,12 +80,14 @@ public class SecurityConfig {
                     .accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                     .authorizeHttpRequests()
+                    
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers(
                                   new AntPathRequestMatcher("/style/**")
                                 , PathRequest.toStaticResources().atCommonLocations()
                                 , new AntPathRequestMatcher("/user")
                                 , new AntPathRequestMatcher("/login")
+                                , new AntPathRequestMatcher("/tokenLogin")
                                 , new AntPathRequestMatcher("/reIssueToken")
                                 , new AntPathRequestMatcher("/api/logout")
                                 , new AntPathRequestMatcher("/swagger-ui/**")

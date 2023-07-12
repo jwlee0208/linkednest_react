@@ -30,10 +30,10 @@ public class JwtProvider {
 
     private Key secretKey;
 
-    private final long expireDuration = 1000L * 60;
+    private final long expireDuration = 1000L * 60 * 60;
+                        // 1000L * 60 * 60 * 2; // 2 hour
 
     private final String TOKEN_PREFIX = "Bearer ";
-        // 1000L * 60 * 60 * 2; // 2 hour
 
     private final CustomUserDetailService userDetailService;
 
@@ -79,10 +79,16 @@ public class JwtProvider {
         if (StringUtils.isNotEmpty(token) && StringUtils.startsWith(token, TOKEN_PREFIX)) {
             token = token.split(" ")[1].trim();
             log.info("[{}.{}] bearer header is existed >> token : {}", this.getClass().getName(), "validateToken", token);
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            boolean isNotExpired = !claims.getBody().getExpiration().before(new Date());
-            log.info("[{}.{}] isNotExpired : {}", this.getClass().getName(), "validateToken", isNotExpired);
-            return isNotExpired;
+            boolean isNotExpired = false;
+            try {
+                Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+                isNotExpired = !claims.getBody().getExpiration().before(new Date());
+                log.info("[{}.{}] isNotExpired : {}", this.getClass().getName(), "validateToken", isNotExpired);
+            } catch (ExpiredJwtException eje) {
+                log.error("[{}.{}] error Message : {}", this.getClass().getName(), "validateToken", eje.getMessage());
+            } finally {
+                return isNotExpired;
+            }
         } else {
 //            log.info("[{}.{}] bearer header is not existed : {}", this.getClass().getName(), "validateToken", (!token.substring(0, "Bearer ".length()).equalsIgnoreCase("Bearer ")));
             return false;
