@@ -412,6 +412,9 @@ public class UserService {
         return userRepository.findByUserId(userId);
     }
 
+    public Optional<User> getUserByUserNo(Long userNo)  {
+        return userRepository.findByUserNo(userNo);
+    }
     public ResTokenDto reIssueToken(String refreshToken) {
         ResTokenDto resTokenDto = new ResTokenDto();
         Optional<UserRefreshToken> userRefreshTokenOptional = userRefreshTokenRepository.findByRefreshToken(refreshToken);
