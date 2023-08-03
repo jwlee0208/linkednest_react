@@ -1,13 +1,13 @@
 import { Box, Paper }                     from "@mui/material";
 import { Navigate, Route, Router, Routes, useLocation, useParams } from "react-router";
-import ArticleDetail               from "../../function/board/article/ArticleDetail";
-import ArticleEdit                 from "../../function/board/article/ArticleEdit";
-import ArticleList                 from "../../function/board/article/ArticleList";
+import ArticleDetail               from "../../../function/board/article/ArticleDetail";               
+import ArticleEdit                 from "../../../function/board/article/ArticleEdit";
+import ArticleList                 from "../../../function/board/article/ArticleList";
 import Home                        from "./Home";
-import Mypage                      from "../../function/user/Mypage";
-import Login                       from "../../function/user/Login";
-import SignupForStepper            from "../../function/user/signup/SignupForStepper";
-import { getReferrer } from ".";
+import Mypage                      from "../../../function/user/Mypage";
+import Login                       from "../../../function/user/Login";
+import SignupForStepper            from "../../../function/user/signup/SignupForStepper";
+import { getReferrer } from "..";
 import { useNavigate } from 'react-router-dom';
 
 type ContentProps = {

@@ -8,9 +8,9 @@ import { Typography, AppBar, Avatar, IconButton, ButtonGroup, Box, Container, Me
        , MenuItem, Toolbar, Tooltip, styled, Hidden, Grid, Divider, ListItemIcon, List, ListItem } 
                              from "@mui/material";
 import SelectBoxForContent   from "./SelectBoxForContent";
-import { User, asyncLogout } from "../../../../store/modules/user";
-import { ContentList_ }      from "../../../../store/modules/content";
-import { useAppDispatch }    from "../../../../store/index.hooks";
+import { User, asyncLogout } from "../../../../../store/modules/user";
+import { ContentList_ }      from "../../../../../store/modules/content";
+import { useAppDispatch }    from "../../../../../store/index.hooks";
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 
 type HeaderProps = {

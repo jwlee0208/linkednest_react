@@ -1,13 +1,13 @@
 
-import HomeIcon           from '@mui/icons-material/Home';
-import PeopleIcon         from '@mui/icons-material/People';
-import React, { SyntheticEvent }              from "react";
-import BottomNavigation                 from "@mui/material/BottomNavigation";
-import BottomNavigationAction           from "@mui/material/BottomNavigationAction";
-import { useAppSelect }   from "../../../store/index.hooks";
-import { useNavigate } from "react-router";
-import { getUserInfo }    from "../../../store/modules/user";
-import {getContentInfo } from "../../../store/modules/content";
+import HomeIcon                   from '@mui/icons-material/Home';
+import PeopleIcon                 from '@mui/icons-material/People';
+import React, { SyntheticEvent }  from "react";
+import BottomNavigation           from "@mui/material/BottomNavigation";
+import BottomNavigationAction     from "@mui/material/BottomNavigationAction";
+import { useAppSelect }           from "../../../../store/index.hooks";
+import { useNavigate }            from "react-router";
+import { getUserInfo }            from "../../../../store/modules/user";
+import {getContentInfo }          from "../../../../store/modules/content";
 
 function MyBottomNav () {
     const userinfo    = useAppSelect(getUserInfo);

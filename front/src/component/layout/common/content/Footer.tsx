@@ -1,6 +1,6 @@
 import { Box, FormControl, Grid, Typography }   from "@mui/material";
-import { getContentInfo }                       from "../../../store/modules/content";
-import { useAppSelect }                         from "../../../store/index.hooks";
+import { getContentInfo }                       from "../../../../store/modules/content";
+import { useAppSelect }                         from "../../../../store/index.hooks";
 import Image                                    from "mui-image";
 
 function Footer() {

@@ -6,13 +6,13 @@ import React              from "react";
 import Hidden             from "@mui/material/Hidden";
 import { ContentList_, getContentInfo } 
                           from "../../../store/modules/content";
-import Header             from "../common/headerArea/Header";
+import Header             from "../common/content/headerArea/Header";
 import TopBanner          from "../common/topMenuArea/TopBanner";
-import Navbar             from "../common/Navbar";
-import Content            from "../common/Content";
-import Footer             from "../common/Footer";
-import MyBottomNav        from "../common/MyBottomNav";
-import SideFloatingButtons from "../common/sideArea/SideFloatingButtons";
+import Navbar             from "../common/content/Navbar";
+import Content            from "../common/content/Content";
+import Footer             from "../common/content/Footer";
+import MyBottomNav        from "../common/content/MyBottomNav";
+import SideFloatingButtons from "../common/content/sideArea/SideFloatingButtons";
 
 type layoutType3Props = {
   contentList : ContentList_,

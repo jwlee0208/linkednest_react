@@ -1,10 +1,10 @@
 import { Box, Button, Paper }           from "@mui/material";
 import { useLocation, useNavigate }                  from "react-router";
-import { User, asyncLogout }            from "../../../../store/modules/user";
-import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
-import { getLayoutInfo }                from "../../../../store/modules/layout";
+import { User, asyncLogout }            from "../../../../../store/modules/user";
+import { useAppDispatch, useAppSelect } from "../../../../../store/index.hooks";
+import { getLayoutInfo }                from "../../../../../store/modules/layout";
 import SideFloatingButtons              from "./SideFloatingButtons";
-import Login                            from "../../../function/user/Login";
+import Login                            from "../../../../function/user/Login";
 import { useEffect } from "react";
 import SideAreaBottom from "./SideAreaBottom";
 import SideAreaMId from "./SideAreaMid";

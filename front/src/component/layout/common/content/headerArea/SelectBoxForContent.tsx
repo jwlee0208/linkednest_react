@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } 
                                 from "@mui/material";
 import { useEffect, useState }  from "react";
-import { ContentList_ }         from "../../../../store/modules/content";
+import { ContentList_ }         from "../../../../../store/modules/content";
 
 type SelectBoxProps = {
     contentCode : string,

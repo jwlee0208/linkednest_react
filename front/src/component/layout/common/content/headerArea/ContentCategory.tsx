@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { useEffect }                        from "react";
-import { ContentCategoryList_ }             from "../../../../store/modules/contentCategory";
+import { ContentCategoryList_ }             from "../../../../../store/modules/contentCategory";
 
 type ContentCategoryProps = {
     contentCategoryList : ContentCategoryList_,

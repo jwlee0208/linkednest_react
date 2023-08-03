@@ -2,8 +2,8 @@ import { Box, Button, Fade, Grid, List, ListItem, Paper, Typography }
                         from "@mui/material";
 import { useState }     from 'react';
 import { BoardCategory_, Board_, ContentBoardCategoryInfo_, getContentBoardCategoryInfo } 
-                        from "../../../store/modules/boardCategory";
-import { useAppSelect } from "../../../store/index.hooks";
+                        from "../../../../store/modules/boardCategory";
+import { useAppSelect } from "../../../../store/index.hooks";
 
 function Navbar () {
 

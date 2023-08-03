@@ -20,6 +20,7 @@ import LayoutType0                  from "./template/LayoutType0";
 import userSlice, { asyncTokenLogin, getUserInfo } from "../../store/modules/user";
 import store from "../../store";
 import { getCookie } from "../../cookie";
+import LayoutShare from "./template/share/LayoutShare";
 
 function Layout() {
   
@@ -186,7 +187,7 @@ function Layout() {
       setupContentState();
       setContentCategoryListState();
 
-      if (contentCode !== 'admin') {
+      if (contentCode !== 'admin' && contentCode !== 'share') {
         setBannerListState();
         setContentListState();
         setContentBoardCategoryInfoState();
@@ -214,11 +215,11 @@ function Layout() {
     
     switch (layoutInfo.layoutId) {
       case "99" : return <LayoutAdmin/>
+      case "98" : return <LayoutShare/>
       case "1"  : return <LayoutType1 contentList={contentList}/>
       case "2"  : return <LayoutType2 contentList={contentList}/>
       case "3"  : return <LayoutType3 contentList={contentList}/>
       default   : return <LayoutType0 contentList={contentList} contentCategoryList={contentCategoryList}/>
     }
 }
-
 export default Layout;

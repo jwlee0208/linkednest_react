@@ -4,8 +4,8 @@ import TwitterIcon          from '@mui/icons-material/Twitter';
 import HomeIcon             from '@mui/icons-material/Home';
 import ChatIcon             from '@mui/icons-material/Chat';
 import YouTubeIcon          from '@mui/icons-material/YouTube';
-import { useAppSelect }     from "../../../../store/index.hooks";
-import { getContentInfo }   from "../../../../store/modules/content";
+import { useAppSelect }     from "../../../../../store/index.hooks";
+import { getContentInfo }   from "../../../../../store/modules/content";
 
 function SideFloatingButtons() {
     const contentInfo   = useAppSelect(getContentInfo);

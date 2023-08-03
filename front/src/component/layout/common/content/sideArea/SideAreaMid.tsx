@@ -1,10 +1,10 @@
 import { Box, Button, Paper } from "@mui/material";
-import Login from "../../../function/user/Login";
+import Login from "../../../../function/user/Login";
 import { useNavigate } from "react-router";
-import { useAppDispatch, useAppSelect } from "../../../../store/index.hooks";
-import { getLayoutInfo } from "../../../../store/modules/layout";
-import { getContentInfo }               from "../../../../store/modules/content";
-import { asyncLogout } from "../../../../store/modules/user";
+import { useAppDispatch, useAppSelect } from "../../../../../store/index.hooks";
+import { getLayoutInfo } from "../../../../../store/modules/layout";
+import { getContentInfo }               from "../../../../../store/modules/content";
+import { asyncLogout } from "../../../../../store/modules/user";
 
 type SideAreaMIdProps = {
     isLogin : boolean;

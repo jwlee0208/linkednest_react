@@ -3,36 +3,36 @@ import { RootState } from "../../reducer";
 
 export    interface BannerList_ extends Array<Banner_>{}
 export    interface Banner_ {
-      id : number;
-      content : number;
-      bannerName : string;
-      bannerDesc : string;
-      mainImageUrl : string;
-      midImageUrl : string;
-      etcImageUrl : string;
-      isActive : string;
-      fromShowDate : string;
-      toShowDate : string;
+      id            : number;
+      content       : number;
+      bannerName    : string;
+      bannerDesc    : string;
+      mainImageUrl  : string;
+      midImageUrl   : string;
+      etcImageUrl   : string;
+      isActive      : string;
+      fromShowDate  : string;
+      toShowDate    : string;
 }
 
 export interface BannerListInfo_ {
     contentCode : string,
-    bannerList : BannerList_,
+    bannerList  : BannerList_,
 }    
 
 const initialState : BannerListInfo_ = {
     contentCode : '',
-    bannerList : [],
+    bannerList  : [],
 };
 
 const bannerSlice = createSlice({
-    name : 'banner',
+    name        : 'banner',
     initialState,
-    reducers : {
+    reducers    : {
         setBannerList : (state, action) => {
             // console.log('setBannerList : ', action.payload.bannerList);
-            state.contentCode = action.payload.contentCode;
-            state.bannerList = action.payload.bannerList;
+            state.contentCode   = action.payload.contentCode;
+            state.bannerList    = action.payload.bannerList;
         }
     }
 });
