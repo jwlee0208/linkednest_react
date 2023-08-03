@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/api/slideshare")
 @RequiredArgsConstructor
 public class SlideshareApiController {
-    private SlideshareApiService slideshareApiService;
+    private final SlideshareApiService slideshareApiService;
 
     @PostMapping(value = "/slideList")
     public ResponseEntity getSlideList(SearchCommonApiDto searchCommonApiDto) {

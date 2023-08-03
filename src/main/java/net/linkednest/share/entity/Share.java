@@ -23,6 +23,8 @@ public class Share {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
+
+
     public void setUser(User user) {
         this.user = user;
     }

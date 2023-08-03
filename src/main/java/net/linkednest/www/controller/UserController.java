@@ -23,14 +23,11 @@ import net.linkednest.common.dto.user.signin.ResUserLoginDto;
 import net.linkednest.common.dto.user.signup.ReqUserRegistDto;
 import net.linkednest.common.dto.user.signup.ResUserRegistDto;
 import net.linkednest.common.entity.user.User;
-import net.linkednest.common.security.CustomUserDetails;
-import net.linkednest.www.service.UserService;
+import net.linkednest.common.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -172,7 +169,7 @@ public class UserController {
     log.info("[getUser] userId : {}", userId);
 
     ResUserDto resUserDto = new ResUserDto();
-    Optional<User> userOptional = userService.getUser(userId);
+    Optional<User> userOptional = userService.findByUserId(userId);
 
     boolean isExistUser = userOptional.isPresent();
     if (userOptional.isPresent()) {

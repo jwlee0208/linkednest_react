@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/api/youtube")
 @RequiredArgsConstructor
 public class YoutubeApiController {
-    private YoutubeApiService youtubeApiService;
+    private final YoutubeApiService youtubeApiService;
 
     @PostMapping(value = "/streamList")
     public ResponseEntity searchStreamList(SearchCommonApiDto searchCommonApiDto) {

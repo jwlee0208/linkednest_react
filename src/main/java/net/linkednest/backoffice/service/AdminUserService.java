@@ -14,7 +14,8 @@ import net.linkednest.common.entity.user.User;
 import net.linkednest.common.entity.user.UserProfile;
 import net.linkednest.common.repository.user.UserProfileRepository;
 import net.linkednest.common.repository.user.UserRepository;
-import net.linkednest.www.service.UserService;
+import net.linkednest.common.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-
 @Service
 @RequiredArgsConstructor
 public class AdminUserService {

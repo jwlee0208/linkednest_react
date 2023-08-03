@@ -15,6 +15,8 @@ import com.flickr4java.flickr.photos.PhotosInterface;
 import com.flickr4java.flickr.photos.SearchParameters;
 import com.flickr4java.flickr.uploader.UploadMetaData;
 import com.flickr4java.flickr.uploader.Uploader;
+import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
@@ -150,9 +152,9 @@ public class FlickrApiService {
         InputStream is          = null;
         String      responseStr = StringUtils.EMPTY;
         Flickr      f           = new Flickr(apiKey, sharedSecret, new REST());
-
+        OAuth1RequestToken oAuth1RequestToken = new OAuth1RequestToken(tokenKey, sharedSecret);
         AuthInterface   ai           = f.getAuthInterface();
-        Token           requestToken = ai.getAccessToken(token, new Verifier(tokenKey));
+        OAuth1Token     requestToken = ai.getAccessToken(oAuth1RequestToken, new Verifier(tokenKey).toString());
         Auth            auth         = null;
 
         try {
@@ -222,8 +224,9 @@ public class FlickrApiService {
         String          responseStr      = StringUtils.EMPTY;
 
         Flickr          f                = new Flickr(apiKey, sharedSecret, new REST());
+        OAuth1RequestToken oAuth1RequestToken = new OAuth1RequestToken(tokenKey, sharedSecret);
         AuthInterface   ai               = f.getAuthInterface();
-        Token           requestToken     = ai.getAccessToken(token, new Verifier(tokenKey));
+        OAuth1Token     requestToken     = ai.getAccessToken(oAuth1RequestToken, new Verifier(tokenKey).toString());
         Auth            auth             = null;
 
         try {
@@ -304,11 +307,11 @@ public class FlickrApiService {
         JSONObject      resultObj   = new JSONObject();
         Flickr          f           = new Flickr(apiKey, sharedSecret, new REST());
         AuthInterface   ai          = f.getAuthInterface();
-        Token           token       = ai.getRequestToken();
+        OAuth1RequestToken           token       = ai.getRequestToken();
         String          authUrl     = ai.getAuthorizationUrl(token, Permission.WRITE);
 
         resultObj.put("token"   , token.getToken());
-        resultObj.put("secret"  , token.getSecret());
+        resultObj.put("secret"  , token.getTokenSecret());
         resultObj.put("authUrl" , authUrl);
 
         return resultObj;

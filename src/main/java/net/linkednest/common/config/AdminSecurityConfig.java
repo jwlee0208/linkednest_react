@@ -9,6 +9,7 @@ import net.linkednest.www.service.security.CustomUserDetailService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,6 +46,7 @@ public class AdminSecurityConfig {
     private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
+    @Lazy
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         log.info("[{}.{}] START >>>", this.getClass().getName(), "filterChain");
         httpSecurity
@@ -96,11 +98,13 @@ public class AdminSecurityConfig {
     }
 
     @Bean
+    @Lazy
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
+    @Lazy
     public FilterSecurityInterceptor urlFilterSecurityInterceptor(RoleAccessProvider roleAccessProvider) throws Exception {
         FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
         filterSecurityInterceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource(roleAccessProvider));
@@ -110,6 +114,7 @@ public class AdminSecurityConfig {
     }
 
     @Bean
+    @Lazy
     public UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource(RoleAccessProvider roleAccessProvider) {
         return new UrlFilterInvocationSecurityMetadataSource(roleAccessProvider);
     }
@@ -119,6 +124,7 @@ public class AdminSecurityConfig {
     }
 
     @Bean
+    @Lazy
     public AuthenticationManager authenticationManager(CustomUserDetailService customUserDetailService) throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(customUserDetailService);

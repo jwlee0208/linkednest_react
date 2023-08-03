@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/flickr")
 public class FlickrApiController {
-    private FlickrApiService flickrApiService;
+    private final FlickrApiService flickrApiService;
 
     /**
      * flickr photo list

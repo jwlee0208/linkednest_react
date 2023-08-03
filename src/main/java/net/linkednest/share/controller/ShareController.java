@@ -9,14 +9,11 @@ import net.linkednest.common.entity.user.User;
 import net.linkednest.common.security.JwtProvider;
 import net.linkednest.share.dto.ReqShareDto;
 import net.linkednest.share.dto.ResShareDto;
-import net.linkednest.share.entity.Share;
 import net.linkednest.share.service.ShareService;
-import net.linkednest.www.service.UserService;
-import org.apache.commons.lang3.StringUtils;
+import net.linkednest.common.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Slf4j
@@ -24,8 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/share")
 public class ShareController {
-
+    private JwtProvider jwtProvider;
     private final ShareService shareService;
+    private final UserService userService;
 
     @GetMapping(value = "/{userNo}")
     public ResponseEntity getShare(HttpServletRequest request, @PathVariable Long userNo) {
@@ -56,7 +54,13 @@ public class ShareController {
         boolean isUserValid = this.shareService.isUserValid(request, reqShareDto.getUserNo());
         CommonResDto commonResDto = new CommonResDto();
         if (isUserValid) {
-            commonResDto = this.shareService.modifyShare(reqShareDto);
+            Optional<User> userOptional = userService.findByUserId(jwtProvider.getUserId(request));
+            if (userOptional.isPresent()) {
+                commonResDto = this.shareService.mergeShare(userOptional.get());
+            } else {
+                commonResDto.setReturnCode(20002);
+                commonResDto.setReturnMsg(ResponseCodeMsg.of(20002).getResMsg());
+            }
         } else {
             commonResDto.setReturnCode(20005);
             commonResDto.setReturnMsg(ResponseCodeMsg.of(20005).getResMsg());
