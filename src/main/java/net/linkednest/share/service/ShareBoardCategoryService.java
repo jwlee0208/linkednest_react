@@ -26,9 +26,12 @@ public class ShareBoardCategoryService {
 
     public List<ShareBoardCategory> getShareBoardCategoryList(ReqShareBoardCategoryDto reqShareBoardCategoryDto) {
         String userId = reqShareBoardCategoryDto.getCreateUserId();
+        log.info("[{}.{}] userId : {}", this.getClass().getName(), "getShareBoardCategoryList", userId);
         if (StringUtils.isNotEmpty(userId)) {
             Optional<User> userOptional = userService.findByUserId(userId);
+            log.info("[{}.{}] userOptional : {}", this.getClass().getName(), "getShareBoardCategoryList", userOptional);
             if (userOptional.isPresent()){
+                log.info("[{}.{}] userOptional.get() : {}", this.getClass().getName(), "getShareBoardCategoryList", userOptional.get());
                 return shareBoardCategoryRepository.findAllByUser(userOptional.get());
             }
         }

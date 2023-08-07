@@ -22,7 +22,9 @@ spring:
     uploadpath: /Users/leejinwon/www/board/uploadfiles
     domain:  http://127.0.0.1:8080/board
     path: /resources/uploadfiles/
-
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
 
 

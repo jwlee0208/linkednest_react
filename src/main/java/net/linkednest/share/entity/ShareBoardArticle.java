@@ -15,6 +15,7 @@ public class ShareBoardArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long	   		id;
+
     @JsonBackReference
     @JoinColumn(name = "shareBoardCategoryId")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,14 +24,12 @@ public class ShareBoardArticle {
     @JsonBackReference
     @JoinColumn(name = "shareBoardId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     private ShareBoard      shareBoard;
     private String 			title;
     private String 			content;
     @JsonBackReference
     @JoinColumn(name = "createUserNo")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     private User            createUser;
     private String 			createDate;
     private String			filePath;
