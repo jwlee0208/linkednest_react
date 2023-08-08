@@ -10,7 +10,9 @@ function ShareContent () {
             <Routes>
                 <Route path='/share'                     element={<ShareMain/>} />
                 <Route path='/share/:userId'             element={<ShareUser/>} />
-                <Route path='/share/:userId/detail/:shareBoardArticleId' element={<ShareBoardArticleDetail/>}/>
+                <Route path='/share/:userId/:shareBoardCategoryId' element={<ShareUser/>} />
+                <Route path='/share/:userId/:shareBoardCategoryId/:shareBoardId' element={<ShareUser/>} />
+                <Route path='/share/:userId/:shareBoardCategoryId/:shareBoardId/:shareBoardArticleId' element={<ShareBoardArticleDetail/>}/>
             </Routes>
         </Paper>    
     )

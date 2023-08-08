@@ -31,15 +31,15 @@ public class ShareBoardArticleController {
     private final ShareBoardArticleService shareBoardArticleService;
     private final UserService userService;
 
-    @RequestMapping(value = {"", "/", "/list"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = {"", "/"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity getShareBoardArticleMain() {
         return ResponseEntity.ok("");
     }
 
-    @RequestMapping(value = "/list/{userNo}", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity getShareBoardArticleListByUser(ReqShareBoardArticleListDto reqShareBoardArticleListDto, @PathVariable Long userNo) {
+    @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity getShareBoardArticleListByUser(ReqShareBoardArticleListDto reqShareBoardArticleListDto) {
         ResShareBoardArticleListDto resShareBoardArticleListDto = new ResShareBoardArticleListDto();
-        Optional<User> userOptional = userService.getUserByUserNo(userNo);
+        Optional<User> userOptional = userService.findByUserId(reqShareBoardArticleListDto.getShareUserId());
         if (userOptional.isPresent()) {
             Page<ShareBoardArticle> shareBoardArticlePage = this.shareBoardArticleService.getShareBoardArticleList(reqShareBoardArticleListDto, userOptional.get());
             if (shareBoardArticlePage.hasContent()) {

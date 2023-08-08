@@ -22,7 +22,7 @@ import java.util.List;
 //@RequiredArgsConstructor
 public class AdminUserController {
     @Autowired
-    private UserService adminUserService;
+    private UserService userService;
     @Operation(
             summary = "어드민 >> 유저 목록 조회 API",
             description = "어드민 >> 유저 목록 조회 API입니다.",
@@ -39,7 +39,7 @@ public class AdminUserController {
     )
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<List<ResUserDto>> getUserList(HttpServletRequest request) {
-        List<ResUserDto> userList = adminUserService.userList();
+        List<ResUserDto> userList = userService.userList();
         return ResponseEntity.ok(userList);
     }
 
@@ -59,7 +59,7 @@ public class AdminUserController {
     )
     @GetMapping(value="/{userId}")
     public ResponseEntity<ResUserDto> getUserInfo(@PathVariable(name = "userId", required = true) String userId) {
-        ResUserDto userInfo = adminUserService.getUser(StringUtils.defaultString(userId));
+        ResUserDto userInfo = userService.getUser(StringUtils.defaultString(userId));
         return ResponseEntity.ok(userInfo);
     }
 }

@@ -1,5 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "./user";
+import { RootState } from "../../reducer";
+import { axiosInstance } from "../..";
 
 export interface ShareBoardArticleList_ extends Array<ShareBoardArticle_>{}
 
@@ -45,25 +47,55 @@ export interface Share_ {
     introduce       : string;
     createUserId    : string;
     createDate      : string;
+    shareBoardCategoryList : ShareBoardCategoryList_; 
+    returnCode      : number;
+    returnMsg       : string; 
 }
 
 const initialState : Share_ = {
-    id : 0,
-    shareName : "",
-    shareType : "",
-    introduce : "",
-    createUserId : "",
-    createDate  : "",
+    id              : 0,
+    shareName       : "",
+    shareType       : "",
+    introduce       : "",
+    createUserId    : "",
+    createDate      : "",
+    shareBoardCategoryList : [],
+    returnCode      : 0,
+    returnMsg       : "" 
 };
 
 const shareSlice = createSlice({
     name        : 'share',
     initialState,
     reducers    : {
-
+        setShareInfo : (state, action) => {
+            if  (action.payload.returnCode === 10000) {
+                state.id = action.payload.id;
+                state.introduce = action.payload.introduce;
+                state.shareName = action.payload.shareName;
+                state.shareType = action.payload.shareType;
+                state.shareBoardCategoryList = action.payload.shareBoardCategoryList;
+            }
+        }
     },
     extraReducers : (builder)  =>  {
-    } 
+        builder.addCase(asyncShare.fulfilled, (state, action) => {
+            if  (action.payload.returnCode === 10000) {
+                state.id = action.payload.id;
+                state.introduce = action.payload.introduce;
+                state.shareName = action.payload.shareName;
+                state.shareType = action.payload.shareType;
+                state.shareBoardCategoryList = action.payload.shareBoardCategoryList;
+            }
+        });
+    }
 });
+
+export const asyncShare = createAsyncThunk("SHARE", async (shareUserId : String) : Promise<Share_> => {
+    const res = await axiosInstance.get(`/api/share/${shareUserId}`);
+    return res.data;
+}); 
+
+export const getShareInfo = (state : RootState) => state.shareSlice;
 
 export default shareSlice;

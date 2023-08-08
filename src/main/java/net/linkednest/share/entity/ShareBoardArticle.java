@@ -29,6 +29,7 @@ public class ShareBoardArticle {
     private String 			content;
     @JsonBackReference
     @JoinColumn(name = "createUserNo")
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User            createUser;
     private String 			createDate;

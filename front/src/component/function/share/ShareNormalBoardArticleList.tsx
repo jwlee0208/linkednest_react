@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { ShareBoardArticleList_, ShareBoardArticle_ } from "../../../store/modules/share";
 import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { axiosInstance } from "../../..";
 
 function ShareNormalBoardArticleList () {
-    const location = useLocation();
-    const navigate = useNavigate();
+    const location              = useLocation();
+    const navigate              = useNavigate();
+    const params                = useParams();
+    const shareBoardId          = params.shareBoardId;
+    const shareBoardCategoryId  = params.shareBoardCategoryId;
+    const shareUserId           = params.userId;
 
-    const [totalPages, setTotalPages] = useState(0);
+    const [limit                , setLimit]  = useState(10);
+    const [page                 , setPage]   = useState(1);
+    const [offset               , setOffset] = useState(0);
+    const [totalPages           , setTotalPages]            = useState(0);
     const [shareBoardArticleList, setShareBoardArticleList] = useState<ShareBoardArticleList_>([{
         id              : 0,
         title           : "",
@@ -60,11 +67,14 @@ function ShareNormalBoardArticleList () {
         setShareBoardArticleList(shareBoardArticleList_);
     }
 
-    const getShareBoardArticleList = (offset  : number, limit  : number) => {
-        axiosInstance.post('/api/share/board/article/list/71',
+    const getShareBoardArticleList = (page  : number, limit  : number) => {
+        axiosInstance.post('/api/share/board/article/list',
             JSON.stringify({
-                offset  : offset * limit,
-                limit   : limit,
+                shareBoardCategoryId : shareBoardCategoryId,
+                shareBoardId         : shareBoardId,
+                shareUserId          : shareUserId,
+                offset               : (page - 1) * limit,
+                limit                : limit,
             })
         ).then(res => {
             setupShareBoardArticleList(res.data.shareBoardArticleList);
@@ -76,24 +86,19 @@ function ShareNormalBoardArticleList () {
 
     const handleMenuView = (shareBoardArticle : ShareBoardArticle_, e : React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        navigate(`${location.pathname}/detail/${shareBoardArticle.id}`, {state : {shareBoardArticle : shareBoardArticle}});
+        navigate(`/share/${shareUserId}/${shareBoardCategoryId}/${shareBoardArticle.shareBoard.id}/${shareBoardArticle.id}`, {state : {shareBoardArticle : shareBoardArticle}});
     }
 
-    const [limit                , setLimit]  = useState(10);
-    const [page                 , setPage]   = useState(1);
-    const [offset               , setOffset] = useState(0);
-    
     let pageCnt = totalPages;
 
     const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
         e.preventDefault();
         setPage(value);
-        setOffset(value - 1);
     };
 
     useEffect(() => {
-        getShareBoardArticleList(offset, 10);
-    }, [offset]);
+        getShareBoardArticleList(page, 10);
+    }, [page, shareUserId, shareBoardCategoryId, shareBoardId]);
 
     return (
         <Box>
@@ -109,6 +114,7 @@ function ShareNormalBoardArticleList () {
                     </TableHead>
                     <TableBody>
                     {
+                        shareBoardArticleList !== null ? 
                         shareBoardArticleList.slice(offset, offset+limit).map((shareBoardArticle, index) => (
                             <TableRow key={`${shareBoardArticle.id}_${shareBoardArticle.id}`}>
                                 <TableCell>{index + offset + 1}</TableCell>
@@ -119,6 +125,7 @@ function ShareNormalBoardArticleList () {
                                 </TableCell>
                             </TableRow>
                         ))
+                        : <></>
                     }                
                     </TableBody>    
                 </Table>

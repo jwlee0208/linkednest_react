@@ -25,13 +25,13 @@ public class ShareController {
     private final ShareService shareService;
     private final UserService userService;
 
-    @GetMapping(value = "/{userNo}")
-    public ResponseEntity getShare(HttpServletRequest request, @PathVariable Long userNo) {
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity getShare(HttpServletRequest request, @PathVariable String userId) {
         // to-do : token의 user 정보와 파라미터 유저 정보의 비교
-        boolean isUserValid = this.shareService.isUserValid(request, userNo);
+        boolean isUserValid = true; // this.shareService.isUserValid(request, userId);
         ResShareDto resShareDto= new ResShareDto();
         if  (isUserValid) {
-            resShareDto = this.shareService.getShare(userNo);
+            resShareDto = this.shareService.getShare(userId);
         }  else {
             resShareDto.setReturnCode(20005);
             resShareDto.setReturnMsg(ResponseCodeMsg.of(20005).getResMsg());

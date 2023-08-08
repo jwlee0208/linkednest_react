@@ -11,7 +11,6 @@ import net.linkednest.common.security.JwtProvider;
 import net.linkednest.share.dto.ResShareDto;
 import net.linkednest.share.entity.Share;
 import net.linkednest.share.repository.ShareRepository;
-import net.linkednest.common.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +26,9 @@ public class ShareService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
-    public ResShareDto getShare(Long userNo) {
+    public ResShareDto getShare(String userId) {
         ResShareDto resShareDto = new ResShareDto();
-        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+        Optional<User> userOptional = userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
             Optional<Share> optionalShare = shareRepository.findByUser(userOptional.get());
             if (optionalShare.isPresent()){
@@ -40,6 +39,7 @@ public class ShareService {
                 resShareDto.setShareType(optionalShare.get().getShareType());
                 resShareDto.setUserNo(optionalShare.get().getUser().getUserNo());
                 resShareDto.setCreateDate(optionalShare.get().getCreateDate());
+                resShareDto.setShareBoardCategoryList(optionalShare.get().getShareBoardCategoryList());
             } else {
                 resShareDto.setReturnCode(40000);
                 resShareDto.setReturnMsg(ResponseCodeMsg.of(40000).getResMsg());

@@ -432,7 +432,7 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByUserId(userId);
         return userOptional.map(this::getUser).orElse(null);
     }
-    private ResUserDto getUser(User u) {
+    public ResUserDto getUser(User u) {
         ResUserDto userObj = new ResUserDto();
         userObj.setUserNo(u.getUserNo());
         userObj.setUserId(u.getUserId());

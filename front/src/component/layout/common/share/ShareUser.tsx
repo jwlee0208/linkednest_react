@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
 import { axiosInstance } from "../../../..";
-import { ShareBoardArticleList_ } from "../../../../store/modules/share";
+import shareSlice from "../../../../store/modules/share";
 import ShareNormalBoardArticleList from "../../../function/share/ShareNormalBoardArticleList";
 
-function ShareUser  () {
+function ShareUser () {
+
+    const params      = useParams();
+    const shareUserId = params.userId;    
+    const dispatch    = useDispatch();
 
     useEffect(() => {
-        /* axiosInstance.post('/api/share/board/article/list/71',
-            JSON.stringify({
-                offset  : 0,
-                limit   : 10,
-            })
-        ).then(res => {
-            setupShareBoardArticleList(res.data.shareBoardArticleList);
-            setTotalPages(res.data.totalPages);
-        }).catch(err => (
-            alert(`[${err.code}][${err.response.status}] ${err.message}`)    
-        )); */
-    },[]);
+        if (shareUserId !== null && shareUserId !== undefined) {
+            axiosInstance.get(`/api/share/${shareUserId}`)
+                .then(res => {
+                    dispatch(shareSlice.actions.setShareInfo(res.data));
+                })
+        }    
+    }, [shareUserId]);
 
     return (
         <ShareNormalBoardArticleList/>
