@@ -59,7 +59,7 @@ function ShareSideArea() {
             {
                 shareBoardCategoryList !== null ? 
                     shareBoardCategoryList.map(sbc => (
-                        <Paper key={`${sbc.boardCategoryName}_key`} elevation={3} sx={{marginTop:'10px', marginRight:'10px'}}>
+                        <Paper key={`${sbc.boardCategoryName}_key`} elevation={3} sx={{marginTop:'10px', marginRight:'10px', marginBottom:'10px'}}>
                             <ShareBoardCategoryMenuRow shareBoardCategory={sbc} userId={shareUserId}/>
                         </Paper>
                     )) 

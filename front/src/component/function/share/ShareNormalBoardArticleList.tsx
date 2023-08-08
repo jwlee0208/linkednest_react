@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { ShareBoardArticleList_, ShareBoardArticle_ } from "../../../store/modules/share";
-import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { ShareBoardArticleList_, ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
+import { Box, Breadcrumbs, Button, Divider, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { axiosInstance } from "../../..";
+import { useAppSelect } from "../../../store/index.hooks";
 
 function ShareNormalBoardArticleList () {
     const location              = useLocation();
@@ -11,7 +12,10 @@ function ShareNormalBoardArticleList () {
     const shareBoardId          = params.shareBoardId;
     const shareBoardCategoryId  = params.shareBoardCategoryId;
     const shareUserId           = params.userId;
-
+    const shareInfo             = useAppSelect(getShareInfo);
+    const pathArr               = location.pathname.split("/");
+    let shareBoardName        = '';
+    let shareBoardCategoryName= '';
     const [limit                , setLimit]  = useState(10);
     const [page                 , setPage]   = useState(1);
     const [offset               , setOffset] = useState(0);
@@ -101,7 +105,14 @@ function ShareNormalBoardArticleList () {
     }, [page, shareUserId, shareBoardCategoryId, shareBoardId]);
 
     return (
-        <Box>
+        <Box sx={{p : 2}}>
+            <Typography variant="h4">List</Typography>
+            <Divider/>
+            <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
+                <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            
+                <Link underline="hover" color="inherit">{shareInfo.shareName.toUpperCase()}</Link>   
+                <Typography color="text.primary">LIST</Typography>
+            </Breadcrumbs>           
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -115,16 +126,16 @@ function ShareNormalBoardArticleList () {
                     <TableBody>
                     {
                         shareBoardArticleList !== null ? 
-                        shareBoardArticleList.slice(offset, offset+limit).map((shareBoardArticle, index) => (
-                            <TableRow key={`${shareBoardArticle.id}_${shareBoardArticle.id}`}>
-                                <TableCell>{index + offset + 1}</TableCell>
-                                <TableCell><Button onClick={(e) => handleMenuView(shareBoardArticle as ShareBoardArticle_, e)}>{shareBoardArticle.title}</Button></TableCell>
-                                <TableCell>{shareBoardArticle.createUser.nickname}</TableCell>
-                                <TableCell>
-                                    <Typography>{shareBoardArticle.createDate}</Typography>                                
-                                </TableCell>
-                            </TableRow>
-                        ))
+                            shareBoardArticleList.slice(offset, offset+limit).map((shareBoardArticle, index) => (
+                                <TableRow key={`${shareBoardArticle.id}_${shareBoardArticle.id}`}>
+                                    <TableCell>{index + offset + 1}</TableCell>
+                                    <TableCell><Button onClick={(e) => handleMenuView(shareBoardArticle as ShareBoardArticle_, e)} sx={{textAlign:'left'}}>{shareBoardArticle.title}</Button></TableCell>
+                                    <TableCell>{shareBoardArticle.createUser.nickname}</TableCell>
+                                    <TableCell>
+                                        <Typography>{shareBoardArticle.createDate}</Typography>                                
+                                    </TableCell>
+                                </TableRow>
+                            ))
                         : <></>
                     }                
                     </TableBody>    

@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CalendarMonthIcon            from '@mui/icons-material/CalendarMonth';
 
 import Parser                       from 'html-react-parser';
-import { ShareBoardArticle_ } from "../../../store/modules/share";
+import { ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
 import { axiosInstance } from "../../..";
 import { useEffect, useState } from "react";
+import { useAppSelect } from "../../../store/index.hooks";
 
 function ShareBoardArticleDetail() {
     const location = useLocation();
@@ -59,6 +60,7 @@ function ShareBoardArticleDetail() {
     const pathArr           = location.pathname.split("/");
     const shareBoardArticleId = `${pathArr[4]}`;
     const boardDefaultPath  = `/${pathArr[1]}/${pathArr[2]}`;
+    const shareInfo = useAppSelect(getShareInfo);
 
     const moveToEdit = (shareBoardArticle : ShareBoardArticle_, e: React.MouseEvent<HTMLElement>) => {
         // navigate(`${boardDefaultPath}/edit/${ShareBoardArticle.id}`, {state : {boardArticle : boardArticle, boardCategoryKeyword : boardCategoryKeyword, boardKeyword : boardKeyword}})
@@ -86,38 +88,38 @@ function ShareBoardArticleDetail() {
                 console.log(err);    
             })            
         }
-            console.log(`shareBoardArticle : ${shareBoardArticle}`);
+        console.log(`shareBoardArticle : ${shareBoardArticle}`);
 
     }, []);
 
     return (
         <Box sx={{p : 2}}>    
-        <Typography variant="h4" >Share Article Detail</Typography>
-        <Divider/>
-{/*         <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}}>
-            <Link underline="hover" color="inherit">{contentCode}</Link>            
-            <Link underline="hover" color="inherit">{boardCategoryKeyword}</Link>   
-            <Link underline="hover" color="inherit">{boardKeyword}</Link>         
-            <Typography color="text.primary">view</Typography>
-        </Breadcrumbs>           
- */}        <Paper elevation={0} variant="outlined" sx={{p:2}}>    
-            <Typography variant="h4">{shareBoardArticle.title}</Typography>    
-            <Typography sx={{p:1}} align="left"><CalendarMonthIcon/>&nbsp;Posted by {shareBoardArticle.createUser.nickname}</Typography>
-            <hr/>    
-            <Typography sx={{p:1}}>
-                <div dangerouslySetInnerHTML={{__html : shareBoardArticle.content}}></div>
-            </Typography>
-            <Typography sx={{p:1}} align="left">Posted at {shareBoardArticle.createDate}</Typography>
-            <Grid container item>
-                <FormControl fullWidth sx={{ m: 1}}>
-                    <ButtonGroup>
-                        <Button variant="outlined" size="large" onClick={(e) =>moveToEdit(shareBoardArticle as ShareBoardArticle_, e)}>Edit</Button>
-                        <Button variant="outlined" size="large" onClick={(e) =>handleToDelete(shareBoardArticle.id, e)}>Delete</Button>
-                    </ButtonGroup>
-                </FormControl>
-            </Grid>
-        </Paper> 
-    </Box>           
+            <Typography variant="h4" >Share Article Detail</Typography>
+            <Divider/>
+            <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
+                <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            
+                <Link underline="hover" color="inherit">{shareInfo.shareName.toUpperCase()}</Link>   
+                <Link underline="hover" color="inherit">{shareBoardArticle.shareBoard.boardName.toUpperCase()}</Link>         
+                <Typography color="text.primary">VIEW</Typography>
+            </Breadcrumbs>           
+            <Paper elevation={0} variant="outlined" sx={{p:2}}>    
+                <Typography variant="h4">{shareBoardArticle.title}</Typography>    
+                <Typography sx={{p:1}} align="left"><CalendarMonthIcon/>&nbsp;Posted by {shareBoardArticle.createUser.nickname}</Typography>
+                <hr/>    
+                <Typography sx={{p:1}}>
+                    <div dangerouslySetInnerHTML={{__html : shareBoardArticle.content}}></div>
+                </Typography>
+                <Typography sx={{p:1}} align="left">Posted at {shareBoardArticle.createDate}</Typography>
+                <Grid container item>
+                    <FormControl fullWidth sx={{ m: 1}}>
+                        <ButtonGroup>
+                            <Button variant="outlined" size="large" onClick={(e) =>moveToEdit(shareBoardArticle as ShareBoardArticle_, e)}>Edit</Button>
+                            <Button variant="outlined" size="large" onClick={(e) =>handleToDelete(shareBoardArticle.id, e)}>Delete</Button>
+                        </ButtonGroup>
+                    </FormControl>
+                </Grid>
+            </Paper> 
+        </Box>           
     )
 }
 
