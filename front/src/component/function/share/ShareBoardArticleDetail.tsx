@@ -1,12 +1,12 @@
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Box, Breadcrumbs, Button, ButtonGroup, Divider, FormControl, Grid, Link, Paper, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import CalendarMonthIcon            from '@mui/icons-material/CalendarMonth';
 
-import Parser                       from 'html-react-parser';
-import { ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
-import { axiosInstance } from "../../..";
 import { useEffect, useState } from "react";
+import { axiosInstance } from "../../..";
 import { useAppSelect } from "../../../store/index.hooks";
+import { ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
+import { getUserInfo } from "../../../store/modules/user";
 
 function ShareBoardArticleDetail() {
     const location = useLocation();
@@ -57,10 +57,15 @@ function ShareBoardArticleDetail() {
             modifyDate          : "",
         }, 
     });
-    const pathArr           = location.pathname.split("/");
-    const shareBoardArticleId = `${pathArr[4]}`;
-    const boardDefaultPath  = `/${pathArr[1]}/${pathArr[2]}`;
-    const shareInfo = useAppSelect(getShareInfo);
+    const pathArr               = location.pathname.split("/");
+    const shareBoardArticleId   = `${pathArr[5]}`;
+    const boardDefaultPath      = `/${pathArr[1]}/${pathArr[2]}`;
+    const shareInfo             = useAppSelect(getShareInfo);
+    const userInfo              = useAppSelect(getUserInfo);
+
+    const moveToGo = (shareBoardArticle : ShareBoardArticle_, e: React.MouseEvent<HTMLElement>) => {
+        navigate(`${boardDefaultPath}`);
+    }
 
     const moveToEdit = (shareBoardArticle : ShareBoardArticle_, e: React.MouseEvent<HTMLElement>) => {
         // navigate(`${boardDefaultPath}/edit/${ShareBoardArticle.id}`, {state : {boardArticle : boardArticle, boardCategoryKeyword : boardCategoryKeyword, boardKeyword : boardKeyword}})
@@ -77,6 +82,27 @@ function ShareBoardArticleDetail() {
         ))
     }
 
+    const viewButtonGroup = () => {
+        const isValidEditContent = userInfo.isLogin  
+                                && userInfo.userId === pathArr[2] 
+                                && userInfo.userId !== '0' 
+                                && userInfo.userId !== undefined;
+        switch (isValidEditContent) {
+            case true : return (
+                <ButtonGroup>
+                    <Button variant="outlined" size="large" onClick={(e) =>moveToGo(shareBoardArticle as ShareBoardArticle_, e)}>List</Button>
+                    <Button variant="outlined" size="large" onClick={(e) =>moveToEdit(shareBoardArticle as ShareBoardArticle_, e)}>Edit</Button>
+                    <Button variant="outlined" size="large" onClick={(e) =>handleToDelete(shareBoardArticle.id, e)}>Delete</Button>
+                </ButtonGroup>
+            )
+            default : return (
+                <ButtonGroup>
+                    <Button variant="outlined" size="large" onClick={(e) =>moveToGo(shareBoardArticle as ShareBoardArticle_, e)}>List</Button>
+                </ButtonGroup>
+            )
+        }
+    }
+
     useEffect(() => {
         if (location.state !== null) {
             setShareBoardArticle(location.state.shareBoardArticle);
@@ -88,7 +114,6 @@ function ShareBoardArticleDetail() {
                 console.log(err);    
             })            
         }
-        // console.log(`shareBoardArticle : ${shareBoardArticle}`);
     }, []);
 
     return (
@@ -97,7 +122,7 @@ function ShareBoardArticleDetail() {
             <Divider/>
             <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
                 <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            
-                <Link underline="hover" color="inherit">{shareInfo.shareName.toUpperCase()}</Link>   
+                <Link underline="hover" color="inherit">{pathArr[2].toUpperCase()}</Link>   
                 <Link underline="hover" color="inherit">{shareBoardArticle.shareBoard.boardName.toUpperCase()}</Link>         
                 <Typography color="text.primary">VIEW</Typography>
             </Breadcrumbs>           
@@ -111,10 +136,7 @@ function ShareBoardArticleDetail() {
                 <Typography sx={{p:1}} align="left">Posted at {shareBoardArticle.createDate}</Typography>
                 <Grid container item>
                     <FormControl fullWidth sx={{ m: 1}}>
-                        <ButtonGroup>
-                            <Button variant="outlined" size="large" onClick={(e) =>moveToEdit(shareBoardArticle as ShareBoardArticle_, e)}>Edit</Button>
-                            <Button variant="outlined" size="large" onClick={(e) =>handleToDelete(shareBoardArticle.id, e)}>Delete</Button>
-                        </ButtonGroup>
+                    {viewButtonGroup()}
                     </FormControl>
                 </Grid>
             </Paper> 

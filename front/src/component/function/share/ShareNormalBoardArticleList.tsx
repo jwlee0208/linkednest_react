@@ -14,8 +14,7 @@ function ShareNormalBoardArticleList () {
     const shareUserId           = params.userId;
     const shareInfo             = useAppSelect(getShareInfo);
     const pathArr               = location.pathname.split("/");
-    let shareBoardName        = '';
-    let shareBoardCategoryName= '';
+    const boardType             = (location.state !== null) ? location.state.boardType : null;
     const [limit                , setLimit]  = useState(10);
     const [page                 , setPage]   = useState(1);
     const [offset               , setOffset] = useState(0);
@@ -100,6 +99,26 @@ function ShareNormalBoardArticleList () {
         setPage(value);
     };
 
+    const viewShareBoardArticleList = (shareBoardArticleList  : ShareBoardArticleList_) => {
+        switch(shareBoardArticleList) {
+            case null : 
+                return <>No Content</>
+            default : 
+                return (
+                    shareBoardArticleList.slice(offset, offset+limit).map((shareBoardArticle, index) => (
+                        <TableRow key={`${shareBoardArticle.id}_${shareBoardArticle.id}`}>
+                            <TableCell>{index + offset + 1}</TableCell>
+                            <TableCell><Button onClick={(e) => handleMenuView(shareBoardArticle as ShareBoardArticle_, e)} sx={{textAlign:'left'}}>{shareBoardArticle.title}</Button></TableCell>
+                            <TableCell>{shareBoardArticle.createUser.nickname}</TableCell>
+                            <TableCell>
+                                <Typography>{shareBoardArticle.createDate}</Typography>                                
+                            </TableCell>
+                        </TableRow>
+                    ))
+                )
+        }
+    }
+
     useEffect(() => {
         getShareBoardArticleList(page, 10);
     }, [page, shareUserId, shareBoardCategoryId, shareBoardId]);
@@ -124,20 +143,7 @@ function ShareNormalBoardArticleList () {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {
-                        shareBoardArticleList !== null ? 
-                            shareBoardArticleList.slice(offset, offset+limit).map((shareBoardArticle, index) => (
-                                <TableRow key={`${shareBoardArticle.id}_${shareBoardArticle.id}`}>
-                                    <TableCell>{index + offset + 1}</TableCell>
-                                    <TableCell><Button onClick={(e) => handleMenuView(shareBoardArticle as ShareBoardArticle_, e)} sx={{textAlign:'left'}}>{shareBoardArticle.title}</Button></TableCell>
-                                    <TableCell>{shareBoardArticle.createUser.nickname}</TableCell>
-                                    <TableCell>
-                                        <Typography>{shareBoardArticle.createDate}</Typography>                                
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        : <></>
-                    }                
+                    {viewShareBoardArticleList(shareBoardArticleList)}                
                     </TableBody>    
                 </Table>
             </TableContainer>

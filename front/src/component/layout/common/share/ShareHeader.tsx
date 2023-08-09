@@ -1,11 +1,10 @@
+import AdbIcon from '@mui/icons-material/Adb';
+import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Avatar, Box, Button, ButtonGroup, Container, Divider, Grid, Hidden, IconButton, List, ListItem, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
-import Header from "../content/headerArea/Header";
-import { User, asyncLogout } from "../../../../store/modules/user";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch } from "../../../../store/index.hooks";
-import { useState } from "react";
-import MenuIcon              from '@mui/icons-material/Menu';
-import AdbIcon               from '@mui/icons-material/Adb';
+import { User, asyncLogout } from "../../../../store/modules/user";
 
 import styled from "@emotion/styled";
 import { Logout, Settings } from "@mui/icons-material";

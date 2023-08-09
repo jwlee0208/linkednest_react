@@ -4,20 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.ResponseCodeMsg;
+import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.service.UserService;
 import net.linkednest.share.dto.ReqShareBoardArticleListDto;
 import net.linkednest.share.dto.ResShareBoardArticleDto;
 import net.linkednest.share.dto.ResShareBoardArticleListDto;
+import net.linkednest.share.entity.ShareBoard;
 import net.linkednest.share.entity.ShareBoardArticle;
 import net.linkednest.share.service.ShareBoardArticleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +74,29 @@ public class ShareBoardArticleController {
         return ResponseEntity.ok(resShareBoardArticleListDto);
     }
 
+    @GetMapping(value = "/{shareBoardArticleId}")
+    public ResponseEntity getShareBoardArticleDetail(@PathVariable Long shareBoardArticleId) {
+        ShareBoardArticle shareBoardArticle = this.shareBoardArticleService.getShareBoardArticleDetail(shareBoardArticleId);
 
+        if(shareBoardArticle == null) {
+            CommonResDto commonResDto = new CommonResDto();
+            commonResDto.setReturnCode(40000);
+            commonResDto.setReturnMsg(ResponseCodeMsg.of(40000).getResMsg());
+            return ResponseEntity.ok(commonResDto);
+        } else {
+            ResShareBoardArticleDto resShareBoardArticleDto = new ResShareBoardArticleDto();
+            resShareBoardArticleDto.setId(shareBoardArticle.getId());
+            resShareBoardArticleDto.setTitle(shareBoardArticle.getTitle());
+            resShareBoardArticleDto.setStatus(shareBoardArticle.getStatus());
+            resShareBoardArticleDto.setFilePath(shareBoardArticle.getFilePath());
+            resShareBoardArticleDto.setContent(shareBoardArticle.getContent());
+            resShareBoardArticleDto.setCreateUser(shareBoardArticle.getCreateUser());
+            resShareBoardArticleDto.setCreateDate(shareBoardArticle.getCreateDate());
+            resShareBoardArticleDto.setShareBoard(shareBoardArticle.getShareBoard());
+            resShareBoardArticleDto.setShareBoardCategory(shareBoardArticle.getShareBoardCategory());
+            resShareBoardArticleDto.setReturnCode(10000);
+            resShareBoardArticleDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
+            return ResponseEntity.ok(resShareBoardArticleDto);
+        }
+    }
 }

@@ -57,4 +57,12 @@ public class ShareBoardArticleService {
 
         return shareBoardArticlePage;
     }
+
+    public ShareBoardArticle getShareBoardArticleDetail(Long shareBoardArticleId) {
+        Optional<ShareBoardArticle> shareBoardArticleOptional = this.shareBoardArticleRepository.findById(shareBoardArticleId);
+        if  (shareBoardArticleOptional.isPresent()) {
+            return shareBoardArticleOptional.get();
+        }
+        return null;
+    }
 }
