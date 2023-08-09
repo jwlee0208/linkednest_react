@@ -33,8 +33,8 @@ function ShareBoardCategoryMenuRow ({
     return (
         <List key={'cat_'+shareBoardCategory.id}>    
             <ListItemButton onClick={handleClick}>
-                <ListItemText  onClick={(e) => handleToClickShareCategoryBoard(`${shareBoardCategory.id}`, e)}>
-                    <Typography variant="h6">{shareBoardCategory.boardCategoryName}</Typography>
+                <ListItemText onClick={(e) => handleToClickShareCategoryBoard(`${shareBoardCategory.id}`, e)}>
+                    <Typography variant="h6" sx={{fontWeight:'bold'}}>{shareBoardCategory.boardCategoryName}</Typography>
                 </ListItemText>
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>

@@ -88,13 +88,12 @@ function ShareBoardArticleDetail() {
                 console.log(err);    
             })            
         }
-        console.log(`shareBoardArticle : ${shareBoardArticle}`);
-
+        // console.log(`shareBoardArticle : ${shareBoardArticle}`);
     }, []);
 
     return (
         <Box sx={{p : 2}}>    
-            <Typography variant="h4" >Share Article Detail</Typography>
+            <Typography variant="h4" >View</Typography>
             <Divider/>
             <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
                 <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            

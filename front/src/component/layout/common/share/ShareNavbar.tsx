@@ -46,29 +46,35 @@ function ShareNavbar ()  {
     }
 
     const viewShareBoardCategoryList = () => {
-        return shareBoardCategoryList.map((shareBoardCategory) => (
-            <Box id="topMenuArea"
-                sx={{ width:`${100/shareBoardCategoryList.length}%`, textAlign:'center' }} 
-                key={`${shareBoardCategory.boardCategoryName}_area`} 
-                onClick={handleChange}>
-                <div key={`${shareBoardCategory.boardCategoryName}_1depth`} style={{verticalAlign:'bottom'}}>
-                    <Button id={`${shareBoardCategory.boardCategoryName}_button`}
-                            key={`${shareBoardCategory.boardCategoryName}`}>
-                        <Typography sx={{fontWeight:'bold'}} key={`${shareBoardCategory.boardCategoryName}_text`}>{shareBoardCategory.boardCategoryName}</Typography>
-                    </Button>
-                </div>
-            </Box>    
-        ))
+        switch (shareBoardCategoryList) {
+            case null : return <></>
+            default : return shareBoardCategoryList.map((shareBoardCategory) => (
+                <Box id="topMenuArea"
+                    sx={{ width:`${100/shareBoardCategoryList.length}%`, textAlign:'center' }} 
+                    key={`${shareBoardCategory.boardCategoryName}_area`} 
+                    onClick={handleChange}>
+                    <div key={`${shareBoardCategory.boardCategoryName}_1depth`} style={{verticalAlign:'bottom'}}>
+                        <Button id={`${shareBoardCategory.boardCategoryName}_button`}
+                                key={`${shareBoardCategory.boardCategoryName}`}>
+                            <Typography sx={{fontWeight:'bold'}} key={`${shareBoardCategory.boardCategoryName}_text`}>{shareBoardCategory.boardCategoryName}</Typography>
+                        </Button>
+                    </div>
+                </Box>    
+            ))
+        }
     }
 
     const viewShareBoardCategoryListForChildArea = () => {
-        return shareBoardCategoryList.map((shareBoardCategory) => (
-            <Grid item xs={12/shareBoardCategoryList.length} key={`${shareBoardCategory.boardCategoryName}_subMenus`}>
-                <List>
-                    {viewShareBoardList(shareBoardCategory)}
-                </List>
-            </Grid>    
-        ))    
+        switch (shareBoardCategoryList) {
+            case null : return <></>
+            default : return shareBoardCategoryList.map((shareBoardCategory) => (
+                <Grid item xs={12/shareBoardCategoryList.length} key={`${shareBoardCategory.boardCategoryName}_subMenus`}>
+                    <List>
+                        {viewShareBoardList(shareBoardCategory)}
+                    </List>
+                </Grid>    
+            ))        
+        }
     }
 
     const viewShareBoardList = (shareBoardCategory : ShareBoardCategory_) => {

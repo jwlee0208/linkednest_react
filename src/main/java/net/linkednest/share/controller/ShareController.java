@@ -22,6 +22,7 @@ import java.util.Optional;
 @RequestMapping(value = "/api/share")
 public class ShareController {
     private JwtProvider jwtProvider;
+
     private final ShareService shareService;
     private final UserService userService;
 

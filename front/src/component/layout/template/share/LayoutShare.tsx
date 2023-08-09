@@ -25,7 +25,10 @@ function LayoutShare () {
       <Grid sx={{display:'flex', height:'100vh', flexDirection : 'column'}}>
         <Grid sx={{flex:'1'}}>  
           <Grid component="header">
-            <ShareHeader/>
+            <ShareHeader isLogin={isLogin} 
+                    accessToken={accessToken} 
+                    userId={userId} 
+                    user={userinfo}/>
           </Grid>
           <Hidden smDown>
             <Grid sx={{mr:3, ml: 3}}>
