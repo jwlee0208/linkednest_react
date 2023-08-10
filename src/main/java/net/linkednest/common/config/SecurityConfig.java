@@ -95,6 +95,10 @@ public class SecurityConfig {
                                 , new AntPathRequestMatcher("/api/content/**")
                                 , new AntPathRequestMatcher("/api/banner/list/**")
                                 , new AntPathRequestMatcher("/api/board/**", HttpMethod.GET.name())
+                                , new AntPathRequestMatcher("/api/share", HttpMethod.GET.name())
+                                , new AntPathRequestMatcher("/api/share/board", HttpMethod.GET.name())
+                                , new AntPathRequestMatcher("/api/share/board/article/list/**")
+                                , new AntPathRequestMatcher("/api/share/board/category/list")
                                 , new AntPathRequestMatcher(HttpMethod.OPTIONS.name())
                         ).permitAll()   // 무조건 허용할 URL 선언
                 .and()

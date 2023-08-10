@@ -1,0 +1,11 @@
+/* body {background-color: lightcyan;} */
+#headerAppBar button {color: black;}
+
+#topMenuArea {background:olive;}
+#topMenuArea div button p {color: azure;}
+#navbarArea {background-color: burlywood; height: 50px; vertical-align:'bottom';}
+#shareBoardCategoryArea { margin-top:580px; }
+#topMenuArea > div { height: 50px; }
+#topMenuArea > div > button { height: 50px; }
+#footerArea {background:darkgray;}
+#footerArea p {color: azure;}

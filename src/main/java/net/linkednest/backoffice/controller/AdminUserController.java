@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import net.linkednest.backoffice.service.AdminUserService;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.dto.user.get.ResUserDto;
+import net.linkednest.common.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/user")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AdminUserController {
-    private final AdminUserService adminUserService;
+    @Autowired
+    private UserService userService;
     @Operation(
             summary = "어드민 >> 유저 목록 조회 API",
             description = "어드민 >> 유저 목록 조회 API입니다.",
@@ -36,7 +39,7 @@ public class AdminUserController {
     )
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<List<ResUserDto>> getUserList(HttpServletRequest request) {
-        List<ResUserDto> userList = adminUserService.userList();
+        List<ResUserDto> userList = userService.userList();
         return ResponseEntity.ok(userList);
     }
 
@@ -56,7 +59,7 @@ public class AdminUserController {
     )
     @GetMapping(value="/{userId}")
     public ResponseEntity<ResUserDto> getUserInfo(@PathVariable(name = "userId", required = true) String userId) {
-        ResUserDto userInfo = adminUserService.getUser(StringUtils.defaultString(userId));
+        ResUserDto userInfo = userService.getUser(StringUtils.defaultString(userId));
         return ResponseEntity.ok(userInfo);
     }
 }

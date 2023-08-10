@@ -1,6 +1,6 @@
-import { Box, Grid }                 from "@mui/material";
+import { Box, Grid }            from "@mui/material";
 import Hidden                   from "@mui/material/Hidden";
-import React, { useEffect }                    from "react";
+import React, { useEffect }     from "react";
 import { useLocation }          from 'react-router';
 import { useAppSelect }         from "../../../store/index.hooks";
 import { ContentList_, getContentInfo } 
@@ -9,11 +9,11 @@ import { ContentCategoryList_, ContentCategory_ }
                                 from "../../../store/modules/contentCategory";
 import { getLayoutInfo }        from "../../../store/modules/layout";
 import { getUserInfo }          from "../../../store/modules/user";
-import Footer                   from "../common/Footer";
-import PortalContent            from '../common/PortalContent';
-import PortalHeader             from '../common/headerArea/PortalHeader';
-import MyBottomNav              from '../common/MyBottomNav';
-import ContentImageList from "../../function/main/portal/ContentImageList";
+import Footer                   from "../common/content/Footer";
+import PortalContent            from '../common/content/PortalContent';
+import PortalHeader             from '../common/content/headerArea/PortalHeader';
+import MyBottomNav              from '../common/content/MyBottomNav';
+import ContentImageList         from "../../function/main/portal/ContentImageList";
 
 type layoutType0Props = {
     contentList         : ContentList_,

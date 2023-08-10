@@ -36,7 +36,9 @@ public class RequestParamsWrapper extends HttpServletRequestWrapper {
 			this.rawData = IOUtils.toByteArray(is);
 
 			// body parsing
-			String collect = this.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+			String collect = this.getReader().
+			lines().collect(Collectors.joining(System.lineSeparator()));
 			if (StringUtils.isEmpty(collect)) {
 				return;
 			}
@@ -99,7 +101,6 @@ public class RequestParamsWrapper extends HttpServletRequestWrapper {
 			System.arraycopy(dummyParamValue, 0, result, 0, dummyParamValue.length);
 		}
 		return result;
-
 	}
 
 	public void setParameter(String name, String value) {

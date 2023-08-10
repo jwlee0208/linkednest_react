@@ -11,6 +11,10 @@ spring-doc:
     description: API Document For Test Project
     version: v0.1
 
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
 jwt:
   secret:
     key: QWR@EDDF%$W^%56SDFG#*XCVFGJ%#$%234adfgsdfbcvbsdWERGEFSDFGD!QWR@EDDF%$W^%56SDFG#*XCVFGJ%#$%234adfgsdfbcvbsdWERGEFSDFGD!
@@ -18,22 +22,13 @@ jwt:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-spring:
-  main:
-    allow-bean-definition-overriding: true
-  devtools:
-    livereload:
-      enabled: true
-  datasource:
-    hikari:
-      driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://localhost:3306/test
-      username: root
-      password: asdf1234
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+
+ftp:
+  upload:
+    id: jwlee0208
+    pw: aW4yMjk5b3V0
+    url: iup.cdn3.cafe24.com
+    port: 21
 
 logging:
   level:
@@ -45,6 +40,7 @@ logging:
     sqlonly: fatal
     sqltiming: off
     resultsettable: off
+
     audit: off
     resultset: off
     connection: fatal
@@ -60,4 +56,104 @@ google:
       key:
         site: 6Leh2u4lAAAAAAQvtkg58iEDLK0HR0FDE5yBaOF4
         private: 6Leh2u4lAAAAAAcLQVTlpSbyCaFeGHFr-KKuXl0n
+  api:
+    key: AIzaSyC_iwq5adAVHdDy--Onh2Zgwyi1oHyDs1s
+
+## api key info : slideshare
+slideshare:
+  api:
+    key: EzdnlXer
+  shared:
+    secret: 2PFQEaHV
+
+## api key info : flickr
+flickr:
+  api:
+    key:  df1e5e194de94bb405b2ce898db83b90
+  shared:
+    secret: ed6088a596f20afd
+
+#
+#---
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+#  main:
+#    allow-bean-definition-overriding: true
+#    allow-circular-references: true
+#  devtools:
+#    livereload:
+#      enabled: true
+#  datasource:
+#    hikari:
+#      driver-class-name: org.mariadb.jdbc.Driver
+#      jdbc-url: jdbc:mariadb://localhost:3306/test
+#      username: root
+#      password: asdf1234
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#  thumbnail:
+#    uploadpath: /Users/leejinwon/www/board/uploadfiles
+#    domain:  http://127.0.0.1:8080/board
+#    path: /resources/uploadfiles/
+#
+#---
+#spring:
+#  config:
+#    activate:
+#      on-profile: dev
+#  main:
+#    allow-bean-definition-overriding: true
+#    allow-circular-references : true
+#  devtools:
+#    livereload:
+#      enabled: true
+#  datasource:
+#    hikari:
+#      driver-class-name: org.mariadb.jdbc.Driver
+#      jdbc-url: jdbc:mariadb://localhost:3306/test
+#      username: root
+#      password: asdf1234
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#  thumbnail:
+#    uploadpath: /Users/leejinwon/www/board/uploadfiles
+#    domain:  http://127.0.0.1:8080/board
+#    path: /resources/uploadfiles/
+#
+#---
+#spring:
+#  config:
+#    activate:
+#      on-profile: local
+#  main:
+#    allow-bean-definition-overriding: true
+#    allow-circular-references: true
+#  devtools:
+#    livereload:
+#      enabled: true
+#  datasource:
+#    hikari:
+#      driver-class-name: org.mariadb.jdbc.Driver
+#      jdbc-url: jdbc:mariadb://localhost:3306/test
+#      username: root
+#      password: asdf1234
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#  thumbnail:
+#    uploadpath: /Users/leejinwon/www/board/uploadfiles
+#    domain:  http://127.0.0.1:8080/board
+#    path: /resources/uploadfiles/
+
+
+
+
+
 

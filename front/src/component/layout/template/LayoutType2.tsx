@@ -1,19 +1,19 @@
 import { useAppSelect }   from "../../../store/index.hooks";
 import { getUserInfo }    from "../../../store/modules/user";
 import { getLayoutInfo }  from "../../../store/modules/layout";
-import { Box, Grid }           from "@mui/material";
+import { Box, Grid }      from "@mui/material";
 import Hidden             from "@mui/material/Hidden";
-import Navbar             from "../common/Navbar";
+import Navbar             from "../common/content/Navbar";
 import TopBanner          from "../common/topMenuArea/TopBanner";
-import Header             from "../common/headerArea/Header";
-import Footer             from "../common/Footer";
-import SideArea           from "../common/sideArea/SideArea";
-import Content            from "../common/Content";
+import Header             from "../common/content/headerArea/Header";
+import Footer             from "../common/content/Footer";
+import SideArea           from "../common/content/sideArea/SideArea";
+import Content            from "../common/content/Content";
 import React              from "react";
 import { ContentList_, getContentInfo } 
                           from "../../../store/modules/content";
-import MyBottomNav        from "../common/MyBottomNav";
-import SideFloatingButtons from "../common/sideArea/SideFloatingButtons";
+import MyBottomNav        from "../common/content/MyBottomNav";
+import SideFloatingButtons from "../common/content/sideArea/SideFloatingButtons";
 
 type layoutType2Props = {
   contentList : ContentList_,

@@ -65,3 +65,6 @@ gradle/wrapper
 settings.gradle
 .fake
 front/src/config.tsx
+front/.env
+front/.env.development
+front/.env.production

@@ -7,7 +7,7 @@ import { getLayoutInfo }  from "../../../../store/modules/layout";
 import AdminSideArea      from "../../common/admin/AdminSideArea";
 import AdminHeader        from "../../common/admin/AdminHeader";
 import AdminContent       from "../../common/admin/AdminContent";
-import Footer             from "../../common/Footer";
+import Footer             from "../../common/content/Footer";             
 import { getContentInfo } from "../../../../store/modules/content";
 
 function LayoutAdmin() {

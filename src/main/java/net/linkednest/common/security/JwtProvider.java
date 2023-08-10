@@ -61,6 +61,14 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, StringUtils.EMPTY, userDetails.getAuthorities());
     }
 
+    public String getUserId(HttpServletRequest request) {
+        String accessToken = resolveToken(request);
+        if (StringUtils.isNotEmpty(accessToken)) {
+            return getUserId(accessToken);
+        }
+        return null;
+    }
+
     // Token 내에 담겨있는 UserId 추출
     public String getUserId(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();

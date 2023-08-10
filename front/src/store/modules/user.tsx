@@ -227,8 +227,10 @@ const userSlice = createSlice ({
                     path: '/',
                     maxAge: 24 * 60 * 60,
                     domain: '.linkednest.site'
-                });                                
+                });             
+
             } else {
+
                 alert(`Login Failure : [errCode : ${action.payload.returnCode}]`);
                 window.location.reload();
             }
@@ -260,6 +262,7 @@ const userSlice = createSlice ({
             state.returnCode              = 0;
             state.reCaptchaToken          = '';       
             rmCookie('accessToken');
+            rmCookie('userId');
         })
     } 
 });

@@ -1,0 +1,33 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  devtools:
+    livereload:
+      enabled: true
+  datasource:
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3306/test
+      username: root
+      password: asdf1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  thumbnail:
+    uploadpath: /Users/leejinwon/www/board/uploadfiles
+    domain:  http://127.0.0.1:8080/board
+    path: /resources/uploadfiles/
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+
+
+
+
