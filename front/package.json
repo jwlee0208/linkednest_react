@@ -96,5 +96,6 @@
     "@types/mui-image": "^1.0.1",
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/redux-logger": "^3.0.9"
-  }
+  },
+  "proxy": "https://api.linkednest.site"
 }
