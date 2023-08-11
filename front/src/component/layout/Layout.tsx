@@ -135,7 +135,7 @@ function Layout() {
     const user = useAppSelect(getUserInfo);
 
     useEffect(() => {
-
+alert(`Layout > process.env.REACT_APP_API_DOMAIN : ${process.env.REACT_APP_API_DOMAIN}`)
       content.contentCode = contentCode;
 
       if (user.isLogin === true && user.accessToken === '') {
