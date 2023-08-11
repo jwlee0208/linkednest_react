@@ -2,7 +2,6 @@
     "buildCommand": "npm run build",
     "devCommand": "react-scripts start",
     "installCommand": "npm install",
-    "outputDirectory": "front/build",
     "public": true,
     "rewrites": [
       {
