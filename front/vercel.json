@@ -1,0 +1,12 @@
+{
+    "buildCommand": "npm run build",
+    "installCommand": "npm install",
+    "outputDirectory": "front/build",
+    "public": true,
+    "rewrites": [
+      {
+        "source": "/api",
+        "destination": "https://api.linkednest.site/api"
+      }
+    ]
+}
