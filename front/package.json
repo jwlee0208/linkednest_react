@@ -95,6 +95,7 @@
     "@types/lodash": "^4.14.194",
     "@types/mui-image": "^1.0.1",
     "@types/react-google-recaptcha": "^2.1.5",
-    "@types/redux-logger": "^3.0.9"
+    "@types/redux-logger": "^3.0.9",
+    "netlify-cli": "^16.0.2"
   }
 }
