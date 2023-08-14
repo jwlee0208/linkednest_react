@@ -46,7 +46,7 @@ console.log(`>>> cookieAccessToken : ${cookieAccessToken}`);
       }
       config.headers.Authorization = `Bearer ${reqAccessToken}`;
     }
-    console.log(`>>> axios req config : ${config}`);
+    console.log(`>>> axios req config : ${JSON.stringify(config)}`);
 
     return config;
   },
