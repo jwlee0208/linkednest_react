@@ -25,4 +25,8 @@
   from = "/tokenLogin"
   to = "https://api.linkednest.site/tokenLogin/:splat"  
   status = 200
-  force = true          
+  force = true      
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200      
