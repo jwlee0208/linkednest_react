@@ -3,27 +3,27 @@
   publish = "build"
 [[redirects]]
   from = "/api/*"
-  to = "https://api.linkednest.site/api/:splat"  
+  to = "https://api.linkednest.site/:splat"  
   status = 200
   force = true
 [[redirects]]
   from = "/user/*"
-  to = "https://api.linkednest.site/user/:splat"  
+  to = "https://api.linkednest.site/:splat"  
   status = 200
   force = true  
 [[redirects]]
   from = "/login"
-  to = "https://api.linkednest.site/login/:splat"  
+  to = "https://api.linkednest.site/:splat"  
   status = 200
   force = true
 [[redirects]]
   from = "/signup"
-  to = "https://api.linkednest.site/signup/:splat"  
+  to = "https://api.linkednest.site/:splat"  
   status = 200
   force = true        
 [[redirects]]
   from = "/tokenLogin"
-  to = "https://api.linkednest.site/tokenLogin/:splat"  
+  to = "https://api.linkednest.site/:splat"  
   status = 200
   force = true      
 [[redirects]]
