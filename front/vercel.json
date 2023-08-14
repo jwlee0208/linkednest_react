@@ -1,0 +1,12 @@
+{
+    "buildCommand": "npm run build",
+    "devCommand": "react-scripts start",
+    "installCommand": "npm install",
+    "public": true,
+    "rewrites": [
+      {
+        "source": "/api",
+        "destination": "https://api.linkednest.site/api"
+      }
+    ]
+}

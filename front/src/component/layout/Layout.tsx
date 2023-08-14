@@ -135,7 +135,7 @@ function Layout() {
     const user = useAppSelect(getUserInfo);
 
     useEffect(() => {
-alert(`Layout > process.env.REACT_APP_API_DOMAIN : ${process.env.REACT_APP_API_DOMAIN}`)
+console.log(`Layout > process.env.REACT_APP_API_DOMAIN : ${process.env.REACT_APP_API_DOMAIN}`)
       content.contentCode = contentCode;
 
       if (user.isLogin === true && user.accessToken === '') {
@@ -162,7 +162,10 @@ alert(`Layout > process.env.REACT_APP_API_DOMAIN : ${process.env.REACT_APP_API_D
 
       const setContentBoardCategoryInfoState = () => {
         axiosInstance.get(`/api/board/category/list/${content.contentCode}`)
-                    .then((res) => setupContentBoardCategoryInfo(res.data))
+                    .then((res) => {
+                      console.log(`res.headers : ${JSON.stringify(res)}`);
+                      setupContentBoardCategoryInfo(res.data)
+                    })
                     .catch((err) => alert(`[${err.code}][${err.response.status}] ${err.message}`) );              
       }
 
