@@ -22,7 +22,12 @@ function ShareBoardCategoryMenuRow ({
 
     const handleToClickShareBoard = (categoryId : string, boardId : string, boardType : string, e : React.MouseEvent) => {
         e.preventDefault();
-        navigate(`/share/${userId}/${categoryId}/${boardId}`, {state : {boardType : boardType}});
+        // alert(boardType);
+        navigate(`/share/${userId}/${categoryId}/${boardId}`
+            , {state : {shareBoardType       : boardType
+                      , shareBoardCategoryId : categoryId
+                      , shareBoardId         : boardId
+                      , shareUserId          : userId}});
     }
 
     const handleToClickShareCategoryBoard = (categoryId : string, e : React.MouseEvent) => {
@@ -43,7 +48,7 @@ function ShareBoardCategoryMenuRow ({
                 <List key={'catBoard_'+shareBoardCategory.id}>
                 {
                     shareBoardCategory.shareBoardList.map(sb => (
-                    <ListItemButton onClick={(e) => handleToClickShareBoard(`${shareBoardCategory.id}`,  `${sb.id}`, `${sb.boardType}`, e)} key={'shareBoard_'+sb.id}>
+                    <ListItemButton onClick={(e) => handleToClickShareBoard(`${shareBoardCategory.id}`, `${sb.id}`, `${sb.boardType}`, e)} key={'shareBoard_'+sb.id}>
                         <Typography variant="subtitle1">{sb.boardName}</Typography>
                     </ListItemButton>        
                     ))

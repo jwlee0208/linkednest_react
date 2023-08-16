@@ -44,7 +44,7 @@ function ShareSideArea() {
         if (`${shareInfo.id}` === '0') {
             axiosInstance.post(`/api/share/board/category/list`, {"createUserId" : shareUserId})
                 .then((res) =>  {
-                    console.log(`res.data.shareBoardCategoryList : ${res.data.shareBoardCategoryList}`);
+                    // console.log(`res.data.shareBoardCategoryList : ${res.data.shareBoardCategoryList}`);
                     setShareBoardCategoryList(res.data.shareBoardCategoryList);        
                 }).catch((err)=> {
                     console.log(err);    

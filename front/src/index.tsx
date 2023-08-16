@@ -34,10 +34,10 @@ interface Token{
 axiosInstance.interceptors.request.use(
   function (config) {
     const userinfo = store.getState().userSlice;
-console.log("request interceptor start >>>");
+// console.log("request interceptor start >>>");
     let cookieAccessToken = getCookie("accessToken");
 
-console.log(`>>> cookieAccessToken : ${cookieAccessToken}`);
+// console.log(`>>> cookieAccessToken : ${cookieAccessToken}`);
 
     if (userinfo.isLogin === true   || (cookieAccessToken !== '' && cookieAccessToken  !== undefined)) {
       let reqAccessToken           = userinfo.accessToken;
@@ -46,7 +46,7 @@ console.log(`>>> cookieAccessToken : ${cookieAccessToken}`);
       }
       config.headers.Authorization = `Bearer ${reqAccessToken}`;
     }
-    console.log(`>>> axios req config : ${JSON.stringify(config)}`);
+    // console.log(`>>> axios req config : ${JSON.stringify(config)}`);
 
     return config;
   },

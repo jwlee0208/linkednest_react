@@ -47,7 +47,7 @@ function MansonryArticleList({
   } 
   
   const getArticleList = () => {
-      let calOffset = (page) * 10;
+      let calOffset = (page-1) * 10;
       console.log('calOffset : ', calOffset, ', offset : ', offset);
       setOffset(calOffset);
       setPage(page+1);
@@ -175,7 +175,8 @@ function MansonryArticleList({
   }
 
   useEffect(() => {
-    getArticleList();
+    // getArticleList();
+    handleContainerOnBottom();
   }, [boardArticleList]);
 
   return (
