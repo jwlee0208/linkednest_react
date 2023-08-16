@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useParams } from "react-router";
 import ShareMain from "../../../function/share/ShareMain";
 import ShareUser from "./ShareUser";
 import ShareBoardArticleDetail from "../../../function/share/ShareBoardArticleDetail";
