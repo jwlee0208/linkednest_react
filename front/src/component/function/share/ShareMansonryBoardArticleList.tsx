@@ -150,8 +150,8 @@ function ShareMansonryBoardArticleList({
                                 sx={{fontWeight:'bold'}}
               />
               <img
-                src={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `http://jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
-                srcSet={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `http://jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
+                src={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
+                srcSet={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
                 alt={boardArticle.title}
                 loading="lazy"
                 key={`${boardArticle.shareBoard.boardName}_${boardArticle.id}_img`}
@@ -176,8 +176,8 @@ function ShareMansonryBoardArticleList({
             boardArticleList.slice(offset, offset+limit).map((boardArticle) => (
             <Box key={`${boardArticle.id}_box`} onClick={(e) => handleMenuView(boardArticle as ShareBoardArticle_, e)} sx={{cursor:'pointer'}}>
                 <img
-                  src={`${imagePath(boardArticle.filePath) === 'noImage'} ? 'noImage' : 'http://jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
-                  srcSet={`${imagePath(boardArticle.filePath) === 'noImage'} ? 'noImage' : 'http://jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format&dpr=2 2x`}
+                  src={`${imagePath(boardArticle.filePath) === 'noImage'} ? 'noImage' : '//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
+                  srcSet={`${imagePath(boardArticle.filePath) === 'noImage'} ? 'noImage' : '//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format&dpr=2 2x`}
                   alt={boardArticle.title}
                   loading="lazy"
                   style={{
