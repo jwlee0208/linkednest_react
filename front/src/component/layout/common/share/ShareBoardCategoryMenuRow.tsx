@@ -22,12 +22,15 @@ function ShareBoardCategoryMenuRow ({
 
     const handleToClickShareBoard = (categoryId : string, boardId : string, boardType : string, e : React.MouseEvent) => {
         e.preventDefault();
-        // alert(boardType);
-        navigate(`/share/${userId}/${categoryId}/${boardId}`
+        if (boardType === '0') {
+            navigate(`/share/${userId}/${categoryId}/${boardId}`
             , {state : {shareBoardType       : boardType
                       , shareBoardCategoryId : categoryId
                       , shareBoardId         : boardId
                       , shareUserId          : userId}});
+        } else {
+            window.location.href=`/share/${userId}/${categoryId}/${boardId}`;
+        }
     }
 
     const handleToClickShareCategoryBoard = (categoryId : string, e : React.MouseEvent) => {

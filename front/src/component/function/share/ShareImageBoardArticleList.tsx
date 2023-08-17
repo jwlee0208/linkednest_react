@@ -1,14 +1,13 @@
-import { Masonry } from "@mui/lab";
 import { Box, Breadcrumbs, Divider, ImageList, ImageListItem, ImageListItemBar, Link, Paper, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from "react";
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { axiosInstance } from "../../..";
 import { useAppSelect } from "../../../store/index.hooks";
 import { ShareBoardArticleList_, ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
 
-const Item = styled(Paper)(({ theme }) => ({
+export const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(0.5),
@@ -18,19 +17,25 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const noImage = `http://${process.env.REACT_APP_API_DOMAIN}/images/noImage.jpg`;
 
-type ShareMansonryBoardArticleListProps = {
+type ShareImageBoardArticleListProps = {
   shareBoardId          : string,
   shareBoardCategoryId  : string,
   shareUserId           : string, 
   alertOnBottom         : boolean,
+  boardType             : string,
 }
 
-function ShareMansonryBoardArticleList({
+export const imagePath = (path : string) => {
+  return path !== null && path !== '' ? path : noImage;
+}
+
+function ShareImageBoardArticleList({
     shareBoardId
   , shareBoardCategoryId
   , shareUserId
   , alertOnBottom
-} : ShareMansonryBoardArticleListProps) {
+  , boardType
+} : ShareImageBoardArticleListProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const shareInfo             = useAppSelect(getShareInfo);
@@ -49,7 +54,7 @@ function ShareMansonryBoardArticleList({
   } 
   let reqBody = null;
   const getShareBoardArticleList = async (page  : number) => {
-      let calOffset = (page-1) * 10;
+      let calOffset = (page-1) * limit;
       setOffset(calOffset);
       setPage(page+1);
 
@@ -57,7 +62,7 @@ function ShareMansonryBoardArticleList({
         shareBoardCategoryId : shareBoardCategoryId,
         shareBoardId         : shareBoardId,
         shareUserId          : shareUserId,
-        offset               : (page-1) * limit,
+        offset               : calOffset,
         limit                : limit,
       });
 
@@ -134,23 +139,23 @@ function ShareMansonryBoardArticleList({
       navigate(`${location.pathname}/${boardArticle.id}`, {state : {shareBoardArticle : boardArticle}});
   }
 
-  const imagePath = (path : string) => {
-    return path !== null && path !== '' ? path : noImage;
+  const getBoardType = () => {
+    switch (boardType) {
+      case 'masonry' : return boardType;
+      case 'quilted' : return boardType;
+      case 'woven'   : return boardType;
+      default : return 'standard' 
+    }
   }
 
   const imageList = (boardArticleList : ShareBoardArticleList_) => {
     let isExistBoardArticleList = boardArticleList.length > 0 && boardArticleList[0].id > 0;
     if (isExistBoardArticleList === true) {
       return (
-        <ImageList variant="masonry" cols={3} gap={100} key={`${shareBoardCategoryId}_${shareBoardId}_images`}>
+        <ImageList variant={getBoardType()} cols={3} gap={30} key={`${shareBoardCategoryId}_${shareBoardId}_images`}>
           {
           boardArticleList.map((boardArticle) => (
             <ImageListItem key={`${boardArticle.shareBoard.boardName}_${boardArticle.id}_img_list_item`} onClick={(e) => handleMenuView(boardArticle as ShareBoardArticle_, e)} sx={{cursor:'pointer'}}>
-{/*               <ImageListItemBar position="top" 
-                                title={`Title : ${boardArticle.title}`} 
-                                sx={{fontWeight:'bold'}}
-              />
- */}
               <img
                 src={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
                 srcSet={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
@@ -159,10 +164,13 @@ function ShareMansonryBoardArticleList({
                 key={`${boardArticle.shareBoard.boardName}_${boardArticle.id}_img`}
               />
               <ImageListItemBar position="bottom"
-                                title={`${boardArticle.title}`} 
-// title={<div dangerouslySetInnerHTML={{__html : boardArticle.content.substring(0,20)}}></div>} 
-                                subtitle={`Posted Date : ${boardArticle.createDate} By : ${boardArticle.createUser.nickname}`}
-
+                                tabIndex={boardArticle.id}
+                                title={`${boardArticle.title}`}
+                                sx={{marginBottom:5, textAlign:'center', fontWeight:'bold'}} 
+              />
+              <ImageListItemBar position="bottom"
+                                subtitle={`Posted By ${boardArticle.createUser.nickname} At ${boardArticle.createDate} `}
+                                sx={{textAlign:'right'}}
               />
             </ImageListItem>
           ))}
@@ -172,63 +180,24 @@ function ShareMansonryBoardArticleList({
     return (<Box><Typography align="center">No Content</Typography></Box>)
   }
 
-  const masonryList = (boardArticleList : ShareBoardArticleList_, offset : number, limit : number) => {
-    if (boardArticleList.length > 0) {
-      return (
-        <Masonry columns={5} spacing={4} defaultHeight={450} defaultColumns={4} defaultSpacing={1}>
-          {        
-            boardArticleList.slice(offset, offset+limit).map((boardArticle) => (
-            <Box key={`${boardArticle.id}_box`} onClick={(e) => handleMenuView(boardArticle as ShareBoardArticle_, e)} sx={{cursor:'pointer'}}>
-                <img
-                  src={`${imagePath(boardArticle.filePath) === 'noImage'} ? 'noImage' : '//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
-                  srcSet={`${imagePath(boardArticle.filePath) === 'noImage'} ? 'noImage' : '//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format&dpr=2 2x`}
-                  alt={boardArticle.title}
-                  loading="lazy"
-                  style={{
-                    borderBottomLeftRadius: 4,
-                    borderBottomRightRadius: 4,
-                    display: 'inline-grid',
-                    width: '100%',
-                    cursor:'pointer'
-                  }}
-                />
-                <Item key={`${boardArticle.id}_item`} >
-                    <Typography noWrap={true} variant="subtitle1" align="left" sx={{p: 1, fontWeight:'bold'}} bgcolor={"InfoBackground"}>{boardArticle.title}</Typography>
-                    <Divider/>
-                    {/* <Typography noWrap={true} variant="subtitle2" align="left" sx={{p: 1}}>
-                     <div dangerouslySetInnerHTML={{__html : boardArticle.content.substring(0,30)}}></div>
-                    </Typography> */}
-                </Item>
-            </Box>
-          ))
-        }
-        </Masonry>
-      )         
-    }  
-
-    return (      
-      <Typography sx={{width: '100%', textAlign:'center', p:10}} variant="body1">There's no article.</Typography>
-    )
-  }
 
   useEffect(() => {
-    console.log(`useEffect >> shareBoardId : ${shareBoardId}, offset : ${offset}, page : ${page}`);
+    console.log(`useEffect >> shareBoardId : ${shareBoardId}, offset : ${offset}, page : ${page},  allowScroll : ${allowScroll}`);
     setPage(1);
-    if  (allowScroll === true)  {
+    if (allowScroll === true) {
       handleContainerOnBottom();
     }
-  }, [boardArticleList]);
+  }, [boardArticleList,  shareUserId, shareBoardCategoryId, shareBoardId]);
 
   return (
     <Box sx={{ minHeight: 377, p:2 }}>
-            <Typography variant="h4">List</Typography>
-            <Divider/>
-            <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
-                <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            
-                <Link underline="hover" color="inherit">{shareInfo.shareName.toUpperCase()}</Link>   
-                <Typography color="text.primary">LIST</Typography>
-            </Breadcrumbs>           
-
+       <Typography variant="h4">List</Typography>
+       <Divider/>
+       <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
+          <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            
+          <Link underline="hover" color="inherit">{shareInfo.shareName.toUpperCase()}</Link>   
+          <Typography color="text.primary">LIST</Typography>
+       </Breadcrumbs>           
        <BottomScrollListener onBottom={handleContainerOnBottom} debounce={200} debounceOptions={{leading: false}} triggerOnNoScroll={false}>
           <Box>
             {imageList(boardArticleList)}  
@@ -237,4 +206,4 @@ function ShareMansonryBoardArticleList({
     </Box>
   )
 }
-export default ShareMansonryBoardArticleList;
+export default ShareImageBoardArticleList;

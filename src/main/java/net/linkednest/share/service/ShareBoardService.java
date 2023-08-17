@@ -9,6 +9,7 @@ import net.linkednest.common.repository.user.UserRepository;
 import net.linkednest.common.security.JwtProvider;
 import net.linkednest.share.dto.ReqShareBoardDto;
 import net.linkednest.share.dto.ResShareBoardDto;
+import net.linkednest.share.dto.ResShareBoardPagingDto;
 import net.linkednest.share.entity.ShareBoard;
 import net.linkednest.share.entity.ShareBoardCategory;
 import net.linkednest.share.repository.ShareBoardCategoryRepository;
@@ -29,8 +30,8 @@ public class ShareBoardService {
     private final ShareBoardRepository          shareBoardRepository;
     private final ShareBoardCategoryRepository  shareBoardCategoryRepository;
 
-    public ResShareBoardDto<ShareBoard> getShareBoardListByUser(Long userNo) {
-        ResShareBoardDto<ShareBoard> resShareBoardDto = new ResShareBoardDto<>();
+    public ResShareBoardPagingDto<ShareBoard> getShareBoardListByUser(Long userNo) {
+        ResShareBoardPagingDto<ShareBoard> resShareBoardDto = new ResShareBoardPagingDto<>();
 
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         if (userOptional.isPresent()) {
@@ -44,10 +45,10 @@ public class ShareBoardService {
         return resShareBoardDto;
     }
 
-    public ResShareBoardDto<ShareBoard> getShareBoardListBySearchCondition(HttpServletRequest request, int offset, int limit, Long id) {
+    public ResShareBoardPagingDto<ShareBoard> getShareBoardListBySearchCondition(HttpServletRequest request, int offset, int limit, Long id) {
         String accessTokenUserId = jwtProvider.getUserId(request);
         Optional<User> userOptional = userRepository.findByUserId(accessTokenUserId);
-        ResShareBoardDto<ShareBoard> resShareBoardDto = new ResShareBoardDto<>();
+        ResShareBoardPagingDto<ShareBoard> resShareBoardDto = new ResShareBoardPagingDto<>();
         if (userOptional.isPresent()) {
             Sort sort = Sort.by("id").descending();
             Pageable pageable = PageRequest.of(offset, limit, sort);
@@ -60,7 +61,7 @@ public class ShareBoardService {
         return resShareBoardDto;
     }
 
-    private void responseShareBoard(ResShareBoardDto resShareBoardDto, Slice<ShareBoard> shareBoardListSlice) {
+    private void responseShareBoard(ResShareBoardPagingDto resShareBoardDto, Slice<ShareBoard> shareBoardListSlice) {
         if (shareBoardListSlice.hasContent()) {
             resShareBoardDto.setReturnCode(10000);
             resShareBoardDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
@@ -78,8 +79,31 @@ public class ShareBoardService {
         }
     }
 
+    public ResShareBoardDto getShareBoard(Long shareBoardId) {
+        ShareBoard shareBoard = this.getShareBoardInfo(shareBoardId);
+        ResShareBoardDto resShareBoardDto = new ResShareBoardDto();
+        if (shareBoard != null) {
+            resShareBoardDto.setId(shareBoard.getId());
+            resShareBoardDto.setBoardName(shareBoard.getBoardName());
+            resShareBoardDto.setBoardType(shareBoard.getBoardType());
+            resShareBoardDto.setCreateUserId(shareBoard.getCreateUser().getUserId());
+            resShareBoardDto.setCreateDate(shareBoard.getCreateDate());
+            if (shareBoard.getModifyUser() != null) {
+                resShareBoardDto.setModifyUserId(shareBoard.getModifyUser().getUserId());
+                resShareBoardDto.setModifyDate(shareBoard.getModifyDate());
+            }
+        } else {
+            resShareBoardDto.setReturnCode(40000);
+            resShareBoardDto.setReturnMsg(ResponseCodeMsg.of(40000).getResMsg());
+        }
+        return resShareBoardDto;
+    }
     public ShareBoard getShareBoardInfo(ReqShareBoardDto reqShareBoardDto) {
-        Optional<ShareBoard> shareBoardDtoOptional =  shareBoardRepository.findById(reqShareBoardDto.getId());
+        return this.getShareBoardInfo(reqShareBoardDto.getId());
+    }
+
+    public ShareBoard getShareBoardInfo(Long shareBoardId) {
+        Optional<ShareBoard> shareBoardDtoOptional =  shareBoardRepository.findById(shareBoardId);
         if (shareBoardDtoOptional.isPresent()) {
             return shareBoardDtoOptional.get();
         }

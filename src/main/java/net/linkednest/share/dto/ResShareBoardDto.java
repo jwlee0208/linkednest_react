@@ -1,20 +1,24 @@
 package net.linkednest.share.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import net.linkednest.common.dto.CommonResDto;
-import org.springframework.data.domain.Sort;
+import net.linkednest.common.entity.user.User;
+import net.linkednest.share.entity.ShareBoardCategory;
+import net.minidev.json.annotate.JsonIgnore;
 
-import java.util.List;
+import java.util.Date;
 
 @Data
-public class ResShareBoardDto<T> extends CommonResDto {
-    private int number;
-    private int size;
-    private int numberOfElements;
-    private List<T> content;
-    private Sort sort;
-    private boolean isFirst;
-    private boolean isLast;
-    private boolean hasNext;
-    private boolean hasPrevious;
+public class ResShareBoardDto extends CommonResDto {
+    private Long 	id;
+    private String 	boardName;
+    private String 	boardType;
+    private String createUserId;
+    private Date createDate;
+    private String modifyUserId;
+    private Date modifyDate;
 }
