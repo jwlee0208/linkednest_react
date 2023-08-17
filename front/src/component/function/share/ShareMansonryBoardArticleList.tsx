@@ -1,5 +1,5 @@
 import { Masonry } from "@mui/lab";
-import { Box, Divider, ImageList, ImageListItem, ImageListItemBar, Paper, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Divider, ImageList, ImageListItem, ImageListItemBar, Link, Paper, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from "react";
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
@@ -31,6 +31,10 @@ function ShareMansonryBoardArticleList({
   , shareUserId
   , alertOnBottom
 } : ShareMansonryBoardArticleListProps) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const shareInfo             = useAppSelect(getShareInfo);
+  const pathArr               = location.pathname.split("/");
 
   const [limit                , setLimit]       = useState(10);
   const [page                 , setPage]        = useState(1);
@@ -77,9 +81,6 @@ function ShareMansonryBoardArticleList({
           alert(`[${err.code}][${err.response.status}] ${err.message}`)    
         });
   }  
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const [boardArticleList, setBoardArticleList] = useState<ShareBoardArticleList_>([{
     id              : 0,
@@ -130,7 +131,7 @@ function ShareMansonryBoardArticleList({
 
   const handleMenuView = (boardArticle : ShareBoardArticle_, e : React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
-      navigate(`${location.pathname}/${boardArticle.id}`, {state : {boardArticle : boardArticle}});
+      navigate(`${location.pathname}/${boardArticle.id}`, {state : {shareBoardArticle : boardArticle}});
   }
 
   const imagePath = (path : string) => {
@@ -141,14 +142,15 @@ function ShareMansonryBoardArticleList({
     let isExistBoardArticleList = boardArticleList.length > 0 && boardArticleList[0].id > 0;
     if (isExistBoardArticleList === true) {
       return (
-        <ImageList variant="masonry" cols={2} gap={100} key={`${shareBoardCategoryId}_${shareBoardId}_images`}>
+        <ImageList variant="masonry" cols={3} gap={100} key={`${shareBoardCategoryId}_${shareBoardId}_images`}>
           {
           boardArticleList.map((boardArticle) => (
             <ImageListItem key={`${boardArticle.shareBoard.boardName}_${boardArticle.id}_img_list_item`} onClick={(e) => handleMenuView(boardArticle as ShareBoardArticle_, e)} sx={{cursor:'pointer'}}>
-              <ImageListItemBar position="top" 
+{/*               <ImageListItemBar position="top" 
                                 title={`Title : ${boardArticle.title}`} 
                                 sx={{fontWeight:'bold'}}
               />
+ */}
               <img
                 src={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
                 srcSet={`${imagePath(boardArticle.filePath)}` === 'noImage' ? 'noImage' : `//jwlee0208.cdn3.cafe24.com${boardArticle.filePath}?width=auto&height=auto&auto=format`}
@@ -157,8 +159,10 @@ function ShareMansonryBoardArticleList({
                 key={`${boardArticle.shareBoard.boardName}_${boardArticle.id}_img`}
               />
               <ImageListItemBar position="bottom"
-                                title={<div dangerouslySetInnerHTML={{__html : boardArticle.content.substring(0,20)}}></div>} 
+                                title={`${boardArticle.title}`} 
+// title={<div dangerouslySetInnerHTML={{__html : boardArticle.content.substring(0,20)}}></div>} 
                                 subtitle={`Posted Date : ${boardArticle.createDate} By : ${boardArticle.createUser.nickname}`}
+
               />
             </ImageListItem>
           ))}
@@ -216,11 +220,19 @@ function ShareMansonryBoardArticleList({
   }, [boardArticleList]);
 
   return (
-    <Box sx={{ minHeight: 377 }}>
+    <Box sx={{ minHeight: 377, p:2 }}>
+            <Typography variant="h4">List</Typography>
+            <Divider/>
+            <Breadcrumbs aria-label="breadcrumb" sx={{pt:2, pb:2}} separator=">">
+                <Link underline="hover" color="inherit">{pathArr[1].toUpperCase()}</Link>            
+                <Link underline="hover" color="inherit">{shareInfo.shareName.toUpperCase()}</Link>   
+                <Typography color="text.primary">LIST</Typography>
+            </Breadcrumbs>           
+
        <BottomScrollListener onBottom={handleContainerOnBottom} debounce={200} debounceOptions={{leading: false}} triggerOnNoScroll={false}>
-          <div>
+          <Box>
             {imageList(boardArticleList)}  
-          </div>
+          </Box>
       </BottomScrollListener>              
     </Box>
   )
