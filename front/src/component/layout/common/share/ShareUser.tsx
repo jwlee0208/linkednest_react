@@ -38,13 +38,17 @@ function ShareUser () {
         if (location.state !== null) {
             setShareBoardType(location.state.shareBoardType);
         } else {
-            axiosInstance.get(`/api/share/board/${shareBoardId}`)
+            if (shareBoardId === undefined) {
+                 setShareBoardType("0");
+            } else  {
+                axiosInstance.get(`/api/share/board/${shareBoardId}`)
                 .then(res => {
                     setShareBoard(res.data);
                     setShareBoardType(res.data.boardType);
                 })
+            }
         }
-    }, [shareUserId,  shareBoardCategoryId, shareBoardId]);
+    }, [shareUserId, shareBoardCategoryId, shareBoardId]);
 
     const viewArea = () => {
         switch(shareBoardType) {
