@@ -1,10 +1,9 @@
-import { Box, Collapse, Divider, List, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useLocation } from "react-router";
 import { axiosInstance } from "../../../..";
 import { useAppSelect } from "../../../../store/index.hooks";
 import { ShareBoardCategoryList_, getShareInfo } from "../../../../store/modules/share";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import ShareBoardCategoryMenuRow from "./ShareBoardCategoryMenuRow";
 
 function ShareSideArea() {

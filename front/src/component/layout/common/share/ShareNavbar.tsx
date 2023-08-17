@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
-import { useAppSelect } from "../../../../store/index.hooks";
-import { ShareBoardCategoryList_, ShareBoardCategory_, ShareBoardList_, ShareBoard_, getShareInfo } from "../../../../store/modules/share";
-import { useLocation, useNavigate } from "react-router";
-import { axiosInstance } from "../../../..";
 import { Box, Button, Fade, Grid, List, ListItem, Paper, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { axiosInstance } from "../../../..";
+import { useAppSelect } from "../../../../store/index.hooks";
+import { ShareBoardCategoryList_, ShareBoardCategory_, ShareBoard_, getShareInfo } from "../../../../store/modules/share";
 
 function ShareNavbar ()  {
     const location      = useLocation();
     const pathArr       = location.pathname.split("/");
     const shareUserId   = pathArr[2];
-    const navigate      = useNavigate();
     const shareInfo     = useAppSelect(getShareInfo);
 
     const [shareBoardCategoryList, setShareBoardCategoryList] = useState<ShareBoardCategoryList_>([{
@@ -97,7 +96,6 @@ function ShareNavbar ()  {
         if (`${shareInfo.id}` === '0') {
             axiosInstance.post(`/api/share/board/category/list`, {"createUserId" : shareUserId})
                 .then((res) =>  {
-                    console.log(`res.data.shareBoardCategoryList : ${res.data.shareBoardCategoryList}`);
                     setShareBoardCategoryList(res.data.shareBoardCategoryList);        
                 }).catch((err)=> {
                     console.log(err);    

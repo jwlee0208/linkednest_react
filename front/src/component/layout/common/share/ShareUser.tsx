@@ -1,10 +1,11 @@
-import { useEffect }                    from "react";
-import { useDispatch }                  from "react-redux";
-import { useLocation, useParams }       from "react-router";
-import { axiosInstance }                from "../../../..";
-import shareSlice                       from "../../../../store/modules/share";
-import ShareNormalBoardArticleList      from "../../../function/share/ShareNormalBoardArticleList";
-import ShareMansonryBoardArticleList    from "../../../function/share/ShareMansonryBoardArticleList";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation, useParams } from "react-router";
+import { axiosInstance } from "../../../..";
+import shareSlice, { ShareBoard_, getShareInfo } from "../../../../store/modules/share";
+import ShareImageBoardArticleList from "../../../function/share/ShareImageBoardArticleList";
+import ShareNormalBoardArticleList from "../../../function/share/ShareNormalBoardArticleList";
+import { useAppSelect } from "../../../../store/index.hooks";
 
 function ShareUser () {
 
@@ -15,7 +16,16 @@ function ShareUser () {
     const shareUserId           = params.userId;    
     const shareBoardId          = params.shareBoardId;
     const shareBoardCategoryId  = params.shareBoardCategoryId;
-    const shareBoardType        = (location.state !== null ? location.state.shareBoardType : '0');
+    const [shareBoardType, setShareBoardType]        = useState("");
+    const [shareBoard, setShareBoard] = useState<ShareBoard_>({
+        id                  : 0,
+        boardName           : '',
+        boardType           : '',
+        createUserId        : '',
+        createDate          : '',
+        modifyUserId        : '',
+        modifyDate          : '',
+    });
 
     useEffect(() => {
         if (shareUserId !== null && shareUserId !== undefined) {
@@ -24,18 +34,29 @@ function ShareUser () {
                     dispatch(shareSlice.actions.setShareInfo(res.data));
                 })
         }    
-    }, [shareUserId]);
+
+        if (location.state !== null) {
+            setShareBoardType(location.state.shareBoardType);
+        } else {
+            axiosInstance.get(`/api/share/board/${shareBoardId}`)
+                .then(res => {
+                    setShareBoard(res.data);
+                    setShareBoardType(res.data.boardType);
+                })
+        }
+    }, [shareUserId,  shareBoardCategoryId, shareBoardId]);
 
     const viewArea = () => {
         switch(shareBoardType) {
-            case '1': return (
-                <ShareMansonryBoardArticleList 
+            case '0': return <ShareNormalBoardArticleList/>        
+            default : return (
+                <ShareImageBoardArticleList 
                                             shareBoardId={shareBoardId as unknown as string} 
                                             shareUserId={shareUserId as unknown as string} 
                                             shareBoardCategoryId={shareBoardCategoryId as unknown as string}
-                                            alertOnBottom={true}/>
-            )        
-            default : return <ShareNormalBoardArticleList/>    
+                                            boardType={shareBoardType as unknown as string}
+                                            alertOnBottom={true}/>    
+            )
         }
     }
 
