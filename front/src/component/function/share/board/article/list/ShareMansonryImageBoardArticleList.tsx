@@ -1,14 +1,16 @@
-import { Masonry } from "@mui/lab";
+import { Masonry }                  from "@mui/lab";
 import { Box, Divider, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
-import { ShareBoardArticleList_, ShareBoardArticle_ } from "../../../store/modules/share";
-import { Item, imagePath } from "./ShareImageBoardArticleList";
+import { ShareBoardArticleList_, ShareBoardArticle_ } 
+                                    from "../../../../../../store/modules/share";
+import { Item, imagePath }          from "./ShareImageBoardArticleList";
 
 type ShareMansonryImageBoardArticleListProps = {
     boardArticleList : ShareBoardArticleList_,
-    page : number,
-    limit : number,
+    page             : number,
+    limit            : number,
 } 
+
 function ShareMansonryImageBoardArticleList({boardArticleList, page, limit} : ShareMansonryImageBoardArticleListProps) {
 
     const navigate = useNavigate();
@@ -52,7 +54,7 @@ function ShareMansonryImageBoardArticleList({boardArticleList, page, limit} : Sh
         return (      
           <Typography sx={{width: '100%', textAlign:'center', p:10}} variant="body1">There's no article.</Typography>
         )
-      }
+    }
         
     return (
         masonryList(boardArticleList, (page - 1)*limit , limit)

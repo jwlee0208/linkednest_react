@@ -7,7 +7,6 @@
   from = "/user"
   to = "https://api.linkednest.site/user"  
   status = 200
-
   force = true        
 [[redirects]]
   from = "/user/*"

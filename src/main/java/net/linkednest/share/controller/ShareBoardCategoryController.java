@@ -1,7 +1,6 @@
 package net.linkednest.share.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.share.dto.ReqShareBoardCategoryDto;
@@ -9,7 +8,6 @@ import net.linkednest.share.dto.ResShareBoardCategoryListDto;
 import net.linkednest.share.entity.ShareBoardCategory;
 import net.linkednest.share.service.ShareBoardCategoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

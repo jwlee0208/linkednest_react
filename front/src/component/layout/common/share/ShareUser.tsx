@@ -2,16 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { axiosInstance } from "../../../..";
-import shareSlice, { ShareBoard_, getShareInfo } from "../../../../store/modules/share";
-import ShareImageBoardArticleList from "../../../function/share/ShareImageBoardArticleList";
-import ShareNormalBoardArticleList from "../../../function/share/ShareNormalBoardArticleList";
+import shareSlice, { ShareBoard_ } from "../../../../store/modules/share";
+import ShareImageBoardArticleList from "../../../function/share/board/article/list/ShareImageBoardArticleList"; 
+import ShareNormalBoardArticleList from "../../../function/share/board/article/list/ShareNormalBoardArticleList";
+import ShareRegist from "../../../function/share/board/article/ShareRegist";
 import { useAppSelect } from "../../../../store/index.hooks";
+import { getUserInfo } from "../../../../store/modules/user";
 
 function ShareUser () {
 
     const params   = useParams();
     const dispatch = useDispatch();
     const location = useLocation();
+    const userInfo = useAppSelect(getUserInfo);
 
     const shareUserId           = params.userId;    
     const shareBoardId          = params.shareBoardId;
@@ -64,8 +67,19 @@ function ShareUser () {
         }
     }
 
+    const registArea = () => {
+        if (userInfo.userId === shareUserId) {
+            return <ShareRegist boardId={Number(shareBoardId)} height={300}/>
+        } else {
+            return <></>
+        }
+    }
+
     return (
-        viewArea()
+        <>
+            {registArea()}
+            {viewArea()}
+        </>
     )
 }
 

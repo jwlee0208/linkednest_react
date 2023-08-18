@@ -1,6 +1,5 @@
 package net.linkednest.share.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.linkednest.common.ResponseCodeMsg;
@@ -10,13 +9,10 @@ import net.linkednest.common.service.UserService;
 import net.linkednest.share.dto.ReqShareBoardArticleListDto;
 import net.linkednest.share.dto.ResShareBoardArticleDto;
 import net.linkednest.share.dto.ResShareBoardArticleListDto;
-import net.linkednest.share.entity.ShareBoard;
 import net.linkednest.share.entity.ShareBoardArticle;
 import net.linkednest.share.service.ShareBoardArticleService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

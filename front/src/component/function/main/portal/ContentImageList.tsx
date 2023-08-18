@@ -1,4 +1,4 @@
-import { Box, Grid, ImageList, ImageListItem, ImageListItemBar, Paper, Skeleton, Typography } 
+import { Box, Grid, Hidden, ImageList, ImageListItem, ImageListItemBar, Paper, Skeleton, Typography } 
                                   from "@mui/material"
 import { ContentList_, Content_ } from "../../../../store/modules/content"
 import { styled }                 from '@mui/material/styles';
@@ -29,18 +29,18 @@ function ContentImageList({
 
     const loadingContentListArea = () => {
         return (
-            <Grid container item xs={12}>
-                <Grid item xs={4} sx={{p:2}}>
+            <Grid container item xs={12} sm={12} md={12}>
+                <Grid item xs={4} sx={{p:2}} sm={4} md={4}>
                     <Skeleton height={300}/>
                     <Skeleton height={70}/>
                     <Skeleton height={150}/>                    
                 </Grid>
-                <Grid item xs={4} sx={{p:2}}>
+                <Grid item xs={4} sx={{p:2}} sm={4} md={4}>
                     <Skeleton height={300}/>
                     <Skeleton height={70}/>
                     <Skeleton height={150}/>                    
                 </Grid>
-                <Grid item xs={4} sx={{p:2}}>
+                <Grid item xs={4} sx={{p:2}} sm={4} md={4}>
                     <Skeleton height={300}/>
                     <Skeleton height={70}/>
                     <Skeleton height={150}/>                    
@@ -49,12 +49,12 @@ function ContentImageList({
         )
     }
 
-    const loadedContentListArea = () => {
+    const imageListArea = (contentList  : ContentList_) => {
         return (
-            <ImageList variant="standard" cols={3} gap={100} >
-        {
             contentList.map((content) => (
-                <ImageListItem key={`${content.contentCode}_imageListItem`} sx={{cursor:'pointer'}} onClick={(e) => moveTo(content as Content_, e)} >
+                <ImageListItem key={`${content.contentCode}_imageListItem`} 
+                               sx={{cursor:'pointer'}} 
+                               onClick={(e) => moveTo(content as Content_, e)} >
                     <img 
                         src={`${content.imagePath}?w=248&fit=crop&auto=format`}
                         srcSet={`${content.imagePath}?w=248&fit=crop&auto=format&dpr=2 2x`}
@@ -71,15 +71,29 @@ function ContentImageList({
                             cursor:'pointer'
                         }}/>
                     <ImageListItemBar position="below" 
-                        subtitle={content.contentName}
-                        sx={{mt:2, pt:1, pl: 1, verticalAlign: 'center', bgcolor:'#efefef', borderRadius:'0.5rem'}} 
+                                      subtitle={content.contentName}
+                                      sx={{mt:2, pt:1, pl: 1, verticalAlign: 'center', bgcolor:'#efefef', borderRadius:'0.5rem'}} 
                     />
                     <Typography noWrap={false} variant="subtitle2" sx={{p:1}}>{content.contentDesc}</Typography>
                 </ImageListItem>
-
             ))
-        }        
-            </ImageList>
+        )
+    }
+
+    const loadedContentListArea = () => {
+        return (
+        <>    
+            <Hidden smDown>    
+                <ImageList variant="standard" cols={3} gap={30}>
+                { imageListArea(contentList) }       
+                </ImageList>
+                </Hidden>
+            <Hidden smUp>
+                <ImageList variant="standard" cols={1} gap={30}>
+                { imageListArea(contentList) }        
+                </ImageList>            
+            </Hidden>        
+        </>
         )
     }
 
