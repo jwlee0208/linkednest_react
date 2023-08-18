@@ -12,7 +12,6 @@ public class ResShareBoardDto extends CommonResDto {
     private String 	boardType;
     private String createUserId;
     private Date createDate;
-
     private String modifyUserId;
     private Date modifyDate;
 }
