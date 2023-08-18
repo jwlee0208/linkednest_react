@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { ShareBoardArticleList_, ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
+import { ShareBoardArticleList_, ShareBoardArticle_, getShareInfo } from "../../../../../../store/modules/share";
 import { Box, Breadcrumbs, Button, Divider, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { axiosInstance } from "../../..";
-import { useAppSelect } from "../../../store/index.hooks";
+import { axiosInstance } from "../../../../../..";
+import { useAppSelect } from "../../../../../../store/index.hooks";
 
 function ShareNormalBoardArticleList () {
     const location              = useLocation();

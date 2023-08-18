@@ -1,12 +1,12 @@
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Box, Breadcrumbs, Button, ButtonGroup, Divider, FormControl, Grid, Link, Paper, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
-
-import { useEffect, useState } from "react";
-import { axiosInstance } from "../../..";
-import { useAppSelect } from "../../../store/index.hooks";
-import { ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
-import { getUserInfo } from "../../../store/modules/user";
+import CalendarMonthIcon                    from '@mui/icons-material/CalendarMonth';
+import { Box, Breadcrumbs, Button, ButtonGroup, Divider, FormControl, Grid, Link, Paper, Typography } 
+                                            from "@mui/material";
+import { useLocation, useNavigate }         from "react-router-dom";
+import { useEffect, useState }              from "react";
+import { axiosInstance }                    from "../../../../..";
+import { useAppSelect }                     from "../../../../../store/index.hooks";
+import { ShareBoardArticle_ }               from "../../../../../store/modules/share";
+import { getUserInfo }                      from "../../../../../store/modules/user";
 
 function ShareBoardArticleDetail() {
     const location = useLocation();
@@ -60,7 +60,6 @@ function ShareBoardArticleDetail() {
     const pathArr               = location.pathname.split("/");
     const shareBoardArticleId   = `${pathArr[5]}`;
     const boardDefaultPath      = `/${pathArr[1]}/${pathArr[2]}`;
-    const shareInfo             = useAppSelect(getShareInfo);
     const userInfo              = useAppSelect(getUserInfo);
 
     const moveToGo = (shareBoardArticle : ShareBoardArticle_, e: React.MouseEvent<HTMLElement>) => {
@@ -129,7 +128,7 @@ function ShareBoardArticleDetail() {
             <Paper elevation={0} variant="outlined" sx={{p:2}}>    
                 <Typography variant="h4">{shareBoardArticle.title}</Typography>    
                 <Typography sx={{p:1}} align="left"><CalendarMonthIcon/>&nbsp;Posted by {shareBoardArticle.createUser.nickname}</Typography>
-                <hr/>    
+                <Divider/>    
                 <Typography sx={{p:1}}>
                     <div dangerouslySetInnerHTML={{__html : shareBoardArticle.content}}></div>
                 </Typography>

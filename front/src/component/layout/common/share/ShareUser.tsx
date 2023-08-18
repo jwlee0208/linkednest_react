@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { axiosInstance } from "../../../..";
 import shareSlice, { ShareBoard_ } from "../../../../store/modules/share";
-import ShareImageBoardArticleList from "../../../function/share/ShareImageBoardArticleList";
-import ShareNormalBoardArticleList from "../../../function/share/ShareNormalBoardArticleList";
-import ShareRegist from "../../../function/share/ShareRegist";
+import ShareImageBoardArticleList from "../../../function/share/board/article/list/ShareImageBoardArticleList"; 
+import ShareNormalBoardArticleList from "../../../function/share/board/article/list/ShareNormalBoardArticleList";
+import ShareRegist from "../../../function/share/board/article/ShareRegist";
 import { useAppSelect } from "../../../../store/index.hooks";
 import { getUserInfo } from "../../../../store/modules/user";
 

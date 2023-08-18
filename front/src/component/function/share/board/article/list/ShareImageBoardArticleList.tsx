@@ -3,9 +3,9 @@ import { styled } from '@mui/material/styles';
 import { useEffect, useState } from "react";
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
 import { useLocation, useNavigate } from "react-router";
-import { axiosInstance } from "../../..";
-import { useAppSelect } from "../../../store/index.hooks";
-import { ShareBoardArticleList_, ShareBoardArticle_, getShareInfo } from "../../../store/modules/share";
+import { axiosInstance } from "../../../../../..";
+import { useAppSelect } from "../../../../../../store/index.hooks";
+import { ShareBoardArticleList_, ShareBoardArticle_, getShareInfo } from "../../../../../../store/modules/share";
 
 export const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -36,10 +36,10 @@ function ShareImageBoardArticleList({
   , alertOnBottom
   , boardType
 } : ShareImageBoardArticleListProps) {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const shareInfo             = useAppSelect(getShareInfo);
-  const pathArr               = location.pathname.split("/");
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const shareInfo = useAppSelect(getShareInfo);
+  const pathArr   = location.pathname.split("/");
 
   const [limit                , setLimit]       = useState(10);
   const [page                 , setPage]        = useState(1);

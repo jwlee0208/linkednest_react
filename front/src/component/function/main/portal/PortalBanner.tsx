@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, IconButton, Typography } 
+import { Box, Card, CardContent, CardMedia, Divider, Hidden, IconButton, Typography } 
                                      from "@mui/material";
 import Carousel                      from "react-material-ui-carousel";
 import ArrowLeftIcon                 from '@mui/icons-material/ArrowLeft';
@@ -56,37 +56,43 @@ function PortalBanner({contentList} : PortalBannerProps) {
     const carouselCardArea = (content : Content_) => {
         return (
             <Card key={`${content.contentCode}_cardBanner`} sx={{ display: 'flex' }}>
-                <Box sx={{borderRadius:4, borderColor:'InfoText', border:1, mr:1, display: 'flex', width: '25%', flexDirection: 'column', pl:2, pr:2}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '420px'}}>
-                        <CardContent sx={{ flex: '1 0 auto' }}>
-                            <Typography component="div" variant="h5" sx={{fontWeight:'bold'}}>{content.contentName}</Typography>
-                            <hr/>
-                            <Typography component="div" variant="subtitle1" sx={{lineHeight:'2.5em'}}>{content.contentDesc}</Typography>    
-                        </CardContent>
+                <Hidden smDown>
+                    <Box sx={{borderRadius:4, borderColor:'InfoText', border:1, mr:1, display: 'flex', width: '25%', flexDirection: 'column', pl:2, pr:2}}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '420px'}}>
+                            <CardContent sx={{ flex: '1 0 auto' }}>
+                                <Typography component="div" variant="h5" sx={{fontWeight:'bold'}}>{content.contentName}</Typography>
+                                <Divider/>
+                                <Typography component="div" variant="subtitle1" sx={{lineHeight:'2.5em'}}>{content.contentDesc}</Typography>    
+                            </CardContent>
+                        </Box>
+                        <Box sx={{borderRadius:4, display: 'flex', alignItems: 'end', pt: 1, pl: 2, pb: 1, backgroundColor:'#efefef' }}>
+                            <IconButton href={`${content.homepageUrl}`} sx={{float:'left', borderColor:'#efefef', border:1}} size="small">
+                                <HomeIcon sx={{m:1}} color="inherit"/>
+                            </IconButton>
+                            { contentSnsBtnArea(content) }
+                        </Box>
                     </Box>
-                    <Box sx={{borderRadius:4, display: 'flex', alignItems: 'end', pt: 1, pl: 2, pb: 1, backgroundColor:'#efefef' }}>
-                        <IconButton href={`${content.homepageUrl}`} sx={{float:'left', borderColor:'#efefef', border:1}} size="small">
-                            <HomeIcon sx={{m:1}} color="inherit"/>
-                        </IconButton>
-                        { contentSnsBtnArea(content) }
-                    </Box>
-                </Box>
-                <CardMedia component='img' 
-                            sx={{width : '75%', maxHeight:'500px', borderRadius:4}} 
-                            image={content.imagePath} 
-                            alt={content.contentDesc}/>
+                    <CardMedia component='img' 
+                                sx={{width : '75%', maxHeight:'500px', borderRadius:4}} 
+                                image={content.imagePath} 
+                                alt={content.contentDesc}/>
+                </Hidden>
+                <Hidden  smUp>
+                    <CardMedia component='img' 
+                                sx={{width : '100%', maxHeight:'500px', borderRadius:4}} 
+                                image={content.imagePath} 
+                                alt={content.contentDesc}/>
+                </Hidden>
             </Card>    
-
         )
     }
-
     return (
     <>  
         <Box sx={{width:'100%', p:0}}>
             {carouselArea()}
         </Box>  
         <Box sx={{width:'100%', p:1}}>
-            <ContentImageList contentList={contentList}/>
+            <ContentImageList contentList={contentList} />
         </Box>  
     </>
     )
