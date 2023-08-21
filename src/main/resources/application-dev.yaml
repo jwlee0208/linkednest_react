@@ -11,10 +11,10 @@ spring:
       enabled: true
   datasource:
     hikari:
-      driver-class-name: org.mariadb.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
       jdbc-url: jdbc:mysql://aws.connect.psdb.cloud/test?sslMode=VERIFY_IDENTITY
-      username: 695kg95z3vvn75dsbyfk
-      password: pscale_pw_28GBkTEUFIhUCpZzyk8V9hZu1qaEdWylZZfTvEWxT7R
+      username: vfv6yrl76p8btqsf6got
+      password: pscale_pw_cNHTKWS0DuR95YtNxWukjvjjpMrnZ2DNUXBM6nLqqxv
   jpa:
     show-sql: true
     hibernate:
