@@ -5,14 +5,13 @@ spring:
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
-
   devtools:
     livereload:
       enabled: true
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://aws.connect.psdb.cloud/test
+      jdbc-url: jdbc:mysql://aws.connect.psdb.cloud/test?useSSL=false
       username: x18n6rtjjimaggn7h8lw
       password: pscale_pw_GNDd8hxJkrVfKrb7ZWpaiRt0e1rlEp5ZaOG3Me2WJl7
   jpa:
