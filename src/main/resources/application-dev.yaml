@@ -12,9 +12,9 @@ spring:
   datasource:
     hikari:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://localhost:3306/test
-      username: root
-      password: asdf1234
+      jdbc-url: jdbc:mysql://aws.connect.psdb.cloud/test?sslMode=VERIFY_IDENTITY
+      username: 695kg95z3vvn75dsbyfk
+      password: pscale_pw_28GBkTEUFIhUCpZzyk8V9hZu1qaEdWylZZfTvEWxT7R
   jpa:
     show-sql: true
     hibernate:
