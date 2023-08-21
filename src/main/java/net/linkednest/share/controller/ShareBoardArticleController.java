@@ -6,6 +6,8 @@ import net.linkednest.common.ResponseCodeMsg;
 import net.linkednest.common.dto.CommonResDto;
 import net.linkednest.common.entity.user.User;
 import net.linkednest.common.service.UserService;
+import net.linkednest.common.utils.CommonUtil;
+import net.linkednest.share.dto.ReqShareBoardArticleDto;
 import net.linkednest.share.dto.ReqShareBoardArticleListDto;
 import net.linkednest.share.dto.ResShareBoardArticleDto;
 import net.linkednest.share.dto.ResShareBoardArticleListDto;
@@ -14,6 +16,7 @@ import net.linkednest.share.service.ShareBoardArticleService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ public class ShareBoardArticleController {
     private final ShareBoardArticleService shareBoardArticleService;
     private final UserService userService;
 
-    @RequestMapping(value = {"", "/"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @GetMapping(value = {"", "/"})
     public ResponseEntity getShareBoardArticleMain() {
         return ResponseEntity.ok("");
     }
@@ -50,7 +53,7 @@ public class ShareBoardArticleController {
                     resShareBoardArticleDto.setTitle(shareBoardArticle.getTitle());
                     resShareBoardArticleDto.setContent(shareBoardArticle.getContent());
                     resShareBoardArticleDto.setStatus(shareBoardArticle.getStatus());
-                    resShareBoardArticleDto.setCreateDate(shareBoardArticle.getCreateDate());
+                    resShareBoardArticleDto.setCreateDate(shareBoardArticle.getCreateDate().toString());
                     resShareBoardArticleDto.setFilePath(shareBoardArticle.getFilePath());
                     resShareBoardArticleDto.setOriginalFileName(shareBoardArticle.getOriginalFileName());
                     resShareBoardArticleDtoList.add(resShareBoardArticleDto);
@@ -87,12 +90,21 @@ public class ShareBoardArticleController {
             resShareBoardArticleDto.setFilePath(shareBoardArticle.getFilePath());
             resShareBoardArticleDto.setContent(shareBoardArticle.getContent());
             resShareBoardArticleDto.setCreateUser(shareBoardArticle.getCreateUser());
-            resShareBoardArticleDto.setCreateDate(shareBoardArticle.getCreateDate());
+            resShareBoardArticleDto.setCreateDate(shareBoardArticle.getCreateDate().toString());
             resShareBoardArticleDto.setShareBoard(shareBoardArticle.getShareBoard());
             resShareBoardArticleDto.setShareBoardCategory(shareBoardArticle.getShareBoardCategory());
             resShareBoardArticleDto.setReturnCode(10000);
             resShareBoardArticleDto.setReturnMsg(ResponseCodeMsg.of(10000).getResMsg());
             return ResponseEntity.ok(resShareBoardArticleDto);
         }
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity registShareContent(ReqShareBoardArticleDto reqShareBoardArticleDto) {
+        log.info("[{}.{}] reqShareBoardArticleDto  : {}", this.getClass().getName(), "registShareContent", reqShareBoardArticleDto.toString());
+        log.info("[{}.{}] HtmlUtils.htmlUnescape(reqShareBoardArticleDto.getContent())o  : {}", this.getClass().getName(), "registShareContent", HtmlUtils.htmlUnescape(reqShareBoardArticleDto.getContent()));
+        log.info("[{}.{}] CommonUtil.removeTag(reqShareBoardArticleDto.getContent())  : {}", this.getClass().getName(), "registShareContent", CommonUtil.removeTag(HtmlUtils.htmlUnescape(reqShareBoardArticleDto.getContent())));
+
+        return ResponseEntity.ok(shareBoardArticleService.registShareBoardArticle(reqShareBoardArticleDto));
     }
 }
