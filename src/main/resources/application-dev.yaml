@@ -11,9 +11,9 @@ spring:
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://aws.connect.psdb.cloud/test?useSSL=false
-      username: x18n6rtjjimaggn7h8lw
-      password: pscale_pw_GNDd8hxJkrVfKrb7ZWpaiRt0e1rlEp5ZaOG3Me2WJl7
+      jdbc-url: jdbc:mysql://aws.connect.psdb.cloud/test?sslMode=VERIFY_IDENTITY
+      username: vrkfgbforrxmj1tneaxu
+      password: pscale_pw_bfQRs2BfICrSOyKQl3OJcPehCCBrSwlpsnK8e8lomR3
   jpa:
     show-sql: true
     hibernate:
