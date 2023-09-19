@@ -14,6 +14,19 @@ import { CookiesProvider }        from 'react-cookie';
 import { getCookie, setCookie }              from './cookie';
 import { encode as base64_encode }       from 'base-64';
 
+import * as Sentry from "@sentry/node";
+import { ProfilingIntegration } from "@sentry/profiling-node";
+
+Sentry.init({
+  dsn: 'https://8ea6a2a658202d5e1a92ab99949f78e2@o4505876544684032.ingest.sentry.io/4505904742727680',
+  integrations: [
+    new ProfilingIntegration(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+});
 
 export const axiosInstance = axios.create({
   // baseURL : `${process.env.REACT_APP_API_DOMAIN}`,
