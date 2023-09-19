@@ -26,7 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.List;
 
 @Slf4j
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 @Order(0)
 public class SecurityConfig {
