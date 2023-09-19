@@ -73,6 +73,9 @@ flickr:
   shared:
     secret: ed6088a596f20afd
 
+## sentry
+sentry:
+  traces-sample-rate: 1.0
 #
 #---
 #spring:
