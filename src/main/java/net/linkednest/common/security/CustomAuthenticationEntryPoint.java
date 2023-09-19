@@ -17,7 +17,8 @@ import java.nio.charset.StandardCharsets;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        log.info("[{}.{}] commence exceptionClass : {}", this.getClass().getName(), "authenticationEntryPoint", request.getAttribute("exceptionClassName"));
+//        log.info("[{}.{}] commence exceptionClass : {}", this.getClass().getName(), "authenticationEntryPoint", request.getAttribute("exceptionClassName"));
+        log.info("[{}.{}] commence exceptionClass : {}, request path : {}", this.getClass().getName(), "authenticationEntryPoint", request.getAttribute("exceptionClassName"),  request.getRequestURI());
         response.setStatus(HttpStatus.SC_UNAUTHORIZED);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(ContentType.TEXT_HTML.getMimeType());
