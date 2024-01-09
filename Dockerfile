@@ -9,8 +9,8 @@ RUN cd $APP_HOME
 COPY build.gradle $APP_HOME
 COPY gradle.properties $APP_HOME
 
-RUN wget https://services.gradle.org/distributions/gradle-7.6.1-bin.zip -P /tmp
-RUN sudo unzip -d /opt/gradle /tmp/gradle-7.6.1-bin.zip
+#RUN wget https://services.gradle.org/distributions/gradle-7.6.1-bin.zip -P /tmp
+#RUN sudo unzip -d /opt/gradle /tmp/gradle-7.6.1-bin.zip
 
 RUN rm -rf gradle
 RUN rm -rf front
