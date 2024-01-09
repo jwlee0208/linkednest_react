@@ -29,8 +29,8 @@ RUN cd $APP_HOME
 RUN /opt/gradle/gradle-7.6.1/bin/gradle wrap
 RUN ./gradlew clean
 #RUN ./gradlew install
-#RUN ./gradlew -Dspring.profiles.active=dev build
-RUN ./gradlew -Dspring.profiles.active=dev bootJar
+RUN ./gradlew -Dspring.profiles.active=dev build
+#RUN ./gradlew -Dspring.profiles.active=dev bootJar
 RUN chmod -R +x build/libs
 RUN nohup java -jar -Dspring.profiles.active=dev $APP_HOME/build/libs/git_repo-0.0.1-SNAPSHOT.jar &
 
