@@ -27,6 +27,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: jwlee0208/linkednest_test:v$(date +%s)        
+        tags: jwlee0208/linkednest_test:v{{date}}.{{version}}        
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
