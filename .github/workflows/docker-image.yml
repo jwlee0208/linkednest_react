@@ -32,7 +32,9 @@ jobs:
 
     # gradle build
     - name: Build with Gradle
-      run: ./gradlew -Dspring.profiles.active=dev bootJar
+      run:
+        chmod +x gradlew
+        ./gradlew -Dspring.profiles.active=dev bootJar
           
     - name: Docker meta
       id: docker_meta
