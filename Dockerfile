@@ -16,8 +16,8 @@ RUN rm -rf gradle
 RUN rm -rf front
 RUN rm -rf src/main/resources/application-dev.yaml
 RUN rm -f build.gradle
-RUN git fetch origin
-RUN git pull origin master
+#RUN git fetch origin
+3RUN git pull origin master
 
 RUN rm -rf $APP_HOME/front
 
