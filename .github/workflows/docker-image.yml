@@ -18,7 +18,22 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-    
+
+    # gradle caching - 빌드 시간 향상
+    - name: Gradle Caching
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    # gradle build
+    - name: Build with Gradle
+      run: ./gradlew -Dspring.profiles.active=dev bootJar
+          
     - name: Docker meta
       id: docker_meta
       uses: crazy-max/ghaction-docker-meta@v1
