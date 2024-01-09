@@ -27,8 +27,8 @@ RUN export JAVA_HOME=/usr/lib/jvm/jdk-17-oracle-x64
 RUN chmod +x gradlew
 RUN cd $APP_HOME
 #RUN /opt/gradle/gradle-7.6.1/bin/gradle wrap
-RUN ./gradlew clean
-RUN ./gradlew install
+#RUN ./gradlew clean
+#RUN ./gradlew install
 #RUN ./gradlew -Dspring.profiles.active=dev build
 RUN ./gradlew -Dspring.profiles.active=dev bootJar
 RUN chmod -R +x build/libs
