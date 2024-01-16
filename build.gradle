@@ -74,7 +74,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-def frontendDir = "$projectDir/front"
+//def frontendDir = "$projectDir/front"
 
 sourceSets {
 	main {
@@ -83,7 +83,7 @@ sourceSets {
 		}
 	}
 }
-
+/*
 processResources {
 	dependsOn "copyReactBuildFiles"
 }
@@ -129,3 +129,4 @@ task unzipNewrelic(type: Copy) {
     from zipTree(file('newrelic/newrelic-java.zip'))
     into rootDir
 }
+*/
