@@ -34,7 +34,7 @@ jobs:
     - name: Build with Gradle
       run:
         chmod +x gradlew
-        ./gradlew -Dspring.profiles.active=dev bootJar
+        ./gradlew --args='--spring.profiles.active=dev' bootJar
         
     - name: Login to DockerHub
       uses: docker/login-action@v1
