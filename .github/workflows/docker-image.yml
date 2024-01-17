@@ -40,14 +40,14 @@ jobs:
         ./gradlew build --exclude-task test
       shell: bash  
 
-    - name: Docker meta
-      id: docker_meta
-      uses: crazy-max/ghaction-docker-meta@v1
-      with:
-        images: jwlee0208/linkednest_test
-        tag-semver: |
-          {{version}}
-          {{major}}.{{minor}}
+    # - name: Docker meta
+    #   id: docker_meta
+    #   uses: crazy-max/ghaction-docker-meta@v1
+    #   with:
+    #     images: jwlee0208/linkednest_test
+    #     tag-semver: |
+    #       {{version}}
+    #       {{major}}.{{minor}}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -66,7 +66,7 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64      
         push: true
-        tags: ${{ steps.docker_meta.outputs.tags }} 
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:github.v{{version}}  #${{ steps.docker_meta.outputs.tags }} 
         labels: ${{ steps.docker_meta.outputs.labels }}
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
