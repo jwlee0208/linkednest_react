@@ -39,7 +39,7 @@ jobs:
         files: ./src/main/resources/application-dev.yml 
       env:
         spring.datasource:hikari.driver-class-name: org.mariadb.jdbc.Driver
-        spring.datasource.hikari.jdbc-url: jdbc:mariadb://${{ secrets.DB_CONN_URL }}:${{ secrets.DB_PORT }}/${{ DB_NAME }}?useSSL=false 
+        spring.datasource.hikari.jdbc-url: jdbc:mariadb://${{ secrets.DB_CONN_URL }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}?useSSL=false 
         spring.datasource.hikari.username: ${{ secrets.DB_USERNAME }} 
         spring.datasource.hikari.password: ${{ secrets.DB_PASSWD }} 
     # gradle build
