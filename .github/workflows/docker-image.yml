@@ -32,7 +32,16 @@ jobs:
 
     # - name: Setup Gradle
     #   uses: gradle/gradle-build-action@v2
-      
+
+    - name: Set Yaml
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ./src/main/resources/application-dev.yml 
+      env:
+        spring.datasource:hikari.driver-class-name: org.mariadb.jdbc.Driver
+        spring.datasource.hikari.jdbc-url: jdbc:mariadb://${{ secrets.DB_CONN_URL }}:${{ secrets.DB_PORT }}/${{ DB_NAME }}?useSSL=false 
+        spring.datasource.hikari.username: ${{ secrets.DB_USERNAME }} 
+        spring.datasource.hikari.password: ${{ secrets.DB_PASSWD }} 
     # gradle build
     - name: Build with Gradle
       run: |
