@@ -78,7 +78,6 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:github.v${{ github.run_number }}  #${{ steps.docker_meta.outputs.tags }} 
         labels: ${{ steps.docker_meta.outputs.labels }}
 
-
     # 5. Bastion Host를 통한 ssh 원격 명령어 실행 및 배포
     - name: Deploy to EC2 via Bastion
       uses: appleboy/ssh-action@master
@@ -87,9 +86,6 @@ jobs:
         host: ${{ secrets.AWS_EC2_BASTION_HOST }}
         username: ubuntu
         script: |        
-            cp $HOME/keys/bastion-host-key ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_EC2_TARGET_HOST_01 }} 'bash /home/ubuntu/build.sh'
-            rm ~/.ssh/id_rsa        
+            ssh api-server1 'bash /home/ubuntu/build.sh'       
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
