@@ -79,7 +79,7 @@ jobs:
         labels: ${{ steps.docker_meta.outputs.labels }}
 
 
-		# 5. Bastion Host를 통한 ssh 원격 명령어 실행 및 배포
+    # 5. Bastion Host를 통한 ssh 원격 명령어 실행 및 배포
     - name: Deploy to EC2 via Bastion
       uses: appleboy/ssh-action@master
       with:
