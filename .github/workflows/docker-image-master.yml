@@ -38,7 +38,7 @@ jobs:
     - name: Set Yaml
       uses: microsoft/variable-substitution@v1
       with:
-        files: ./src/main/resources/application-dev.yaml 
+        files: ./src/main/resources/application-prod.yaml 
       env:
         spring.datasource:hikari.driver-class-name: org.mariadb.jdbc.Driver
         spring.datasource.hikari.jdbc-url: jdbc:mariadb://${{ secrets.DB_CONN_URL }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}?useSSL=false 
