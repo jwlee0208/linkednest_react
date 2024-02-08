@@ -48,7 +48,7 @@ jobs:
     - name: Build with Gradle
       run: |
         chmod +x gradlew
-        ./gradlew build --exclude-task test
+        ./gradlew -Dspring.profiles.active=prod build --exclude-task test
       shell: bash  
     # - name: Docker meta
     #   id: docker_meta
