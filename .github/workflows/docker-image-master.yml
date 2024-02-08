@@ -1,4 +1,4 @@
-name: Docker Image CI 
+name: Docker Image CI [For Master Branch]
 
 on:
   push:
