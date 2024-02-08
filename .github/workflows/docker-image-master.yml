@@ -77,9 +77,9 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:github.v${{ github.run_number }}  #${{ steps.docker_meta.outputs.tags }} 
         labels: ${{ steps.docker_meta.outputs.labels }}
 
-  awsIAMAndSGAndDeploy:
-    runs-on: ubuntu-latest  
-    steps:
+#  awsIAMAndSGAndDeploy:
+#    runs-on: ubuntu-latest  
+#    steps:
     # 4. IP 보안그룹에 추가
     - name: Get Github Actions IP
       id: ip
