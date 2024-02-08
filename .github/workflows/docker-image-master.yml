@@ -105,8 +105,8 @@ jobs:
         host: ${{ secrets.AWS_EC2_BASTION_HOST }}
         username: ubuntu
         script: |        
-            ssh api-server1 'bash /home/ubuntu/build.sh'      
-            ssh api-server2 'bash /home/ubuntu/build.sh' 
+            ssh api-server1 'bash /home/ubuntu/build.sh ${{ github.run_number }}'      
+            ssh api-server2 'bash /home/ubuntu/build.sh ${{ github.run_number }}' 
     # 6. IP 보안 그룹에서 제거
     - name: Remove Github Actions IP From Security Group
       run: |
